@@ -3,11 +3,13 @@ package com.unitvectory.serviceauthcentral.dto;
 import java.util.List;
 
 import lombok.Builder;
-import lombok.Data;
+import lombok.Singular;
+import lombok.Value;
 
-@Data
+@Value
 @Builder
 public class JwksResponse {
 
+	@Singular
 	private List<JwksKey> keys;
 }

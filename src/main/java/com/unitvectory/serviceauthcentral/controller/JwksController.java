@@ -1,22 +1,20 @@
 package com.unitvectory.serviceauthcentral.controller;
 
-import java.util.ArrayList;
-import java.util.List;
-
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.unitvectory.serviceauthcentral.dto.JwksKey;
 import com.unitvectory.serviceauthcentral.dto.JwksResponse;
+import com.unitvectory.serviceauthcentral.service.CloudKeyService;
 
 @RestController
 public class JwksController {
 
+	@Autowired
+	private CloudKeyService cloudKeyService;
+
 	@GetMapping("/v1/jwks")
 	public JwksResponse jwks() {
-
-		// TODO: Load in the JWKS keys
-		List<JwksKey> keys = new ArrayList<>();
-		return JwksResponse.builder().keys(keys).build();
+		return JwksResponse.builder().keys(this.cloudKeyService.getAllKeys()).build();
 	}
 }
