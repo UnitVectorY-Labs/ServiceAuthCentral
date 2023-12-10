@@ -6,13 +6,42 @@ import java.security.KeyFactory;
 import java.security.spec.X509EncodedKeySpec;
 import java.util.Base64;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import com.google.common.hash.Hashing;
 import com.unitvectory.serviceauthcentral.dto.JwksKey;
+import com.unitvectory.serviceauthcentral.model.JwtBuilder;
 
 @Service
 public class CryptoService {
+
+	@Autowired
+	private TimeService timeService;
+
+	@Autowired
+	private EntropyService entropyService;
+
+	@Value("${serviceauthcentral.jwt.issuer}")
+	private String jwtIssuer;
+
+	public String buildUnsignedJwt(String keyName, String subject, String audience, long validSeconds) {
+
+		JwtBuilder builder = JwtBuilder.builder();
+
+		builder.withIssuer(jwtIssuer);
+
+		builder.withTiming(timeService.getCurrentTimeSeconds(), validSeconds);
+
+		builder.withJwtId(entropyService.generateUuid());
+
+		builder.withKeyId(kid(keyName));
+		builder.withSubject(subject);
+		builder.withAudience(audience);
+
+		return builder.buildUnsignedToken();
+	}
 
 	public JwksKey convertRsaPublicKey(String keyName, String pemKey, String alg, boolean active, long created) {
 

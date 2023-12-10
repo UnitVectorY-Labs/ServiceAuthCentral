@@ -18,19 +18,24 @@ public class CachingConfig {
 	private int cacheJwksHours;
 
 	@Bean
-	public int cacheJwksHours() {
-		return this.cacheJwksHours;
-	}
-
-	@Bean
 	public CaffeineCacheManager cacheManager() {
-		CaffeineCacheManager cacheManager = new CaffeineCacheManager("jwksCache");
+		CaffeineCacheManager cacheManager = new CaffeineCacheManager("jwksCache", "publicKeyCache", "activeKeyCache");
 
 		// The JWKS response only changes when a signing key is added or removed. These
 		// operations are done deliberately as caching at the clients is also included
 		// therefore a liberal cache here is acceptable
 		cacheManager.registerCustomCache("jwksCache",
 				Caffeine.newBuilder().expireAfterWrite(this.cacheJwksHours, TimeUnit.HOURS).build());
+
+		// The public keys can never change, therefore they can be cached indefinitely
+		// once they are retrieved so avoid these API calls
+		cacheManager.registerCustomCache("publicKeyCache", Caffeine.newBuilder().build());
+
+		// The active key is computed based on the list of all keys, no need to
+		// recompute this every call, add some efficiency here
+		cacheManager.registerCustomCache("activeKeyCache",
+				Caffeine.newBuilder().expireAfterWrite(1, TimeUnit.MINUTES).build());
+
 		return cacheManager;
 	}
 }
