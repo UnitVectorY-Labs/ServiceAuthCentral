@@ -3,6 +3,8 @@ package com.unitvectory.serviceauthcentral.config;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import com.unitvectory.serviceauthcentral.repository.ClientRepository;
+import com.unitvectory.serviceauthcentral.repository.FirestoreClientRepository;
 import com.unitvectory.serviceauthcentral.service.CloudKeyService;
 import com.unitvectory.serviceauthcentral.service.EntropyService;
 import com.unitvectory.serviceauthcentral.service.KeyService;
@@ -26,5 +28,10 @@ public class ServiceAuthCentralConfig {
 	@Bean
 	public KeyService keyService() {
 		return new CloudKeyService();
+	}
+
+	@Bean
+	public ClientRepository clientRepository() {
+		return new FirestoreClientRepository();
 	}
 }

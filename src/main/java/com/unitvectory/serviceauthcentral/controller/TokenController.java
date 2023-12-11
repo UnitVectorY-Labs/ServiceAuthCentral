@@ -16,7 +16,7 @@ public class TokenController {
 	private TokenService tokenService;
 
 	@PostMapping(path = "/v1/token", consumes = "application/x-www-form-urlencoded")
-	public ResponseEntity<TokenResponse> token(TokenRequest tokenRequest) {
+	public ResponseEntity<TokenResponse> token(TokenRequest tokenRequest) throws Exception {
 
 		TokenResponse tokenResponse = this.tokenService.token(tokenRequest);
 		return ResponseEntity.ok(tokenResponse);

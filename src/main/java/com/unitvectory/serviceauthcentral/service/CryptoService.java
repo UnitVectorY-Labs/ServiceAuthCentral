@@ -27,19 +27,13 @@ public class CryptoService {
 	private String jwtIssuer;
 
 	public String buildUnsignedJwt(String keyName, String subject, String audience, long validSeconds) {
-
 		JwtBuilder builder = JwtBuilder.builder();
-
 		builder.withIssuer(jwtIssuer);
-
 		builder.withTiming(timeService.getCurrentTimeSeconds(), validSeconds);
-
 		builder.withJwtId(entropyService.generateUuid());
-
 		builder.withKeyId(kid(keyName));
 		builder.withSubject(subject);
 		builder.withAudience(audience);
-
 		return builder.buildUnsignedToken();
 	}
 
