@@ -1,0 +1,70 @@
+package com.unitvectory.serviceauthcentral.controller;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.context.annotation.Import;
+import org.springframework.http.MediaType;
+import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.TestPropertySource;
+import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.MvcResult;
+import org.springframework.util.LinkedMultiValueMap;
+import org.springframework.util.MultiValueMap;
+
+import com.auth0.jwt.JWT;
+import com.auth0.jwt.interfaces.DecodedJWT;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.unitvectory.serviceauthcentral.config.TestServiceAuthCentralConfig;
+import com.unitvectory.serviceauthcentral.dto.TokenResponse;
+
+@SpringBootTest
+@AutoConfigureMockMvc
+@TestPropertySource(properties = { "serviceauthcentral.cache.jwks.hours=1", "serviceauthcentral.key.location=global",
+		"serviceauthcentral.key.ring=authorization", "serviceauthcentral.key.name=jwk-key",
+		"serviceauthcentral.jwt.issuer=myissuer", "google.cloud.project=test" })
+@ActiveProfiles("test")
+@Import(TestServiceAuthCentralConfig.class)
+public class TokenResponseTest {
+
+	@Autowired
+	private ObjectMapper objectMapper;
+
+	@Autowired
+	private MockMvc mockMvc;
+
+	@Test
+	public void postTokenSuccessTest() throws Exception {
+		MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
+		params.add("grant_type", "client_credentials");
+		params.add("client_id", "foo");
+		params.add("client_secret", "mySecret_foo");
+		params.add("audience", "bar");
+
+		MvcResult mvcResult = mockMvc
+				.perform(post("/v1/token").params(params).contentType(MediaType.APPLICATION_FORM_URLENCODED))
+				.andExpect(status().isOk())
+				// access token (cannot validate the exact value as it is encoded and signed and
+				// the exact value can change based on ordering of JSON attributes)
+				.andExpect(jsonPath("$.access_token").exists())
+				// token type
+				.andExpect(jsonPath("$.token_type").value("Bearer"))
+				// expires in
+				.andExpect(jsonPath("$.expires_in").value(3600)).andReturn();
+
+		String responseBody = mvcResult.getResponse().getContentAsString();
+		TokenResponse tokenResponse = objectMapper.readValue(responseBody, TokenResponse.class);
+
+		// So instead we look for the key claims within the JWT
+		DecodedJWT jwt = JWT.decode(tokenResponse.getAccess_token());
+		assertEquals("foo", jwt.getSubject());
+		assertEquals("bar", jwt.getAudience().get(0));
+	}
+
+}

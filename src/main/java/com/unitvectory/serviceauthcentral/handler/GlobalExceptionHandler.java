@@ -17,54 +17,54 @@ import com.unitvectory.serviceauthcentral.exception.UnauthorizedException;
 @ControllerAdvice
 public class GlobalExceptionHandler {
 
-	@ExceptionHandler(Exception.class)
-	public ResponseEntity<ErrorResponse> handleAllExceptions(Exception ex, WebRequest request) {
-		ErrorResponse error = ErrorResponse.builder().error("server_error").message("An unexpected error occurred")
-				.details(ex.getMessage()).build();
-		return new ResponseEntity<ErrorResponse>(error, HttpStatus.INTERNAL_SERVER_ERROR);
-	}
-
 	@ExceptionHandler(BadRequestException.class)
 	public ResponseEntity<ErrorResponse> handleBadRequestException(BadRequestException ex, WebRequest request) {
-		ErrorResponse error = ErrorResponse.builder().error("invalid_request").message(ex.getMessage()).build();
+		ErrorResponse error = ErrorResponse.builder().error("invalid_request").status(400).message(ex.getMessage())
+				.build();
 		return new ResponseEntity<ErrorResponse>(error, HttpStatus.BAD_REQUEST);
 	}
 
 	@ExceptionHandler(ForbiddenException.class)
 	public ResponseEntity<ErrorResponse> handleForbiddenException(ForbiddenException ex, WebRequest request) {
-		ErrorResponse error = ErrorResponse.builder().error("invalid_client").message(ex.getMessage()).build();
+		ErrorResponse error = ErrorResponse.builder().error("invalid_client").status(403).message(ex.getMessage())
+				.build();
 		return new ResponseEntity<ErrorResponse>(error, HttpStatus.FORBIDDEN);
 	}
 
 	@ExceptionHandler(InternalServerErrorException.class)
 	public ResponseEntity<ErrorResponse> handleInternalServerErrorException(InternalServerErrorException ex,
 			WebRequest request) {
-		ErrorResponse error = ErrorResponse.builder().error("server_error").message(ex.getMessage()).build();
+		ErrorResponse error = ErrorResponse.builder().error("server_error").status(500).message(ex.getMessage())
+				.build();
 		return new ResponseEntity<ErrorResponse>(error, HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 
 	@ExceptionHandler(UnauthorizedException.class)
 	public ResponseEntity<ErrorResponse> handleUnauthorizedException(UnauthorizedException ex, WebRequest request) {
-		ErrorResponse error = ErrorResponse.builder().error("access_denied").message(ex.getMessage()).build();
+		ErrorResponse error = ErrorResponse.builder().error("access_denied").status(401).message(ex.getMessage())
+				.build();
 		return new ResponseEntity<ErrorResponse>(error, HttpStatus.UNAUTHORIZED);
 	}
 
 	@ExceptionHandler(IllegalArgumentException.class)
 	public ResponseEntity<ErrorResponse> handleIllegalArgumentException(IllegalArgumentException ex,
 			WebRequest request) {
-		ErrorResponse error = ErrorResponse.builder().error("server_error").message(ex.getMessage()).build();
+		ErrorResponse error = ErrorResponse.builder().error("server_error").status(500).message(ex.getMessage())
+				.build();
 		return new ResponseEntity<ErrorResponse>(error, HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 
 	@ExceptionHandler(InterruptedException.class)
 	public ResponseEntity<ErrorResponse> handleInterruptedException(InterruptedException ex, WebRequest request) {
-		ErrorResponse error = ErrorResponse.builder().error("server_error").message("process interrupted").build();
+		ErrorResponse error = ErrorResponse.builder().error("server_error").status(500).message("process interrupted")
+				.build();
 		return new ResponseEntity<ErrorResponse>(error, HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 
 	@ExceptionHandler(ExecutionException.class)
 	public ResponseEntity<ErrorResponse> handleExecutionException(ExecutionException ex, WebRequest request) {
-		ErrorResponse error = ErrorResponse.builder().error("server_error").message("execution exception").build();
+		ErrorResponse error = ErrorResponse.builder().error("server_error").status(500).message("execution exception")
+				.build();
 		return new ResponseEntity<ErrorResponse>(error, HttpStatus.INTERNAL_SERVER_ERROR);
 	}
 }

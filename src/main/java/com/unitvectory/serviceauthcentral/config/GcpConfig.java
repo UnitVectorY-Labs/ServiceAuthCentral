@@ -5,6 +5,7 @@ import java.io.IOException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 
 import com.google.cloud.firestore.Firestore;
 import com.google.cloud.firestore.FirestoreOptions;
@@ -13,6 +14,7 @@ import com.google.cloud.kms.v1.KeyManagementServiceClient;
 import lombok.Getter;
 
 @Configuration
+@Profile("!test")
 public class GcpConfig {
 
 	@Getter
