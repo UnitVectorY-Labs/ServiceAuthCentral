@@ -80,13 +80,13 @@ public class CloudKeyService implements KeyService {
 	public String signJwt(String keyName, String unsignedToken) {
 
 		// Prepare Unsigned Token for Signing
-		byte[] toSign = unsignedToken.getBytes(StandardCharsets.UTF_8);
+		byte[] tokenToSign = unsignedToken.getBytes(StandardCharsets.UTF_8);
 
 		// Create Signature Request
 		Digest digest;
 		try {
 			digest = Digest.newBuilder()
-					.setSha256(ByteString.copyFrom(MessageDigest.getInstance("SHA-256").digest(toSign))).build();
+					.setSha256(ByteString.copyFrom(MessageDigest.getInstance("SHA-256").digest(tokenToSign))).build();
 		} catch (NoSuchAlgorithmException e) {
 			throw new RuntimeException(e);
 		}

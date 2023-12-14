@@ -304,3 +304,4 @@ $RECYCLE.BIN/
 *.lnk
 
 # End of https://www.toptal.com/developers/gitignore/api/java,maven,eclipse,intellij,macos,windows,visualstudiocode
+/.apt_generated_tests/
