@@ -25,14 +25,13 @@ public class TokenRequest {
 	@Pattern(regexp = "^[a-zA-Z0-9]+$", message = "Invalid 'client_id' attribute format.")
 	private String client_id;
 
-	@Pattern(regexp = "^[0-9a-zA-Z]{16,64}$", message = "Invalid 'client_secret' attribute format.")
+	@Pattern(regexp = "^[0-9a-zA-Z]{12,64}$", message = "Invalid 'client_secret' attribute format.")
 	private String client_secret;
 
 	@NotNull(message = "The request is missing the required parameter 'audience'.pp")
 	@Pattern(regexp = "^[a-zA-Z0-9]+$", message = "Invalid 'audience' attribute format.")
 	private String audience;
 
-	@NotNull(message = "The request is missing the required parameter 'assertion'.pp")
 	@Pattern(regexp = "^[\\w-]+\\.[\\w-]+\\.[\\w-]+$", message = "Invalid 'assertion' attribute format.")
 	private String assertion;
 

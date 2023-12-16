@@ -1,0 +1,78 @@
+openapi: 3.0.3
+info:
+  title: ServiceAuthCentral
+  version: 1.0.0
+servers:
+  - url: http://localhost:8080/
+paths:
+  /token:
+    post:
+      summary: Obtain an access token
+      operationId: getToken
+      tags:
+        - Authentication
+      requestBody:
+        required: true
+        content:
+          application/x-www-form-urlencoded:
+            schema:
+              type: object
+              properties:
+                grant_type:
+                  type: string
+                  enum: [client_credentials, urn:ietf:params:oauth:grant-type:jwt-bearer]
+                client_id:
+                  type: string
+                client_secret:
+                  type: string
+                assertion:
+                  type: string
+                  format: jwt
+      responses:
+        '200':
+          description: Access Token
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  access_token:
+                    type: string
+                  token_type:
+                    type: string
+                    enum: [Bearer]
+                  expires_in:
+                    type: integer
+                  scope:
+                    type: string
+  /.well-known/jwks.json:
+    get:
+      summary: JSON Web Key Set
+      operationId: getJWKS
+      tags:
+        - JWKS
+      responses:
+        '200':
+          description: JSON Web Key Set
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  keys:
+                    type: array
+                    items:
+                      type: object
+                      properties:
+                        kty:
+                          type: string
+                        use:
+                          type: string
+                        kid:
+                          type: string
+                        alg:
+                          type: string
+                        n:
+                          type: string
+                        e:
+                          type: string

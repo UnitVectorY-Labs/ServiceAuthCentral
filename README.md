@@ -11,10 +11,3 @@ The primary design objective of this project is that secrets are best avoided if
 This application is a SpringBoot application designed to run on GCP utilizing Firestore as the primary database and Cloud Key Management Service for signing JWT. By off loading the responsibility of managing the private key for signing JWTs to Google, it is less likely that key can be leaked.
 
 The desire to eliminate secrets does not stop there.  While the standard client_id and client_secret can be used, an alternative authentication mechanism that utilizes a JWT from the calling client, such as a GCP Service Account, can authenticate credentials exchanges to the authorization server in place of a client_secret. This eliminates the need for secrets to be stored when these JWTs can be utilized.
-
-## Endpoints
-
-### GET /v1/jwks
-
-Provides the public keys used by services to validate the JWT access tokens provided by the authorization server.
-

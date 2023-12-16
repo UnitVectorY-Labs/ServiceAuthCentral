@@ -1,6 +1,7 @@
 package com.unitvectory.serviceauthcentral.model;
 
 import java.nio.charset.StandardCharsets;
+import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
@@ -29,6 +30,8 @@ public class ClientRecord {
 	private String clientSecret1;
 
 	private String clientSecret2;
+
+	private List<JwtBearer> jwtBearer;
 
 	public boolean verifySecret(String secret) {
 		if (secret == null) {
