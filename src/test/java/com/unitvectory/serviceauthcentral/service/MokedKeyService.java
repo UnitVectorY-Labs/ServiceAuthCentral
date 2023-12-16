@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 
 import com.unitvectory.serviceauthcentral.dto.JwksKey;
+import com.unitvectory.serviceauthcentral.service.key.KeyService;
 
 public class MokedKeyService implements KeyService {
 

@@ -11,7 +11,8 @@ import org.springframework.stereotype.Service;
 import com.auth0.jwk.Jwk;
 import com.auth0.jwk.UrlJwkProvider;
 import com.unitvectory.serviceauthcentral.dto.CachedJwk;
-import com.unitvectory.serviceauthcentral.repository.KeySetRepository;
+import com.unitvectory.serviceauthcentral.repository.key.KeySetRepository;
+import com.unitvectory.serviceauthcentral.service.time.TimeService;
 
 @Service
 public class KeySetLookupService {

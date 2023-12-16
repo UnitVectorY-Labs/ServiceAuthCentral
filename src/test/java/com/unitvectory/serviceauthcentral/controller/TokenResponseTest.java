@@ -44,7 +44,7 @@ public class TokenResponseTest {
 		MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
 		params.add("grant_type", "client_credentials");
 		params.add("client_id", "foo");
-		params.add("client_secret", "mySecret_foo");
+		params.add("client_secret", "mySuperSecretfoo");
 		params.add("audience", "bar");
 
 		MvcResult mvcResult = mockMvc

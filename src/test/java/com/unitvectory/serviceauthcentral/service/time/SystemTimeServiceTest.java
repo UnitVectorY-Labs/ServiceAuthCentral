@@ -1,8 +1,11 @@
-package com.unitvectory.serviceauthcentral.service;
+package com.unitvectory.serviceauthcentral.service.time;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
+
+import com.unitvectory.serviceauthcentral.service.time.SystemTimeService;
+import com.unitvectory.serviceauthcentral.service.time.TimeService;
 
 public class SystemTimeServiceTest {
 

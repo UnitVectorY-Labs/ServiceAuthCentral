@@ -1,4 +1,4 @@
-package com.unitvectory.serviceauthcentral.repository;
+package com.unitvectory.serviceauthcentral.repository.key;
 
 import com.auth0.jwk.Jwk;
 import com.unitvectory.serviceauthcentral.dto.CachedJwk;

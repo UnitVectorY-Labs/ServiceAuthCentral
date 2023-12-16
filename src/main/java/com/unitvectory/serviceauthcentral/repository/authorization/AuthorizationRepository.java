@@ -1,13 +1,10 @@
-package com.unitvectory.serviceauthcentral.repository;
+package com.unitvectory.serviceauthcentral.repository.authorization;
 
 import java.util.concurrent.ExecutionException;
 
 import com.unitvectory.serviceauthcentral.model.AuthorizationRecord;
-import com.unitvectory.serviceauthcentral.model.ClientRecord;
 
-public interface ClientRepository {
-
-	ClientRecord getClient(String clientId) throws InterruptedException, ExecutionException;
+public interface AuthorizationRepository {
 
 	AuthorizationRecord getAuthorization(String subject, String audience)
 			throws InterruptedException, ExecutionException;

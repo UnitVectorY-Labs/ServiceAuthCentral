@@ -18,6 +18,8 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.unitvectory.serviceauthcentral.config.TestServiceAuthCentralConfig;
 import com.unitvectory.serviceauthcentral.dto.JwksKey;
+import com.unitvectory.serviceauthcentral.service.entropy.EntropyService;
+import com.unitvectory.serviceauthcentral.service.time.TimeService;
 
 @SpringBootTest
 @AutoConfigureMockMvc

@@ -1,4 +1,4 @@
-package com.unitvectory.serviceauthcentral.service;
+package com.unitvectory.serviceauthcentral.service.key;
 
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
@@ -26,6 +26,8 @@ import com.google.cloud.kms.v1.KeyManagementServiceClient;
 import com.google.cloud.kms.v1.PublicKey;
 import com.google.protobuf.ByteString;
 import com.unitvectory.serviceauthcentral.dto.JwksKey;
+import com.unitvectory.serviceauthcentral.service.CryptoService;
+import com.unitvectory.serviceauthcentral.service.time.TimeService;
 
 public class CloudKeyService implements KeyService {
 

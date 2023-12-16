@@ -1,4 +1,4 @@
-package com.unitvectory.serviceauthcentral.service;
+package com.unitvectory.serviceauthcentral.service.entropy;
 
 import java.util.UUID;
 

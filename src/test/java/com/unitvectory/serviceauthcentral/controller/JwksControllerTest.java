@@ -29,12 +29,14 @@ public class JwksControllerTest {
 
 	@Test
 	public void postJwks() throws Exception {
-		this.mockMvc.perform(MockMvcRequestBuilders.post("/v1/jwks")).andExpect(MockMvcResultMatchers.status().is(405));
+		this.mockMvc.perform(MockMvcRequestBuilders.post("/.well-known/jwks.json"))
+				.andExpect(MockMvcResultMatchers.status().is(405));
 	}
 
 	@Test
 	public void getJwks() throws Exception {
-		this.mockMvc.perform(MockMvcRequestBuilders.get("/v1/jwks")).andExpect(MockMvcResultMatchers.status().isOk())
+		this.mockMvc.perform(MockMvcRequestBuilders.get("/.well-known/jwks.json"))
+				.andExpect(MockMvcResultMatchers.status().isOk())
 				.andExpect(MockMvcResultMatchers.content().contentType("application/json"))
 				// Asserting the structure of the JSON response
 				// Checks if 'keys' is an array with one element

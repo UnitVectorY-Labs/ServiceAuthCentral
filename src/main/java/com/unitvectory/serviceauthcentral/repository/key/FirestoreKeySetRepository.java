@@ -1,4 +1,4 @@
-package com.unitvectory.serviceauthcentral.repository;
+package com.unitvectory.serviceauthcentral.repository.key;
 
 import java.nio.charset.StandardCharsets;
 import java.time.Instant;
@@ -13,7 +13,7 @@ import com.google.cloud.firestore.DocumentSnapshot;
 import com.google.cloud.firestore.Firestore;
 import com.google.common.hash.Hashing;
 import com.unitvectory.serviceauthcentral.dto.CachedJwk;
-import com.unitvectory.serviceauthcentral.service.TimeService;
+import com.unitvectory.serviceauthcentral.service.time.TimeService;
 
 public class FirestoreKeySetRepository implements KeySetRepository {
 

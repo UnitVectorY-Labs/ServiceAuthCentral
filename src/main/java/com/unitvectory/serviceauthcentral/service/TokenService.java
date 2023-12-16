@@ -1,5 +1,6 @@
 package com.unitvectory.serviceauthcentral.service;
 
+import java.security.interfaces.ECPublicKey;
 import java.security.interfaces.RSAPublicKey;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,16 +22,21 @@ import com.unitvectory.serviceauthcentral.exception.UnauthorizedException;
 import com.unitvectory.serviceauthcentral.model.AuthorizationRecord;
 import com.unitvectory.serviceauthcentral.model.ClientRecord;
 import com.unitvectory.serviceauthcentral.model.JwtBearer;
-import com.unitvectory.serviceauthcentral.repository.ClientRepository;
+import com.unitvectory.serviceauthcentral.repository.authorization.AuthorizationRepository;
+import com.unitvectory.serviceauthcentral.repository.client.ClientRepository;
+import com.unitvectory.serviceauthcentral.service.key.KeyService;
 
 @Service
 public class TokenService {
 
 	@Autowired
-	private ClientRepository clientRepository;
+	private CryptoService cryptoService;
 
 	@Autowired
-	private CryptoService cryptoService;
+	private AuthorizationRepository authorizationRepository;
+
+	@Autowired
+	private ClientRepository clientRepository;
 
 	@Autowired
 	private KeyService keyService;
@@ -66,11 +72,22 @@ public class TokenService {
 
 	public boolean isValidToken(DecodedJWT jwt, Jwk jwk, JwtBearer jwtBearer) {
 		try {
-			// Extract the RSA public key from the JWK
-			RSAPublicKey publicKey = (RSAPublicKey) jwk.getPublicKey();
+			String alg = jwt.getAlgorithm(); // Get the algorithm from the JWT
+			Algorithm algorithm;
 
-			// Create an Algorithm instance for RSA256
-			Algorithm algorithm = Algorithm.RSA256(publicKey, null);
+			switch (alg) {
+			case "RS256":
+				RSAPublicKey rsaPublicKey = (RSAPublicKey) jwk.getPublicKey();
+				algorithm = Algorithm.RSA256(rsaPublicKey, null);
+				break;
+			case "ES256":
+				ECPublicKey ecPublicKey = (ECPublicKey) jwk.getPublicKey();
+				algorithm = Algorithm.ECDSA256(ecPublicKey, null);
+				break;
+			// Add cases for other algorithms
+			default:
+				throw new InternalServerErrorException("Unsupported algorithm: " + alg);
+			}
 
 			// Build a JWTVerifier with the algorithm
 			JWTVerifier verifier = JWT.require(algorithm).withIssuer(jwtBearer.getIss())
@@ -141,7 +158,7 @@ public class TokenService {
 		}
 
 		// Validated the authorization
-		AuthorizationRecord authorizationRecord = clientRepository.getAuthorization(clientId, audience);
+		AuthorizationRecord authorizationRecord = this.authorizationRepository.getAuthorization(clientId, audience);
 		if (authorizationRecord == null) {
 			throw new ForbiddenException("The specified 'audience' is invalid.");
 		}
@@ -182,7 +199,7 @@ public class TokenService {
 		}
 
 		// Validated the authorization
-		AuthorizationRecord authorizationRecord = clientRepository.getAuthorization(clientId, audience);
+		AuthorizationRecord authorizationRecord = this.authorizationRepository.getAuthorization(clientId, audience);
 		if (authorizationRecord == null) {
 			throw new ForbiddenException("The specified 'audience' is invalid.");
 		}

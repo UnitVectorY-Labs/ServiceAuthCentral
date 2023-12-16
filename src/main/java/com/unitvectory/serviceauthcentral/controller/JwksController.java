@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.unitvectory.serviceauthcentral.dto.JwksResponse;
-import com.unitvectory.serviceauthcentral.service.KeyService;
+import com.unitvectory.serviceauthcentral.service.key.KeyService;
 
 @RestController
 @CrossOrigin(origins = "*", allowedHeaders = "*")
