@@ -19,7 +19,8 @@ public class CachingConfig {
 
 	@Bean
 	public CaffeineCacheManager cacheManager() {
-		CaffeineCacheManager cacheManager = new CaffeineCacheManager("jwksCache", "publicKeyCache", "activeKeyCache");
+		CaffeineCacheManager cacheManager = new CaffeineCacheManager("jwksCache", "publicKeyCache", "activeKeyCache",
+				"keySetLookupCache");
 
 		// The JWKS response only changes when a signing key is added or removed. These
 		// operations are done deliberately as caching at the clients is also included
@@ -35,6 +36,10 @@ public class CachingConfig {
 		// recompute this every call, add some efficiency here
 		cacheManager.registerCustomCache("activeKeyCache",
 				Caffeine.newBuilder().expireAfterWrite(1, TimeUnit.MINUTES).build());
+
+		// The cache for looking up external JWKS keys
+		cacheManager.registerCustomCache("keySetLookupCache",
+				Caffeine.newBuilder().expireAfterWrite(this.cacheJwksHours, TimeUnit.HOURS).build());
 
 		return cacheManager;
 	}

@@ -6,6 +6,8 @@ import org.springframework.context.annotation.Profile;
 
 import com.unitvectory.serviceauthcentral.repository.ClientRepository;
 import com.unitvectory.serviceauthcentral.repository.FirestoreClientRepository;
+import com.unitvectory.serviceauthcentral.repository.FirestoreKeySetRepository;
+import com.unitvectory.serviceauthcentral.repository.KeySetRepository;
 import com.unitvectory.serviceauthcentral.service.CloudKeyService;
 import com.unitvectory.serviceauthcentral.service.EntropyService;
 import com.unitvectory.serviceauthcentral.service.KeyService;
@@ -35,5 +37,10 @@ public class ServiceAuthCentralConfig {
 	@Bean
 	public ClientRepository clientRepository() {
 		return new FirestoreClientRepository();
+	}
+
+	@Bean
+	public KeySetRepository keySetRepository() {
+		return new FirestoreKeySetRepository();
 	}
 }
