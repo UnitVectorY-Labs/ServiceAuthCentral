@@ -6,14 +6,14 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.unitvectory.serviceauthcentral.dto.JwksResponse;
-import com.unitvectory.serviceauthcentral.service.key.KeyService;
+import com.unitvectory.serviceauthcentral.service.signkey.SignKeyService;
 
 @RestController
 @CrossOrigin(origins = "*", allowedHeaders = "*")
 public class JwksController {
 
 	@Autowired
-	private KeyService keyService;
+	private SignKeyService keyService;
 
 	@GetMapping("/.well-known/jwks.json")
 	public JwksResponse jwks() {

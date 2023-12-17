@@ -8,6 +8,11 @@ import com.google.cloud.firestore.DocumentSnapshot;
 import com.google.cloud.firestore.Firestore;
 import com.unitvectory.serviceauthcentral.model.ClientRecord;
 
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+
+@NoArgsConstructor
+@AllArgsConstructor
 public class FirestoreClientRepository implements ClientRepository {
 
 	@Autowired

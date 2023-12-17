@@ -1,16 +1,20 @@
-package com.unitvectory.serviceauthcentral.repository.key;
+package com.unitvectory.serviceauthcentral.repository.signkey;
 
 import java.time.Instant;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.auth0.jwk.Jwk;
 import com.unitvectory.serviceauthcentral.dto.CachedJwk;
+import com.unitvectory.serviceauthcentral.repository.key.KeySetRepository;
 import com.unitvectory.serviceauthcentral.service.time.TimeService;
 
-public class MockedKeySetRepository implements KeySetRepository {
+public class MockedSignKeySetRepository implements KeySetRepository {
 
 	@Autowired
 	private TimeService timeService;
@@ -34,4 +38,16 @@ public class MockedKeySetRepository implements KeySetRepository {
 				new CachedJwk(url, keyId, Instant.ofEpochSecond(timeService.getCurrentTimeSeconds())));
 	}
 
+	@Override
+	public List<CachedJwk> getKeys(String url) throws Exception {
+		List<CachedJwk> list = new ArrayList<>();
+
+		for (Entry<String, CachedJwk> entry : keyMap.entrySet()) {
+			if (entry.getKey().startsWith(url + ":")) {
+				list.add(entry.getValue());
+			}
+		}
+
+		return list;
+	}
 }

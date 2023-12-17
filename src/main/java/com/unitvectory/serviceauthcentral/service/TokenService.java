@@ -4,6 +4,7 @@ import java.security.interfaces.ECPublicKey;
 import java.security.interfaces.RSAPublicKey;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import com.auth0.jwk.InvalidPublicKeyException;
@@ -22,15 +23,17 @@ import com.unitvectory.serviceauthcentral.exception.UnauthorizedException;
 import com.unitvectory.serviceauthcentral.model.AuthorizationRecord;
 import com.unitvectory.serviceauthcentral.model.ClientRecord;
 import com.unitvectory.serviceauthcentral.model.JwtBearer;
+import com.unitvectory.serviceauthcentral.model.JwtBuilder;
 import com.unitvectory.serviceauthcentral.repository.authorization.AuthorizationRepository;
 import com.unitvectory.serviceauthcentral.repository.client.ClientRepository;
-import com.unitvectory.serviceauthcentral.service.key.KeyService;
+import com.unitvectory.serviceauthcentral.service.entropy.EntropyService;
+import com.unitvectory.serviceauthcentral.service.jwk.JwksService;
+import com.unitvectory.serviceauthcentral.service.signkey.SignKeyService;
+import com.unitvectory.serviceauthcentral.service.time.TimeService;
+import com.unitvectory.serviceauthcentral.util.KidConverter;
 
 @Service
 public class TokenService {
-
-	@Autowired
-	private CryptoService cryptoService;
 
 	@Autowired
 	private AuthorizationRepository authorizationRepository;
@@ -39,10 +42,19 @@ public class TokenService {
 	private ClientRepository clientRepository;
 
 	@Autowired
-	private KeyService keyService;
+	private SignKeyService keyService;
 
 	@Autowired
-	private KeySetLookupService keySetLookupService;
+	private JwksService jwksService;
+
+	@Autowired
+	private TimeService timeService;
+
+	@Autowired
+	private EntropyService entropyService;
+
+	@Value("${serviceauthcentral.jwt.issuer}")
+	private String jwtIssuer;
 
 	private TokenResponse buildToken(ClientRecord subjectRecord, ClientRecord audienceRecord,
 			AuthorizationRecord authorizationRecord) {
@@ -60,7 +72,14 @@ public class TokenService {
 		long validSeconds = 3600;
 
 		// Generate the unsigned JWT
-		String unsignedJwt = cryptoService.buildUnsignedJwt(keyName, clientId, audience, validSeconds);
+		JwtBuilder builder = JwtBuilder.builder();
+		builder.withIssuer(jwtIssuer);
+		builder.withTiming(timeService.getCurrentTimeSeconds(), validSeconds);
+		builder.withJwtId(entropyService.generateUuid());
+		builder.withKeyId(KidConverter.hash(keyName));
+		builder.withSubject(clientId);
+		builder.withAudience(audience);
+		String unsignedJwt = builder.buildUnsignedToken();
 
 		// Sign the JWT
 		String jwt = keyService.signJwt(keyName, unsignedJwt);
@@ -146,7 +165,7 @@ public class TokenService {
 		}
 
 		// Look up the JWK, this will grabbed the cached version if possible
-		Jwk jwk = this.keySetLookupService.getJwk(jwtMatchedBearer.getJwksUrl(), assertionJwt.getKeyId());
+		Jwk jwk = this.jwksService.getJwk(jwtMatchedBearer.getJwksUrl(), assertionJwt.getKeyId());
 
 		// Validate the JWT
 		this.isValidToken(assertionJwt, jwk, jwtMatchedBearer);

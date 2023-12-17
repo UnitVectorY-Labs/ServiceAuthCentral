@@ -8,12 +8,14 @@ import com.unitvectory.serviceauthcentral.repository.authorization.Authorization
 import com.unitvectory.serviceauthcentral.repository.authorization.MockedAuthorizationRepository;
 import com.unitvectory.serviceauthcentral.repository.client.ClientRepository;
 import com.unitvectory.serviceauthcentral.repository.client.MokedClientRepository;
+import com.unitvectory.serviceauthcentral.repository.jwk.MockedJwksService;
 import com.unitvectory.serviceauthcentral.repository.key.KeySetRepository;
-import com.unitvectory.serviceauthcentral.repository.key.MockedKeySetRepository;
+import com.unitvectory.serviceauthcentral.repository.signkey.MockedSignKeySetRepository;
 import com.unitvectory.serviceauthcentral.service.MokedKeyService;
 import com.unitvectory.serviceauthcentral.service.entropy.EntropyService;
 import com.unitvectory.serviceauthcentral.service.entropy.StaticEntropyService;
-import com.unitvectory.serviceauthcentral.service.key.KeyService;
+import com.unitvectory.serviceauthcentral.service.jwk.JwksService;
+import com.unitvectory.serviceauthcentral.service.signkey.SignKeyService;
 import com.unitvectory.serviceauthcentral.service.time.StaticTimeService;
 import com.unitvectory.serviceauthcentral.service.time.TimeService;
 
@@ -32,7 +34,7 @@ public class TestServiceAuthCentralConfig {
 	}
 
 	@Bean
-	public KeyService keyService() {
+	public SignKeyService keyService() {
 		return new MokedKeyService();
 	}
 
@@ -48,6 +50,11 @@ public class TestServiceAuthCentralConfig {
 
 	@Bean
 	public KeySetRepository keySetRepository() {
-		return new MockedKeySetRepository();
+		return new MockedSignKeySetRepository();
+	}
+
+	@Bean
+	public JwksService jwksService() {
+		return new MockedJwksService();
 	}
 }

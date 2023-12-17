@@ -1,4 +1,4 @@
-package com.unitvectory.serviceauthcentral.service.key;
+package com.unitvectory.serviceauthcentral.service.signkey;
 
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
@@ -26,19 +26,15 @@ import com.google.cloud.kms.v1.KeyManagementServiceClient;
 import com.google.cloud.kms.v1.PublicKey;
 import com.google.protobuf.ByteString;
 import com.unitvectory.serviceauthcentral.dto.JwksKey;
-import com.unitvectory.serviceauthcentral.service.CryptoService;
 import com.unitvectory.serviceauthcentral.service.time.TimeService;
 
-public class CloudKeyService implements KeyService {
+public class CloudSignKeyService implements SignKeyService {
 
 	private static final Set<CryptoKeyVersionAlgorithm> SUPPORTED_ALGORITHMS = Collections
 			.unmodifiableSet(Set.of(CryptoKeyVersionAlgorithm.RSA_SIGN_PKCS1_2048_SHA256));
 
 	@Value("${serviceauthcentral.cache.jwks.hours}")
 	private int cacheJwksHours;
-
-	@Autowired
-	private CryptoService cryptoService;
 
 	@Autowired
 	private KeyManagementServiceClient keyManagementServiceClient;
@@ -49,6 +45,7 @@ public class CloudKeyService implements KeyService {
 	@Autowired
 	private String keyManagementServiceKeyName;
 
+	@Override
 	@Cacheable("activeKeyCache")
 	public String getActiveKeyName() {
 		List<JwksKey> allKeys = this.getAllKeys();
@@ -79,6 +76,7 @@ public class CloudKeyService implements KeyService {
 
 	}
 
+	@Override
 	public String signJwt(String keyName, String unsignedToken) {
 
 		// Prepare Unsigned Token for Signing
@@ -106,6 +104,7 @@ public class CloudKeyService implements KeyService {
 		return unsignedToken + "." + encodedSignature;
 	}
 
+	@Override
 	@Cacheable("jwksCache")
 	public List<JwksKey> getAllKeys() {
 		List<JwksKey> keys = new ArrayList<>();
@@ -138,8 +137,7 @@ public class CloudKeyService implements KeyService {
 
 			String pemKey = getPublicKeyPem(cryptoKeyVersion.getName());
 
-			JwksKey jwksKey = this.cryptoService.convertRsaPublicKey(cryptoKeyVersion.getName(), pemKey, "RS256",
-					active, created);
+			JwksKey jwksKey = JwksKey.convertRsaPublicKey(cryptoKeyVersion.getName(), pemKey, "RS256", active, created);
 			keys.add(jwksKey);
 		}
 

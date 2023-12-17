@@ -13,17 +13,19 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 
 import com.unitvectory.serviceauthcentral.dto.JwksKey;
-import com.unitvectory.serviceauthcentral.service.key.KeyService;
+import com.unitvectory.serviceauthcentral.service.signkey.SignKeyService;
 
-public class MokedKeyService implements KeyService {
+public class MokedKeyService implements SignKeyService {
 
 	@Value("classpath:private_key.pem")
 	private Resource privateKey;
 
+	@Override
 	public String getActiveKeyName() {
 		return "test-key";
 	}
 
+	@Override
 	public String signJwt(String keyName, String unsignedToken) {
 		try {
 			String privateKeyPEM = privateKey.getContentAsString(StandardCharsets.UTF_8);
@@ -50,6 +52,7 @@ public class MokedKeyService implements KeyService {
 		}
 	}
 
+	@Override
 	public List<JwksKey> getAllKeys() {
 		List<JwksKey> keys = new ArrayList<>();
 		keys.add(JwksKey.builder().withKty("RSA").withN(

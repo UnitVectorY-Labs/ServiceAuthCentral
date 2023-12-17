@@ -8,6 +8,7 @@ import java.util.Objects;
 import javax.annotation.Nonnull;
 
 import com.auth0.jwk.Jwk;
+import com.google.cloud.Timestamp;
 
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
@@ -19,6 +20,8 @@ import lombok.ToString;
 @ToString
 @EqualsAndHashCode
 public class CachedJwk {
+
+	private final long ONE_WEEK = 604800l;
 
 	private final String url;
 
@@ -45,7 +48,22 @@ public class CachedJwk {
 		} else {
 			this.jwk = null;
 		}
+	}
 
+	public boolean isExpiredAfterSeconds(long now, long expiresSeconds) {
+		if (this.cached == null) {
+			return true;
+		}
+
+		return this.cached.getEpochSecond() < (now - expiresSeconds);
+	}
+
+	public boolean isExpiredAfterMinutes(long now, long expiresMinutes) {
+		return this.isExpiredAfterSeconds(now, expiresMinutes * 60);
+	}
+
+	public boolean isExpiredAfterHours(long now, long expiresHours) {
+		return this.isExpiredAfterSeconds(now, expiresHours * 60 * 60);
 	}
 
 	@Nonnull
@@ -67,6 +85,10 @@ public class CachedJwk {
 
 		// Save the time it was cached
 		map.put("cached", this.cached.toEpochMilli() / 1000);
+
+		long ttl = this.cached.getEpochSecond() - ONE_WEEK;
+		Timestamp ts = Timestamp.ofTimeSecondsAndNanos(ttl, 0);
+		map.put("ttl", ts);
 
 		// url is not a real attribute but is very useful
 		map.put("url", url);

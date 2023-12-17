@@ -2,6 +2,8 @@ package com.unitvectory.serviceauthcentral.repository.key;
 
 import java.nio.charset.StandardCharsets;
 import java.time.Instant;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import javax.annotation.Nonnull;
@@ -11,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import com.auth0.jwk.Jwk;
 import com.google.cloud.firestore.DocumentSnapshot;
 import com.google.cloud.firestore.Firestore;
+import com.google.cloud.firestore.QuerySnapshot;
 import com.google.common.hash.Hashing;
 import com.unitvectory.serviceauthcentral.dto.CachedJwk;
 import com.unitvectory.serviceauthcentral.service.time.TimeService;
@@ -82,5 +85,22 @@ public class FirestoreKeySetRepository implements KeySetRepository {
 		} else {
 			return null;
 		}
+	}
+
+	@Override
+	public List<CachedJwk> getKeys(String url) throws Exception {
+		if (url == null) {
+			throw new IllegalArgumentException("url is required");
+		}
+
+		QuerySnapshot query = firestore.collection("keys").whereEqualTo("url", url).get().get();
+
+		List<CachedJwk> list = new ArrayList<>();
+		for (DocumentSnapshot document : query.getDocuments()) {
+			Map<String, Object> map = document.getData();
+			list.add(new CachedJwk(map));
+		}
+
+		return list;
 	}
 }

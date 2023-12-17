@@ -12,8 +12,11 @@ import com.unitvectory.serviceauthcentral.repository.key.FirestoreKeySetReposito
 import com.unitvectory.serviceauthcentral.repository.key.KeySetRepository;
 import com.unitvectory.serviceauthcentral.service.entropy.EntropyService;
 import com.unitvectory.serviceauthcentral.service.entropy.SystemEntropyService;
-import com.unitvectory.serviceauthcentral.service.key.CloudKeyService;
-import com.unitvectory.serviceauthcentral.service.key.KeyService;
+import com.unitvectory.serviceauthcentral.service.jwk.CachedJwkService;
+import com.unitvectory.serviceauthcentral.service.jwk.JwksService;
+import com.unitvectory.serviceauthcentral.service.jwk.RemoteJwksService;
+import com.unitvectory.serviceauthcentral.service.signkey.CloudSignKeyService;
+import com.unitvectory.serviceauthcentral.service.signkey.SignKeyService;
 import com.unitvectory.serviceauthcentral.service.time.SystemTimeService;
 import com.unitvectory.serviceauthcentral.service.time.TimeService;
 
@@ -32,8 +35,8 @@ public class ServiceAuthCentralConfig {
 	}
 
 	@Bean
-	public KeyService keyService() {
-		return new CloudKeyService();
+	public SignKeyService keyService() {
+		return new CloudSignKeyService();
 	}
 
 	@Bean
@@ -49,5 +52,10 @@ public class ServiceAuthCentralConfig {
 	@Bean
 	public KeySetRepository keySetRepository() {
 		return new FirestoreKeySetRepository();
+	}
+
+	@Bean
+	public JwksService jwksService() {
+		return new CachedJwkService(new RemoteJwksService());
 	}
 }
