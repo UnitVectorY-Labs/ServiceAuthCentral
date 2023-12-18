@@ -15,6 +15,8 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
+import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 
@@ -38,6 +40,36 @@ public class TokenResponseTest {
 
 	@Autowired
 	private MockMvc mockMvc;
+
+	@Test
+	public void optionsJwks() throws Exception {
+		this.mockMvc.perform(MockMvcRequestBuilders.options("/v1/token"))
+				.andExpect(MockMvcResultMatchers.status().isOk());
+	}
+
+	@Test
+	public void postTokenInvalidGrantType() throws Exception {
+		MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
+		params.add("grant_type", "refresh_token");
+		params.add("client_id", "foo");
+		params.add("client_secret", "mySuperSecretfoo");
+		params.add("audience", "bar");
+
+		mockMvc.perform(post("/v1/token").params(params).contentType(MediaType.APPLICATION_FORM_URLENCODED))
+				.andExpect(status().is(400));
+
+	}
+
+	@Test
+	public void postTokenMissingAudience() throws Exception {
+		MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
+		params.add("grant_type", "client_credentials");
+		params.add("client_id", "foo");
+		params.add("client_secret", "mySuperSecretfoo");
+
+		mockMvc.perform(post("/v1/token").params(params).contentType(MediaType.APPLICATION_FORM_URLENCODED))
+				.andExpect(status().is(400));
+	}
 
 	@Test
 	public void postTokenSuccessTest() throws Exception {

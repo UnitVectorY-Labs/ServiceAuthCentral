@@ -43,9 +43,7 @@ public class TokenController {
 		}
 
 		String grantType = tokenRequest.getGrant_type();
-		if (grantType == null || grantType.isEmpty()) {
-			throw new BadRequestException("The request is missing the required parameter 'grant_type'.");
-		} else if ("client_credentials".equals(grantType)) {
+		if ("client_credentials".equals(grantType)) {
 			TokenResponse tokenResponse = this.tokenService.clientCredentials(tokenRequest);
 			return ResponseEntity.ok(tokenResponse);
 		} else if ("urn:ietf:params:oauth:grant-type:jwt-bearer".equals(grantType)) {

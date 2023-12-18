@@ -40,12 +40,16 @@ public class GcpConfig {
 	}
 
 	@Bean
-	public KeyManagementServiceClient keyManagementServiceClient() throws IOException {
-		return KeyManagementServiceClient.create();
+	public KeyManagementServiceClient keyManagementServiceClient() {
+		try {
+			return KeyManagementServiceClient.create();
+		} catch (IOException e) {
+			throw new RuntimeException(e);
+		}
 	}
 
 	@Bean
-	public Firestore firestore() throws IOException {
+	public Firestore firestore() {
 		FirestoreOptions firestoreOptions = FirestoreOptions.getDefaultInstance().toBuilder()
 				.setProjectId(this.getProjectId()).build();
 		return firestoreOptions.getService();
