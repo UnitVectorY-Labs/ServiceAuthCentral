@@ -19,7 +19,7 @@ import com.unitvectory.serviceauthcentral.config.TestServiceAuthCentralConfig;
 
 @SpringBootTest
 @AutoConfigureMockMvc
-@TestPropertySource(properties = { "serviceauthcentral.cache.jwks.hours=1" })
+@TestPropertySource(properties = { "serviceauthcentral.cache.jwks.hours=1", "serviceauthcentral.jwt.issuer=myissuer" })
 @ActiveProfiles("test")
 @Import(TestServiceAuthCentralConfig.class)
 public class JwksControllerTest {

@@ -13,6 +13,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.TestPropertySource;
 
 import com.google.api.core.ApiFuture;
 import com.google.cloud.firestore.CollectionReference;
@@ -24,6 +25,7 @@ import com.unitvectory.serviceauthcentral.config.TestServiceAuthCentralConfig;
 import com.unitvectory.serviceauthcentral.model.ClientRecord;
 
 @SpringBootTest
+@TestPropertySource(properties = { "serviceauthcentral.cache.jwks.hours=1", "serviceauthcentral.jwt.issuer=myissuer" })
 @ActiveProfiles("test")
 @Import({ TestGcpConfig.class, TestServiceAuthCentralConfig.class })
 public class FirestoreClientRepositoryTest {
