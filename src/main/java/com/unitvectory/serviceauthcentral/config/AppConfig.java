@@ -23,6 +23,6 @@ public class AppConfig {
 	@Value("${key.name}")
 	private String keyName;
 
-	@Value("${serviceauthcentral.jwt.issuer}")
+	@Value("${jwt.issuer}")
 	private String jwtIssuer;
 }
