@@ -11,7 +11,6 @@ import java.util.List;
 import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.annotation.Cacheable;
 
 import com.google.cloud.kms.v1.AsymmetricSignRequest;
@@ -25,6 +24,7 @@ import com.google.cloud.kms.v1.Digest;
 import com.google.cloud.kms.v1.KeyManagementServiceClient;
 import com.google.cloud.kms.v1.PublicKey;
 import com.google.protobuf.ByteString;
+import com.unitvectory.serviceauthcentral.config.AppConfig;
 import com.unitvectory.serviceauthcentral.dto.JwksKey;
 import com.unitvectory.serviceauthcentral.service.time.TimeService;
 
@@ -33,8 +33,8 @@ public class CloudSignKeyService implements SignKeyService {
 	private static final Set<CryptoKeyVersionAlgorithm> SUPPORTED_ALGORITHMS = Collections
 			.unmodifiableSet(Set.of(CryptoKeyVersionAlgorithm.RSA_SIGN_PKCS1_2048_SHA256));
 
-	@Value("${serviceauthcentral.cache.jwks.hours}")
-	private int cacheJwksHours;
+	@Autowired
+	private AppConfig appConfig;
 
 	@Autowired
 	private KeyManagementServiceClient keyManagementServiceClient;
@@ -57,7 +57,7 @@ public class CloudSignKeyService implements SignKeyService {
 		}
 
 		long now = timeService.getCurrentTimeSeconds();
-		long threshold = cacheJwksHours * 60 * 60;
+		long threshold = this.appConfig.getCacheJwksHours() * 60 * 60;
 
 		// Filter and sort the keys, goal is to get the most recent key
 		return allKeys.stream()

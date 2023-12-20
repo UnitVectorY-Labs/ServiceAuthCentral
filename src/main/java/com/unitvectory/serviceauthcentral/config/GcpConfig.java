@@ -2,6 +2,7 @@ package com.unitvectory.serviceauthcentral.config;
 
 import java.io.IOException;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -21,22 +22,16 @@ public class GcpConfig {
 	@Value("${google.cloud.project}")
 	private String projectId;
 
-	@Value("${serviceauthcentral.key.location}")
-	private String keyLocation;
-
-	@Value("${serviceauthcentral.key.ring}")
-	private String keyRing;
-
-	@Value("${serviceauthcentral.key.name}")
-	private String keyName;
+	@Autowired
+	private AppConfig appConfig;
 
 	@Bean
 	public String keyManagementServiceKeyName() {
 		// Build the name of the Cloud KMS key that will be used to sign JWTs.
 		// This does not include the version as multiple versions are utilized to allow
 		// for key rotations without service interruption
-		return "projects/" + this.projectId + "/locations/" + this.keyLocation + "/keyRings/" + this.keyRing
-				+ "/cryptoKeys/" + this.keyName;
+		return "projects/" + this.projectId + "/locations/" + this.appConfig.getKeyLocation() + "/keyRings/"
+				+ this.appConfig.getKeyRing() + "/cryptoKeys/" + this.appConfig.getKeyName();
 	}
 
 	@Bean

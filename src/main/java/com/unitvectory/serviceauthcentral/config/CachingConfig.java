@@ -2,7 +2,7 @@ package com.unitvectory.serviceauthcentral.config;
 
 import java.util.concurrent.TimeUnit;
 
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.cache.caffeine.CaffeineCacheManager;
 import org.springframework.context.annotation.Bean;
@@ -14,8 +14,8 @@ import com.github.benmanes.caffeine.cache.Caffeine;
 @EnableCaching
 public class CachingConfig {
 
-	@Value("${serviceauthcentral.cache.jwks.hours}")
-	private int cacheJwksHours;
+	@Autowired
+	private AppConfig appConfig;
 
 	@Bean
 	public CaffeineCacheManager cacheManager() {
@@ -26,7 +26,7 @@ public class CachingConfig {
 		// operations are done deliberately as caching at the clients is also included
 		// therefore a liberal cache here is acceptable
 		cacheManager.registerCustomCache("jwksCache",
-				Caffeine.newBuilder().expireAfterWrite(this.cacheJwksHours, TimeUnit.HOURS).build());
+				Caffeine.newBuilder().expireAfterWrite(this.appConfig.getCacheJwksHours(), TimeUnit.HOURS).build());
 
 		// The public keys can never change, therefore they can be cached indefinitely
 		// once they are retrieved so avoid these API calls
@@ -39,7 +39,7 @@ public class CachingConfig {
 
 		// The cache for looking up external JWKS keys
 		cacheManager.registerCustomCache("keySetLookupCache",
-				Caffeine.newBuilder().expireAfterWrite(this.cacheJwksHours, TimeUnit.HOURS).build());
+				Caffeine.newBuilder().expireAfterWrite(this.appConfig.getCacheJwksHours(), TimeUnit.HOURS).build());
 
 		return cacheManager;
 	}

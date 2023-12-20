@@ -4,7 +4,6 @@ import java.security.interfaces.ECPublicKey;
 import java.security.interfaces.RSAPublicKey;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import com.auth0.jwk.InvalidPublicKeyException;
@@ -14,6 +13,7 @@ import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.interfaces.DecodedJWT;
+import com.unitvectory.serviceauthcentral.config.AppConfig;
 import com.unitvectory.serviceauthcentral.dto.TokenRequest;
 import com.unitvectory.serviceauthcentral.dto.TokenResponse;
 import com.unitvectory.serviceauthcentral.exception.BadRequestException;
@@ -53,8 +53,8 @@ public class TokenService {
 	@Autowired
 	private EntropyService entropyService;
 
-	@Value("${serviceauthcentral.jwt.issuer}")
-	private String jwtIssuer;
+	@Autowired
+	private AppConfig appConfig;
 
 	private TokenResponse buildToken(ClientRecord subjectRecord, ClientRecord audienceRecord,
 			AuthorizationRecord authorizationRecord) {
@@ -73,7 +73,7 @@ public class TokenService {
 
 		// Generate the unsigned JWT
 		JwtBuilder builder = JwtBuilder.builder();
-		builder.withIssuer(jwtIssuer);
+		builder.withIssuer(this.appConfig.getJwtIssuer());
 		builder.withTiming(timeService.getCurrentTimeSeconds(), validSeconds);
 		builder.withJwtId(entropyService.generateUuid());
 		builder.withKeyId(KidConverter.hash(keyName));

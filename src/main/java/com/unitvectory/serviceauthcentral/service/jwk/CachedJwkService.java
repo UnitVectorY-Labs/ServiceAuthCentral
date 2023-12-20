@@ -5,10 +5,10 @@ import java.util.Collections;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.annotation.Cacheable;
 
 import com.auth0.jwk.Jwk;
+import com.unitvectory.serviceauthcentral.config.AppConfig;
 import com.unitvectory.serviceauthcentral.dto.CachedJwk;
 import com.unitvectory.serviceauthcentral.exception.InternalServerErrorException;
 import com.unitvectory.serviceauthcentral.repository.key.KeySetRepository;
@@ -24,8 +24,8 @@ public class CachedJwkService implements JwksService {
 	@Autowired
 	private TimeService timeService;
 
-	@Value("${serviceauthcentral.cache.jwks.hours}")
-	private int cacheJwksHours;
+	@Autowired
+	private AppConfig appConfig;
 
 	public CachedJwkService(JwksService jwksService) {
 		this.jwksService = jwksService;
@@ -52,7 +52,7 @@ public class CachedJwkService implements JwksService {
 		if (cachedJwk == null) {
 			// No hit, refresh
 			refresh = true;
-		} else if (cachedJwk.isExpiredAfterHours(now, this.cacheJwksHours)) {
+		} else if (cachedJwk.isExpiredAfterHours(now, this.appConfig.getCacheJwksHours())) {
 			// Hit but expired, refresh
 			refresh = true;
 		} else {
@@ -133,7 +133,7 @@ public class CachedJwkService implements JwksService {
 				continue;
 			}
 
-			if (cachedJwk.isExpiredAfterHours(now, this.cacheJwksHours)) {
+			if (cachedJwk.isExpiredAfterHours(now, this.appConfig.getCacheJwksHours())) {
 				expired = true;
 				break;
 			}
