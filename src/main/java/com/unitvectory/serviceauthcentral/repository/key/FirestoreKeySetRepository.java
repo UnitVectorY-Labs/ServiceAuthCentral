@@ -26,6 +26,7 @@ public class FirestoreKeySetRepository implements KeySetRepository {
 	@Autowired
 	private TimeService timeService;
 
+	@SuppressWarnings("null")
 	@Nonnull
 	private String getId(String url, String id) {
 		String urlHash = Hashing.sha256().hashString(url, StandardCharsets.UTF_8).toString();

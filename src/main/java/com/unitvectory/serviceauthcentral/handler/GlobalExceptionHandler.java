@@ -78,10 +78,11 @@ public class GlobalExceptionHandler {
 	}
 
 	@ExceptionHandler(java.lang.NullPointerException.class)
-	public ResponseEntity<ErrorResponse> handleNullPointerException(java.lang.NullPointerException ex, WebRequest request) {
+	public ResponseEntity<ErrorResponse> handleNullPointerException(java.lang.NullPointerException ex,
+			WebRequest request) {
 		ErrorResponse error = ErrorResponse.builder().error("server_error").status(500).message(ex.getMessage())
 				.build();
 		return new ResponseEntity<ErrorResponse>(error, HttpStatus.INTERNAL_SERVER_ERROR);
 	}
-	
+
 }

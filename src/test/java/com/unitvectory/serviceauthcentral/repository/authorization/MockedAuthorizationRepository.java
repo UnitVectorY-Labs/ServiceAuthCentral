@@ -8,7 +8,6 @@ import java.util.Set;
 import java.util.concurrent.ExecutionException;
 
 import com.unitvectory.serviceauthcentral.model.AuthorizationRecord;
-import com.unitvectory.serviceauthcentral.repository.authorization.AuthorizationRepository;
 
 public class MockedAuthorizationRepository implements AuthorizationRepository {
 

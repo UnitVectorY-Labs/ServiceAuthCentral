@@ -4,10 +4,11 @@ import java.nio.charset.StandardCharsets;
 
 import com.google.common.hash.Hashing;
 
-public final class KidConverter {
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 
-	private KidConverter() {
-	}
+@NoArgsConstructor(access = AccessLevel.PRIVATE)
+public final class KidConverter {
 
 	public static String hash(String keyName) {
 		// This conversion must match between the key used to sign a JWT and the JWKS so

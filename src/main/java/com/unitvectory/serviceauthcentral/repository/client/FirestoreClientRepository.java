@@ -31,5 +31,4 @@ public class FirestoreClientRepository implements ClientRepository {
 			return null;
 		}
 	}
-
 }
