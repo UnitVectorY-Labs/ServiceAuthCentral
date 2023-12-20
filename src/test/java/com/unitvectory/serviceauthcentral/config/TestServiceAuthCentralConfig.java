@@ -24,6 +24,11 @@ import com.unitvectory.serviceauthcentral.service.time.TimeService;
 public class TestServiceAuthCentralConfig {
 
 	@Bean
+	public AppConfig appConfig() {
+		return new AppConfig();
+	}
+
+	@Bean
 	public TimeService timeService() {
 		return new StaticTimeService();
 	}

@@ -1,28 +1,26 @@
 package com.unitvectory.serviceauthcentral.config;
 
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 
 import lombok.Getter;
 
 @Getter
 @Configuration
-@ConfigurationProperties(prefix = "serviceauthcentral")
 public class AppConfig {
 
-	@Value("${cache.jwks.hours}")
+	@Value("${serviceauthcentral.cache.jwks.hours}")
 	private int cacheJwksHours;
 
-	@Value("${key.location}")
+	@Value("${serviceauthcentral.key.location}")
 	private String keyLocation;
 
-	@Value("${key.ring}")
+	@Value("${serviceauthcentral.key.ring}")
 	private String keyRing;
 
-	@Value("${key.name}")
+	@Value("${serviceauthcentral.key.name}")
 	private String keyName;
 
-	@Value("${jwt.issuer}")
+	@Value("${serviceauthcentral.jwt.issuer}")
 	private String jwtIssuer;
 }

@@ -28,10 +28,8 @@ import com.unitvectory.serviceauthcentral.dto.TokenResponse;
 
 @SpringBootTest
 @AutoConfigureMockMvc
-@TestPropertySource(properties = { "serviceauthcentral.cache.jwks.hours=1", "serviceauthcentral.key.location=global",
-		"serviceauthcentral.key.ring=authorization", "serviceauthcentral.key.name=jwk-key",
-		"serviceauthcentral.jwt.issuer=myissuer", "google.cloud.project=test" })
 @ActiveProfiles("test")
+@TestPropertySource(locations = "classpath:test-application.properties")
 @Import(TestServiceAuthCentralConfig.class)
 public class TokenResponseTest {
 
@@ -95,6 +93,7 @@ public class TokenResponseTest {
 
 		// So instead we look for the key claims within the JWT
 		DecodedJWT jwt = JWT.decode(tokenResponse.getAccess_token());
+		assertEquals("myissuer", jwt.getIssuer());
 		assertEquals("foo", jwt.getSubject());
 		assertEquals("bar", jwt.getAudience().get(0));
 	}

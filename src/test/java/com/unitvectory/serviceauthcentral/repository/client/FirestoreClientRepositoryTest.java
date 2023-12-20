@@ -25,8 +25,8 @@ import com.unitvectory.serviceauthcentral.config.TestServiceAuthCentralConfig;
 import com.unitvectory.serviceauthcentral.model.ClientRecord;
 
 @SpringBootTest
-@TestPropertySource(properties = { "serviceauthcentral.cache.jwks.hours=1", "serviceauthcentral.jwt.issuer=myissuer" })
 @ActiveProfiles("test")
+@TestPropertySource(locations = "classpath:test-application.properties")
 @Import({ TestGcpConfig.class, TestServiceAuthCentralConfig.class })
 public class FirestoreClientRepositoryTest {
 

@@ -25,6 +25,11 @@ import com.unitvectory.serviceauthcentral.service.time.TimeService;
 public class ServiceAuthCentralConfig {
 
 	@Bean
+	public AppConfig appConfig() {
+		return new AppConfig();
+	}
+
+	@Bean
 	public TimeService timeService() {
 		return new SystemTimeService();
 	}

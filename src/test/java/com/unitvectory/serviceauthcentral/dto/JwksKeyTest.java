@@ -19,10 +19,8 @@ import com.unitvectory.serviceauthcentral.config.TestServiceAuthCentralConfig;
 
 @SpringBootTest
 @AutoConfigureMockMvc
-@TestPropertySource(properties = { "serviceauthcentral.cache.jwks.hours=1", "serviceauthcentral.key.location=global",
-		"serviceauthcentral.key.ring=authorization", "serviceauthcentral.key.name=jwk-key",
-		"serviceauthcentral.jwt.issuer=myissuer", "google.cloud.project=test" })
 @ActiveProfiles("test")
+@TestPropertySource(locations = "classpath:test-application.properties")
 @Import(TestServiceAuthCentralConfig.class)
 public class JwksKeyTest {
 
