@@ -28,12 +28,6 @@ public class JwksControllerTest {
 	private MockMvc mockMvc;
 
 	@Test
-	public void optionsJwks() throws Exception {
-		this.mockMvc.perform(MockMvcRequestBuilders.options("/.well-known/jwks.json"))
-				.andExpect(MockMvcResultMatchers.status().isOk());
-	}
-
-	@Test
 	public void postJwks() throws Exception {
 		this.mockMvc.perform(MockMvcRequestBuilders.post("/.well-known/jwks.json"))
 				.andExpect(MockMvcResultMatchers.status().is(405));

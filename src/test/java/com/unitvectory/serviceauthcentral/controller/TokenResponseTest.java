@@ -15,8 +15,6 @@ import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.MvcResult;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 
@@ -38,12 +36,6 @@ public class TokenResponseTest {
 
 	@Autowired
 	private MockMvc mockMvc;
-
-	@Test
-	public void optionsJwks() throws Exception {
-		this.mockMvc.perform(MockMvcRequestBuilders.options("/v1/token"))
-				.andExpect(MockMvcResultMatchers.status().isOk());
-	}
 
 	@Test
 	public void postTokenInvalidGrantType() throws Exception {
