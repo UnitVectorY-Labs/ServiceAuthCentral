@@ -1,4 +1,4 @@
-package com.unitvectory.serviceauthcentral.repository.jwk;
+package com.unitvectory.serviceauthcentral.service.jwk;
 
 import java.util.List;
 

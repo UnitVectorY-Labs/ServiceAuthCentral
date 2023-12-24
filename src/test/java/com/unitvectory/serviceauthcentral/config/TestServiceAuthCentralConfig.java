@@ -8,13 +8,13 @@ import com.unitvectory.serviceauthcentral.repository.authorization.Authorization
 import com.unitvectory.serviceauthcentral.repository.authorization.MockedAuthorizationRepository;
 import com.unitvectory.serviceauthcentral.repository.client.ClientRepository;
 import com.unitvectory.serviceauthcentral.repository.client.MokedClientRepository;
-import com.unitvectory.serviceauthcentral.repository.jwk.MockedJwksService;
 import com.unitvectory.serviceauthcentral.repository.key.KeySetRepository;
 import com.unitvectory.serviceauthcentral.repository.signkey.MockedSignKeySetRepository;
 import com.unitvectory.serviceauthcentral.service.MokedKeyService;
 import com.unitvectory.serviceauthcentral.service.entropy.EntropyService;
 import com.unitvectory.serviceauthcentral.service.entropy.StaticEntropyService;
 import com.unitvectory.serviceauthcentral.service.jwk.JwksService;
+import com.unitvectory.serviceauthcentral.service.jwk.MockedJwksService;
 import com.unitvectory.serviceauthcentral.service.signkey.SignKeyService;
 import com.unitvectory.serviceauthcentral.service.time.StaticTimeService;
 import com.unitvectory.serviceauthcentral.service.time.TimeService;
