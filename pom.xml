@@ -17,6 +17,7 @@
     <modules>
         <module>token</module>
         <module>manage</module>
+        <module>datamodel</module>
     </modules>
 
     <properties>

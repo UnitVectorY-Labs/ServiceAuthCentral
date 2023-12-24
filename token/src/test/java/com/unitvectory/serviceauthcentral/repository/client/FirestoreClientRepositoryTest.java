@@ -22,6 +22,7 @@ import com.google.cloud.firestore.DocumentSnapshot;
 import com.google.cloud.firestore.Firestore;
 import com.unitvectory.serviceauthcentral.config.TestGcpConfig;
 import com.unitvectory.serviceauthcentral.config.TestServiceAuthCentralConfig;
+import com.unitvectory.serviceauthcentral.datamodel.model.Client;
 import com.unitvectory.serviceauthcentral.model.ClientRecord;
 
 @SpringBootTest
@@ -76,7 +77,7 @@ public class FirestoreClientRepositoryTest {
 		Mockito.when(future.get()).thenReturn(document);
 		Mockito.when(document.exists()).thenReturn(false);
 
-		ClientRecord client = repository.getClient("invalid-client-id");
+		Client client = repository.getClient("invalid-client-id");
 		assertNull(client);
 	}
 
@@ -100,7 +101,7 @@ public class FirestoreClientRepositoryTest {
 		FirestoreClientRepository repository = new FirestoreClientRepository(firestore);
 
 		// Execute and assert
-		ClientRecord client = repository.getClient("client-id");
+		Client client = repository.getClient("client-id");
 		assertNotNull(client);
 	}
 

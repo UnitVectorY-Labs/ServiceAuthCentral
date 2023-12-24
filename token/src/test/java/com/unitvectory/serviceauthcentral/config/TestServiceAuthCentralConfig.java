@@ -4,9 +4,9 @@ import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Profile;
 
+import com.unitvectory.serviceauthcentral.datamodel.repository.ClientRepository;
 import com.unitvectory.serviceauthcentral.repository.authorization.AuthorizationRepository;
 import com.unitvectory.serviceauthcentral.repository.authorization.MockedAuthorizationRepository;
-import com.unitvectory.serviceauthcentral.repository.client.ClientRepository;
 import com.unitvectory.serviceauthcentral.repository.client.MokedClientRepository;
 import com.unitvectory.serviceauthcentral.repository.key.KeySetRepository;
 import com.unitvectory.serviceauthcentral.repository.signkey.MockedSignKeySetRepository;
