@@ -1,10 +1,11 @@
 # Stage 1: Build the application
 FROM maven:3.8.4-openjdk-17-slim AS build
 WORKDIR /app
-COPY src ./src
+COPY token ./token
+COPY manage ./manage
 COPY pom.xml .
 # Build the application
-RUN mvn clean package -DskipTests
+RUN mvn clean package -DskipTests -pl token
 
 # Stage 2: Run the application
 FROM openjdk:17-slim
