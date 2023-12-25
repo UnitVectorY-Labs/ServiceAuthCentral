@@ -30,11 +30,6 @@ public class ServiceAuthCentralConfig {
 	private Firestore firestore;
 
 	@Bean
-	public AppConfig appConfig() {
-		return new AppConfig();
-	}
-
-	@Bean
 	public TimeService timeService() {
 		return new SystemTimeService();
 	}
