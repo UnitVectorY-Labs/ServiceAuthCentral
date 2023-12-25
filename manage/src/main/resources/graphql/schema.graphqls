@@ -4,10 +4,18 @@ type Query {
   authorization(id: ID!): Authorization
 }
 
+type Mutation {
+    addClient(clientId: String!, description: String!): Client!
+    generateClientSecret1(clientId: String!): ClientSecret!
+    generateClientSecret2(clientId: String!): ClientSecret!
+    clearClientSecret1(clientId: String!): Client!
+    clearClientSecret2(clientId: String!): Client!
+}
+
 type Client {
   clientId: ID!
-  clientSecret1Set: Boolean!
-  clientSecret2Set: Boolean!
+  clientSecret1Set: Boolean
+  clientSecret2Set: Boolean
   authorizationsAsSubject: [Authorization]
   authorizationsAsAudience: [Authorization]
   
@@ -15,6 +23,10 @@ type Client {
 
 type Authorization {
   id: ID!
-  subject: Client!
-  audience: Client!
+  subject: Client
+  audience: Client
+}
+
+type ClientSecret {
+  clientSecret: String!
 }

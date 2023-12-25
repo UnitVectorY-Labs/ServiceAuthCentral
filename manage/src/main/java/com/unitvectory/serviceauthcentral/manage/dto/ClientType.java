@@ -2,9 +2,11 @@ package com.unitvectory.serviceauthcentral.manage.dto;
 
 import com.unitvectory.serviceauthcentral.datamodel.model.Client;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
 @Data
+@AllArgsConstructor
 public class ClientType {
 
 	private String clientId;

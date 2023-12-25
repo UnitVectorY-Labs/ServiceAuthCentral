@@ -9,6 +9,8 @@ import com.unitvectory.serviceauthcentral.datamodel.repository.AuthorizationRepo
 import com.unitvectory.serviceauthcentral.datamodel.repository.ClientRepository;
 import com.unitvectory.serviceauthcentral.gcp.repository.FirestoreAuthorizationRepository;
 import com.unitvectory.serviceauthcentral.gcp.repository.FirestoreClientRepository;
+import com.unitvectory.serviceauthcentral.manage.entropy.EntropyService;
+import com.unitvectory.serviceauthcentral.manage.entropy.SystemEntropyService;
 
 @Configuration
 public class ServiceAuthCentralConfig {
@@ -24,6 +26,11 @@ public class ServiceAuthCentralConfig {
 	@Bean
 	public ClientRepository clientRepository() {
 		return new FirestoreClientRepository(this.firestore);
+	}
+
+	@Bean
+	public EntropyService entropyService() {
+		return new SystemEntropyService();
 	}
 
 }
