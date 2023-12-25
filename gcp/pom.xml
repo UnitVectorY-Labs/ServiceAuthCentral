@@ -7,10 +7,9 @@
         <version>0.0.1-SNAPSHOT</version>
     </parent>
     
-    <artifactId>token</artifactId>
+    <artifactId>gcp</artifactId>
 
     <properties>
-        <start-class>com.unitvectory.serviceauthcentral.App</start-class>
     </properties>
     
     <dependencyManagement>
@@ -31,43 +30,12 @@
             <version>${project.version}</version>
         </dependency>
         <dependency>
-            <groupId>com.unitvectory</groupId>
-            <artifactId>gcp</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-json</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-validation</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-cache</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.github.ben-manes.caffeine</groupId>
-            <artifactId>caffeine</artifactId>
-        </dependency>
-        <dependency>
             <groupId>com.google.cloud</groupId>
-            <artifactId>google-cloud-kms</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.auth0</groupId>
-            <artifactId>java-jwt</artifactId>
-            <version>4.4.0</version>
-        </dependency>
-        <dependency>
-            <groupId>com.auth0</groupId>
-            <artifactId>jwks-rsa</artifactId>
-            <version>0.22.1</version>
+            <artifactId>google-cloud-firestore</artifactId>
         </dependency>
         <dependency>
             <groupId>org.projectlombok</groupId>

@@ -6,9 +6,9 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.unitvectory.serviceauthcentral.datamodel.exception.BadRequestException;
 import com.unitvectory.serviceauthcentral.dto.TokenRequest;
 import com.unitvectory.serviceauthcentral.dto.TokenResponse;
-import com.unitvectory.serviceauthcentral.exception.BadRequestException;
 import com.unitvectory.serviceauthcentral.service.TokenService;
 
 import jakarta.validation.Valid;

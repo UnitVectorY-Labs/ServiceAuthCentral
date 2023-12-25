@@ -11,4 +11,8 @@ public interface AuthorizationRepository {
 	Iterator<Authorization> getAuthorizationBySubject(String subject);
 
 	Iterator<Authorization> getAuthorizationByAudience(String audience);
+
+	void authorize(String subject, String audience);
+
+	void deauthorize(String subject, String audience);
 }

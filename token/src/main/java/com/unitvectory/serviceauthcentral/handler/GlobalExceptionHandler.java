@@ -9,11 +9,12 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
 
+import com.unitvectory.serviceauthcentral.datamodel.exception.BadRequestException;
+import com.unitvectory.serviceauthcentral.datamodel.exception.ForbiddenException;
+import com.unitvectory.serviceauthcentral.datamodel.exception.InternalServerErrorException;
+import com.unitvectory.serviceauthcentral.datamodel.exception.NotFoundException;
+import com.unitvectory.serviceauthcentral.datamodel.exception.UnauthorizedException;
 import com.unitvectory.serviceauthcentral.dto.ErrorResponse;
-import com.unitvectory.serviceauthcentral.exception.BadRequestException;
-import com.unitvectory.serviceauthcentral.exception.ForbiddenException;
-import com.unitvectory.serviceauthcentral.exception.InternalServerErrorException;
-import com.unitvectory.serviceauthcentral.exception.UnauthorizedException;
 
 @ControllerAdvice
 public class GlobalExceptionHandler {
@@ -31,6 +32,13 @@ public class GlobalExceptionHandler {
 		}
 
 		return new ResponseEntity<ErrorResponse>(builder.build(), HttpStatus.BAD_REQUEST);
+	}
+
+	@ExceptionHandler(NotFoundException.class)
+	public ResponseEntity<ErrorResponse> handleNotFoundException(NotFoundException ex, WebRequest request) {
+		ErrorResponse error = ErrorResponse.builder().error("invalid_client").status(404).message(ex.getMessage())
+				.build();
+		return new ResponseEntity<ErrorResponse>(error, HttpStatus.NOT_FOUND);
 	}
 
 	@ExceptionHandler(ForbiddenException.class)

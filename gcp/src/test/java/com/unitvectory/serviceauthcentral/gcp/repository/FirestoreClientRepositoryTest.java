@@ -1,4 +1,4 @@
-package com.unitvectory.serviceauthcentral.repository.client;
+package com.unitvectory.serviceauthcentral.gcp.repository;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
@@ -9,30 +9,15 @@ import java.util.concurrent.ExecutionException;
 
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.context.annotation.Import;
-import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.TestPropertySource;
 
 import com.google.api.core.ApiFuture;
 import com.google.cloud.firestore.CollectionReference;
 import com.google.cloud.firestore.DocumentReference;
 import com.google.cloud.firestore.DocumentSnapshot;
 import com.google.cloud.firestore.Firestore;
-import com.unitvectory.serviceauthcentral.config.TestGcpConfig;
-import com.unitvectory.serviceauthcentral.config.TestServiceAuthCentralConfig;
 import com.unitvectory.serviceauthcentral.datamodel.model.Client;
-import com.unitvectory.serviceauthcentral.model.ClientRecord;
 
-@SpringBootTest
-@ActiveProfiles("test")
-@TestPropertySource(locations = "classpath:test-application.properties")
-@Import({ TestGcpConfig.class, TestServiceAuthCentralConfig.class })
 public class FirestoreClientRepositoryTest {
-
-	@MockBean
-	private Firestore firestore;
 
 	@Test
 	public void testNoArgs() throws InterruptedException, ExecutionException {
@@ -42,6 +27,7 @@ public class FirestoreClientRepositoryTest {
 
 	@Test
 	public void testGetClient_NoClientId() throws InterruptedException, ExecutionException {
+		Firestore firestore = Mockito.mock(Firestore.class);
 		FirestoreClientRepository repository = new FirestoreClientRepository(firestore);
 
 		IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class, () -> repository.getClient(null),
@@ -52,6 +38,7 @@ public class FirestoreClientRepositoryTest {
 
 	@Test
 	public void testGetClient_EmptyClientId() throws InterruptedException, ExecutionException {
+		Firestore firestore = Mockito.mock(Firestore.class);
 		FirestoreClientRepository repository = new FirestoreClientRepository(firestore);
 
 		IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class, () -> repository.getClient(""),
@@ -62,6 +49,7 @@ public class FirestoreClientRepositoryTest {
 
 	@Test
 	public void testGetClient_InvalidClientId() throws InterruptedException, ExecutionException {
+		Firestore firestore = Mockito.mock(Firestore.class);
 		FirestoreClientRepository repository = new FirestoreClientRepository(firestore);
 
 		// Mock Firestore dependencies
@@ -83,6 +71,8 @@ public class FirestoreClientRepositoryTest {
 
 	@Test
 	public void testGetClient_ClientExists() throws InterruptedException, ExecutionException {
+		Firestore firestore = Mockito.mock(Firestore.class);
+
 		// Mock Firestore dependencies
 		CollectionReference collectionReference = Mockito.mock(CollectionReference.class);
 		DocumentReference documentReference = Mockito.mock(DocumentReference.class);

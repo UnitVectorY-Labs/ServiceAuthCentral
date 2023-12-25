@@ -14,18 +14,18 @@ import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.unitvectory.serviceauthcentral.config.AppConfig;
+import com.unitvectory.serviceauthcentral.datamodel.exception.BadRequestException;
+import com.unitvectory.serviceauthcentral.datamodel.exception.ForbiddenException;
+import com.unitvectory.serviceauthcentral.datamodel.exception.InternalServerErrorException;
+import com.unitvectory.serviceauthcentral.datamodel.exception.UnauthorizedException;
+import com.unitvectory.serviceauthcentral.datamodel.model.Authorization;
 import com.unitvectory.serviceauthcentral.datamodel.model.Client;
 import com.unitvectory.serviceauthcentral.datamodel.model.JwtBearer;
+import com.unitvectory.serviceauthcentral.datamodel.repository.AuthorizationRepository;
 import com.unitvectory.serviceauthcentral.datamodel.repository.ClientRepository;
 import com.unitvectory.serviceauthcentral.dto.TokenRequest;
 import com.unitvectory.serviceauthcentral.dto.TokenResponse;
-import com.unitvectory.serviceauthcentral.exception.BadRequestException;
-import com.unitvectory.serviceauthcentral.exception.ForbiddenException;
-import com.unitvectory.serviceauthcentral.exception.InternalServerErrorException;
-import com.unitvectory.serviceauthcentral.exception.UnauthorizedException;
-import com.unitvectory.serviceauthcentral.model.AuthorizationRecord;
 import com.unitvectory.serviceauthcentral.model.JwtBuilder;
-import com.unitvectory.serviceauthcentral.repository.authorization.AuthorizationRepository;
 import com.unitvectory.serviceauthcentral.service.entropy.EntropyService;
 import com.unitvectory.serviceauthcentral.service.jwk.JwksService;
 import com.unitvectory.serviceauthcentral.service.signkey.SignKeyService;
@@ -56,8 +56,7 @@ public class TokenService {
 	@Autowired
 	private AppConfig appConfig;
 
-	private TokenResponse buildToken(Client subjectRecord, Client audienceRecord,
-			AuthorizationRecord authorizationRecord) {
+	private TokenResponse buildToken(Client subjectRecord, Client audienceRecord, Authorization authorizationRecord) {
 
 		String clientId = subjectRecord.getClientId();
 		String audience = audienceRecord.getClientId();
@@ -177,7 +176,7 @@ public class TokenService {
 		}
 
 		// Validated the authorization
-		AuthorizationRecord authorizationRecord = this.authorizationRepository.getAuthorization(clientId, audience);
+		Authorization authorizationRecord = this.authorizationRepository.getAuthorization(clientId, audience);
 		if (authorizationRecord == null) {
 			throw new ForbiddenException("The specified 'audience' is invalid.");
 		}
@@ -218,7 +217,7 @@ public class TokenService {
 		}
 
 		// Validated the authorization
-		AuthorizationRecord authorizationRecord = this.authorizationRepository.getAuthorization(clientId, audience);
+		Authorization authorizationRecord = this.authorizationRepository.getAuthorization(clientId, audience);
 		if (authorizationRecord == null) {
 			throw new ForbiddenException("The specified 'audience' is invalid.");
 		}

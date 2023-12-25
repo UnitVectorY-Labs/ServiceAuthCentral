@@ -9,8 +9,8 @@ import org.springframework.cache.annotation.Cacheable;
 
 import com.auth0.jwk.Jwk;
 import com.unitvectory.serviceauthcentral.config.AppConfig;
+import com.unitvectory.serviceauthcentral.datamodel.exception.InternalServerErrorException;
 import com.unitvectory.serviceauthcentral.dto.CachedJwk;
-import com.unitvectory.serviceauthcentral.exception.InternalServerErrorException;
 import com.unitvectory.serviceauthcentral.repository.key.KeySetRepository;
 import com.unitvectory.serviceauthcentral.service.time.TimeService;
 

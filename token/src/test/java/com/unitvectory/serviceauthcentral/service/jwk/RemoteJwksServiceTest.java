@@ -19,7 +19,7 @@ import com.auth0.jwk.Jwk;
 import com.auth0.jwk.JwkException;
 import com.auth0.jwk.SigningKeyNotFoundException;
 import com.auth0.jwk.UrlJwkProvider;
-import com.unitvectory.serviceauthcentral.exception.InternalServerErrorException;
+import com.unitvectory.serviceauthcentral.datamodel.exception.InternalServerErrorException;
 
 public class RemoteJwksServiceTest {
 

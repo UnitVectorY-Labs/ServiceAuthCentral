@@ -1,4 +1,4 @@
-package com.unitvectory.serviceauthcentral.exception;
+package com.unitvectory.serviceauthcentral.datamodel.exception;
 
 import lombok.experimental.StandardException;
 

@@ -4,6 +4,8 @@ import java.util.List;
 
 import com.unitvectory.serviceauthcentral.datamodel.util.HashingUtil;
 
+import lombok.NonNull;
+
 public interface Client {
 
 	String getClientId();
@@ -18,26 +20,23 @@ public interface Client {
 
 	List<JwtBearer> getJwtBearer();
 
-	public default String hashSecret(String salt, String secret) {
-		if (salt == null) {
+	public default String hashSecret(@NonNull String secret) {
+		if (this.getSalt() == null) {
 			throw new IllegalStateException("salt not set");
 		}
 
 		String hashedSecret = HashingUtil.sha256(secret);
-		return HashingUtil.sha256(hashedSecret + salt);
+		return HashingUtil.sha256(hashedSecret + this.getSalt());
 	}
 
-	public default boolean verifySecret(String secret) {
-		if (secret == null) {
-			return false;
-		}
+	public default boolean verifySecret(@NonNull String secret) {
 
 		if (this.getSalt() == null) {
 			return false;
 		}
 
 		// Hash the secret so it can be compared
-		String hashedSecret = this.hashSecret(this.getSalt(), secret);
+		String hashedSecret = this.hashSecret(secret);
 
 		if (this.getClientSecret1() != null) {
 			// Check to see if the secret matches 1

@@ -5,6 +5,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
@@ -22,6 +23,11 @@ import com.auth0.jwt.JWT;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.unitvectory.serviceauthcentral.config.TestServiceAuthCentralConfig;
+import com.unitvectory.serviceauthcentral.datamodel.model.Client;
+import com.unitvectory.serviceauthcentral.datamodel.repository.AuthorizationRepository;
+import com.unitvectory.serviceauthcentral.datamodel.repository.ClientRepository;
+import com.unitvectory.serviceauthcentral.datamodel.repository.MemoryAuthorizationRepository;
+import com.unitvectory.serviceauthcentral.datamodel.repository.MemoryClientRepository;
 import com.unitvectory.serviceauthcentral.dto.TokenResponse;
 
 @SpringBootTest
@@ -36,6 +42,32 @@ public class TokenResponseTest {
 
 	@Autowired
 	private MockMvc mockMvc;
+
+	@Autowired
+	private AuthorizationRepository authorizationRepository;
+
+	@Autowired
+	private ClientRepository clientRepository;
+
+	@BeforeEach
+	public void setUp() {
+
+		if (this.clientRepository instanceof MemoryClientRepository) {
+			((MemoryClientRepository) this.clientRepository).reset();
+		}
+
+		this.clientRepository.putClient("bar", "Test2", "xyz");
+		this.clientRepository.putClient("foo", "Test", "abc");
+		Client client = this.clientRepository.getClient("foo");
+		this.clientRepository.saveClientSecret1("foo", client.hashSecret("mySuperSecretfoo"));
+
+		if (this.authorizationRepository instanceof MemoryAuthorizationRepository) {
+			((MemoryAuthorizationRepository) this.authorizationRepository).reset();
+		}
+
+		this.authorizationRepository.authorize("foo", "bar");
+
+	}
 
 	@Test
 	public void postTokenInvalidGrantType() throws Exception {

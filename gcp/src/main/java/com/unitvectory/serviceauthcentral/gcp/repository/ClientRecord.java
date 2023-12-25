@@ -1,4 +1,4 @@
-package com.unitvectory.serviceauthcentral.model;
+package com.unitvectory.serviceauthcentral.gcp.repository;
 
 import java.util.List;
 
@@ -18,7 +18,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonInclude(Include.NON_NULL)
-public class ClientRecord implements Client {
+class ClientRecord implements Client {
 
 	@DocumentId
 	private String documentId;
@@ -34,21 +34,4 @@ public class ClientRecord implements Client {
 	private String clientSecret2;
 
 	private List<JwtBearer> jwtBearer;
-
-	public void setClientSecret1Plaintext(String clientSecret1) {
-		if (clientSecret1 == null) {
-			throw new IllegalArgumentException("clientSecret1 not set");
-		}
-
-		this.clientSecret1 = hashSecret(this.salt, clientSecret1);
-	}
-
-	public void setClientSecret2Plaintext(String clientSecret2) {
-		if (clientSecret2 == null) {
-			throw new IllegalArgumentException("clientSecret2 not set");
-		}
-
-		this.clientSecret2 = hashSecret(this.salt, clientSecret2);
-	}
-
 }

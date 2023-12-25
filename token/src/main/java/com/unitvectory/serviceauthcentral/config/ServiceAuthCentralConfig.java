@@ -4,10 +4,10 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 
+import com.unitvectory.serviceauthcentral.datamodel.repository.AuthorizationRepository;
 import com.unitvectory.serviceauthcentral.datamodel.repository.ClientRepository;
-import com.unitvectory.serviceauthcentral.repository.authorization.AuthorizationRepository;
-import com.unitvectory.serviceauthcentral.repository.authorization.FirestoreAuthorizationRepository;
-import com.unitvectory.serviceauthcentral.repository.client.FirestoreClientRepository;
+import com.unitvectory.serviceauthcentral.gcp.repository.FirestoreAuthorizationRepository;
+import com.unitvectory.serviceauthcentral.gcp.repository.FirestoreClientRepository;
 import com.unitvectory.serviceauthcentral.repository.key.FirestoreKeySetRepository;
 import com.unitvectory.serviceauthcentral.repository.key.KeySetRepository;
 import com.unitvectory.serviceauthcentral.service.entropy.EntropyService;

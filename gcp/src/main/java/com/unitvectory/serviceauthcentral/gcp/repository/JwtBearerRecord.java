@@ -1,8 +1,8 @@
-package com.unitvectory.serviceauthcentral.model;
+package com.unitvectory.serviceauthcentral.gcp.repository;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
-import com.google.cloud.firestore.annotation.DocumentId;
+import com.unitvectory.serviceauthcentral.datamodel.model.JwtBearer;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -14,13 +14,14 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @JsonInclude(Include.NON_NULL)
-public class AuthorizationRecord {
+class JwtBearerRecord implements JwtBearer {
 
-	@DocumentId
-	private String documentId;
+	private String jwksUrl;
 
-	private String subject;
+	private String iss;
 
-	private String audience;
+	private String sub;
+
+	private String aud;
 
 }

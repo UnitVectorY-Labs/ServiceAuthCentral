@@ -18,6 +18,7 @@
         <module>token</module>
         <module>manage</module>
         <module>datamodel</module>
+        <module>gcp</module>
     </modules>
 
     <properties>

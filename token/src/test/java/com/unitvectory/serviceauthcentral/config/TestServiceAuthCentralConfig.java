@@ -4,10 +4,10 @@ import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Profile;
 
+import com.unitvectory.serviceauthcentral.datamodel.repository.AuthorizationRepository;
 import com.unitvectory.serviceauthcentral.datamodel.repository.ClientRepository;
-import com.unitvectory.serviceauthcentral.repository.authorization.AuthorizationRepository;
-import com.unitvectory.serviceauthcentral.repository.authorization.MockedAuthorizationRepository;
-import com.unitvectory.serviceauthcentral.repository.client.MokedClientRepository;
+import com.unitvectory.serviceauthcentral.datamodel.repository.MemoryAuthorizationRepository;
+import com.unitvectory.serviceauthcentral.datamodel.repository.MemoryClientRepository;
 import com.unitvectory.serviceauthcentral.repository.key.KeySetRepository;
 import com.unitvectory.serviceauthcentral.repository.signkey.MockedSignKeySetRepository;
 import com.unitvectory.serviceauthcentral.service.MokedKeyService;
@@ -45,12 +45,12 @@ public class TestServiceAuthCentralConfig {
 
 	@Bean
 	public AuthorizationRepository authorizationRepository() {
-		return new MockedAuthorizationRepository();
+		return new MemoryAuthorizationRepository();
 	}
 
 	@Bean
 	public ClientRepository clientRepository() {
-		return new MokedClientRepository();
+		return new MemoryClientRepository();
 	}
 
 	@Bean
