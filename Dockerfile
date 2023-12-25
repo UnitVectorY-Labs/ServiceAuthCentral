@@ -3,8 +3,8 @@ FROM maven:3.8.4-openjdk-17-slim AS build
 WORKDIR /app
 COPY token ./token
 COPY manage ./manage
-COPY manage ./datamodel
-COPY manage ./gcp
+COPY datamodel ./datamodel
+COPY gcp ./gcp
 COPY pom.xml .
 # Build the application
 RUN mvn clean package -DskipTests
