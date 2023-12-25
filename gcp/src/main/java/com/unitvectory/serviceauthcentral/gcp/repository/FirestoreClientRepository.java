@@ -2,8 +2,6 @@ package com.unitvectory.serviceauthcentral.gcp.repository;
 
 import java.util.concurrent.ExecutionException;
 
-import org.springframework.beans.factory.annotation.Autowired;
-
 import com.google.cloud.firestore.DocumentSnapshot;
 import com.google.cloud.firestore.FieldValue;
 import com.google.cloud.firestore.Firestore;
@@ -12,14 +10,11 @@ import com.unitvectory.serviceauthcentral.datamodel.model.Client;
 import com.unitvectory.serviceauthcentral.datamodel.repository.ClientRepository;
 
 import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
 import lombok.NonNull;
 
-@NoArgsConstructor
 @AllArgsConstructor
 public class FirestoreClientRepository implements ClientRepository {
 
-	@Autowired
 	private Firestore firestore;
 
 	@Override

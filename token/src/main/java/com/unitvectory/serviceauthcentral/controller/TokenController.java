@@ -24,7 +24,8 @@ public class TokenController {
 			throws Exception {
 		if (result.hasErrors()) {
 			// Throw custom exception
-			throw new BadRequestException(result);
+			// throw new BadRequestException(result);
+			throw new BadRequestException();
 		}
 
 		String grantType = tokenRequest.getGrant_type();

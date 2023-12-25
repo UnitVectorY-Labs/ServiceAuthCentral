@@ -4,7 +4,6 @@ import java.util.concurrent.ExecutionException;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
@@ -22,14 +21,12 @@ public class GlobalExceptionHandler {
 	@ExceptionHandler(BadRequestException.class)
 	public ResponseEntity<ErrorResponse> handleBadRequestException(BadRequestException ex, WebRequest request) {
 		ErrorResponse.ErrorResponseBuilder builder = ErrorResponse.builder().error("invalid_request").status(400);
-		if (ex.getResult() != null) {
-			// Multiple errors, include all of them
-			for (ObjectError error : ex.getResult().getAllErrors()) {
-				builder.message(error.getDefaultMessage());
-			}
-		} else {
-			builder.message(ex.getMessage());
-		}
+		/*
+		 * if (ex.getResult() != null) { // Multiple errors, include all of them for
+		 * (ObjectError error : ex.getResult().getAllErrors()) {
+		 * builder.message(error.getDefaultMessage()); } } else {
+		 * builder.message(ex.getMessage()); }
+		 */
 
 		return new ResponseEntity<ErrorResponse>(builder.build(), HttpStatus.BAD_REQUEST);
 	}

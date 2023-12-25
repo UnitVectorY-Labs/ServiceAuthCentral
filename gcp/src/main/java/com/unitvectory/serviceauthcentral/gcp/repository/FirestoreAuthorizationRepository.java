@@ -5,8 +5,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
-import org.springframework.beans.factory.annotation.Autowired;
-
 import com.google.cloud.firestore.DocumentReference;
 import com.google.cloud.firestore.Firestore;
 import com.google.cloud.firestore.QueryDocumentSnapshot;
@@ -16,11 +14,12 @@ import com.unitvectory.serviceauthcentral.datamodel.model.Authorization;
 import com.unitvectory.serviceauthcentral.datamodel.repository.AuthorizationRepository;
 import com.unitvectory.serviceauthcentral.datamodel.util.HashingUtil;
 
+import lombok.AllArgsConstructor;
 import lombok.NonNull;
 
+@AllArgsConstructor
 public class FirestoreAuthorizationRepository implements AuthorizationRepository {
 
-	@Autowired
 	private Firestore firestore;
 
 	@Override

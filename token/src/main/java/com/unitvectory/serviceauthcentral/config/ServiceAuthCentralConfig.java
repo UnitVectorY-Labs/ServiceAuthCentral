@@ -1,9 +1,11 @@
 package com.unitvectory.serviceauthcentral.config;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 
+import com.google.cloud.firestore.Firestore;
 import com.unitvectory.serviceauthcentral.datamodel.repository.AuthorizationRepository;
 import com.unitvectory.serviceauthcentral.datamodel.repository.ClientRepository;
 import com.unitvectory.serviceauthcentral.gcp.repository.FirestoreAuthorizationRepository;
@@ -23,6 +25,9 @@ import com.unitvectory.serviceauthcentral.service.time.TimeService;
 @Configuration
 @Profile("!test")
 public class ServiceAuthCentralConfig {
+
+	@Autowired
+	private Firestore firestore;
 
 	@Bean
 	public AppConfig appConfig() {
@@ -46,12 +51,12 @@ public class ServiceAuthCentralConfig {
 
 	@Bean
 	public AuthorizationRepository authorizationRepository() {
-		return new FirestoreAuthorizationRepository();
+		return new FirestoreAuthorizationRepository(this.firestore);
 	}
 
 	@Bean
 	public ClientRepository clientRepository() {
-		return new FirestoreClientRepository();
+		return new FirestoreClientRepository(this.firestore);
 	}
 
 	@Bean

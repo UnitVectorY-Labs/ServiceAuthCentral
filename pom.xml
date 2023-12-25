@@ -15,11 +15,29 @@
     <description>Service Auth Central</description>
 
     <modules>
-        <module>token</module>
-        <module>manage</module>
         <module>datamodel</module>
         <module>gcp</module>
+        <module>token</module>
+        <module>manage</module>
     </modules>
+    <profiles>
+    <profile>
+	        <id>token</id>
+	        <modules>
+		        <module>datamodel</module>
+		        <module>gcp</module>
+		        <module>token</module>
+	        </modules>
+	    </profile>
+	    <profile>
+	        <id>manage</id>
+	        <modules>
+		        <module>datamodel</module>
+		        <module>gcp</module>
+		        <module>manage</module>
+	        </modules>
+	    </profile>
+	</profiles>
 
     <properties>
         <!-- Define properties like Java version, encoding, etc. -->

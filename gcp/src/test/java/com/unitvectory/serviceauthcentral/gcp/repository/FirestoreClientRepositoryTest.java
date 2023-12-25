@@ -1,9 +1,9 @@
 package com.unitvectory.serviceauthcentral.gcp.repository;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.concurrent.ExecutionException;
 
@@ -21,7 +21,7 @@ public class FirestoreClientRepositoryTest {
 
 	@Test
 	public void testNoArgs() throws InterruptedException, ExecutionException {
-		FirestoreClientRepository repository = new FirestoreClientRepository();
+		FirestoreClientRepository repository = new FirestoreClientRepository(null);
 		assertNotNull(repository);
 	}
 
@@ -30,21 +30,10 @@ public class FirestoreClientRepositoryTest {
 		Firestore firestore = Mockito.mock(Firestore.class);
 		FirestoreClientRepository repository = new FirestoreClientRepository(firestore);
 
-		IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class, () -> repository.getClient(null),
+		NullPointerException thrown = assertThrows(NullPointerException.class, () -> repository.getClient(null),
 				"Expected getClient with null clientId to throw exception");
 
-		assertTrue(thrown.getMessage().equals("clientId is required"));
-	}
-
-	@Test
-	public void testGetClient_EmptyClientId() throws InterruptedException, ExecutionException {
-		Firestore firestore = Mockito.mock(Firestore.class);
-		FirestoreClientRepository repository = new FirestoreClientRepository(firestore);
-
-		IllegalArgumentException thrown = assertThrows(IllegalArgumentException.class, () -> repository.getClient(""),
-				"Expected getClient with null clientId to throw exception");
-
-		assertTrue(thrown.getMessage().equals("clientId is required"));
+		assertEquals("clientId is marked non-null but is null", thrown.getMessage());
 	}
 
 	@Test

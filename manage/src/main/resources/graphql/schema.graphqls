@@ -5,4 +5,7 @@ type Query {
 
 type Client {
   clientId: ID!
+  clientSecret1Set: Boolean!
+  clientSecret2Set: Boolean!
+  
 }

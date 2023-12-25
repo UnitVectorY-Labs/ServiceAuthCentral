@@ -1,7 +1,5 @@
 package com.unitvectory.serviceauthcentral.gcp.repository;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.unitvectory.serviceauthcentral.datamodel.model.JwtBearer;
 
 import lombok.AllArgsConstructor;
@@ -13,7 +11,6 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@JsonInclude(Include.NON_NULL)
 class JwtBearerRecord implements JwtBearer {
 
 	private String jwksUrl;

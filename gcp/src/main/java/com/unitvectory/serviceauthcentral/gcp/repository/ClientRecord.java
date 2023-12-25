@@ -1,9 +1,9 @@
 package com.unitvectory.serviceauthcentral.gcp.repository;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.google.cloud.firestore.annotation.DocumentId;
 import com.unitvectory.serviceauthcentral.datamodel.model.Client;
 import com.unitvectory.serviceauthcentral.datamodel.model.JwtBearer;
@@ -17,7 +17,6 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-@JsonInclude(Include.NON_NULL)
 class ClientRecord implements Client {
 
 	@DocumentId
@@ -33,5 +32,11 @@ class ClientRecord implements Client {
 
 	private String clientSecret2;
 
-	private List<JwtBearer> jwtBearer;
+	private List<JwtBearerRecord> jwtBearerRecord;
+
+	@Override
+	public List<JwtBearer> getJwtBearer() {
+		return jwtBearerRecord.stream().map(obj -> (JwtBearer) obj).collect(Collectors.toCollection(ArrayList::new));
+	}
+
 }
