@@ -7,7 +7,7 @@ COPY manage ./datamodel
 COPY manage ./gcp
 COPY pom.xml .
 # Build the application
-RUN mvn clean package -DskipTests -pl token
+RUN mvn clean package -DskipTests
 
 # Stage 2: Run the application
 FROM openjdk:17-slim
