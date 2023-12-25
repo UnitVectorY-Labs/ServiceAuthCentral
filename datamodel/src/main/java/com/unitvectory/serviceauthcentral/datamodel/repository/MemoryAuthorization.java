@@ -1,6 +1,7 @@
 package com.unitvectory.serviceauthcentral.datamodel.repository;
 
 import com.unitvectory.serviceauthcentral.datamodel.model.Authorization;
+import com.unitvectory.serviceauthcentral.datamodel.util.HashingUtil;
 
 import lombok.Builder;
 import lombok.Data;
@@ -18,4 +19,10 @@ public class MemoryAuthorization implements Authorization {
 		return subject.equals(this.subject) && audience.equals(this.audience);
 	}
 
+	@Override
+	public String getDocumentId() {
+		String subjectHash = HashingUtil.sha256(subject);
+		String audienceHash = HashingUtil.sha256(audience);
+		return HashingUtil.sha256(subjectHash + audienceHash);
+	}
 }

@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 import com.google.cloud.firestore.DocumentReference;
+import com.google.cloud.firestore.DocumentSnapshot;
 import com.google.cloud.firestore.Firestore;
 import com.google.cloud.firestore.QueryDocumentSnapshot;
 import com.google.cloud.firestore.QuerySnapshot;
@@ -21,6 +22,20 @@ import lombok.NonNull;
 public class FirestoreAuthorizationRepository implements AuthorizationRepository {
 
 	private Firestore firestore;
+
+	@Override
+	public Authorization getAuthorization(@NonNull String id) {
+		try {
+			DocumentSnapshot document = firestore.collection("authorizations").document(id).get().get();
+			if (document.exists()) {
+				return document.toObject(AuthorizationRecord.class);
+			} else {
+				return null;
+			}
+		} catch (InterruptedException | ExecutionException e) {
+			throw new InternalServerErrorException(e);
+		}
+	}
 
 	@Override
 	public Authorization getAuthorization(@NonNull String subject, @NonNull String audience) {
@@ -79,6 +94,7 @@ public class FirestoreAuthorizationRepository implements AuthorizationRepository
 		}
 	}
 
+	@SuppressWarnings("null")
 	@Override
 	public void authorize(@NonNull String subject, @NonNull String audience) {
 		AuthorizationRecord record = AuthorizationRecord.builder().subject(subject).audience(audience).build();
@@ -87,6 +103,7 @@ public class FirestoreAuthorizationRepository implements AuthorizationRepository
 		docRef.set(record);
 	}
 
+	@SuppressWarnings("null")
 	@Override
 	public void deauthorize(@NonNull String subject, @NonNull String audience) {
 		String documentId = getDocumentId(subject, audience);

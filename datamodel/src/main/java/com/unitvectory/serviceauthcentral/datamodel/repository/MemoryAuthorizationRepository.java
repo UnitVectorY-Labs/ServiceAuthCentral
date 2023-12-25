@@ -21,6 +21,16 @@ public class MemoryAuthorizationRepository implements AuthorizationRepository {
 	}
 
 	@Override
+	public Authorization getAuthorization(@NonNull String id) {
+		for (MemoryAuthorization auth : this.authorizations) {
+			if (id.equals(auth.getDocumentId())) {
+				return auth;
+			}
+		}
+		return null;
+	}
+
+	@Override
 	public Authorization getAuthorization(@NonNull String subject, @NonNull String audience) {
 		for (MemoryAuthorization auth : this.authorizations) {
 			if (auth.matches(subject, audience)) {

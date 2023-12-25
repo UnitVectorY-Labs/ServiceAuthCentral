@@ -1,11 +1,20 @@
 
 type Query {
   client(clientId: ID!): Client
+  authorization(id: ID!): Authorization
 }
 
 type Client {
   clientId: ID!
   clientSecret1Set: Boolean!
   clientSecret2Set: Boolean!
+  authorizationsAsSubject: [Authorization]
+  authorizationsAsAudience: [Authorization]
   
+}
+
+type Authorization {
+  id: ID!
+  subject: Client!
+  audience: Client!
 }

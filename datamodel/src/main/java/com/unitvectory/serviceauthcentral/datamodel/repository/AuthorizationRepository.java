@@ -6,6 +6,8 @@ import com.unitvectory.serviceauthcentral.datamodel.model.Authorization;
 
 public interface AuthorizationRepository {
 
+	Authorization getAuthorization(String id);
+
 	Authorization getAuthorization(String subject, String audience);
 
 	Iterator<Authorization> getAuthorizationBySubject(String subject);

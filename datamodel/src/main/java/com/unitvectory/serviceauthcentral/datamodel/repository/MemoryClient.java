@@ -24,4 +24,9 @@ class MemoryClient implements Client {
 
 	private List<JwtBearer> jwtBearer;
 
+	@Override
+	public String getDocumentId() {
+		return this.clientId;
+	}
+
 }

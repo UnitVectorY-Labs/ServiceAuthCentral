@@ -8,6 +8,8 @@ import lombok.NonNull;
 
 public interface Client {
 
+	String getDocumentId();
+
 	String getClientId();
 
 	String getDescription();
