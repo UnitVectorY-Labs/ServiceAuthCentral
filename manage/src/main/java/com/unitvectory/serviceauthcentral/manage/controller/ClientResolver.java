@@ -84,7 +84,7 @@ public class ClientResolver {
 	}
 
 	@MutationMapping
-	public ClientType clearClientSecret1(@Argument String clientId) {
+	public ClientSecretType clearClientSecret1(@Argument String clientId) {
 
 		Client client = this.clientRepository.getClient(clientId);
 		if (client == null) {
@@ -95,13 +95,12 @@ public class ClientResolver {
 			this.clientRepository.clearClientSecret1(clientId);
 		}
 
-		ClientType clientType = new ClientType(client);
-		clientType.setClientSecret1Set(false);
-		return clientType;
+		ClientSecretType clientSecret = new ClientSecretType(null);
+		return clientSecret;
 	}
 
 	@MutationMapping
-	public ClientType clearClientSecret2(@Argument String clientId) {
+	public ClientSecretType clearClientSecret2(@Argument String clientId) {
 
 		Client client = this.clientRepository.getClient(clientId);
 		if (client == null) {
@@ -112,9 +111,8 @@ public class ClientResolver {
 			this.clientRepository.clearClientSecret2(clientId);
 		}
 
-		ClientType clientType = new ClientType(client);
-		clientType.setClientSecret2Set(false);
-		return clientType;
+		ClientSecretType clientSecret = new ClientSecretType(null);
+		return clientSecret;
 	}
 
 	@QueryMapping

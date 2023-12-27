@@ -8,8 +8,10 @@ type Mutation {
     addClient(clientId: String!, description: String!): Client!
     generateClientSecret1(clientId: String!): ClientSecret!
     generateClientSecret2(clientId: String!): ClientSecret!
-    clearClientSecret1(clientId: String!): Client!
-    clearClientSecret2(clientId: String!): Client!
+    clearClientSecret1(clientId: String!): ClientSecret!
+    clearClientSecret2(clientId: String!): ClientSecret!
+    authorize(subject: String!, audience: String!): Response!
+    deauthorize(subject: String!, audience: String!): Response!
 }
 
 type Client {
@@ -18,7 +20,6 @@ type Client {
   clientSecret2Set: Boolean
   authorizationsAsSubject: [Authorization]
   authorizationsAsAudience: [Authorization]
-  
 }
 
 type Authorization {
@@ -28,5 +29,9 @@ type Authorization {
 }
 
 type ClientSecret {
-  clientSecret: String!
+  clientSecret: String
+}
+
+type Response {
+  success: Boolean!
 }
