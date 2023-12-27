@@ -11,6 +11,10 @@ import com.unitvectory.serviceauthcentral.gcp.repository.FirestoreAuthorizationR
 import com.unitvectory.serviceauthcentral.gcp.repository.FirestoreClientRepository;
 import com.unitvectory.serviceauthcentral.manage.entropy.EntropyService;
 import com.unitvectory.serviceauthcentral.manage.entropy.SystemEntropyService;
+import com.unitvectory.serviceauthcentral.manage.service.AuthorizationService;
+import com.unitvectory.serviceauthcentral.manage.service.ClientService;
+import com.unitvectory.serviceauthcentral.manage.service.DefaultAuthorizationService;
+import com.unitvectory.serviceauthcentral.manage.service.DefaultClientService;
 
 @Configuration
 public class ServiceAuthCentralConfig {
@@ -33,4 +37,13 @@ public class ServiceAuthCentralConfig {
 		return new SystemEntropyService();
 	}
 
+	@Bean
+	public ClientService clientService() {
+		return new DefaultClientService();
+	}
+
+	@Bean
+	AuthorizationService authorizationService() {
+		return new DefaultAuthorizationService();
+	}
 }
