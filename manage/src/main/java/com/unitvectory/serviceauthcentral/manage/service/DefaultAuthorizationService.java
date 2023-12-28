@@ -9,6 +9,7 @@ import com.unitvectory.serviceauthcentral.datamodel.repository.ClientRepository;
 import com.unitvectory.serviceauthcentral.manage.dto.AuthorizationType;
 import com.unitvectory.serviceauthcentral.manage.dto.ClientType;
 import com.unitvectory.serviceauthcentral.manage.dto.ResponseType;
+import com.unitvectory.serviceauthcentral.manage.mapper.ClientMapper;
 
 public class DefaultAuthorizationService implements AuthorizationService {
 
@@ -52,11 +53,13 @@ public class DefaultAuthorizationService implements AuthorizationService {
 
 	@Override
 	public ClientType subject(String subjectId) {
-		return new ClientType(this.clientRepository.getClient(subjectId));
+		Client client = this.clientRepository.getClient(subjectId);
+		return ClientMapper.INSTANCE.clientToClientType(client);
 	}
 
 	@Override
 	public ClientType audience(String audienceId) {
-		return new ClientType(this.clientRepository.getClient(audienceId));
+		Client client = this.clientRepository.getClient(audienceId);
+		return ClientMapper.INSTANCE.clientToClientType(client);
 	}
 }

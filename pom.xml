@@ -22,31 +22,46 @@
     </modules>
     <profiles>
     <profile>
-	        <id>token</id>
-	        <modules>
-		        <module>datamodel</module>
-		        <module>gcp</module>
-		        <module>token</module>
-	        </modules>
-	    </profile>
-	    <profile>
-	        <id>manage</id>
-	        <modules>
-		        <module>datamodel</module>
-		        <module>gcp</module>
-		        <module>manage</module>
-	        </modules>
-	    </profile>
-	</profiles>
+            <id>token</id>
+            <modules>
+                <module>datamodel</module>
+                <module>gcp</module>
+                <module>token</module>
+            </modules>
+        </profile>
+        <profile>
+            <id>manage</id>
+            <modules>
+                <module>datamodel</module>
+                <module>gcp</module>
+                <module>manage</module>
+            </modules>
+        </profile>
+    </profiles>
 
     <properties>
-        <!-- Define properties like Java version, encoding, etc. -->
         <java.version>17</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <mapstruct.version>1.5.5.Final</mapstruct.version>
+        <lombok-mapstruct-binding.version>0.2.0</lombok-mapstruct-binding.version>
+        <spring-cloud-gcp-dependencies.version>4.8.4</spring-cloud-gcp-dependencies.version>
     </properties>
 
     <dependencyManagement>
-        <!-- Define versions of common dependencies -->
+        <dependencies>
+            <dependency>
+                <groupId>com.google.cloud</groupId>
+                <artifactId>spring-cloud-gcp-dependencies</artifactId>
+                <version>${spring-cloud-gcp-dependencies.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>org.mapstruct</groupId>
+                <artifactId>mapstruct</artifactId>
+                <version>${mapstruct.version}</version>
+            </dependency>
+        </dependencies>
     </dependencyManagement>
 
     <build>

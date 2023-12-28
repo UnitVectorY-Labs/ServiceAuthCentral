@@ -32,7 +32,7 @@ public class ClientResolver {
 
 	@MutationMapping
 	public ClientSecretType generateClientSecret2(@Argument String clientId) {
-		return this.clientService.clearClientSecret2(clientId);
+		return this.clientService.generateClientSecret2(clientId);
 	}
 
 	@MutationMapping

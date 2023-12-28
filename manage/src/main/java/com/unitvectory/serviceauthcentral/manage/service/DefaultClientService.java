@@ -18,6 +18,7 @@ import com.unitvectory.serviceauthcentral.manage.dto.AuthorizationType;
 import com.unitvectory.serviceauthcentral.manage.dto.ClientSecretType;
 import com.unitvectory.serviceauthcentral.manage.dto.ClientType;
 import com.unitvectory.serviceauthcentral.manage.entropy.EntropyService;
+import com.unitvectory.serviceauthcentral.manage.mapper.ClientMapper;
 
 @Service
 public class DefaultClientService implements ClientService {
@@ -118,7 +119,7 @@ public class DefaultClientService implements ClientService {
 			return null;
 		}
 
-		return new ClientType(client);
+		return ClientMapper.INSTANCE.clientToClientType(client);
 	}
 
 	@Override
