@@ -9,7 +9,7 @@ import lombok.Getter;
 @Configuration
 public class AppConfig {
 
-	@Value("${serviceauthcentral.cache.jwks.hours}")
+	@Value("${serviceauthcentral.cache.jwks.hours:1}")
 	private int cacheJwksHours;
 
 	@Value("${serviceauthcentral.key.location}")

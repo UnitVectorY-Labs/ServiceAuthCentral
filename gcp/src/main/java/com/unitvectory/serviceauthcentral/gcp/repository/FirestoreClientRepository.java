@@ -23,7 +23,7 @@ public class FirestoreClientRepository implements ClientRepository {
 		try {
 			DocumentSnapshot document = firestore.collection("clients").document(clientId).get().get();
 			if (document.exists()) {
-				return document.toObject(ClientRecord.class);
+				return ClientRecordMapper.INSTANCE.documentSnapshotToClientRecord(document);
 			} else {
 				return null;
 			}
@@ -36,7 +36,6 @@ public class FirestoreClientRepository implements ClientRepository {
 	public void putClient(@NonNull String clientId, String description, @NonNull String salt) {
 
 		try {
-			System.out.println("putClient: " + clientId);
 			// Reference to the document in the 'clients' collection with the specified
 			// clientId
 			DocumentReference document = firestore.collection("clients").document(clientId);
@@ -47,26 +46,18 @@ public class FirestoreClientRepository implements ClientRepository {
 				// Attempt to retrieve the existing document
 				DocumentSnapshot snapshot = transaction.get(document).get();
 
-				System.out.println("putClient: runTransaction");
-
 				// If the document does not exist, create the new ClientRecord
 				if (!snapshot.exists()) {
-
-					System.out.println("putClient: not exists");
 					ClientRecord record = ClientRecord.builder().documentId(clientId).clientId(clientId)
 							.description(description).salt(salt).build();
 
 					// Perform the transactional write to create the new record
 					transaction.set(document, record);
 				} else {
-
-					System.out.println("putClient: exists");
 					// Handle the case where the record already exists
 					// For example, log a message or throw a custom exception
 					throw new ConflictException("clientId already exists");
 				}
-
-				System.out.println("putClient: return");
 
 				// Must return a result; here, null signifies nothing further to return
 				return null;
@@ -74,8 +65,6 @@ public class FirestoreClientRepository implements ClientRepository {
 		} catch (InterruptedException | ExecutionException e) {
 			throw new InternalServerErrorException(e);
 		}
-
-		System.out.println("putClient: end");
 	}
 
 	@Override
