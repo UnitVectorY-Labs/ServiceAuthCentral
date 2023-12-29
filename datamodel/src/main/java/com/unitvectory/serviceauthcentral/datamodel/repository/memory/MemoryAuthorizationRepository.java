@@ -1,10 +1,11 @@
-package com.unitvectory.serviceauthcentral.datamodel.repository;
+package com.unitvectory.serviceauthcentral.datamodel.repository.memory;
 
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
 import com.unitvectory.serviceauthcentral.datamodel.model.Authorization;
+import com.unitvectory.serviceauthcentral.datamodel.repository.AuthorizationRepository;
 
 import lombok.NonNull;
 

@@ -1,4 +1,4 @@
-package com.unitvectory.serviceauthcentral.datamodel.repository;
+package com.unitvectory.serviceauthcentral.datamodel.repository.memory;
 
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
@@ -7,9 +7,9 @@ import org.mapstruct.factory.Mappers;
 import com.unitvectory.serviceauthcentral.datamodel.model.CachedJwk;
 
 @Mapper
-interface CachedJwkMapper {
+interface MemoryCachedJwkMapper {
 
-	CachedJwkMapper INSTANCE = Mappers.getMapper(CachedJwkMapper.class);
+	MemoryCachedJwkMapper INSTANCE = Mappers.getMapper(MemoryCachedJwkMapper.class);
 
 	@Mapping(target = "url", source = "url")
 	@Mapping(target = "ttl", source = "ttl")

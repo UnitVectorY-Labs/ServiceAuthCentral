@@ -1,4 +1,4 @@
-package com.unitvectory.serviceauthcentral.datamodel.repository;
+package com.unitvectory.serviceauthcentral.datamodel.repository.memory;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.unitvectory.serviceauthcentral.datamodel.model.CachedJwk;
+import com.unitvectory.serviceauthcentral.datamodel.repository.JwkCacheRepository;
 
 import lombok.NonNull;
 
@@ -31,7 +32,7 @@ public class MemoryJwkCacheRepository implements JwkCacheRepository {
 		String key = key(url, jwk.getKid());
 
 		// Make a copy of the item
-		MemoryCachedJwk cachedJwk = CachedJwkMapper.INSTANCE.cachedJwkToMemoryCachedJwk(url, ttl, jwk);
+		MemoryCachedJwk cachedJwk = MemoryCachedJwkMapper.INSTANCE.cachedJwkToMemoryCachedJwk(url, ttl, jwk);
 		cache.put(key, cachedJwk);
 	}
 

@@ -1,4 +1,4 @@
-package com.unitvectory.serviceauthcentral.datamodel.repository;
+package com.unitvectory.serviceauthcentral.datamodel.repository.memory;
 
 import java.util.List;
 

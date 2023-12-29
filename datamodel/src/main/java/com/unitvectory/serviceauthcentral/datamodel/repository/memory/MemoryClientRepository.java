@@ -1,10 +1,11 @@
-package com.unitvectory.serviceauthcentral.datamodel.repository;
+package com.unitvectory.serviceauthcentral.datamodel.repository.memory;
 
 import java.util.HashMap;
 import java.util.Map;
 
 import com.unitvectory.serviceauthcentral.datamodel.exception.NotFoundException;
 import com.unitvectory.serviceauthcentral.datamodel.model.Client;
+import com.unitvectory.serviceauthcentral.datamodel.repository.ClientRepository;
 
 import lombok.NonNull;
 

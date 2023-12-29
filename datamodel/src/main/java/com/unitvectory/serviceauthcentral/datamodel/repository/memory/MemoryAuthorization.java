@@ -1,4 +1,4 @@
-package com.unitvectory.serviceauthcentral.datamodel.repository;
+package com.unitvectory.serviceauthcentral.datamodel.repository.memory;
 
 import com.unitvectory.serviceauthcentral.datamodel.model.Authorization;
 import com.unitvectory.serviceauthcentral.datamodel.util.HashingUtil;
@@ -9,7 +9,7 @@ import lombok.NonNull;
 
 @Data
 @Builder
-public class MemoryAuthorization implements Authorization {
+class MemoryAuthorization implements Authorization {
 
 	private String subject;
 

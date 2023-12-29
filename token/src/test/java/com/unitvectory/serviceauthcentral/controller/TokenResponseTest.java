@@ -26,8 +26,8 @@ import com.unitvectory.serviceauthcentral.config.TestServiceAuthCentralConfig;
 import com.unitvectory.serviceauthcentral.datamodel.model.Client;
 import com.unitvectory.serviceauthcentral.datamodel.repository.AuthorizationRepository;
 import com.unitvectory.serviceauthcentral.datamodel.repository.ClientRepository;
-import com.unitvectory.serviceauthcentral.datamodel.repository.MemoryAuthorizationRepository;
-import com.unitvectory.serviceauthcentral.datamodel.repository.MemoryClientRepository;
+import com.unitvectory.serviceauthcentral.datamodel.repository.memory.MemoryAuthorizationRepository;
+import com.unitvectory.serviceauthcentral.datamodel.repository.memory.MemoryClientRepository;
 import com.unitvectory.serviceauthcentral.dto.TokenResponse;
 
 @SpringBootTest
