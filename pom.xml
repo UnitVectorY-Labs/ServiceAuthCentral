@@ -15,26 +15,26 @@
     <description>Service Auth Central</description>
 
     <modules>
-        <module>datamodel</module>
-        <module>gcp</module>
-        <module>token</module>
-        <module>manage</module>
+        <module>auth-datamodel</module>
+        <module>auth-datamodel-gcp</module>
+        <module>auth-server-token</module>
+        <module>auth-server-manage</module>
     </modules>
     <profiles>
     <profile>
-            <id>token</id>
+            <id>auth-server-token</id>
             <modules>
-                <module>datamodel</module>
-                <module>gcp</module>
-                <module>token</module>
+                <module>auth-datamodel</module>
+                <module>auth-datamodel-gcp</module>
+                <module>auth-server-token</module>
             </modules>
         </profile>
         <profile>
-            <id>manage</id>
+            <id>auth-server-manage</id>
             <modules>
-                <module>datamodel</module>
-                <module>gcp</module>
-                <module>manage</module>
+                <module>auth-datamodel</module>
+                <module>auth-gcp</module>
+                <module>auth-server-manage</module>
             </modules>
         </profile>
     </profiles>
