@@ -6,10 +6,10 @@ import org.springframework.context.annotation.Profile;
 
 import com.unitvectory.serviceauthcentral.datamodel.repository.AuthorizationRepository;
 import com.unitvectory.serviceauthcentral.datamodel.repository.ClientRepository;
+import com.unitvectory.serviceauthcentral.datamodel.repository.JwkCacheRepository;
 import com.unitvectory.serviceauthcentral.datamodel.repository.MemoryAuthorizationRepository;
 import com.unitvectory.serviceauthcentral.datamodel.repository.MemoryClientRepository;
-import com.unitvectory.serviceauthcentral.repository.key.KeySetRepository;
-import com.unitvectory.serviceauthcentral.repository.signkey.MockedSignKeySetRepository;
+import com.unitvectory.serviceauthcentral.datamodel.repository.MemoryJwkCacheRepository;
 import com.unitvectory.serviceauthcentral.service.MokedKeyService;
 import com.unitvectory.serviceauthcentral.service.entropy.EntropyService;
 import com.unitvectory.serviceauthcentral.service.entropy.StaticEntropyService;
@@ -54,8 +54,8 @@ public class TestServiceAuthCentralConfig {
 	}
 
 	@Bean
-	public KeySetRepository keySetRepository() {
-		return new MockedSignKeySetRepository();
+	public JwkCacheRepository jwkCacheRepository() {
+		return new MemoryJwkCacheRepository();
 	}
 
 	@Bean

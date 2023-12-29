@@ -8,10 +8,10 @@ import org.springframework.context.annotation.Profile;
 import com.google.cloud.firestore.Firestore;
 import com.unitvectory.serviceauthcentral.datamodel.repository.AuthorizationRepository;
 import com.unitvectory.serviceauthcentral.datamodel.repository.ClientRepository;
+import com.unitvectory.serviceauthcentral.datamodel.repository.JwkCacheRepository;
 import com.unitvectory.serviceauthcentral.gcp.repository.FirestoreAuthorizationRepository;
 import com.unitvectory.serviceauthcentral.gcp.repository.FirestoreClientRepository;
-import com.unitvectory.serviceauthcentral.repository.key.FirestoreKeySetRepository;
-import com.unitvectory.serviceauthcentral.repository.key.KeySetRepository;
+import com.unitvectory.serviceauthcentral.gcp.repository.FirestoreJwkCacheRepository;
 import com.unitvectory.serviceauthcentral.service.entropy.EntropyService;
 import com.unitvectory.serviceauthcentral.service.entropy.SystemEntropyService;
 import com.unitvectory.serviceauthcentral.service.jwk.CachedJwkService;
@@ -55,8 +55,8 @@ public class ServiceAuthCentralConfig {
 	}
 
 	@Bean
-	public KeySetRepository keySetRepository() {
-		return new FirestoreKeySetRepository();
+	public JwkCacheRepository jwkCacheRepository() {
+		return new FirestoreJwkCacheRepository(this.firestore);
 	}
 
 	@Bean
