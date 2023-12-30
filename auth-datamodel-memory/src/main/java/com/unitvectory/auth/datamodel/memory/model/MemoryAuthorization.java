@@ -1,7 +1,7 @@
 package com.unitvectory.auth.datamodel.memory.model;
 
 import com.unitvectory.auth.datamodel.model.Authorization;
-import com.unitvectory.auth.datamodel.util.HashingUtil;
+import com.unitvectory.auth.util.HashingUtil;
 
 import lombok.Builder;
 import lombok.Data;

@@ -15,6 +15,7 @@
     <description>Service Auth Central</description>
 
     <modules>
+        <module>auth-util</module>
         <module>auth-datamodel</module>
         <module>auth-datamodel-gcp</module>
         <module>auth-datamodel-memory</module>
@@ -25,6 +26,7 @@
     <profile>
             <id>auth-server-token</id>
             <modules>
+                <module>auth-util</module>
                 <module>auth-datamodel</module>
                 <module>auth-datamodel-gcp</module>
                 <module>auth-datamodel-memory</module>
@@ -34,6 +36,7 @@
         <profile>
             <id>auth-server-manage</id>
             <modules>
+                <module>auth-util</module>
                 <module>auth-datamodel</module>
                 <module>auth-datamodel-gcp</module>
                 <module>auth-datamodel-memort</module>

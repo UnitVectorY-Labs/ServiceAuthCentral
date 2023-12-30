@@ -1,4 +1,4 @@
-package com.unitvectory.auth.datamodel.util;
+package com.unitvectory.auth.util;
 
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;

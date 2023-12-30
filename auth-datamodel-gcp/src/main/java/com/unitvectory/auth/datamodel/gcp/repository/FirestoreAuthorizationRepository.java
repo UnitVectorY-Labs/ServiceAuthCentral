@@ -14,7 +14,7 @@ import com.unitvectory.auth.datamodel.exception.InternalServerErrorException;
 import com.unitvectory.auth.datamodel.gcp.model.AuthorizationRecord;
 import com.unitvectory.auth.datamodel.model.Authorization;
 import com.unitvectory.auth.datamodel.repository.AuthorizationRepository;
-import com.unitvectory.auth.datamodel.util.HashingUtil;
+import com.unitvectory.auth.util.HashingUtil;
 
 import lombok.AllArgsConstructor;
 import lombok.NonNull;

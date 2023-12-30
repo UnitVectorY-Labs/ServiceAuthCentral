@@ -2,7 +2,7 @@ package com.unitvectory.auth.datamodel.model;
 
 import java.util.List;
 
-import com.unitvectory.auth.datamodel.util.HashingUtil;
+import com.unitvectory.auth.util.HashingUtil;
 
 import lombok.NonNull;
 

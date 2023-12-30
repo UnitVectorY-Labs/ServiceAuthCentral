@@ -7,17 +7,12 @@
         <version>0.0.1-SNAPSHOT</version>
     </parent>
     
-    <artifactId>auth-datamodel</artifactId>
+    <artifactId>auth-util</artifactId>
 
     <properties>
     </properties>
     
     <dependencies>
-        <dependency>
-            <groupId>com.unitvectory</groupId>
-            <artifactId>auth-util</artifactId>
-            <version>${project.version}</version>
-        </dependency>
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
