@@ -1,4 +1,4 @@
-package com.unitvectory.auth.datamodel.model.memory;
+package com.unitvectory.auth.datamodel.memory.model;
 
 import com.unitvectory.auth.datamodel.model.CachedJwk;
 

@@ -1,4 +1,4 @@
-package com.unitvectory.auth.datamodel.repository.memory;
+package com.unitvectory.auth.datamodel.memory.repository;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -6,9 +6,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.unitvectory.auth.datamodel.mapper.memory.MemoryCachedJwkMapper;
+import com.unitvectory.auth.datamodel.memory.mapper.MemoryCachedJwkMapper;
+import com.unitvectory.auth.datamodel.memory.model.MemoryCachedJwk;
 import com.unitvectory.auth.datamodel.model.CachedJwk;
-import com.unitvectory.auth.datamodel.model.memory.MemoryCachedJwk;
 import com.unitvectory.auth.datamodel.repository.JwkCacheRepository;
 
 import lombok.NonNull;

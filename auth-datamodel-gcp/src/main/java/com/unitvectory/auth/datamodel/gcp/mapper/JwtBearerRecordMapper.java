@@ -1,4 +1,4 @@
-package com.unitvectory.auth.datamodel.gcp.repository;
+package com.unitvectory.auth.datamodel.gcp.mapper;
 
 import java.util.Map;
 
@@ -6,8 +6,10 @@ import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
 
+import com.unitvectory.auth.datamodel.gcp.model.JwtBearerRecord;
+
 @Mapper
-interface JwtBearerRecordMapper {
+public interface JwtBearerRecordMapper {
 
 	JwtBearerRecordMapper INSTANCE = Mappers.getMapper(JwtBearerRecordMapper.class);
 

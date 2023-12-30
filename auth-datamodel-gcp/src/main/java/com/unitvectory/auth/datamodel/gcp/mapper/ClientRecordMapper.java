@@ -1,4 +1,4 @@
-package com.unitvectory.auth.datamodel.gcp.repository;
+package com.unitvectory.auth.datamodel.gcp.mapper;
 
 import java.util.Collections;
 import java.util.List;
@@ -10,9 +10,11 @@ import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
 
 import com.google.cloud.firestore.DocumentSnapshot;
+import com.unitvectory.auth.datamodel.gcp.model.ClientRecord;
+import com.unitvectory.auth.datamodel.gcp.model.JwtBearerRecord;
 
 @Mapper
-interface ClientRecordMapper {
+public interface ClientRecordMapper {
 
 	ClientRecordMapper INSTANCE = Mappers.getMapper(ClientRecordMapper.class);
 

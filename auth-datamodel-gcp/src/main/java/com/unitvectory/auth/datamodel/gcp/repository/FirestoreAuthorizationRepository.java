@@ -11,6 +11,7 @@ import com.google.cloud.firestore.Firestore;
 import com.google.cloud.firestore.QueryDocumentSnapshot;
 import com.google.cloud.firestore.QuerySnapshot;
 import com.unitvectory.auth.datamodel.exception.InternalServerErrorException;
+import com.unitvectory.auth.datamodel.gcp.model.AuthorizationRecord;
 import com.unitvectory.auth.datamodel.model.Authorization;
 import com.unitvectory.auth.datamodel.repository.AuthorizationRepository;
 import com.unitvectory.auth.datamodel.util.HashingUtil;

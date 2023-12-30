@@ -1,4 +1,4 @@
-package com.unitvectory.auth.datamodel.gcp.repository;
+package com.unitvectory.auth.datamodel.gcp.model;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -21,7 +21,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @IgnoreExtraProperties
-class ClientRecord implements Client {
+public class ClientRecord implements Client {
 
 	@DocumentId
 	private String documentId;

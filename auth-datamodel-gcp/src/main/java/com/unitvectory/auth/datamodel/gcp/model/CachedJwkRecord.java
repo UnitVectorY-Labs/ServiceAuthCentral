@@ -1,4 +1,4 @@
-package com.unitvectory.auth.datamodel.gcp.repository;
+package com.unitvectory.auth.datamodel.gcp.model;
 
 import com.google.cloud.Timestamp;
 import com.google.cloud.firestore.annotation.DocumentId;
@@ -15,7 +15,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @IgnoreExtraProperties
-class CachedJwkRecord implements CachedJwk {
+public class CachedJwkRecord implements CachedJwk {
 
 	@DocumentId
 	private String documentId;

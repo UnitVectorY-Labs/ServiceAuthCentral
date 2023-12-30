@@ -22,11 +22,11 @@ import org.springframework.util.MultiValueMap;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.unitvectory.auth.datamodel.memory.repository.MemoryAuthorizationRepository;
+import com.unitvectory.auth.datamodel.memory.repository.MemoryClientRepository;
 import com.unitvectory.auth.datamodel.model.Client;
 import com.unitvectory.auth.datamodel.repository.AuthorizationRepository;
 import com.unitvectory.auth.datamodel.repository.ClientRepository;
-import com.unitvectory.auth.datamodel.repository.memory.MemoryAuthorizationRepository;
-import com.unitvectory.auth.datamodel.repository.memory.MemoryClientRepository;
 import com.unitvectory.auth.server.token.config.TestServiceAuthCentralConfig;
 import com.unitvectory.auth.server.token.dto.TokenResponse;
 

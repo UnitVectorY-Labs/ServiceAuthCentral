@@ -1,4 +1,4 @@
-package com.unitvectory.auth.datamodel.gcp.repository;
+package com.unitvectory.auth.datamodel.gcp.model;
 
 import com.google.cloud.firestore.annotation.DocumentId;
 import com.google.cloud.firestore.annotation.IgnoreExtraProperties;
@@ -14,7 +14,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @IgnoreExtraProperties
-class AuthorizationRecord implements Authorization {
+public class AuthorizationRecord implements Authorization {
 
 	@DocumentId
 	private String documentId;

@@ -4,13 +4,12 @@ import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Profile;
 
+import com.unitvectory.auth.datamodel.memory.repository.MemoryAuthorizationRepository;
+import com.unitvectory.auth.datamodel.memory.repository.MemoryClientRepository;
+import com.unitvectory.auth.datamodel.memory.repository.MemoryJwkCacheRepository;
 import com.unitvectory.auth.datamodel.repository.AuthorizationRepository;
 import com.unitvectory.auth.datamodel.repository.ClientRepository;
 import com.unitvectory.auth.datamodel.repository.JwkCacheRepository;
-import com.unitvectory.auth.datamodel.repository.memory.MemoryAuthorizationRepository;
-import com.unitvectory.auth.datamodel.repository.memory.MemoryClientRepository;
-import com.unitvectory.auth.datamodel.repository.memory.MemoryJwkCacheRepository;
-import com.unitvectory.auth.server.token.config.AppConfig;
 import com.unitvectory.auth.server.token.service.MokedKeyService;
 import com.unitvectory.auth.server.token.service.entropy.EntropyService;
 import com.unitvectory.auth.server.token.service.entropy.StaticEntropyService;

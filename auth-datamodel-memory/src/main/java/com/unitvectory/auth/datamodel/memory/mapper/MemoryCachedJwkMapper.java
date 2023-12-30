@@ -1,11 +1,11 @@
-package com.unitvectory.auth.datamodel.mapper.memory;
+package com.unitvectory.auth.datamodel.memory.mapper;
 
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
 
+import com.unitvectory.auth.datamodel.memory.model.MemoryCachedJwk;
 import com.unitvectory.auth.datamodel.model.CachedJwk;
-import com.unitvectory.auth.datamodel.model.memory.MemoryCachedJwk;
 
 @Mapper
 public interface MemoryCachedJwkMapper {

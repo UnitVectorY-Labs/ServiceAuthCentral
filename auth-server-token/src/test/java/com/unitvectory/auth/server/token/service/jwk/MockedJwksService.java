@@ -3,7 +3,6 @@ package com.unitvectory.auth.server.token.service.jwk;
 import java.util.List;
 
 import com.auth0.jwk.Jwk;
-import com.unitvectory.auth.server.token.service.jwk.JwksService;
 
 public class MockedJwksService implements JwksService {
 
