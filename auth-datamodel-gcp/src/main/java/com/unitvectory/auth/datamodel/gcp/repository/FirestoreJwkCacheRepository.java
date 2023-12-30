@@ -6,8 +6,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
-import javax.annotation.Nonnull;
-
 import com.google.cloud.Timestamp;
 import com.google.cloud.firestore.DocumentSnapshot;
 import com.google.cloud.firestore.Firestore;
@@ -26,7 +24,6 @@ public class FirestoreJwkCacheRepository implements JwkCacheRepository {
 	private Firestore firestore;
 
 	@SuppressWarnings("null")
-	@Nonnull
 	private String getId(@NonNull String url, @NonNull String id) {
 		String urlHash = Hashing.sha256().hashString(url, StandardCharsets.UTF_8).toString();
 		String idHash = Hashing.sha256().hashString(id, StandardCharsets.UTF_8).toString();

@@ -5,6 +5,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import com.unitvectory.auth.datamodel.model.Authorization;
+import com.unitvectory.auth.datamodel.model.memory.MemoryAuthorization;
 import com.unitvectory.auth.datamodel.repository.AuthorizationRepository;
 
 import lombok.NonNull;

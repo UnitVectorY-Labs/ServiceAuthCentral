@@ -11,8 +11,10 @@ import com.unitvectory.auth.datamodel.model.Client;
 import com.unitvectory.auth.datamodel.repository.ClientRepository;
 
 import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
 import lombok.NonNull;
 
+@NoArgsConstructor
 @AllArgsConstructor
 public class FirestoreClientRepository implements ClientRepository {
 

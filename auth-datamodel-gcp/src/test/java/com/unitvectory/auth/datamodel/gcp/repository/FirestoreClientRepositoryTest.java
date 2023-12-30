@@ -15,8 +15,6 @@ import com.google.cloud.firestore.CollectionReference;
 import com.google.cloud.firestore.DocumentReference;
 import com.google.cloud.firestore.DocumentSnapshot;
 import com.google.cloud.firestore.Firestore;
-import com.unitvectory.auth.datamodel.gcp.repository.ClientRecord;
-import com.unitvectory.auth.datamodel.gcp.repository.FirestoreClientRepository;
 import com.unitvectory.auth.datamodel.model.Client;
 
 public class FirestoreClientRepositoryTest {

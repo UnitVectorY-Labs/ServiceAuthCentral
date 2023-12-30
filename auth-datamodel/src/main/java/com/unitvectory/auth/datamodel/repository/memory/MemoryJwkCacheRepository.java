@@ -6,7 +6,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.unitvectory.auth.datamodel.mapper.memory.MemoryCachedJwkMapper;
 import com.unitvectory.auth.datamodel.model.CachedJwk;
+import com.unitvectory.auth.datamodel.model.memory.MemoryCachedJwk;
 import com.unitvectory.auth.datamodel.repository.JwkCacheRepository;
 
 import lombok.NonNull;

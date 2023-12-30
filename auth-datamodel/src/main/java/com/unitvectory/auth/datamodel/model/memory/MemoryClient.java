@@ -1,4 +1,4 @@
-package com.unitvectory.auth.datamodel.repository.memory;
+package com.unitvectory.auth.datamodel.model.memory;
 
 import java.util.List;
 
@@ -10,7 +10,7 @@ import lombok.Data;
 
 @Data
 @Builder
-class MemoryClient implements Client {
+public class MemoryClient implements Client {
 
 	private String clientId;
 

@@ -10,7 +10,7 @@
     <artifactId>auth-server-token</artifactId>
 
     <properties>
-        <start-class>com.unitvectory.serviceauthcentral.App</start-class>
+        <start-class>com.unitvectory.auth.server.token.App</start-class>
     </properties>
     
     <dependencyManagement>
@@ -86,7 +86,6 @@
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok-mapstruct-binding</artifactId>
-            <version>${lombok-mapstruct-binding.version}</version>
         </dependency>
     </dependencies>
 

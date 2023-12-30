@@ -5,6 +5,7 @@ import java.util.Map;
 
 import com.unitvectory.auth.datamodel.exception.NotFoundException;
 import com.unitvectory.auth.datamodel.model.Client;
+import com.unitvectory.auth.datamodel.model.memory.MemoryClient;
 import com.unitvectory.auth.datamodel.repository.ClientRepository;
 
 import lombok.NonNull;

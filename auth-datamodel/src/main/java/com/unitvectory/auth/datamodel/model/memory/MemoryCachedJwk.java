@@ -1,4 +1,4 @@
-package com.unitvectory.auth.datamodel.repository.memory;
+package com.unitvectory.auth.datamodel.model.memory;
 
 import com.unitvectory.auth.datamodel.model.CachedJwk;
 
@@ -9,7 +9,7 @@ import lombok.Data;
 @Data
 @Builder
 @AllArgsConstructor
-class MemoryCachedJwk implements CachedJwk {
+public class MemoryCachedJwk implements CachedJwk {
 
 	private String url;
 
