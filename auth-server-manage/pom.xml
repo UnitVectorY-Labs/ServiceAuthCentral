@@ -16,13 +16,14 @@
     <dependencies>
         <dependency>
             <groupId>com.unitvectory</groupId>
-            <artifactId>auth-datamodel-gcp</artifactId>
+            <artifactId>auth-datamodel</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
             <groupId>com.unitvectory</groupId>
-            <artifactId>auth-datamodel</artifactId>
+            <artifactId>auth-datamodel-gcp</artifactId>
             <version>${project.version}</version>
+            <scope>runtime</scope>
         </dependency>
         <dependency>
             <groupId>org.springframework.boot</groupId>
