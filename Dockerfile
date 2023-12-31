@@ -21,5 +21,5 @@ FROM openjdk:17-slim
 WORKDIR /app
 COPY --from=build /app/auth-server-token/target/*.jar app.jar
 EXPOSE 8080
-ENTRYPOINT ["java", "-jar", "app.jar", " -Dspring.profiles.active=datamodel-gcp,sign-gcp"]
+ENTRYPOINT ["java", "-jar", "app.jar"]
 
