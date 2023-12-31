@@ -1,6 +1,6 @@
 package com.unitvectory.auth.datamodel.gcp.model;
 
-import com.unitvectory.auth.datamodel.model.JwtBearer;
+import com.unitvectory.auth.datamodel.model.ClientJwtBearer;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class JwtBearerRecord implements JwtBearer {
+public class JwtBearerRecord implements ClientJwtBearer {
 
 	private String jwksUrl;
 

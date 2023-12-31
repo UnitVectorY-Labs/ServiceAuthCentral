@@ -3,7 +3,7 @@ package com.unitvectory.auth.datamodel.memory.model;
 import java.util.List;
 
 import com.unitvectory.auth.datamodel.model.Client;
-import com.unitvectory.auth.datamodel.model.JwtBearer;
+import com.unitvectory.auth.datamodel.model.ClientJwtBearer;
 
 import lombok.Builder;
 import lombok.Data;
@@ -22,11 +22,6 @@ public class MemoryClient implements Client {
 
 	private String clientSecret2;
 
-	private List<JwtBearer> jwtBearer;
-
-	@Override
-	public String getDocumentId() {
-		return this.clientId;
-	}
+	private List<ClientJwtBearer> jwtBearer;
 
 }

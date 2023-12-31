@@ -9,7 +9,7 @@ import com.google.cloud.firestore.annotation.DocumentId;
 import com.google.cloud.firestore.annotation.Exclude;
 import com.google.cloud.firestore.annotation.IgnoreExtraProperties;
 import com.unitvectory.auth.datamodel.model.Client;
-import com.unitvectory.auth.datamodel.model.JwtBearer;
+import com.unitvectory.auth.datamodel.model.ClientJwtBearer;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -40,11 +40,11 @@ public class ClientRecord implements Client {
 
 	@Exclude
 	@Override
-	public List<JwtBearer> getJwtBearer() {
+	public List<ClientJwtBearer> getJwtBearer() {
 		if (this.jwtBearer == null) {
 			return Collections.emptyList();
 		}
 
-		return jwtBearer.stream().map(obj -> (JwtBearer) obj).collect(Collectors.toCollection(ArrayList::new));
+		return jwtBearer.stream().map(obj -> (ClientJwtBearer) obj).collect(Collectors.toCollection(ArrayList::new));
 	}
 }

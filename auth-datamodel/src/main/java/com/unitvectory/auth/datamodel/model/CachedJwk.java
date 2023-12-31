@@ -1,28 +1,67 @@
 package com.unitvectory.auth.datamodel.model;
 
+/**
+ * Interface representing a cached JSON Web Key (JWK).
+ */
 public interface CachedJwk {
 
-	// Not a JWK attribute, a marker to indicate this record is valid
+	/**
+	 * Determines if this JWK record is valid. Invalid records are tombstones that
+	 * indicate the kid for the JWK does not exist.
+	 *
+	 * @return true if the record is valid, false otherwise.
+	 */
 	boolean isValid();
 
-	// Not a JWK attribute; indicates if the record exists but is expired
+	/**
+	 * Checks if the JWK record is expired.
+	 *
+	 * @param now the current time in seconds since the epoch.
+	 * @return true if the record is expired, false otherwise.
+	 */
 	boolean isExpired(long now);
 
-	// Key ID
+	/**
+	 * Returns the Key ID (kid) of this JWK.
+	 *
+	 * @return the Key ID.
+	 */
 	String getKid();
 
-	// Key Type
+	/**
+	 * Returns the Key Type (kty) of this JWK.
+	 *
+	 * @return the Key Type.
+	 */
 	String getKty();
 
-	// Algorithm
+	/**
+	 * Returns the algorithm (alg) parameter that identifies the algorithm intended
+	 * for use with the key.
+	 *
+	 * @return the algorithm used.
+	 */
 	String getAlg();
 
-	// Public Key Use
+	/**
+	 * Returns the Public Key Use (use) parameter that identifies the intended use
+	 * of the public key.
+	 *
+	 * @return the intended use of the public key.
+	 */
 	String getUse();
 
-	// Modulus for RSA keys
+	/**
+	 * Returns the modulus (n) for RSA keys.
+	 *
+	 * @return the modulus for RSA keys.
+	 */
 	String getN();
 
-	// Exponent for RSA keys
+	/**
+	 * Returns the exponent (e) for RSA keys.
+	 *
+	 * @return the exponent for RSA keys.
+	 */
 	String getE();
 }

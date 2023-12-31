@@ -15,7 +15,7 @@ import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.unitvectory.auth.datamodel.model.Authorization;
 import com.unitvectory.auth.datamodel.model.Client;
-import com.unitvectory.auth.datamodel.model.JwtBearer;
+import com.unitvectory.auth.datamodel.model.ClientJwtBearer;
 import com.unitvectory.auth.datamodel.repository.AuthorizationRepository;
 import com.unitvectory.auth.datamodel.repository.ClientRepository;
 import com.unitvectory.auth.server.token.config.AppConfig;
@@ -89,7 +89,7 @@ public class TokenService {
 				.build();
 	}
 
-	public boolean isValidToken(DecodedJWT jwt, Jwk jwk, JwtBearer jwtBearer) {
+	public boolean isValidToken(DecodedJWT jwt, Jwk jwk, ClientJwtBearer jwtBearer) {
 		try {
 			String alg = jwt.getAlgorithm(); // Get the algorithm from the JWT
 			Algorithm algorithm;
@@ -151,8 +151,8 @@ public class TokenService {
 		}
 
 		// Without validating the signature, determine if one matches
-		JwtBearer jwtMatchedBearer = null;
-		for (JwtBearer jwtBearer : subjectRecord.getJwtBearer()) {
+		ClientJwtBearer jwtMatchedBearer = null;
+		for (ClientJwtBearer jwtBearer : subjectRecord.getJwtBearer()) {
 			if (matches(jwtBearer, assertionJwt)) {
 				jwtMatchedBearer = jwtBearer;
 				break;
@@ -227,7 +227,7 @@ public class TokenService {
 		return buildToken(subjectRecord, audienceRecord, authorizationRecord);
 	}
 
-	private boolean matches(JwtBearer bearer, DecodedJWT jwt) {
+	private boolean matches(ClientJwtBearer bearer, DecodedJWT jwt) {
 		if (bearer == null || jwt == null) {
 			return false;
 		}
