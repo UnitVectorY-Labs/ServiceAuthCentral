@@ -18,18 +18,21 @@ import com.google.cloud.firestore.Firestore;
 import com.unitvectory.auth.datamodel.gcp.model.ClientRecord;
 import com.unitvectory.auth.datamodel.model.Client;
 
+@SuppressWarnings("unchecked")
 public class FirestoreClientRepositoryTest {
+
+	private static final String CLIENTS = "clients";
 
 	@Test
 	public void testNoArgs() throws InterruptedException, ExecutionException {
-		FirestoreClientRepository repository = new FirestoreClientRepository(null);
+		FirestoreClientRepository repository = new FirestoreClientRepository(null, CLIENTS);
 		assertNotNull(repository);
 	}
 
 	@Test
 	public void testGetClient_NoClientId() throws InterruptedException, ExecutionException {
 		Firestore firestore = Mockito.mock(Firestore.class);
-		FirestoreClientRepository repository = new FirestoreClientRepository(firestore);
+		FirestoreClientRepository repository = new FirestoreClientRepository(firestore, CLIENTS);
 
 		NullPointerException thrown = assertThrows(NullPointerException.class, () -> repository.getClient(null),
 				"Expected getClient with null clientId to throw exception");
@@ -40,7 +43,7 @@ public class FirestoreClientRepositoryTest {
 	@Test
 	public void testGetClient_InvalidClientId() throws InterruptedException, ExecutionException {
 		Firestore firestore = Mockito.mock(Firestore.class);
-		FirestoreClientRepository repository = new FirestoreClientRepository(firestore);
+		FirestoreClientRepository repository = new FirestoreClientRepository(firestore, CLIENTS);
 
 		// Mock Firestore dependencies
 		CollectionReference collectionReference = Mockito.mock(CollectionReference.class);
@@ -78,7 +81,7 @@ public class FirestoreClientRepositoryTest {
 		Mockito.when(document.toObject(ClientRecord.class)).thenReturn(new ClientRecord());
 
 		// Use constructor injection or Spring's dependency injection
-		FirestoreClientRepository repository = new FirestoreClientRepository(firestore);
+		FirestoreClientRepository repository = new FirestoreClientRepository(firestore, CLIENTS);
 
 		// Execute and assert
 		Client client = repository.getClient("client-id");

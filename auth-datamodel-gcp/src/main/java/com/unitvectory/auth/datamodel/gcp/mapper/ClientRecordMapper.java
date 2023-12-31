@@ -11,7 +11,7 @@ import org.mapstruct.factory.Mappers;
 
 import com.google.cloud.firestore.DocumentSnapshot;
 import com.unitvectory.auth.datamodel.gcp.model.ClientRecord;
-import com.unitvectory.auth.datamodel.gcp.model.JwtBearerRecord;
+import com.unitvectory.auth.datamodel.gcp.model.ClientJwtBearerRecord;
 
 @Mapper
 public interface ClientRecordMapper {
@@ -27,12 +27,12 @@ public interface ClientRecordMapper {
 	@Mapping(target = "jwtBearer", expression = "java(mapJwtBearerList(doc))")
 	ClientRecord documentSnapshotToClientRecord(DocumentSnapshot doc);
 
-	default List<JwtBearerRecord> mapJwtBearerList(DocumentSnapshot doc) {
+	default List<ClientJwtBearerRecord> mapJwtBearerList(DocumentSnapshot doc) {
 		Object jwtBearerObject = doc.get("jwtBearer");
 		if (jwtBearerObject instanceof List) {
 			List<?> jwtBearerList = (List<?>) jwtBearerObject;
 			return jwtBearerList.stream().filter(Map.class::isInstance).map(Map.class::cast)
-					.map(JwtBearerRecordMapper.INSTANCE::mapToJwtBearerRecord).collect(Collectors.toList());
+					.map(ClientJwtBearerRecordMapper.INSTANCE::mapToJwtBearerRecord).collect(Collectors.toList());
 		} else {
 			return Collections.emptyList(); // Or null, based on your preference
 		}

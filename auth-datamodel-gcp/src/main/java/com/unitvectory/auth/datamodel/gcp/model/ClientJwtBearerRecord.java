@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class JwtBearerRecord implements ClientJwtBearer {
+public class ClientJwtBearerRecord implements ClientJwtBearer {
 
 	private String jwksUrl;
 

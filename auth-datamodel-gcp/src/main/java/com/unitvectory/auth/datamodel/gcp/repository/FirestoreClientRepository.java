@@ -2,6 +2,8 @@ package com.unitvectory.auth.datamodel.gcp.repository;
 
 import java.util.concurrent.ExecutionException;
 
+import javax.annotation.Nonnull;
+
 import com.google.cloud.firestore.DocumentReference;
 import com.google.cloud.firestore.DocumentSnapshot;
 import com.google.cloud.firestore.Firestore;
@@ -13,19 +15,24 @@ import com.unitvectory.auth.util.exception.ConflictException;
 import com.unitvectory.auth.util.exception.InternalServerErrorException;
 
 import lombok.AllArgsConstructor;
-import lombok.NoArgsConstructor;
 import lombok.NonNull;
 
-@NoArgsConstructor
+@SuppressWarnings("null")
 @AllArgsConstructor
 public class FirestoreClientRepository implements ClientRepository {
 
+	private static final String CLIENTSECRET1 = "clientSecret1";
+
+	private static final String CLIENTSECRET2 = "clientSecret2";
+
 	private Firestore firestore;
+
+	private String collectionClients;
 
 	@Override
 	public Client getClient(@NonNull String clientId) {
 		try {
-			DocumentSnapshot document = firestore.collection("clients").document(clientId).get().get();
+			DocumentSnapshot document = firestore.collection(this.collectionClients).document(clientId).get().get();
 			if (document.exists()) {
 				return ClientRecordMapper.INSTANCE.documentSnapshotToClientRecord(document);
 			} else {
@@ -42,7 +49,7 @@ public class FirestoreClientRepository implements ClientRepository {
 		try {
 			// Reference to the document in the 'clients' collection with the specified
 			// clientId
-			DocumentReference document = firestore.collection("clients").document(clientId);
+			DocumentReference document = firestore.collection(this.collectionClients).document(clientId);
 
 			// Start a Firestore transaction
 
@@ -52,6 +59,7 @@ public class FirestoreClientRepository implements ClientRepository {
 
 				// If the document does not exist, create the new ClientRecord
 				if (!snapshot.exists()) {
+					@Nonnull
 					ClientRecord record = ClientRecord.builder().documentId(clientId).clientId(clientId)
 							.description(description).salt(salt).build();
 
@@ -74,7 +82,7 @@ public class FirestoreClientRepository implements ClientRepository {
 	@Override
 	public void saveClientSecret1(@NonNull String clientId, @NonNull String hashedSecret) {
 		try {
-			firestore.collection("clients").document(clientId).update("clientSecret1", hashedSecret).get();
+			firestore.collection(this.collectionClients).document(clientId).update(CLIENTSECRET1, hashedSecret).get();
 		} catch (InterruptedException | ExecutionException e) {
 			throw new InternalServerErrorException(e);
 		}
@@ -83,7 +91,7 @@ public class FirestoreClientRepository implements ClientRepository {
 	@Override
 	public void saveClientSecret2(@NonNull String clientId, @NonNull String hashedSecret) {
 		try {
-			firestore.collection("clients").document(clientId).update("clientSecret2", hashedSecret).get();
+			firestore.collection(this.collectionClients).document(clientId).update(CLIENTSECRET2, hashedSecret).get();
 		} catch (InterruptedException | ExecutionException e) {
 			throw new InternalServerErrorException(e);
 		}
@@ -92,7 +100,7 @@ public class FirestoreClientRepository implements ClientRepository {
 	@Override
 	public void clearClientSecret1(@NonNull String clientId) {
 		try {
-			firestore.collection("clients").document(clientId).update("clientSecret1", null).get();
+			firestore.collection(this.collectionClients).document(clientId).update(CLIENTSECRET1, null).get();
 		} catch (InterruptedException | ExecutionException e) {
 			throw new InternalServerErrorException(e);
 		}
@@ -101,7 +109,7 @@ public class FirestoreClientRepository implements ClientRepository {
 	@Override
 	public void clearClientSecret2(@NonNull String clientId) {
 		try {
-			firestore.collection("clients").document(clientId).update("clientSecret2", null).get();
+			firestore.collection(this.collectionClients).document(clientId).update(CLIENTSECRET2, null).get();
 		} catch (InterruptedException | ExecutionException e) {
 			throw new InternalServerErrorException(e);
 		}

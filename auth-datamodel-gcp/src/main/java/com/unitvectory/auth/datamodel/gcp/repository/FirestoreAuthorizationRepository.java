@@ -19,15 +19,22 @@ import com.unitvectory.auth.util.exception.InternalServerErrorException;
 import lombok.AllArgsConstructor;
 import lombok.NonNull;
 
+@SuppressWarnings("null")
 @AllArgsConstructor
 public class FirestoreAuthorizationRepository implements AuthorizationRepository {
 
+	private static final String AUDIENCE = "audience";
+
+	private static final String SUBJECT = "subject";
+
 	private Firestore firestore;
+
+	private String collectionAuthorizations;
 
 	@Override
 	public Authorization getAuthorization(@NonNull String id) {
 		try {
-			DocumentSnapshot document = firestore.collection("authorizations").document(id).get().get();
+			DocumentSnapshot document = firestore.collection(this.collectionAuthorizations).document(id).get().get();
 			if (document.exists()) {
 				return document.toObject(AuthorizationRecord.class);
 			} else {
@@ -41,8 +48,8 @@ public class FirestoreAuthorizationRepository implements AuthorizationRepository
 	@Override
 	public Authorization getAuthorization(@NonNull String subject, @NonNull String audience) {
 		try {
-			QuerySnapshot querySnapshot = firestore.collection("authorizations").whereEqualTo("subject", subject)
-					.whereEqualTo("audience", audience).limit(1).get().get();
+			QuerySnapshot querySnapshot = firestore.collection(this.collectionAuthorizations)
+					.whereEqualTo(SUBJECT, subject).whereEqualTo(AUDIENCE, audience).limit(1).get().get();
 
 			// Process the query results
 			List<QueryDocumentSnapshot> documents = querySnapshot.getDocuments();
@@ -60,8 +67,8 @@ public class FirestoreAuthorizationRepository implements AuthorizationRepository
 	@Override
 	public Iterator<Authorization> getAuthorizationBySubject(@NonNull String subject) {
 		try {
-			QuerySnapshot querySnapshot = firestore.collection("authorizations").whereEqualTo("subject", subject).get()
-					.get();
+			QuerySnapshot querySnapshot = firestore.collection(this.collectionAuthorizations)
+					.whereEqualTo(SUBJECT, subject).get().get();
 
 			ArrayList<Authorization> list = new ArrayList<>();
 
@@ -79,8 +86,8 @@ public class FirestoreAuthorizationRepository implements AuthorizationRepository
 	@Override
 	public Iterator<Authorization> getAuthorizationByAudience(@NonNull String audience) {
 		try {
-			QuerySnapshot querySnapshot = firestore.collection("authorizations").whereEqualTo("audience", audience)
-					.get().get();
+			QuerySnapshot querySnapshot = firestore.collection(this.collectionAuthorizations)
+					.whereEqualTo(AUDIENCE, audience).get().get();
 
 			ArrayList<Authorization> list = new ArrayList<>();
 
@@ -95,20 +102,18 @@ public class FirestoreAuthorizationRepository implements AuthorizationRepository
 		}
 	}
 
-	@SuppressWarnings("null")
 	@Override
 	public void authorize(@NonNull String subject, @NonNull String audience) {
 		AuthorizationRecord record = AuthorizationRecord.builder().subject(subject).audience(audience).build();
 		String documentId = getDocumentId(subject, audience);
-		DocumentReference docRef = this.firestore.collection("authorizations").document(documentId);
+		DocumentReference docRef = this.firestore.collection(this.collectionAuthorizations).document(documentId);
 		docRef.set(record);
 	}
 
-	@SuppressWarnings("null")
 	@Override
 	public void deauthorize(@NonNull String subject, @NonNull String audience) {
 		String documentId = getDocumentId(subject, audience);
-		DocumentReference docRef = this.firestore.collection("authorizations").document(documentId);
+		DocumentReference docRef = this.firestore.collection(this.collectionAuthorizations).document(documentId);
 		docRef.delete();
 	}
 

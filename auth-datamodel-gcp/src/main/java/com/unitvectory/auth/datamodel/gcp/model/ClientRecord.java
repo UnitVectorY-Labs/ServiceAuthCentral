@@ -36,7 +36,7 @@ public class ClientRecord implements Client {
 
 	private String clientSecret2;
 
-	private List<JwtBearerRecord> jwtBearer;
+	private List<ClientJwtBearerRecord> jwtBearer;
 
 	@Exclude
 	@Override
