@@ -5,7 +5,7 @@ import java.util.List;
 
 import com.auth0.jwk.Jwk;
 import com.auth0.jwk.UrlJwkProvider;
-import com.unitvectory.auth.datamodel.exception.InternalServerErrorException;
+import com.unitvectory.auth.util.exception.InternalServerErrorException;
 
 public class RemoteJwksService implements JwksService {
 

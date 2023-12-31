@@ -11,11 +11,11 @@ import com.google.cloud.firestore.DocumentSnapshot;
 import com.google.cloud.firestore.Firestore;
 import com.google.cloud.firestore.QuerySnapshot;
 import com.google.common.hash.Hashing;
-import com.unitvectory.auth.datamodel.exception.InternalServerErrorException;
 import com.unitvectory.auth.datamodel.gcp.mapper.CachedJwkRecordMapper;
 import com.unitvectory.auth.datamodel.gcp.model.CachedJwkRecord;
 import com.unitvectory.auth.datamodel.model.CachedJwk;
 import com.unitvectory.auth.datamodel.repository.JwkCacheRepository;
+import com.unitvectory.auth.util.exception.InternalServerErrorException;
 
 import lombok.AllArgsConstructor;
 import lombok.NonNull;

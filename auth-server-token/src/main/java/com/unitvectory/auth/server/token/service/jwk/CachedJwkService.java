@@ -10,12 +10,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 
 import com.auth0.jwk.Jwk;
-import com.unitvectory.auth.datamodel.exception.InternalServerErrorException;
 import com.unitvectory.auth.datamodel.model.CachedJwk;
 import com.unitvectory.auth.datamodel.repository.JwkCacheRepository;
 import com.unitvectory.auth.server.token.config.AppConfig;
 import com.unitvectory.auth.server.token.model.PulledJwk;
 import com.unitvectory.auth.server.token.service.time.TimeService;
+import com.unitvectory.auth.util.exception.InternalServerErrorException;
 
 public class CachedJwkService implements JwksService {
 

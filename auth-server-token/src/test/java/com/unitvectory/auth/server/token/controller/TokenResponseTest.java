@@ -32,7 +32,7 @@ import com.unitvectory.auth.server.token.dto.TokenResponse;
 
 @SpringBootTest
 @AutoConfigureMockMvc
-@ActiveProfiles("test")
+@ActiveProfiles({ "test", "sign-local" })
 @TestPropertySource(locations = "classpath:test-application.properties")
 @Import(TestServiceAuthCentralConfig.class)
 public class TokenResponseTest {

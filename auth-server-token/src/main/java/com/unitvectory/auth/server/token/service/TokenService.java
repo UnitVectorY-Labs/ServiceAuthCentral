@@ -13,10 +13,6 @@ import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.interfaces.DecodedJWT;
-import com.unitvectory.auth.datamodel.exception.BadRequestException;
-import com.unitvectory.auth.datamodel.exception.ForbiddenException;
-import com.unitvectory.auth.datamodel.exception.InternalServerErrorException;
-import com.unitvectory.auth.datamodel.exception.UnauthorizedException;
 import com.unitvectory.auth.datamodel.model.Authorization;
 import com.unitvectory.auth.datamodel.model.Client;
 import com.unitvectory.auth.datamodel.model.JwtBearer;
@@ -28,9 +24,12 @@ import com.unitvectory.auth.server.token.dto.TokenResponse;
 import com.unitvectory.auth.server.token.model.JwtBuilder;
 import com.unitvectory.auth.server.token.service.entropy.EntropyService;
 import com.unitvectory.auth.server.token.service.jwk.JwksService;
-import com.unitvectory.auth.server.token.service.signkey.SignKeyService;
 import com.unitvectory.auth.server.token.service.time.TimeService;
-import com.unitvectory.auth.server.token.util.KidConverter;
+import com.unitvectory.auth.sign.service.SignService;
+import com.unitvectory.auth.util.exception.BadRequestException;
+import com.unitvectory.auth.util.exception.ForbiddenException;
+import com.unitvectory.auth.util.exception.InternalServerErrorException;
+import com.unitvectory.auth.util.exception.UnauthorizedException;
 
 @Service
 public class TokenService {
@@ -42,7 +41,7 @@ public class TokenService {
 	private ClientRepository clientRepository;
 
 	@Autowired
-	private SignKeyService keyService;
+	private SignService signService;
 
 	@Autowired
 	private JwksService jwksService;
@@ -61,9 +60,11 @@ public class TokenService {
 		String clientId = subjectRecord.getClientId();
 		String audience = audienceRecord.getClientId();
 
+		long now = this.timeService.getCurrentTimeSeconds();
+
 		// Get the active key
-		String keyName = keyService.getActiveKeyName();
-		if (keyName == null) {
+		String kid = this.signService.getActiveKid(now);
+		if (kid == null) {
 			throw new InternalServerErrorException("No active signing keys, cannot generate access token.");
 		}
 
@@ -75,13 +76,13 @@ public class TokenService {
 		builder.withIssuer(this.appConfig.getJwtIssuer());
 		builder.withTiming(timeService.getCurrentTimeSeconds(), validSeconds);
 		builder.withJwtId(entropyService.generateUuid());
-		builder.withKeyId(KidConverter.hash(keyName));
+		builder.withKeyId(kid);
 		builder.withSubject(clientId);
 		builder.withAudience(audience);
 		String unsignedJwt = builder.buildUnsignedToken();
 
 		// Sign the JWT
-		String jwt = keyService.signJwt(keyName, unsignedJwt);
+		String jwt = this.signService.sign(kid, unsignedJwt, now);
 
 		// Build the response
 		return TokenResponse.builder().withAccess_token(jwt).withExpires_in(validSeconds).withToken_type("Bearer")

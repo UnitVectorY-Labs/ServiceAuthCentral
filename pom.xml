@@ -19,6 +19,9 @@
         <module>auth-datamodel</module>
         <module>auth-datamodel-gcp</module>
         <module>auth-datamodel-memory</module>
+        <module>auth-sign</module>
+        <module>auth-sign-gcp</module>
+        <module>auth-sign-local</module>
         <module>auth-server-token</module>
         <module>auth-server-manage</module>
     </modules>
@@ -30,6 +33,9 @@
                 <module>auth-datamodel</module>
                 <module>auth-datamodel-gcp</module>
                 <module>auth-datamodel-memory</module>
+                <module>auth-sign</module>
+                <module>auth-sign-gcp</module>
+                <module>auth-sign-local</module>
                 <module>auth-server-token</module>
             </modules>
         </profile>

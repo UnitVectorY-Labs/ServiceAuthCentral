@@ -5,12 +5,12 @@ import java.util.concurrent.ExecutionException;
 import com.google.cloud.firestore.DocumentReference;
 import com.google.cloud.firestore.DocumentSnapshot;
 import com.google.cloud.firestore.Firestore;
-import com.unitvectory.auth.datamodel.exception.ConflictException;
-import com.unitvectory.auth.datamodel.exception.InternalServerErrorException;
 import com.unitvectory.auth.datamodel.gcp.mapper.ClientRecordMapper;
 import com.unitvectory.auth.datamodel.gcp.model.ClientRecord;
 import com.unitvectory.auth.datamodel.model.Client;
 import com.unitvectory.auth.datamodel.repository.ClientRepository;
+import com.unitvectory.auth.util.exception.ConflictException;
+import com.unitvectory.auth.util.exception.InternalServerErrorException;
 
 import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;

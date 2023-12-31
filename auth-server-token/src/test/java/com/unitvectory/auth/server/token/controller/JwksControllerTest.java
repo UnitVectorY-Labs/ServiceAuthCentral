@@ -19,7 +19,7 @@ import com.unitvectory.auth.server.token.config.TestServiceAuthCentralConfig;
 
 @SpringBootTest
 @AutoConfigureMockMvc
-@ActiveProfiles("test")
+@ActiveProfiles({ "test", "sign-local" })
 @TestPropertySource(locations = "classpath:test-application.properties")
 @Import(TestServiceAuthCentralConfig.class)
 public class JwksControllerTest {
@@ -51,8 +51,7 @@ public class JwksControllerTest {
 				// alg
 				.andExpect(jsonPath("$.keys[0].alg", is("RS256")))
 				// kid
-				.andExpect(jsonPath("$.keys[0].kid",
-						is("5e78863ed1ffb9fc66b1d61634b126bf8eb20267e7996297eeeb9b19c8c0f732")))
+				.andExpect(jsonPath("$.keys[0].kid", is("foo")))
 				// use
 				.andExpect(jsonPath("$.keys[0].use", is("sig")));
 	}

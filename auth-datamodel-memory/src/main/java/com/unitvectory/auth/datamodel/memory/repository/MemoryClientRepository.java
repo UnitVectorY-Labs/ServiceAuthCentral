@@ -3,10 +3,10 @@ package com.unitvectory.auth.datamodel.memory.repository;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.unitvectory.auth.datamodel.exception.NotFoundException;
 import com.unitvectory.auth.datamodel.memory.model.MemoryClient;
 import com.unitvectory.auth.datamodel.model.Client;
 import com.unitvectory.auth.datamodel.repository.ClientRepository;
+import com.unitvectory.auth.util.exception.NotFoundException;
 
 import lombok.NonNull;
 

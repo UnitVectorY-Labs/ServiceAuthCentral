@@ -9,8 +9,6 @@ import java.util.stream.StreamSupport;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.unitvectory.auth.datamodel.exception.ConflictException;
-import com.unitvectory.auth.datamodel.exception.NotFoundException;
 import com.unitvectory.auth.datamodel.model.Client;
 import com.unitvectory.auth.datamodel.repository.AuthorizationRepository;
 import com.unitvectory.auth.datamodel.repository.ClientRepository;
@@ -19,6 +17,8 @@ import com.unitvectory.auth.server.manage.dto.ClientSecretType;
 import com.unitvectory.auth.server.manage.dto.ClientType;
 import com.unitvectory.auth.server.manage.mapper.ClientMapper;
 import com.unitvectory.auth.server.manage.service.entropy.EntropyService;
+import com.unitvectory.auth.util.exception.ConflictException;
+import com.unitvectory.auth.util.exception.NotFoundException;
 
 @Service
 public class DefaultClientService implements ClientService {

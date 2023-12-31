@@ -10,12 +10,10 @@ import com.unitvectory.auth.datamodel.memory.repository.MemoryJwkCacheRepository
 import com.unitvectory.auth.datamodel.repository.AuthorizationRepository;
 import com.unitvectory.auth.datamodel.repository.ClientRepository;
 import com.unitvectory.auth.datamodel.repository.JwkCacheRepository;
-import com.unitvectory.auth.server.token.service.MokedKeyService;
 import com.unitvectory.auth.server.token.service.entropy.EntropyService;
 import com.unitvectory.auth.server.token.service.entropy.StaticEntropyService;
 import com.unitvectory.auth.server.token.service.jwk.JwksService;
 import com.unitvectory.auth.server.token.service.jwk.MockedJwksService;
-import com.unitvectory.auth.server.token.service.signkey.SignKeyService;
 import com.unitvectory.auth.server.token.service.time.StaticTimeService;
 import com.unitvectory.auth.server.token.service.time.TimeService;
 
@@ -36,11 +34,6 @@ public class TestServiceAuthCentralConfig {
 	@Bean
 	public EntropyService entropyService() {
 		return new StaticEntropyService();
-	}
-
-	@Bean
-	public SignKeyService keyService() {
-		return new MokedKeyService();
 	}
 
 	@Bean

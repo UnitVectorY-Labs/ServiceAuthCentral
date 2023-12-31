@@ -4,12 +4,12 @@ import org.springframework.graphql.execution.DataFetcherExceptionResolverAdapter
 import org.springframework.graphql.execution.ErrorType;
 import org.springframework.stereotype.Component;
 
-import com.unitvectory.auth.datamodel.exception.BadRequestException;
-import com.unitvectory.auth.datamodel.exception.ConflictException;
-import com.unitvectory.auth.datamodel.exception.ForbiddenException;
-import com.unitvectory.auth.datamodel.exception.InternalServerErrorException;
-import com.unitvectory.auth.datamodel.exception.NotFoundException;
-import com.unitvectory.auth.datamodel.exception.UnauthorizedException;
+import com.unitvectory.auth.util.exception.BadRequestException;
+import com.unitvectory.auth.util.exception.ConflictException;
+import com.unitvectory.auth.util.exception.ForbiddenException;
+import com.unitvectory.auth.util.exception.InternalServerErrorException;
+import com.unitvectory.auth.util.exception.NotFoundException;
+import com.unitvectory.auth.util.exception.UnauthorizedException;
 
 import graphql.GraphQLError;
 import graphql.GraphqlErrorBuilder;
