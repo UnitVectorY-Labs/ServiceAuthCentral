@@ -20,7 +20,6 @@ public class CachedJwkService implements JwksService {
 
 	private long externalCacheHours;
 
-	@Autowired
 	private JwksService jwksService;
 
 	@Autowired
