@@ -1,7 +1,7 @@
 auth-datamodel-gcp
 ==================
 
-This library provides a GCP Firestore implementation of the `auth-datamodel` interfaces.
+This library provides a [GCP Firestore](https://cloud.google.com/firestore) implementation of the `auth-datamodel` interfaces.
 
 The design here uses runtime dependency injection allowing for the database implementation to be replaced.
 
@@ -18,9 +18,9 @@ Configuration
 
 The following configuration attributes:
 
-| Property                                                   | Default        | Required | Description               |
-|------------------------------------------------------------|----------------|----------|---------------------------|
-| google.cloud.project                                       |                | Yes      | GCP Project name          |
-| serviceauthcentral.datamodel.gcp.collection.authorizations | authorizations | Yes      | Firestore collection name |
-| serviceauthcentral.datamodel.gcp.collection.clients        | clients        | Yes      | Firestore collection name |
-| serviceauthcentral.datamodel.gcp.collection.keys           | keys           | Yes      | Firestore collection name |
+| Property                                                   | Required                       | Description               |
+|------------------------------------------------------------|--------------------------------|---------------------------|
+| google.cloud.project                                       | Yes                            | GCP Project name          |
+| serviceauthcentral.datamodel.gcp.collection.authorizations | No (default: 'authorizations') | Firestore collection name |
+| serviceauthcentral.datamodel.gcp.collection.clients        | No (default: 'clients')        | Firestore collection name |
+| serviceauthcentral.datamodel.gcp.collection.keys           | No (default: 'keys')           | Firestore collection name |

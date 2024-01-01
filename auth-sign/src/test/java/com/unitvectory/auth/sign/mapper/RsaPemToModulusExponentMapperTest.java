@@ -9,7 +9,7 @@ import org.junit.jupiter.api.Test;
 import com.unitvectory.auth.sign.model.RsaMoulousExponent;
 import com.unitvectory.auth.util.exception.InternalServerErrorException;
 
-public class RsaPemToModulusExponentMapperTets {
+public class RsaPemToModulusExponentMapperTest {
 
 	@Test
 	public void testConvertInvalid() {
@@ -17,7 +17,7 @@ public class RsaPemToModulusExponentMapperTets {
 				() -> RsaPemToModulusExponentMapper.INSTANCE.convert("this is clearly not valid"),
 				"Invalid PEM should throw an exception");
 
-		assertEquals("failed to convert RSA PEM key", thrown.getMessage());
+		assertEquals("Failed to convert RSA PEM key", thrown.getMessage());
 	}
 
 	@Test
@@ -28,6 +28,24 @@ public class RsaPemToModulusExponentMapperTets {
 				"Expected convert with null pemKey to throw exception");
 
 		assertEquals("pemKey is marked non-null but is null", thrown.getMessage());
+	}
+
+	@Test
+	public void testConvertInvalidKey() {
+
+		// This key is intentionally malformed
+		String pemKey = "-----BEGIN PUBLIC KEY-----\n"
+				+ "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAtqfCGqvSde8iPoarVSqm\n"
+				+ "/dAhn97JJ1s8DxBlmnrG7hI99g2PMn+\n" + "zMq5o/QY+sVgMXVCrZeJrJa6vg/+K4kl89\n"
+				+ "kthAUM40lqidum/Vrl5fw8UH7fv7+\n"
+				+ "x2F6luAYpjlxy6NPJLHkV8PRpEZYdBDUUwakEyatbycBQo4fosLoQczWA10s+gsh\n"
+				+ "PrQah14RzA3Oc0P+Rn244O+LwdV//WR1\n" + "-----END PUBLIC KEY-----\n" + "";
+
+		InternalServerErrorException thrown = assertThrows(InternalServerErrorException.class,
+				() -> RsaPemToModulusExponentMapper.INSTANCE.convert(pemKey), "Invalid PEM should throw an exception");
+
+		assertEquals("Failed to convert RSA PEM key", thrown.getMessage());
+
 	}
 
 	@Test

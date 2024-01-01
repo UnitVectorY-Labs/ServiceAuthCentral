@@ -11,8 +11,6 @@ import java.util.List;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
-import org.springframework.beans.factory.annotation.Autowired;
-
 import com.github.benmanes.caffeine.cache.Cache;
 import com.github.benmanes.caffeine.cache.Caffeine;
 import com.google.cloud.kms.v1.AsymmetricSignRequest;
@@ -33,32 +31,34 @@ import com.unitvectory.auth.sign.model.JsonWebKey;
 import com.unitvectory.auth.sign.model.RsaMoulousExponent;
 import com.unitvectory.auth.sign.service.SignService;
 
+import lombok.AllArgsConstructor;
 import lombok.NonNull;
 
+@AllArgsConstructor
 public class KmsSignService implements SignService {
 
 	private static final Set<CryptoKeyVersionAlgorithm> SUPPORTED_ALGORITHMS = Collections
 			.unmodifiableSet(Set.of(CryptoKeyVersionAlgorithm.RSA_SIGN_PKCS1_2048_SHA256));
 
-	@Autowired
 	private KeyManagementServiceClient keyManagementServiceClient;
 
-	@Autowired
 	private String keyManagementServiceKeyName;
 
-	private final long cacheJwksSeconds = 3600;
+	private long cacheJwksSeconds;
+
+	private int cacheSafetyMultiple;
 
 	// API Calls to KMS are expensive and highly rate limited as a generous amount
 	// of caching is utilized by this service to minimize unnecessary calls
 
-	private Cache<String, String> cacheActiveKid = Caffeine.newBuilder()
+	private final Cache<String, String> cacheActiveKid = Caffeine.newBuilder()
 			.expireAfterWrite(cacheJwksSeconds, TimeUnit.SECONDS).build();
 
-	private Cache<String, String> cachePublicKeyPem = Caffeine.newBuilder().build();
+	private final Cache<String, String> cachePublicKeyPem = Caffeine.newBuilder().build();
 
-	private Cache<String, String> cacheKidToKeyName = Caffeine.newBuilder().build();
+	private final Cache<String, String> cacheKidToKeyName = Caffeine.newBuilder().build();
 
-	private Cache<String, List<JsonWebKeyRecord>> cacheAllRecords = Caffeine.newBuilder()
+	private final Cache<String, List<JsonWebKeyRecord>> cacheAllRecords = Caffeine.newBuilder()
 			.expireAfterWrite(cacheJwksSeconds, TimeUnit.SECONDS).build();
 
 	@Override
@@ -77,14 +77,12 @@ public class KmsSignService implements SignService {
 			return allKeys.get(0).getKeyName();
 		}
 
-		long threshold = cacheJwksSeconds;
-
 		// Filter and sort the keys, goal is to get the most recent key
 		kid = allKeys.stream()
 				// filter only active keys
 				.filter(JsonWebKeyRecord::isActive)
 				// Filter out keys that were created too recently
-				.filter(key -> now - key.getCreated() >= 2 * threshold)
+				.filter(key -> now - key.getCreated() >= (this.cacheSafetyMultiple * this.cacheJwksSeconds))
 				// sort by created time, newest first
 				.sorted(Comparator.comparingLong(JsonWebKeyRecord::getCreated).reversed())
 				// get the first element (if present)
@@ -99,7 +97,7 @@ public class KmsSignService implements SignService {
 	}
 
 	@Override
-	public String sign(@NonNull String kid, @NonNull String unsignedToken, long now) {
+	public String sign(@NonNull String kid, @NonNull String unsignedToken) {
 
 		String keyName = this.kidToKeyName(kid);
 		if (keyName == null) {

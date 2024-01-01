@@ -8,16 +8,11 @@ Repository Interfaces
 
 Three different repositories are defined:
 
- - `AuthorizationRepository`: Access and management of authorization records for which subjects are authorized to access which audiences.
- - `ClientRepository`: Access and management of clients and their attributes for authentication.
- - `JwkCacheRepository`: Caching interface for JWKs to provide persistence to external JWKS endpoints.
+ - `SignService`: Service interface for signing operations and key management for JWTs and JWKS.
 
 Data Interfaces
 ---------------
 
 The underlying data elements are handled through interfaces:
 
- - `Authorization`: The authorization data
- - `Client`: The client data
- - `ClientJwtBearer`: The JWT metadata used to authenticate instead of client secrets
- - `CachedJwk`: The cached JWK data
+ - `JsonWebKey`: Interface representing a JSON Web Key (JWK).

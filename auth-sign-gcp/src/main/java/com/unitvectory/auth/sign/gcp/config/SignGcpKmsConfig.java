@@ -16,13 +16,13 @@ public class SignGcpKmsConfig {
 	@Value("${google.cloud.project}")
 	private String projectId;
 
-	@Value("${serviceauthcentral.key.location}")
+	@Value("${serviceauthcentral.sign.gcp.key.location}")
 	private String keyLocation;
 
-	@Value("${serviceauthcentral.key.ring}")
+	@Value("${serviceauthcentral.sign.gcp.key.ring}")
 	private String keyRing;
 
-	@Value("${serviceauthcentral.key.name}")
+	@Value("${serviceauthcentral.sign.gcp.key.name}")
 	private String keyName;
 
 	@Bean
@@ -30,10 +30,8 @@ public class SignGcpKmsConfig {
 		// Build the name of the Cloud KMS key that will be used to sign JWTs.
 		// This does not include the version as multiple versions are utilized to allow
 		// for key rotations without service interruption
-
 		return "projects/" + this.projectId + "/locations/" + this.keyLocation + "/keyRings/" + this.keyRing
 				+ "/cryptoKeys/" + this.keyName;
-
 	}
 
 	@Bean

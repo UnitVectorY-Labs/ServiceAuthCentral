@@ -9,8 +9,6 @@ import java.util.Base64;
 import java.util.Collections;
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Value;
-
 import com.unitvectory.auth.sign.local.model.JsonWebKeyRecord;
 import com.unitvectory.auth.sign.mapper.RsaPemToModulusExponentMapper;
 import com.unitvectory.auth.sign.model.JsonWebKey;
@@ -18,18 +16,17 @@ import com.unitvectory.auth.sign.model.RsaMoulousExponent;
 import com.unitvectory.auth.sign.service.SignService;
 import com.unitvectory.auth.util.exception.InternalServerErrorException;
 
+import lombok.AllArgsConstructor;
+
+@AllArgsConstructor
 public class LocalSignService implements SignService {
 
-	@Value("${serviceauthcentral.sign.local.active.kid}")
 	private String activeKid;
 
-	@Value("${serviceauthcentral.sign.local.key1.privatekey}")
 	private String key1PrivateKey;
 
-	@Value("${serviceauthcentral.sign.local.key1.publickey}")
 	private String key1PublicKey;
 
-	@Value("${serviceauthcentral.sign.local.key1.kid}")
 	private String key1Kid;
 
 	@Override
@@ -38,7 +35,7 @@ public class LocalSignService implements SignService {
 	}
 
 	@Override
-	public String sign(String kid, String unsignedToken, long now) {
+	public String sign(String kid, String unsignedToken) {
 		String privateKeyPEM = null;
 		if (activeKid.equals(key1Kid)) {
 			privateKeyPEM = key1PrivateKey;
@@ -84,5 +81,4 @@ public class LocalSignService implements SignService {
 
 		return Collections.unmodifiableList(list);
 	}
-
 }

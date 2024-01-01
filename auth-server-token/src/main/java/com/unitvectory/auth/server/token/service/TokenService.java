@@ -82,7 +82,7 @@ public class TokenService {
 		String unsignedJwt = builder.buildUnsignedToken();
 
 		// Sign the JWT
-		String jwt = this.signService.sign(kid, unsignedJwt, now);
+		String jwt = this.signService.sign(kid, unsignedJwt);
 
 		// Build the response
 		return TokenResponse.builder().withAccess_token(jwt).withExpires_in(validSeconds).withToken_type("Bearer")
