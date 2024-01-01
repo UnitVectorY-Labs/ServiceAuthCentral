@@ -15,6 +15,11 @@
     <dependencies>
         <dependency>
             <groupId>com.unitvectory</groupId>
+            <artifactId>auth-util</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.unitvectory</groupId>
             <artifactId>auth-sign</artifactId>
             <version>${project.version}</version>
         </dependency>
@@ -31,14 +36,14 @@
             <artifactId>google-cloud-kms</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-            <scope>provided</scope>
-        </dependency>
-        <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <scope>provided</scope>
         </dependency>
     </dependencies>
 

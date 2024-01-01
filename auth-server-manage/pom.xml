@@ -16,6 +16,11 @@
     <dependencies>
         <dependency>
             <groupId>com.unitvectory</groupId>
+            <artifactId>auth-util</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.unitvectory</groupId>
             <artifactId>auth-datamodel</artifactId>
             <version>${project.version}</version>
         </dependency>
@@ -32,6 +37,11 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-graphql</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.mapstruct</groupId>

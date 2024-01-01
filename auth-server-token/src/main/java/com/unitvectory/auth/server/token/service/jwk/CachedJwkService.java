@@ -12,13 +12,15 @@ import org.springframework.cache.annotation.Cacheable;
 import com.auth0.jwk.Jwk;
 import com.unitvectory.auth.datamodel.model.CachedJwk;
 import com.unitvectory.auth.datamodel.repository.JwkCacheRepository;
-import com.unitvectory.auth.server.token.config.AppConfig;
 import com.unitvectory.auth.server.token.model.PulledJwk;
 import com.unitvectory.auth.server.token.service.time.TimeService;
 import com.unitvectory.auth.util.exception.InternalServerErrorException;
 
 public class CachedJwkService implements JwksService {
 
+	private long externalCacheHours;
+
+	@Autowired
 	private JwksService jwksService;
 
 	@Autowired
@@ -26,9 +28,6 @@ public class CachedJwkService implements JwksService {
 
 	@Autowired
 	private TimeService timeService;
-
-	@Autowired
-	private AppConfig appConfig;
 
 	public CachedJwkService(JwksService jwksService) {
 		this.jwksService = jwksService;
@@ -105,8 +104,7 @@ public class CachedJwkService implements JwksService {
 
 				// Cache the value in the database
 				try {
-					this.jwkCacheRepository.cacheJwk(url, convert(jwk),
-							now + (this.appConfig.getCacheJwksHours() * 60 * 60));
+					this.jwkCacheRepository.cacheJwk(url, convert(jwk), now + (this.externalCacheHours * 60 * 60));
 				} catch (Exception e) {
 					throw new InternalServerErrorException("failed to save jwk to cache", e);
 				}
@@ -123,8 +121,7 @@ public class CachedJwkService implements JwksService {
 				// Key wasn't found, mark it in the database as not found and we aren't
 				// returning it easier as it may have been removed
 				try {
-					this.jwkCacheRepository.cacheJwkAbsent(url, kid,
-							now + (this.appConfig.getCacheJwksHours() * 60 * 60));
+					this.jwkCacheRepository.cacheJwkAbsent(url, kid, now + (this.externalCacheHours * 60 * 60));
 				} catch (Exception e) {
 					throw new InternalServerErrorException("failed to save jwk to cache", e);
 				}
@@ -177,8 +174,7 @@ public class CachedJwkService implements JwksService {
 		for (Jwk jwk : list) {
 			// Cache the value in the database
 			try {
-				this.jwkCacheRepository.cacheJwk(url, convert(jwk),
-						now + (this.appConfig.getCacheJwksHours() * 60 * 60));
+				this.jwkCacheRepository.cacheJwk(url, convert(jwk), now + (this.externalCacheHours * 60 * 60));
 			} catch (Exception e) {
 				throw new InternalServerErrorException("failed to save jwk to cache", e);
 			}

@@ -4,6 +4,7 @@ import java.security.interfaces.ECPublicKey;
 import java.security.interfaces.RSAPublicKey;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import com.auth0.jwk.InvalidPublicKeyException;
@@ -18,7 +19,6 @@ import com.unitvectory.auth.datamodel.model.Client;
 import com.unitvectory.auth.datamodel.model.ClientJwtBearer;
 import com.unitvectory.auth.datamodel.repository.AuthorizationRepository;
 import com.unitvectory.auth.datamodel.repository.ClientRepository;
-import com.unitvectory.auth.server.token.config.AppConfig;
 import com.unitvectory.auth.server.token.dto.TokenRequest;
 import com.unitvectory.auth.server.token.dto.TokenResponse;
 import com.unitvectory.auth.server.token.model.JwtBuilder;
@@ -33,6 +33,9 @@ import com.unitvectory.auth.util.exception.UnauthorizedException;
 
 @Service
 public class TokenService {
+
+	@Value("${serviceauthcentral.server.token.issuer}")
+	private String issuer;
 
 	@Autowired
 	private AuthorizationRepository authorizationRepository;
@@ -52,9 +55,6 @@ public class TokenService {
 	@Autowired
 	private EntropyService entropyService;
 
-	@Autowired
-	private AppConfig appConfig;
-
 	private TokenResponse buildToken(Client subjectRecord, Client audienceRecord, Authorization authorizationRecord) {
 
 		String clientId = subjectRecord.getClientId();
@@ -73,7 +73,7 @@ public class TokenService {
 
 		// Generate the unsigned JWT
 		JwtBuilder builder = JwtBuilder.builder();
-		builder.withIssuer(this.appConfig.getJwtIssuer());
+		builder.withIssuer(this.issuer);
 		builder.withTiming(timeService.getCurrentTimeSeconds(), validSeconds);
 		builder.withJwtId(entropyService.generateUuid());
 		builder.withKeyId(kid);
