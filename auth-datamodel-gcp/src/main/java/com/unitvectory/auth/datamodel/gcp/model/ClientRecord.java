@@ -6,7 +6,6 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import com.google.cloud.firestore.annotation.DocumentId;
-import com.google.cloud.firestore.annotation.Exclude;
 import com.google.cloud.firestore.annotation.IgnoreExtraProperties;
 import com.unitvectory.auth.datamodel.model.Client;
 import com.unitvectory.auth.datamodel.model.ClientJwtBearer;
@@ -38,7 +37,6 @@ public class ClientRecord implements Client {
 
 	private List<ClientJwtBearerRecord> jwtBearer;
 
-	@Exclude
 	@Override
 	public List<ClientJwtBearer> getJwtBearer() {
 		if (this.jwtBearer == null) {

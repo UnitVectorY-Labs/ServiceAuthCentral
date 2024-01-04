@@ -27,6 +27,26 @@ public interface ClientRepository {
 	void putClient(String clientId, String description, String salt);
 
 	/**
+	 * Adds an authorized JWT to a client
+	 * 
+	 * @param clientId the clientId to modify
+	 * @param id       the unique id for the record
+	 * @param jwksUrl  the JWKS URL to validate the JWT
+	 * @param iss      the issuer for the token to validate
+	 * @param sub      the subject for the token to validate
+	 * @param aud      the audience for the token to validate
+	 */
+	void addAuthorizedJwt(String clientId, String id, String jwksUrl, String iss, String sub, String aud);
+
+	/**
+	 * Removes an authorized JWT from a client
+	 * 
+	 * @param clientId the clientId to modify
+	 * @param id       the unique identifier
+	 */
+	void removeAuthorizedJwt(String clientId, String id);
+
+	/**
 	 * Saves or updates the first client secret for the specified client.
 	 * 
 	 * This value is the hashed value value.

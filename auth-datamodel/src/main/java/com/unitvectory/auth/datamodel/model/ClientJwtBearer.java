@@ -1,5 +1,7 @@
 package com.unitvectory.auth.datamodel.model;
 
+import java.util.Objects;
+
 /**
  * Interface representing a client with JWT Bearer details.
  * 
@@ -7,6 +9,13 @@ package com.unitvectory.auth.datamodel.model;
  * secret.
  */
 public interface ClientJwtBearer {
+
+	/**
+	 * Returns the unique id for the record
+	 * 
+	 * @return the id
+	 */
+	String getId();
 
 	/**
 	 * Returns the URL of the JSON Web Key Set (JWKS).
@@ -46,4 +55,22 @@ public interface ClientJwtBearer {
 	 * @return the audience.
 	 */
 	String getAud();
+
+	/**
+	 * Compares a ClientJwtBearer to see if it matches. This means all fields match
+	 * with the exception of id.
+	 * 
+	 * @param obj ClientJwtBearer
+	 * @return true if matches; otherwise false
+	 */
+	default boolean matches(ClientJwtBearer obj) {
+		if (obj == this) {
+			return true;
+		}
+		if (obj == null) {
+			return false;
+		}
+		return Objects.equals(this.getJwksUrl(), obj.getJwksUrl()) && Objects.equals(this.getIss(), obj.getIss())
+				&& Objects.equals(this.getSub(), obj.getSub()) && Objects.equals(this.getAud(), obj.getAud());
+	}
 }

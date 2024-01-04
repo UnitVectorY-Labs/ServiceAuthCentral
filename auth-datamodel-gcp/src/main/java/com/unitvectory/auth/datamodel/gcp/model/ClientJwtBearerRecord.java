@@ -13,6 +13,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class ClientJwtBearerRecord implements ClientJwtBearer {
 
+	private String id;
+
 	private String jwksUrl;
 
 	private String iss;

@@ -1,5 +1,7 @@
 package com.unitvectory.auth.datamodel.gcp.repository;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.ExecutionException;
 
 import javax.annotation.Nonnull;
@@ -7,12 +9,15 @@ import javax.annotation.Nonnull;
 import com.google.cloud.firestore.DocumentReference;
 import com.google.cloud.firestore.DocumentSnapshot;
 import com.google.cloud.firestore.Firestore;
-import com.unitvectory.auth.datamodel.gcp.mapper.ClientRecordMapper;
+import com.unitvectory.auth.datamodel.gcp.model.ClientJwtBearerRecord;
 import com.unitvectory.auth.datamodel.gcp.model.ClientRecord;
 import com.unitvectory.auth.datamodel.model.Client;
+import com.unitvectory.auth.datamodel.model.ClientJwtBearer;
 import com.unitvectory.auth.datamodel.repository.ClientRepository;
+import com.unitvectory.auth.util.exception.BadRequestException;
 import com.unitvectory.auth.util.exception.ConflictException;
 import com.unitvectory.auth.util.exception.InternalServerErrorException;
+import com.unitvectory.auth.util.exception.NotFoundException;
 
 import lombok.AllArgsConstructor;
 import lombok.NonNull;
@@ -34,7 +39,8 @@ public class FirestoreClientRepository implements ClientRepository {
 		try {
 			DocumentSnapshot document = firestore.collection(this.collectionClients).document(clientId).get().get();
 			if (document.exists()) {
-				return ClientRecordMapper.INSTANCE.documentSnapshotToClientRecord(document);
+				ClientRecord record = document.toObject(ClientRecord.class);
+				return record;
 			} else {
 				return null;
 			}
@@ -80,6 +86,95 @@ public class FirestoreClientRepository implements ClientRepository {
 	}
 
 	@Override
+	public void addAuthorizedJwt(@NonNull String clientId, @NonNull String id, @NonNull String jwksUrl,
+			@NonNull String iss, @NonNull String sub, @NonNull String aud) {
+		try {
+			DocumentReference docRef = firestore.collection(this.collectionClients).document(clientId);
+			firestore.runTransaction(transaction -> {
+				DocumentSnapshot snapshot = transaction.get(docRef).get();
+
+				if (!snapshot.exists()) {
+					throw new NotFoundException("Client not found");
+				}
+
+				ClientRecord record = snapshot.toObject(ClientRecord.class);
+				List<ClientJwtBearer> jwtBearerListOriginal = record.getJwtBearer();
+				List<ClientJwtBearer> jwtBearerList = new ArrayList<>();
+
+				// If the original list is not null, add all its elements to the new list
+				if (jwtBearerListOriginal != null) {
+					jwtBearerList.addAll(jwtBearerListOriginal);
+				}
+
+				// Constructing new JWT object
+				ClientJwtBearerRecord newJwt = ClientJwtBearerRecord.builder().id(id).jwksUrl(jwksUrl).iss(iss).sub(sub)
+						.aud(aud).build();
+
+				// Check for duplicates
+				for (ClientJwtBearer cjb : jwtBearerList) {
+					if (newJwt.matches(cjb)) {
+						throw new BadRequestException("Duplicate authorization");
+					}
+				}
+
+				// Add the new JWT to the list and update the document
+				jwtBearerList.add(newJwt);
+				transaction.update(docRef, "jwtBearer", jwtBearerList);
+
+				return null; // Firestore transactions require that you return something
+			}).get();
+		} catch (InterruptedException | ExecutionException e) {
+			throw new InternalServerErrorException(e);
+		}
+	}
+
+	@Override
+	public void removeAuthorizedJwt(@NonNull String clientId, @NonNull String id) {
+		try {
+			DocumentReference docRef = firestore.collection(this.collectionClients).document(clientId);
+			firestore.runTransaction(transaction -> {
+				DocumentSnapshot snapshot = transaction.get(docRef).get();
+
+				if (!snapshot.exists()) {
+					throw new NotFoundException("Client not found");
+				}
+
+				ClientRecord record = snapshot.toObject(ClientRecord.class);
+
+				List<ClientJwtBearer> jwtBearerListOriginal = record.getJwtBearer();
+				List<ClientJwtBearer> jwtBearerList = new ArrayList<>();
+
+				if (jwtBearerListOriginal != null) {
+					// Copy existing JWTs into a modifiable list
+					jwtBearerList.addAll(jwtBearerListOriginal);
+
+					// Find the JWT to remove
+					ClientJwtBearer jwtToRemove = null;
+					for (ClientJwtBearer cjb : jwtBearerList) {
+						if (id.equals(cjb.getId())) {
+							jwtToRemove = cjb;
+							break;
+						}
+					}
+
+					// Remove the JWT if found
+					if (jwtToRemove != null) {
+						jwtBearerList.remove(jwtToRemove);
+						// Update the document
+						transaction.update(docRef, "jwtBearer", jwtBearerList);
+					} else {
+						throw new NotFoundException("JWT not found with the provided id");
+					}
+				}
+
+				return null; // Firestore transactions require that you return something
+			}).get();
+		} catch (InterruptedException | ExecutionException e) {
+			throw new InternalServerErrorException(e);
+		}
+	}
+
+	@Override
 	public void saveClientSecret1(@NonNull String clientId, @NonNull String hashedSecret) {
 		try {
 			firestore.collection(this.collectionClients).document(clientId).update(CLIENTSECRET1, hashedSecret).get();
@@ -114,5 +209,4 @@ public class FirestoreClientRepository implements ClientRepository {
 			throw new InternalServerErrorException(e);
 		}
 	}
-
 }

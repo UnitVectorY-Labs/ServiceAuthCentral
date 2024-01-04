@@ -6,10 +6,10 @@ import com.unitvectory.auth.datamodel.model.Client;
 import com.unitvectory.auth.datamodel.model.ClientJwtBearer;
 
 import lombok.Builder;
-import lombok.Data;
+import lombok.Value;
 
-@Data
-@Builder
+@Value
+@Builder(toBuilder = true)
 public class MemoryClient implements Client {
 
 	private String clientId;

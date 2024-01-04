@@ -4,10 +4,10 @@ import com.unitvectory.auth.datamodel.model.Authorization;
 import com.unitvectory.auth.util.HashingUtil;
 
 import lombok.Builder;
-import lombok.Data;
 import lombok.NonNull;
+import lombok.Value;
 
-@Data
+@Value
 @Builder
 public class MemoryAuthorization implements Authorization {
 
