@@ -1,4 +1,4 @@
-package com.unitvectory.auth.common.entropy;
+package com.unitvectory.auth.common.service.entropy;
 
 import java.security.SecureRandom;
 import java.util.UUID;

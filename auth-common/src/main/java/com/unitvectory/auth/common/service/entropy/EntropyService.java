@@ -1,4 +1,4 @@
-package com.unitvectory.auth.common.entropy;
+package com.unitvectory.auth.common.service.entropy;
 
 /**
  * Service interface for generating random information.

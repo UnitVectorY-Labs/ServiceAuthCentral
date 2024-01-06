@@ -9,7 +9,7 @@ import java.util.stream.StreamSupport;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.unitvectory.auth.common.entropy.EntropyService;
+import com.unitvectory.auth.common.service.entropy.EntropyService;
 import com.unitvectory.auth.datamodel.model.Client;
 import com.unitvectory.auth.datamodel.repository.AuthorizationRepository;
 import com.unitvectory.auth.datamodel.repository.ClientRepository;

@@ -4,10 +4,10 @@ import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Profile;
 
-import com.unitvectory.auth.common.entropy.EntropyService;
-import com.unitvectory.auth.common.entropy.StaticEntropyService;
-import com.unitvectory.auth.common.time.StaticTimeService;
-import com.unitvectory.auth.common.time.TimeService;
+import com.unitvectory.auth.common.service.entropy.EntropyService;
+import com.unitvectory.auth.common.service.entropy.StaticEntropyService;
+import com.unitvectory.auth.common.service.time.StaticTimeService;
+import com.unitvectory.auth.common.service.time.TimeService;
 import com.unitvectory.auth.datamodel.memory.repository.MemoryAuthorizationRepository;
 import com.unitvectory.auth.datamodel.memory.repository.MemoryClientRepository;
 import com.unitvectory.auth.datamodel.memory.repository.MemoryJwkCacheRepository;

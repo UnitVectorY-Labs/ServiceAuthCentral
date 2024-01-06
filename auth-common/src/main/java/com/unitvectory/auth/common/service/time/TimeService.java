@@ -1,4 +1,4 @@
-package com.unitvectory.auth.common.time;
+package com.unitvectory.auth.common.service.time;
 
 /**
  * Service interface to get the current time.

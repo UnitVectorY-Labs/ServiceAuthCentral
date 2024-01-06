@@ -1,4 +1,4 @@
-package com.unitvectory.auth.common.time;
+package com.unitvectory.auth.common.service.time;
 
 /**
  * Provides a mechanism to have the method that normally return the current time

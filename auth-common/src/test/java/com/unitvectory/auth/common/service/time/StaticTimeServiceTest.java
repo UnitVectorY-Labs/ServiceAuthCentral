@@ -4,9 +4,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.junit.jupiter.api.Test;
 
-import com.unitvectory.auth.common.time.StaticTimeService;
-import com.unitvectory.auth.common.time.TimeService;
-
 public class StaticTimeServiceTest {
 
 	@Test

@@ -10,7 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
 
 import com.auth0.jwk.Jwk;
-import com.unitvectory.auth.common.time.TimeService;
+import com.unitvectory.auth.common.service.time.TimeService;
 import com.unitvectory.auth.datamodel.model.CachedJwk;
 import com.unitvectory.auth.datamodel.repository.JwkCacheRepository;
 import com.unitvectory.auth.server.token.model.PulledJwk;
