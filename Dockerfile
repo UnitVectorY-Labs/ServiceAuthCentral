@@ -7,7 +7,7 @@ WORKDIR /app
 COPY auth-* pom.xml ./
 
 # Build the application
-RUN mvn clean package -DskipTests
+RUN mvn clean package -DskipTests -ntp
 
 # Stage 2: Run the application
 FROM amazoncorretto:17-alpine-jdk
