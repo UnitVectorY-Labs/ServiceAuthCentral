@@ -1,11 +1,11 @@
-package com.unitvectory.auth.server.token.service.time;
+package com.unitvectory.auth.common.service.time;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.junit.jupiter.api.Test;
 
-import com.unitvectory.auth.server.token.service.time.StaticTimeService;
-import com.unitvectory.auth.server.token.service.time.TimeService;
+import com.unitvectory.auth.common.time.StaticTimeService;
+import com.unitvectory.auth.common.time.TimeService;
 
 public class StaticTimeServiceTest {
 

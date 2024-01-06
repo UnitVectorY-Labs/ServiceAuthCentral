@@ -9,6 +9,7 @@ import java.util.stream.StreamSupport;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.unitvectory.auth.common.entropy.EntropyService;
 import com.unitvectory.auth.datamodel.model.Client;
 import com.unitvectory.auth.datamodel.repository.AuthorizationRepository;
 import com.unitvectory.auth.datamodel.repository.ClientRepository;
@@ -16,12 +17,13 @@ import com.unitvectory.auth.server.manage.dto.AuthorizationType;
 import com.unitvectory.auth.server.manage.dto.ClientSecretType;
 import com.unitvectory.auth.server.manage.dto.ClientType;
 import com.unitvectory.auth.server.manage.mapper.ClientMapper;
-import com.unitvectory.auth.server.manage.service.entropy.EntropyService;
 import com.unitvectory.auth.util.exception.ConflictException;
 import com.unitvectory.auth.util.exception.NotFoundException;
 
 @Service
 public class DefaultClientService implements ClientService {
+
+	private static int LENGTH = 32;
 
 	@Autowired
 	private ClientRepository clientRepository;
@@ -34,7 +36,7 @@ public class DefaultClientService implements ClientService {
 
 	@Override
 	public ClientType addClient(String clientId, String description) {
-		String salt = this.entropyService.generateRandom();
+		String salt = this.entropyService.randomAlphaNumeric(LENGTH);
 		this.clientRepository.putClient(clientId, description, salt);
 		ClientType client = new ClientType(clientId, false, false);
 		return client;
@@ -42,7 +44,7 @@ public class DefaultClientService implements ClientService {
 
 	@Override
 	public ClientSecretType generateClientSecret1(String clientId) {
-		String secret = this.entropyService.generateRandom();
+		String secret = this.entropyService.randomAlphaNumeric(LENGTH);
 
 		Client client = this.clientRepository.getClient(clientId);
 		if (client == null) {
@@ -62,7 +64,7 @@ public class DefaultClientService implements ClientService {
 
 	@Override
 	public ClientSecretType generateClientSecret2(String clientId) {
-		String secret = this.entropyService.generateRandom();
+		String secret = this.entropyService.randomAlphaNumeric(LENGTH);
 
 		Client client = this.clientRepository.getClient(clientId);
 		if (client == null) {

@@ -1,5 +1,8 @@
-package com.unitvectory.auth.server.token.service.time;
+package com.unitvectory.auth.common.time;
 
+/**
+ * Provides the current time.
+ */
 public class SystemTimeService implements TimeService {
 
 	@Override

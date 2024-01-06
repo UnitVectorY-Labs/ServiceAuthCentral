@@ -16,6 +16,7 @@
 
     <modules>
         <module>auth-util</module>
+        <module>auth-common</module>
         <module>auth-datamodel</module>
         <module>auth-datamodel-gcp</module>
         <module>auth-datamodel-memory</module>
@@ -30,6 +31,7 @@
             <id>auth-server-token</id>
             <modules>
                 <module>auth-util</module>
+                <module>auth-common</module>
                 <module>auth-datamodel</module>
                 <module>auth-datamodel-gcp</module>
                 <module>auth-datamodel-memory</module>
@@ -43,6 +45,7 @@
             <id>auth-server-manage</id>
             <modules>
                 <module>auth-util</module>
+                <module>auth-common</module>
                 <module>auth-datamodel</module>
                 <module>auth-datamodel-gcp</module>
                 <module>auth-datamodel-memort</module>

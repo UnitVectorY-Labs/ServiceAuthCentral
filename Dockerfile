@@ -2,6 +2,7 @@
 FROM maven:3.8.4-openjdk-17-slim AS build
 WORKDIR /app
 
+COPY auth-common ./auth-common
 COPY auth-datamodel ./auth-datamodel
 COPY auth-datamodel-gcp ./auth-datamodel-gcp
 COPY auth-datamodel-memory ./auth-datamodel-memory

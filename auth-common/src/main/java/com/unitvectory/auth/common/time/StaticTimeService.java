@@ -1,5 +1,9 @@
-package com.unitvectory.auth.server.token.service.time;
+package com.unitvectory.auth.common.time;
 
+/**
+ * Provides a mechanism to have the method that normally return the current time
+ * return static time which is useful for testing.
+ */
 public class StaticTimeService implements TimeService {
 
 	private final long now;
