@@ -3,6 +3,16 @@ FROM maven:3.9-amazoncorretto-17 AS build
 
 WORKDIR /app
 
+COPY auth-common ./auth-common
+COPY auth-datamodel ./auth-datamodel
+COPY auth-datamodel-gcp ./auth-datamodel-gcp
+COPY auth-datamodel-memory ./auth-datamodel-memory
+COPY auth-server-manage ./auth-server-manage
+COPY auth-server-token ./auth-server-token
+COPY auth-sign ./auth-sign
+COPY auth-sign-gcp ./auth-sign-gcp
+COPY auth-sign-local ./auth-sign-local
+COPY auth-util ./auth-util
 # Copy the necessary files to compile the app
 COPY auth-* pom.xml ./
 
