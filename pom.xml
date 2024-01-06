@@ -48,7 +48,7 @@
                 <module>auth-common</module>
                 <module>auth-datamodel</module>
                 <module>auth-datamodel-gcp</module>
-                <module>auth-datamodel-memort</module>
+                <module>auth-datamodel-memory</module>
                 <module>auth-server-manage</module>
             </modules>
         </profile>
