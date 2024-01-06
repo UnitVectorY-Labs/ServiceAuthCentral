@@ -1,24 +1,16 @@
 # Stage 1: Build the application
-FROM maven:3.8.4-openjdk-17-slim AS build
+FROM maven:3.9-amazoncorretto-17 AS build
+
 WORKDIR /app
 
-COPY auth-common ./auth-common
-COPY auth-datamodel ./auth-datamodel
-COPY auth-datamodel-gcp ./auth-datamodel-gcp
-COPY auth-datamodel-memory ./auth-datamodel-memory
-COPY auth-server-manage ./auth-server-manage
-COPY auth-server-token ./auth-server-token
-COPY auth-sign ./auth-sign
-COPY auth-sign-gcp ./auth-sign-gcp
-COPY auth-sign-local ./auth-sign-local
-COPY auth-util ./auth-util
+# Copy the necessary files to compile the app
+COPY auth-* pom.xml ./
 
-COPY pom.xml .
 # Build the application
 RUN mvn clean package -DskipTests
 
 # Stage 2: Run the application
-FROM openjdk:17-slim
+FROM amazoncorretto:17-alpine-jdk
 WORKDIR /app
 COPY --from=build /app/auth-server-token/target/*.jar app.jar
 EXPOSE 8080
