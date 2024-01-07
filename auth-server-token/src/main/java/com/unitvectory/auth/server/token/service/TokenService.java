@@ -55,38 +55,16 @@ public class TokenService {
 	@Autowired
 	private EntropyService entropyService;
 
-	private TokenResponse buildToken(Client subjectRecord, Client audienceRecord, Authorization authorizationRecord) {
-
-		String clientId = subjectRecord.getClientId();
-		String audience = audienceRecord.getClientId();
-
-		long now = this.timeService.getCurrentTimeSeconds();
-
-		// Get the active key
-		String kid = this.signService.getActiveKid(now);
-		if (kid == null) {
-			throw new InternalServerErrorException("No active signing keys, cannot generate access token.");
+	public TokenResponse token(TokenRequest tokenRequest) throws Exception {
+		String grantType = tokenRequest.getGrant_type();
+		if ("client_credentials".equals(grantType)) {
+			return this.clientCredentials(tokenRequest);
+		} else if ("urn:ietf:params:oauth:grant-type:jwt-bearer".equals(grantType)) {
+			return this.jwtAssertion(tokenRequest);
+		} else {
+			// Invalid value for the grant type
+			throw new BadRequestException("The request 'grant_type' provided is not supported.");
 		}
-
-		// How long the JWT is valid
-		long validSeconds = 3600;
-
-		// Generate the unsigned JWT
-		JwtBuilder builder = JwtBuilder.builder();
-		builder.withIssuer(this.issuer);
-		builder.withTiming(timeService.getCurrentTimeSeconds(), validSeconds);
-		builder.withJwtId(entropyService.generateUuid());
-		builder.withKeyId(kid);
-		builder.withSubject(clientId);
-		builder.withAudience(audience);
-		String unsignedJwt = builder.buildUnsignedToken();
-
-		// Sign the JWT
-		String jwt = this.signService.sign(kid, unsignedJwt);
-
-		// Build the response
-		return TokenResponse.builder().withAccess_token(jwt).withExpires_in(validSeconds).withToken_type("Bearer")
-				.build();
 	}
 
 	public boolean isValidToken(DecodedJWT jwt, Jwk jwk, ClientJwtBearer jwtBearer) {
@@ -124,7 +102,7 @@ public class TokenService {
 		}
 	}
 
-	public TokenResponse jwtAssertion(TokenRequest request) throws Exception {
+	private TokenResponse jwtAssertion(TokenRequest request) throws Exception {
 
 		String clientId = request.getClient_id();
 		String audience = request.getAudience();
@@ -186,7 +164,7 @@ public class TokenService {
 		return buildToken(subjectRecord, audienceRecord, authorizationRecord);
 	}
 
-	public TokenResponse clientCredentials(TokenRequest request) throws Exception {
+	private TokenResponse clientCredentials(TokenRequest request) throws Exception {
 
 		String clientId = request.getClient_id();
 		String audience = request.getAudience();
@@ -243,5 +221,39 @@ public class TokenService {
 		boolean audMatch = jwt.getAudience().contains(bearer.getAud());
 
 		return issMatch && subMatch && audMatch;
+	}
+
+	private TokenResponse buildToken(Client subjectRecord, Client audienceRecord, Authorization authorizationRecord) {
+
+		String clientId = subjectRecord.getClientId();
+		String audience = audienceRecord.getClientId();
+
+		long now = this.timeService.getCurrentTimeSeconds();
+
+		// Get the active key
+		String kid = this.signService.getActiveKid(now);
+		if (kid == null) {
+			throw new InternalServerErrorException("No active signing keys, cannot generate access token.");
+		}
+
+		// How long the JWT is valid
+		long validSeconds = 3600;
+
+		// Generate the unsigned JWT
+		JwtBuilder builder = JwtBuilder.builder();
+		builder.withIssuer(this.issuer);
+		builder.withTiming(timeService.getCurrentTimeSeconds(), validSeconds);
+		builder.withJwtId(entropyService.generateUuid());
+		builder.withKeyId(kid);
+		builder.withSubject(clientId);
+		builder.withAudience(audience);
+		String unsignedJwt = builder.buildUnsignedToken();
+
+		// Sign the JWT
+		String jwt = this.signService.sign(kid, unsignedJwt);
+
+		// Build the response
+		return TokenResponse.builder().withAccess_token(jwt).withExpires_in(validSeconds).withToken_type("Bearer")
+				.build();
 	}
 }

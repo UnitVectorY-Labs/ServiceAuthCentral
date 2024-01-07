@@ -28,17 +28,6 @@ public class TokenController {
 			throw new BadRequestException();
 		}
 
-		String grantType = tokenRequest.getGrant_type();
-		if ("client_credentials".equals(grantType)) {
-			TokenResponse tokenResponse = this.tokenService.clientCredentials(tokenRequest);
-			return ResponseEntity.ok(tokenResponse);
-		} else if ("urn:ietf:params:oauth:grant-type:jwt-bearer".equals(grantType)) {
-			TokenResponse tokenResponse = this.tokenService.jwtAssertion(tokenRequest);
-			return ResponseEntity.ok(tokenResponse);
-		} else {
-			// Invalid value for the grant type
-			throw new BadRequestException("The request 'grant_type' provided is not supported.");
-		}
-
+		return ResponseEntity.ok(this.tokenService.token(tokenRequest));
 	}
 }
