@@ -6,6 +6,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Import;
@@ -23,6 +24,9 @@ import com.unitvectory.auth.server.token.config.TestServiceAuthCentralConfig;
 @TestPropertySource(locations = "classpath:test-application.properties")
 @Import(TestServiceAuthCentralConfig.class)
 public class JwksControllerTest {
+
+	@Value("${serviceauthcentral.sign.local.key1.kid}")
+	private String kid;
 
 	@Autowired
 	private MockMvc mockMvc;
@@ -51,7 +55,7 @@ public class JwksControllerTest {
 				// alg
 				.andExpect(jsonPath("$.keys[0].alg", is("RS256")))
 				// kid
-				.andExpect(jsonPath("$.keys[0].kid", is("foo")))
+				.andExpect(jsonPath("$.keys[0].kid", is(kid)))
 				// use
 				.andExpect(jsonPath("$.keys[0].use", is("sig")));
 	}

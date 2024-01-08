@@ -29,6 +29,14 @@ public interface JwkMapper {
 	@Mapping(target = "use", source = "jwk.use")
 	@Mapping(target = "n", source = "jwk.n")
 	@Mapping(target = "e", source = "jwk.e")
+	VerifyJwk signJwkToVerifyJwk(SignJwk jwk);
+
+	@Mapping(target = "kid", source = "jwk.kid")
+	@Mapping(target = "kty", source = "jwk.kty")
+	@Mapping(target = "alg", source = "jwk.alg")
+	@Mapping(target = "use", source = "jwk.use")
+	@Mapping(target = "n", source = "jwk.n")
+	@Mapping(target = "e", source = "jwk.e")
 	VerifyJwk cachedJwkToVerifyJwk(CachedJwk jwk);
 
 	@Mapping(target = "kid", source = "jwk.kid")

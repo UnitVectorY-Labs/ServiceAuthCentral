@@ -20,6 +20,18 @@ public class ClientTest {
 	}
 
 	@Test
+	public void testHashSecretNull() {
+		assertThrows(NullPointerException.class, () -> client.hashSecret(null),
+				"Passing null secret should throw exception");
+	}
+
+	@Test
+	public void testVerifySecretNull() {
+		assertThrows(NullPointerException.class, () -> client.verifySecret(null),
+				"Passing null secret should throw exception");
+	}
+
+	@Test
     public void testHashSecretWithNullSalt() {
         when(client.getSalt()).thenReturn(null);
         assertThrows(IllegalStateException.class, () -> client.hashSecret("secret"),
@@ -60,13 +72,19 @@ public class ClientTest {
 		String salt = "salt";
 		when(client.getSalt()).thenReturn(salt);
 
-		String secret = "secret";
+		String secret = "secret2";
 		String hashedSecret = client.hashSecret(secret);
 
 		when(client.getClientSecret2()).thenReturn(hashedSecret);
 
 		assertTrue(client.verifySecret(secret), "Should return true if secret matches clientSecret2");
 	}
+
+	@Test
+    public void testVerifySecretWithNoSecretNoMatch() {
+        when(client.getSalt()).thenReturn("salt");
+        assertFalse(client.verifySecret("secret"), "Should return false if no secrets match");
+    }
 
 	@Test
     public void testVerifySecretWithNoMatch() {
