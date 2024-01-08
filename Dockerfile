@@ -12,6 +12,8 @@ COPY auth-server-token ./auth-server-token
 COPY auth-sign ./auth-sign
 COPY auth-sign-gcp ./auth-sign-gcp
 COPY auth-sign-local ./auth-sign-local
+COPY auth-verify ./auth-verify
+COPY auth-verify-auth0 ./auth-verify-auth0
 COPY auth-util ./auth-util
 # Copy the necessary files to compile the app
 COPY auth-* pom.xml ./
