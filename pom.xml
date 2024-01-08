@@ -23,6 +23,8 @@
         <module>auth-sign</module>
         <module>auth-sign-gcp</module>
         <module>auth-sign-local</module>
+        <module>auth-verify</module>
+        <module>auth-verify-auth0</module>
         <module>auth-server-token</module>
         <module>auth-server-manage</module>
     </modules>
@@ -38,6 +40,8 @@
                 <module>auth-sign</module>
                 <module>auth-sign-gcp</module>
                 <module>auth-sign-local</module>
+                <module>auth-verify</module>
+                <module>auth-verify-auth0</module>
                 <module>auth-server-token</module>
             </modules>
         </profile>

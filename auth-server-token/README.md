@@ -11,7 +11,7 @@ Configuration
 
 The following configuration attributes:  
 
-| Property                                             | Required | Description                               |
-|------------------------------------------------------|----------|-------------------------------------------|
-| serviceauthcentral.server.token.issuer               | Yes      | The JWT issuer; populates the `iss` claim |
-| serviceauthcentral.server.token.external.cache.hours | Yes      | Number of hours external JWKS is cached   |
+| Property                                               | Required | Description                               |
+|--------------------------------------------------------|----------|----------------------------------------[--|
+| serviceauthcentral.server.token.issuer                 | Yes      | The JWT issuer; populates the `iss` claim |
+| serviceauthcentral.server.token.external.cache.seconds | Yes      | Number of seconds external JWKS is cached |

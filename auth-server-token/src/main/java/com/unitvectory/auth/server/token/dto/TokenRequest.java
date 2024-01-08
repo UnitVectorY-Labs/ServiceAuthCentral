@@ -18,7 +18,7 @@ import lombok.NoArgsConstructor;
 public class TokenRequest {
 
 	// Must be `client_credentials` or `urn:ietf:params:oauth:grant-type:jwt-bearer`
-	@NotNull(message = "The request is missing the required parameter 'grant_type'.pp")
+	@NotNull(message = "The request is missing the required parameter 'grant_type'.")
 	private String grant_type;
 
 	@NotNull(message = "The request is missing the required parameter 'client_id'.pp")
@@ -32,7 +32,7 @@ public class TokenRequest {
 	@Pattern(regexp = "^[a-zA-Z0-9]+$", message = "Invalid 'audience' attribute format.")
 	private String audience;
 
-	@Pattern(regexp = "^[\\w-]+\\.[\\w-]+\\.[\\w-]+$", message = "Invalid 'assertion' attribute format.")
+	@Pattern(regexp = "^[A-Za-z0-9-_=]+\\.[A-Za-z0-9-_=]+\\.[A-Za-z0-9-_=]+$", message = "Invalid 'assertion' attribute format.")
 	private String assertion;
 
 }

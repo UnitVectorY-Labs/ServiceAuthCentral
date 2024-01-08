@@ -3,7 +3,7 @@ package com.unitvectory.auth.sign.model;
 /**
  * Interface representing a JSON Web Key (JWK).
  */
-public interface JsonWebKey {
+public interface SignJwk {
 
 	/**
 	 * Returns the Key Type (kty) of this JWK.

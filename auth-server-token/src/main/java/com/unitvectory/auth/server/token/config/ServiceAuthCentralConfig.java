@@ -8,9 +8,6 @@ import com.unitvectory.auth.common.service.entropy.EntropyService;
 import com.unitvectory.auth.common.service.entropy.SystemEntropyService;
 import com.unitvectory.auth.common.service.time.SystemTimeService;
 import com.unitvectory.auth.common.service.time.TimeService;
-import com.unitvectory.auth.server.token.service.jwk.CachedJwkService;
-import com.unitvectory.auth.server.token.service.jwk.JwksService;
-import com.unitvectory.auth.server.token.service.jwk.RemoteJwksService;
 
 @Configuration
 @Profile("!test")
@@ -24,10 +21,5 @@ public class ServiceAuthCentralConfig {
 	@Bean
 	public EntropyService entropyService() {
 		return new SystemEntropyService();
-	}
-
-	@Bean
-	public JwksService jwksService() {
-		return new CachedJwkService(new RemoteJwksService());
 	}
 }

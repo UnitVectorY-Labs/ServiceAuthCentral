@@ -2,7 +2,7 @@ package com.unitvectory.auth.sign.service;
 
 import java.util.List;
 
-import com.unitvectory.auth.sign.model.JsonWebKey;
+import com.unitvectory.auth.sign.model.SignJwk;
 
 /**
  * Service interface for signing operations and key management for JWTs and
@@ -33,5 +33,5 @@ public interface SignService {
 	 *
 	 * @return a list of all JSON Web Keys.
 	 */
-	List<JsonWebKey> getAll();
+	List<SignJwk> getAll();
 }

@@ -13,7 +13,7 @@ import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import com.unitvectory.auth.sign.local.config.SignLocalConfig;
-import com.unitvectory.auth.sign.model.JsonWebKey;
+import com.unitvectory.auth.sign.model.SignJwk;
 import com.unitvectory.auth.sign.service.SignService;
 
 @ExtendWith(SpringExtension.class)
@@ -41,11 +41,11 @@ public class LocalSignServiceTest {
 
 	@Test
 	public void testGetAll() {
-		List<JsonWebKey> keys = this.signService.getAll();
+		List<SignJwk> keys = this.signService.getAll();
 
 		assertEquals(1, keys.size());
 
-		JsonWebKey key = keys.get(0);
+		SignJwk key = keys.get(0);
 
 		assertEquals("RSA", key.getKty());
 		assertEquals("foo", key.getKid());

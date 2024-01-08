@@ -20,7 +20,8 @@ public class GlobalExceptionHandler {
 
 	@ExceptionHandler(BadRequestException.class)
 	public ResponseEntity<ErrorResponse> handleBadRequestException(BadRequestException ex, WebRequest request) {
-		ErrorResponse.ErrorResponseBuilder builder = ErrorResponse.builder().error("invalid_request").status(400);
+		ErrorResponse.ErrorResponseBuilder builder = ErrorResponse.builder().error("invalid_request").status(400)
+				.message(ex.getMessage());
 		/*
 		 * if (ex.getResult() != null) { // Multiple errors, include all of them for
 		 * (ObjectError error : ex.getResult().getAllErrors()) {

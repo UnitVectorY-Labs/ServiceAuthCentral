@@ -1,19 +1,9 @@
 package com.unitvectory.auth.server.token.service;
 
-import java.security.interfaces.ECPublicKey;
-import java.security.interfaces.RSAPublicKey;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import com.auth0.jwk.InvalidPublicKeyException;
-import com.auth0.jwk.Jwk;
-import com.auth0.jwt.JWT;
-import com.auth0.jwt.JWTVerifier;
-import com.auth0.jwt.algorithms.Algorithm;
-import com.auth0.jwt.exceptions.JWTVerificationException;
-import com.auth0.jwt.interfaces.DecodedJWT;
 import com.unitvectory.auth.common.service.entropy.EntropyService;
 import com.unitvectory.auth.common.service.time.TimeService;
 import com.unitvectory.auth.datamodel.model.Authorization;
@@ -24,12 +14,15 @@ import com.unitvectory.auth.datamodel.repository.ClientRepository;
 import com.unitvectory.auth.server.token.dto.TokenRequest;
 import com.unitvectory.auth.server.token.dto.TokenResponse;
 import com.unitvectory.auth.server.token.model.JwtBuilder;
-import com.unitvectory.auth.server.token.service.jwk.JwksService;
 import com.unitvectory.auth.sign.service.SignService;
 import com.unitvectory.auth.util.exception.BadRequestException;
 import com.unitvectory.auth.util.exception.ForbiddenException;
 import com.unitvectory.auth.util.exception.InternalServerErrorException;
 import com.unitvectory.auth.util.exception.UnauthorizedException;
+import com.unitvectory.auth.verify.model.VerifyJwk;
+import com.unitvectory.auth.verify.model.VerifyJwt;
+import com.unitvectory.auth.verify.model.VerifyParameters;
+import com.unitvectory.auth.verify.service.JwtVerifier;
 
 @Service
 public class TokenService {
@@ -47,13 +40,16 @@ public class TokenService {
 	private SignService signService;
 
 	@Autowired
-	private JwksService jwksService;
-
-	@Autowired
 	private TimeService timeService;
 
 	@Autowired
 	private EntropyService entropyService;
+
+	@Autowired
+	private ExternalJwkService externalJwkService;
+
+	@Autowired
+	private JwtVerifier jwtVerifier;
 
 	public TokenResponse token(TokenRequest tokenRequest) throws Exception {
 		String grantType = tokenRequest.getGrant_type();
@@ -67,41 +63,6 @@ public class TokenService {
 		}
 	}
 
-	public boolean isValidToken(DecodedJWT jwt, Jwk jwk, ClientJwtBearer jwtBearer) {
-		try {
-			String alg = jwt.getAlgorithm(); // Get the algorithm from the JWT
-			Algorithm algorithm;
-
-			switch (alg) {
-			case "RS256":
-				RSAPublicKey rsaPublicKey = (RSAPublicKey) jwk.getPublicKey();
-				algorithm = Algorithm.RSA256(rsaPublicKey, null);
-				break;
-			case "ES256":
-				ECPublicKey ecPublicKey = (ECPublicKey) jwk.getPublicKey();
-				algorithm = Algorithm.ECDSA256(ecPublicKey, null);
-				break;
-			// Add cases for other algorithms
-			default:
-				throw new InternalServerErrorException("Unsupported algorithm: " + alg);
-			}
-
-			// Build a JWTVerifier with the algorithm
-			JWTVerifier verifier = JWT.require(algorithm).withIssuer(jwtBearer.getIss())
-					.withAudience(jwtBearer.getAud()).withSubject(jwtBearer.getSub()).build();
-
-			// Verify the DecodedJWT
-			verifier.verify(jwt);
-
-			return true; // Token is valid
-		} catch (JWTVerificationException e) {
-			// Invalid token
-			throw new ForbiddenException(e.getMessage());
-		} catch (InvalidPublicKeyException e) {
-			throw new InternalServerErrorException("invalid public key", e);
-		}
-	}
-
 	private TokenResponse jwtAssertion(TokenRequest request) throws Exception {
 
 		String clientId = request.getClient_id();
@@ -112,7 +73,7 @@ public class TokenService {
 			throw new BadRequestException("The request is missing the required parameter 'assertion'.");
 		}
 
-		DecodedJWT assertionJwt = JWT.decode(assertion);
+		VerifyJwt assertionJwt = this.jwtVerifier.extractClaims(assertion);
 
 		if (request.getClient_secret() != null) {
 			throw new BadRequestException("The request has unexpected parameter 'client_secret'.");
@@ -143,10 +104,16 @@ public class TokenService {
 		}
 
 		// Look up the JWK, this will grabbed the cached version if possible
-		Jwk jwk = this.jwksService.getJwk(jwtMatchedBearer.getJwksUrl(), assertionJwt.getKeyId());
+		VerifyJwk jwk = this.externalJwkService.getJwk(jwtMatchedBearer.getJwksUrl(), assertionJwt.getKid());
+
+		// The parameters in the JWT that will be verified
+		VerifyParameters verifyParameters = VerifyParameters.builder().iss(jwtMatchedBearer.getIss())
+				.sub(jwtMatchedBearer.getSub()).aud(jwtMatchedBearer.getAud()).build();
 
 		// Validate the JWT
-		this.isValidToken(assertionJwt, jwk, jwtMatchedBearer);
+		if (!this.jwtVerifier.verifySignature(assertion, jwk, verifyParameters)) {
+			throw new ForbiddenException("Invalid assertion jwt.");
+		}
 
 		// Get the audience record
 		Client audienceRecord = clientRepository.getClient(audience);
@@ -205,7 +172,7 @@ public class TokenService {
 		return buildToken(subjectRecord, audienceRecord, authorizationRecord);
 	}
 
-	private boolean matches(ClientJwtBearer bearer, DecodedJWT jwt) {
+	private boolean matches(ClientJwtBearer bearer, VerifyJwt jwt) {
 		if (bearer == null || jwt == null) {
 			return false;
 		}
@@ -216,9 +183,9 @@ public class TokenService {
 		}
 
 		// Check if 'iss', 'sub', and 'aud' match between this class and the decoded JWT
-		boolean issMatch = bearer.getIss().equals(jwt.getIssuer());
-		boolean subMatch = bearer.getSub().equals(jwt.getSubject());
-		boolean audMatch = jwt.getAudience().contains(bearer.getAud());
+		boolean issMatch = bearer.getIss().equals(jwt.getIss());
+		boolean subMatch = bearer.getSub().equals(jwt.getSub());
+		boolean audMatch = bearer.getAud().equals(jwt.getAud());
 
 		return issMatch && subMatch && audMatch;
 	}

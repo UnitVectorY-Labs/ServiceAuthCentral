@@ -9,7 +9,7 @@ import lombok.Value;
 @Value
 @Builder
 @JsonInclude(Include.NON_NULL)
-public class JwksKey {
+public class JwkResponse {
 
 	private String kty;
 

@@ -11,7 +11,7 @@ import java.util.List;
 
 import com.unitvectory.auth.sign.local.model.JsonWebKeyRecord;
 import com.unitvectory.auth.sign.mapper.RsaPemToModulusExponentMapper;
-import com.unitvectory.auth.sign.model.JsonWebKey;
+import com.unitvectory.auth.sign.model.SignJwk;
 import com.unitvectory.auth.sign.model.RsaMoulousExponent;
 import com.unitvectory.auth.sign.service.SignService;
 import com.unitvectory.auth.util.exception.InternalServerErrorException;
@@ -68,9 +68,9 @@ public class LocalSignService implements SignService {
 	}
 
 	@Override
-	public List<JsonWebKey> getAll() {
+	public List<SignJwk> getAll() {
 
-		List<JsonWebKey> list = new ArrayList<>();
+		List<SignJwk> list = new ArrayList<>();
 
 		RsaMoulousExponent key1 = RsaPemToModulusExponentMapper.INSTANCE.convert(this.key1PublicKey);
 

@@ -11,5 +11,5 @@ import lombok.Value;
 public class JwksResponse {
 
 	@Singular
-	private List<JwksKey> keys;
+	private List<JwkResponse> keys;
 }

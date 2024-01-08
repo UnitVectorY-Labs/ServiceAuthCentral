@@ -27,8 +27,8 @@ import com.google.protobuf.ByteString;
 import com.unitvectory.auth.sign.gcp.model.JsonWebKeyRecord;
 import com.unitvectory.auth.sign.gcp.util.KidConverter;
 import com.unitvectory.auth.sign.mapper.RsaPemToModulusExponentMapper;
-import com.unitvectory.auth.sign.model.JsonWebKey;
 import com.unitvectory.auth.sign.model.RsaMoulousExponent;
+import com.unitvectory.auth.sign.model.SignJwk;
 import com.unitvectory.auth.sign.service.SignService;
 
 import lombok.AllArgsConstructor;
@@ -71,10 +71,16 @@ public class KmsSignService implements SignService {
 
 		List<JsonWebKeyRecord> allKeys = this.getAllRecords();
 
+		if (allKeys.size() == 0) {
+			return null;
+		}
+
 		// Special case for only one key, we don't care when it was created, we have no
 		// choice to use it so no filtering required
-		if (allKeys.size() == 0) {
-			return allKeys.get(0).getKeyName();
+		if (allKeys.size() == 1) {
+			kid = allKeys.get(0).getKid();
+			this.cacheActiveKid.put("kid", kid);
+			return kid;
 		}
 
 		// Filter and sort the keys, goal is to get the most recent key
@@ -130,8 +136,8 @@ public class KmsSignService implements SignService {
 	}
 
 	@Override
-	public List<JsonWebKey> getAll() {
-		List<JsonWebKey> list = new ArrayList<>();
+	public List<SignJwk> getAll() {
+		List<SignJwk> list = new ArrayList<>();
 		list.addAll(this.getAllRecords());
 		return list;
 	}

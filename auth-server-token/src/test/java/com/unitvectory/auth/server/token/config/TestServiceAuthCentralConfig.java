@@ -14,8 +14,12 @@ import com.unitvectory.auth.datamodel.memory.repository.MemoryJwkCacheRepository
 import com.unitvectory.auth.datamodel.repository.AuthorizationRepository;
 import com.unitvectory.auth.datamodel.repository.ClientRepository;
 import com.unitvectory.auth.datamodel.repository.JwkCacheRepository;
-import com.unitvectory.auth.server.token.service.jwk.JwksService;
-import com.unitvectory.auth.server.token.service.jwk.MockedJwksService;
+import com.unitvectory.auth.verify.model.VerifyJwk;
+import com.unitvectory.auth.verify.model.VerifyJwks;
+import com.unitvectory.auth.verify.model.VerifyJwt;
+import com.unitvectory.auth.verify.model.VerifyParameters;
+import com.unitvectory.auth.verify.service.JwksResolver;
+import com.unitvectory.auth.verify.service.JwtVerifier;
 
 @TestConfiguration
 @Profile("test")
@@ -47,7 +51,29 @@ public class TestServiceAuthCentralConfig {
 	}
 
 	@Bean
-	public JwksService jwksService() {
-		return new MockedJwksService();
+	public JwksResolver jwksResolver() {
+		// TODO: Return a better mocked implementation for local testing
+		return new JwksResolver() {
+			@Override
+			public VerifyJwks getJwks(String url) {
+				return null;
+			}
+		};
+	}
+
+	@Bean
+	public JwtVerifier jwtVerifier() {
+		// TODO: Return a better mocked implementation for local testing
+		return new JwtVerifier() {
+			@Override
+			public VerifyJwt extractClaims(String token) {
+				return null;
+			}
+
+			@Override
+			public boolean verifySignature(String token, VerifyJwk jwk, VerifyParameters verifyParameters) {
+				return false;
+			}
+		};
 	}
 }
