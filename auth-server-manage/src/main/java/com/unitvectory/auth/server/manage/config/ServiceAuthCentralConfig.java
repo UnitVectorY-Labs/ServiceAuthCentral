@@ -24,7 +24,7 @@ public class ServiceAuthCentralConfig {
 	}
 
 	@Bean
-	AuthorizationService authorizationService() {
+	public AuthorizationService authorizationService() {
 		return new DefaultAuthorizationService();
 	}
 }

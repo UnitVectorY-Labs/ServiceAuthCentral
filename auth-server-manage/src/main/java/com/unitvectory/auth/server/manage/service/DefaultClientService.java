@@ -16,6 +16,7 @@ import com.unitvectory.auth.datamodel.repository.ClientRepository;
 import com.unitvectory.auth.server.manage.dto.AuthorizationType;
 import com.unitvectory.auth.server.manage.dto.ClientSecretType;
 import com.unitvectory.auth.server.manage.dto.ClientType;
+import com.unitvectory.auth.server.manage.mapper.AuthorizationMapper;
 import com.unitvectory.auth.server.manage.mapper.ClientMapper;
 import com.unitvectory.auth.util.exception.ConflictException;
 import com.unitvectory.auth.util.exception.NotFoundException;
@@ -38,7 +39,8 @@ public class DefaultClientService implements ClientService {
 	public ClientType addClient(String clientId, String description) {
 		String salt = this.entropyService.randomAlphaNumeric(LENGTH);
 		this.clientRepository.putClient(clientId, description, salt);
-		ClientType client = new ClientType(clientId, false, false);
+		ClientType client = ClientType.builder().clientId(clientId).clientSecret1Set(false).clientSecret2Set(false)
+				.build();
 		return client;
 	}
 
@@ -58,7 +60,7 @@ public class DefaultClientService implements ClientService {
 		String hashedSecret = client.hashSecret(secret);
 		this.clientRepository.saveClientSecret1(clientId, hashedSecret);
 
-		ClientSecretType clientSecret = new ClientSecretType(secret);
+		ClientSecretType clientSecret = ClientSecretType.builder().clientSecret(secret).build();
 		return clientSecret;
 	}
 
@@ -78,7 +80,7 @@ public class DefaultClientService implements ClientService {
 		String hashedSecret = client.hashSecret(secret);
 		this.clientRepository.saveClientSecret2(clientId, hashedSecret);
 
-		ClientSecretType clientSecret = new ClientSecretType(secret);
+		ClientSecretType clientSecret = ClientSecretType.builder().clientSecret(secret).build();
 		return clientSecret;
 	}
 
@@ -94,7 +96,7 @@ public class DefaultClientService implements ClientService {
 			this.clientRepository.clearClientSecret1(clientId);
 		}
 
-		ClientSecretType clientSecret = new ClientSecretType(null);
+		ClientSecretType clientSecret = ClientSecretType.builder().build();
 		return clientSecret;
 	}
 
@@ -110,7 +112,7 @@ public class DefaultClientService implements ClientService {
 			this.clientRepository.clearClientSecret2(clientId);
 		}
 
-		ClientSecretType clientSecret = new ClientSecretType(null);
+		ClientSecretType clientSecret = ClientSecretType.builder().build();
 		return clientSecret;
 	}
 
@@ -129,7 +131,7 @@ public class DefaultClientService implements ClientService {
 		return StreamSupport
 				.stream(Spliterators.spliteratorUnknownSize(authorizationRepository.getAuthorizationBySubject(clientId),
 						Spliterator.ORDERED), false)
-				.map(AuthorizationType::new).collect(Collectors.toList());
+				.map(AuthorizationMapper.INSTANCE::authorizationToAuthorizationType).collect(Collectors.toList());
 	}
 
 	@Override
@@ -137,6 +139,6 @@ public class DefaultClientService implements ClientService {
 		return StreamSupport
 				.stream(Spliterators.spliteratorUnknownSize(
 						authorizationRepository.getAuthorizationByAudience(clientId), Spliterator.ORDERED), false)
-				.map(AuthorizationType::new).collect(Collectors.toList());
+				.map(AuthorizationMapper.INSTANCE::authorizationToAuthorizationType).collect(Collectors.toList());
 	}
 }

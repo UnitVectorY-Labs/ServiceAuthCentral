@@ -9,6 +9,7 @@ import com.unitvectory.auth.datamodel.repository.ClientRepository;
 import com.unitvectory.auth.server.manage.dto.AuthorizationType;
 import com.unitvectory.auth.server.manage.dto.ClientType;
 import com.unitvectory.auth.server.manage.dto.ResponseType;
+import com.unitvectory.auth.server.manage.mapper.AuthorizationMapper;
 import com.unitvectory.auth.server.manage.mapper.ClientMapper;
 
 public class DefaultAuthorizationService implements AuthorizationService {
@@ -48,7 +49,7 @@ public class DefaultAuthorizationService implements AuthorizationService {
 			return null;
 		}
 
-		return new AuthorizationType(authorization);
+		return AuthorizationMapper.INSTANCE.authorizationToAuthorizationType(authorization);
 	}
 
 	@Override

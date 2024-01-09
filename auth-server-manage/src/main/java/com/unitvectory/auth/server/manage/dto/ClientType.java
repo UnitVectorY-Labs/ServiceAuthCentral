@@ -1,20 +1,16 @@
 package com.unitvectory.auth.server.manage.dto;
 
-import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.Value;
 
-@Data
+@Value
 @Builder
-@NoArgsConstructor
-@AllArgsConstructor
 public class ClientType {
 
-	private String clientId;
+	private final String clientId;
 
-	private boolean clientSecret1Set;
+	private final boolean clientSecret1Set;
 
-	private boolean clientSecret2Set;
+	private final boolean clientSecret2Set;
 
 }

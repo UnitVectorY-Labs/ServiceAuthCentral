@@ -1,11 +1,11 @@
 package com.unitvectory.auth.server.manage.dto;
 
 import lombok.Builder;
-import lombok.Data;
+import lombok.Value;
 
-@Data
+@Value
 @Builder
 public class ResponseType {
 
-	private boolean success;
+	private final boolean success;
 }

@@ -1,25 +1,16 @@
 package com.unitvectory.auth.server.manage.dto;
 
-import com.unitvectory.auth.datamodel.model.Authorization;
+import lombok.Builder;
+import lombok.Value;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
+@Value
+@Builder
 public class AuthorizationType {
 
-	private String id;
+	private final String id;
 
-	private String subjectId;
+	private final String subjectId;
 
-	private String audienceId;
+	private final String audienceId;
 
-	public AuthorizationType(Authorization auth) {
-		this.id = auth.getDocumentId();
-		this.subjectId = auth.getSubject();
-		this.audienceId = auth.getAudience();
-	}
 }
