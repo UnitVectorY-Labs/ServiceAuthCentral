@@ -18,6 +18,13 @@ public interface ClientRepository {
 	Client getClient(String clientId);
 
 	/**
+	 * Deletes a client record
+	 * 
+	 * @param clientId the identifier to delete
+	 */
+	void deleteClient(String clientId);
+
+	/**
 	 * Stores or updates a client with the given client ID, description, and salt.
 	 *
 	 * @param clientId    the unique identifier for the client.

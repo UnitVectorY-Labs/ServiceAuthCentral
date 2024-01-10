@@ -33,6 +33,14 @@ public class MemoryAuthorizationRepository implements AuthorizationRepository {
 	}
 
 	@Override
+	public void deleteAuthorization(@NonNull String id) {
+		MemoryAuthorization auth = (MemoryAuthorization) this.getAuthorization(id);
+		if (auth != null) {
+			this.authorizations.remove(auth);
+		}
+	}
+
+	@Override
 	public Authorization getAuthorization(@NonNull String subject, @NonNull String audience) {
 		for (MemoryAuthorization auth : this.authorizations) {
 			if (auth.matches(subject, audience)) {

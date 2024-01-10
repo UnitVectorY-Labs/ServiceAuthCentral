@@ -46,6 +46,15 @@ public class FirestoreAuthorizationRepository implements AuthorizationRepository
 	}
 
 	@Override
+	public void deleteAuthorization(@NonNull String id) {
+		try {
+			firestore.collection(this.collectionAuthorizations).document(id).delete().get();
+		} catch (InterruptedException | ExecutionException e) {
+			throw new InternalServerErrorException(e);
+		}
+	}
+
+	@Override
 	public Authorization getAuthorization(@NonNull String subject, @NonNull String audience) {
 		try {
 			QuerySnapshot querySnapshot = firestore.collection(this.collectionAuthorizations)

@@ -11,6 +11,8 @@ public interface ClientService {
 
 	ClientType addClient(String clientId, String description);
 
+	ResponseType deleteClient(String clientId);
+
 	ClientSecretType generateClientSecret1(String clientId);
 
 	ClientSecretType generateClientSecret2(String clientId);

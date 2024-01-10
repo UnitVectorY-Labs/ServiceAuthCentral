@@ -1,5 +1,6 @@
 package com.unitvectory.auth.server.manage.service;
 
+import java.util.Iterator;
 import java.util.List;
 import java.util.Spliterator;
 import java.util.Spliterators;
@@ -10,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.unitvectory.auth.common.service.entropy.EntropyService;
+import com.unitvectory.auth.datamodel.model.Authorization;
 import com.unitvectory.auth.datamodel.model.Client;
 import com.unitvectory.auth.datamodel.model.ClientJwtBearer;
 import com.unitvectory.auth.datamodel.repository.AuthorizationRepository;
@@ -44,6 +46,30 @@ public class DefaultClientService implements ClientService {
 		ClientType client = ClientType.builder().clientId(clientId).clientSecret1Set(false).clientSecret2Set(false)
 				.build();
 		return client;
+	}
+
+	@Override
+	public ResponseType deleteClient(String clientId) {
+
+		// Delete all of the authorization records where the clientId is the audience
+		Iterator<Authorization> aud = this.authorizationRepository.getAuthorizationByAudience(clientId);
+		while (aud.hasNext()) {
+			Authorization auth = aud.next();
+			this.authorizationRepository.deleteAuthorization(auth.getDocumentId());
+		}
+
+		// Delete all of the authorization records where the clientId is the subject
+		Iterator<Authorization> sub = this.authorizationRepository.getAuthorizationBySubject(clientId);
+		while (sub.hasNext()) {
+			Authorization auth = sub.next();
+			this.authorizationRepository.deleteAuthorization(auth.getDocumentId());
+		}
+
+		// Now delete the client
+		this.clientRepository.deleteClient(clientId);
+
+		// All done
+		return ResponseType.builder().success(true).build();
 	}
 
 	@Override

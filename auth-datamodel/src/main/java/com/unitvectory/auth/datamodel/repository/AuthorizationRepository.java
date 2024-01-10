@@ -20,6 +20,13 @@ public interface AuthorizationRepository {
 	Authorization getAuthorization(String id);
 
 	/**
+	 * Deletes an authorization record based on document id
+	 * 
+	 * @param id the document id
+	 */
+	void deleteAuthorization(String id);
+
+	/**
 	 * Retrieves an Authorization document based on the subject and audience.
 	 *
 	 * @param subject  the clientId representing the subject of the authorization.

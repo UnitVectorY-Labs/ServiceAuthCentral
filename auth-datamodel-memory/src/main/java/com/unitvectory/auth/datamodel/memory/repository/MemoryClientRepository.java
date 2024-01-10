@@ -44,7 +44,11 @@ public class MemoryClientRepository implements ClientRepository {
 		} else {
 			throw new BadRequestException("client record already exists");
 		}
+	}
 
+	@Override
+	public void deleteClient(@NonNull String clientId) {
+		this.memory.remove(clientId);
 	}
 
 	@Override

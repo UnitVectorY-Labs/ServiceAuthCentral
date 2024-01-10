@@ -6,6 +6,7 @@ type Query {
 
 type Mutation {
     addClient(clientId: String!, description: String!): Client!
+    deleteClient(clientId: String!): Response!
     generateClientSecret1(clientId: String!): ClientSecret!
     generateClientSecret2(clientId: String!): ClientSecret!
     clearClientSecret1(clientId: String!): ClientSecret!

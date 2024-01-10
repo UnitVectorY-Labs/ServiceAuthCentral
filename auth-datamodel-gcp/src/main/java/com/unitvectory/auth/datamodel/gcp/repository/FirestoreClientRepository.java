@@ -50,6 +50,15 @@ public class FirestoreClientRepository implements ClientRepository {
 	}
 
 	@Override
+	public void deleteClient(@NonNull String clientId) {
+		try {
+			this.firestore.collection(this.collectionClients).document(clientId).delete().get();
+		} catch (InterruptedException | ExecutionException e) {
+			throw new InternalServerErrorException(e);
+		}
+	}
+
+	@Override
 	public void putClient(@NonNull String clientId, String description, @NonNull String salt) {
 
 		try {

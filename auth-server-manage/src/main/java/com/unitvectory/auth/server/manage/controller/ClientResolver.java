@@ -27,6 +27,11 @@ public class ClientResolver {
 	}
 
 	@MutationMapping
+	public ResponseType deleteClient(@Argument String clientId) {
+		return this.clientService.deleteClient(clientId);
+	}
+
+	@MutationMapping
 	public ClientSecretType generateClientSecret1(@Argument String clientId) {
 		return this.clientService.generateClientSecret1(clientId);
 	}
