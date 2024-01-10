@@ -1,5 +1,7 @@
 package com.unitvectory.auth.server.manage.dto;
 
+import java.util.List;
+
 import lombok.Builder;
 import lombok.Value;
 
@@ -13,4 +15,5 @@ public class ClientType {
 
 	private final boolean clientSecret2Set;
 
+	private final List<ClientJwtBearerType> jwtBearer;
 }

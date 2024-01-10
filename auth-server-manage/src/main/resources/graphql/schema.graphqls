@@ -20,6 +20,15 @@ type Client {
   clientSecret2Set: Boolean
   authorizationsAsSubject: [Authorization]
   authorizationsAsAudience: [Authorization]
+  jwtBearer: [JwtBearer]
+}
+
+type JwtBearer {
+  id: ID!
+  jwksUrl: String
+  iss: String
+  sub: String
+  aud: String
 }
 
 type Authorization {

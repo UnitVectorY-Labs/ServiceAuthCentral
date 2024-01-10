@@ -7,7 +7,7 @@ import org.mapstruct.factory.Mappers;
 import com.unitvectory.auth.datamodel.model.Client;
 import com.unitvectory.auth.server.manage.dto.ClientType;
 
-@Mapper
+@Mapper(uses = ClientJwtBearerMapper.class)
 public interface ClientMapper {
 
 	ClientMapper INSTANCE = Mappers.getMapper(ClientMapper.class);
@@ -15,5 +15,6 @@ public interface ClientMapper {
 	@Mapping(target = "clientId", source = "clientId")
 	@Mapping(target = "clientSecret1Set", expression = "java(client.getClientSecret1() != null)")
 	@Mapping(target = "clientSecret2Set", expression = "java(client.getClientSecret2() != null)")
+	@Mapping(target = "jwtBearer", source = "jwtBearer")
 	ClientType clientToClientType(Client client);
 }
