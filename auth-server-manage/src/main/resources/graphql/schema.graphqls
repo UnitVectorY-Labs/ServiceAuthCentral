@@ -10,6 +10,8 @@ type Mutation {
     generateClientSecret2(clientId: String!): ClientSecret!
     clearClientSecret1(clientId: String!): ClientSecret!
     clearClientSecret2(clientId: String!): ClientSecret!
+    authorizeJwtBearer(clientId: String!, jwksUrl: String!, iss: String!, sub: String!, aud: String!): Response!
+    deauthorizeJwtBearer(clientId: String!, id: String!): Response!
     authorize(subject: String!, audience: String!): Response!
     deauthorize(subject: String!, audience: String!): Response!
 }

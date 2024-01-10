@@ -12,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import com.unitvectory.auth.server.manage.dto.AuthorizationType;
 import com.unitvectory.auth.server.manage.dto.ClientSecretType;
 import com.unitvectory.auth.server.manage.dto.ClientType;
+import com.unitvectory.auth.server.manage.dto.ResponseType;
 import com.unitvectory.auth.server.manage.service.ClientService;
 
 @Controller
@@ -43,6 +44,17 @@ public class ClientResolver {
 	@MutationMapping
 	public ClientSecretType clearClientSecret2(@Argument String clientId) {
 		return this.clientService.clearClientSecret2(clientId);
+	}
+
+	@MutationMapping
+	public ResponseType authorizeJwtBearer(@Argument String clientId, @Argument String jwksUrl, @Argument String iss,
+			@Argument String sub, @Argument String aud) {
+		return this.clientService.authorizeJwtBearer(clientId, jwksUrl, iss, sub, aud);
+	}
+
+	@MutationMapping
+	public ResponseType deauthorizeJwtBearer(@Argument String clientId, @Argument String id) {
+		return this.clientService.deauthorizeJwtBearer(clientId, id);
 	}
 
 	@QueryMapping

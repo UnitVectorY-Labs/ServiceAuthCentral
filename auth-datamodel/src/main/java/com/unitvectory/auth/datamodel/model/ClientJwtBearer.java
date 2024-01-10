@@ -73,4 +73,18 @@ public interface ClientJwtBearer {
 		return Objects.equals(this.getJwksUrl(), obj.getJwksUrl()) && Objects.equals(this.getIss(), obj.getIss())
 				&& Objects.equals(this.getSub(), obj.getSub()) && Objects.equals(this.getAud(), obj.getAud());
 	}
+
+	/**
+	 * Compare a ClientJwtBearer to see if it matches.
+	 * 
+	 * @param jwksUrl the jwksUrl
+	 * @param iss     the issuer
+	 * @param sub     the subject
+	 * @param aud     the audience
+	 * @return true if matches; otherwise false
+	 */
+	default boolean matches(String jwksUrl, String iss, String sub, String aud) {
+		return Objects.equals(this.getJwksUrl(), jwksUrl) && Objects.equals(this.getIss(), iss)
+				&& Objects.equals(this.getSub(), sub) && Objects.equals(this.getAud(), aud);
+	}
 }

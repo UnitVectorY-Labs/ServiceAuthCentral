@@ -11,11 +11,13 @@ import org.springframework.stereotype.Service;
 
 import com.unitvectory.auth.common.service.entropy.EntropyService;
 import com.unitvectory.auth.datamodel.model.Client;
+import com.unitvectory.auth.datamodel.model.ClientJwtBearer;
 import com.unitvectory.auth.datamodel.repository.AuthorizationRepository;
 import com.unitvectory.auth.datamodel.repository.ClientRepository;
 import com.unitvectory.auth.server.manage.dto.AuthorizationType;
 import com.unitvectory.auth.server.manage.dto.ClientSecretType;
 import com.unitvectory.auth.server.manage.dto.ClientType;
+import com.unitvectory.auth.server.manage.dto.ResponseType;
 import com.unitvectory.auth.server.manage.mapper.AuthorizationMapper;
 import com.unitvectory.auth.server.manage.mapper.ClientMapper;
 import com.unitvectory.auth.util.exception.ConflictException;
@@ -140,5 +142,47 @@ public class DefaultClientService implements ClientService {
 				.stream(Spliterators.spliteratorUnknownSize(
 						authorizationRepository.getAuthorizationByAudience(clientId), Spliterator.ORDERED), false)
 				.map(AuthorizationMapper.INSTANCE::authorizationToAuthorizationType).collect(Collectors.toList());
+	}
+
+	@Override
+	public ResponseType authorizeJwtBearer(String clientId, String jwksUrl, String iss, String sub, String aud) {
+		Client client = this.clientRepository.getClient(clientId);
+		if (client == null) {
+			return ResponseType.builder().success(false).build();
+		}
+
+		for (ClientJwtBearer cjb : client.getJwtBearer()) {
+			if (cjb.matches(jwksUrl, iss, sub, aud)) {
+				// Already matches, fail
+				return ResponseType.builder().success(false).build();
+			}
+		}
+
+		String id = this.entropyService.generateUuid();
+		this.clientRepository.addAuthorizedJwt(clientId, id, jwksUrl, iss, sub, aud);
+		return ResponseType.builder().success(true).build();
+	}
+
+	@Override
+	public ResponseType deauthorizeJwtBearer(String clientId, String id) {
+		Client client = this.clientRepository.getClient(clientId);
+		if (client == null) {
+			return ResponseType.builder().success(false).build();
+		}
+
+		boolean matches = false;
+		for (ClientJwtBearer cjb : client.getJwtBearer()) {
+			if (id != null && id.equals(cjb.getId())) {
+				matches = true;
+				break;
+			}
+		}
+
+		if (!matches) {
+			return ResponseType.builder().success(false).build();
+		}
+
+		this.clientRepository.removeAuthorizedJwt(clientId, id);
+		return ResponseType.builder().success(true).build();
 	}
 }
