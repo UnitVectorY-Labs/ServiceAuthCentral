@@ -86,7 +86,8 @@ public class MemoryAuthorizationRepository implements AuthorizationRepository {
 			}
 		}
 
-		this.authorizations.add(MemoryAuthorization.builder().subject(subject).audience(audience).build());
+		this.authorizations
+				.add(MemoryAuthorization.builder().subject(subject).audience(audience).build());
 	}
 
 	@Override

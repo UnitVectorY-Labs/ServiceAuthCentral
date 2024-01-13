@@ -43,6 +43,7 @@ public class ClientRecord implements Client {
 			return Collections.emptyList();
 		}
 
-		return jwtBearer.stream().map(obj -> (ClientJwtBearer) obj).collect(Collectors.toCollection(ArrayList::new));
+		return jwtBearer.stream().map(obj -> (ClientJwtBearer) obj)
+				.collect(Collectors.toCollection(ArrayList::new));
 	}
 }

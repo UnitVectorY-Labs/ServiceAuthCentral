@@ -20,16 +20,16 @@ public interface SignJwk {
 	String getKid();
 
 	/**
-	 * Returns the Public Key Use (use) parameter that identifies the intended use
-	 * of the public key.
+	 * Returns the Public Key Use (use) parameter that identifies the intended use of the public
+	 * key.
 	 * 
 	 * @return the intended use of the public key.
 	 */
 	String getUse();
 
 	/**
-	 * Returns the algorithm (alg) parameter that identifies the algorithm intended
-	 * for use with the key.
+	 * Returns the algorithm (alg) parameter that identifies the algorithm intended for use with the
+	 * key.
 	 * 
 	 * @return the algorithm used.
 	 */

@@ -5,14 +5,12 @@ import java.util.List;
 import com.unitvectory.auth.sign.model.SignJwk;
 
 /**
- * Service interface for signing operations and key management for JWTs and
- * JWKS.
+ * Service interface for signing operations and key management for JWTs and JWKS.
  */
 public interface SignService {
 
 	/**
-	 * Retrieves the Key ID (KID) of the active key to be used for signing at the
-	 * given time.
+	 * Retrieves the Key ID (KID) of the active key to be used for signing at the given time.
 	 *
 	 * @param now The current time in milliseconds.
 	 * @return the active kid.
@@ -22,7 +20,7 @@ public interface SignService {
 	/**
 	 * Signs a given token using the key identified by the provided Key ID (KID).
 	 *
-	 * @param kid           The kid of the key to be used for signing.
+	 * @param kid The kid of the key to be used for signing.
 	 * @param unsignedToken The token to be signed.
 	 * @return the signed token.
 	 */

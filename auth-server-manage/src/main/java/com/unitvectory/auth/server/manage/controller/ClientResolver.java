@@ -52,8 +52,8 @@ public class ClientResolver {
 	}
 
 	@MutationMapping
-	public ResponseType authorizeJwtBearer(@Argument String clientId, @Argument String jwksUrl, @Argument String iss,
-			@Argument String sub, @Argument String aud) {
+	public ResponseType authorizeJwtBearer(@Argument String clientId, @Argument String jwksUrl,
+			@Argument String iss, @Argument String sub, @Argument String aud) {
 		return this.clientService.authorizeJwtBearer(clientId, jwksUrl, iss, sub, aud);
 	}
 

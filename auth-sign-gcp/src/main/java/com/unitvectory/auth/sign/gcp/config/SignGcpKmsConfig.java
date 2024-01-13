@@ -30,8 +30,8 @@ public class SignGcpKmsConfig {
 		// Build the name of the Cloud KMS key that will be used to sign JWTs.
 		// This does not include the version as multiple versions are utilized to allow
 		// for key rotations without service interruption
-		return "projects/" + this.projectId + "/locations/" + this.keyLocation + "/keyRings/" + this.keyRing
-				+ "/cryptoKeys/" + this.keyName;
+		return "projects/" + this.projectId + "/locations/" + this.keyLocation + "/keyRings/"
+				+ this.keyRing + "/cryptoKeys/" + this.keyName;
 	}
 
 	@Bean

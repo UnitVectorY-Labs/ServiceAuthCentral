@@ -1,8 +1,8 @@
 package com.unitvectory.auth.common.service.time;
 
 /**
- * Provides a mechanism to have the method that normally return the current time
- * return static time which is useful for testing.
+ * Provides a mechanism to have the method that normally return the current time return static time
+ * which is useful for testing.
  */
 public class StaticTimeService implements TimeService {
 

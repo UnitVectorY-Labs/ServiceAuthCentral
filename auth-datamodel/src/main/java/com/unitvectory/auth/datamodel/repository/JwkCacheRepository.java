@@ -19,8 +19,8 @@ public interface JwkCacheRepository {
 	void cacheJwk(String url, CachedJwk jwk, long ttl);
 
 	/**
-	 * Caches an indication that there is no JWK associated with the provided Key ID
-	 * (kid) at the specified URL.
+	 * Caches an indication that there is no JWK associated with the provided Key ID (kid) at the
+	 * specified URL.
 	 *
 	 * @param url the URL associated with the JWK.
 	 * @param kid the Key ID that is absent.
@@ -37,8 +37,7 @@ public interface JwkCacheRepository {
 	List<CachedJwk> getJwks(String url);
 
 	/**
-	 * Retrieves a single cached JWK associated with the specified URL and Key ID
-	 * (kid).
+	 * Retrieves a single cached JWK associated with the specified URL and Key ID (kid).
 	 * 
 	 * If no value
 	 *

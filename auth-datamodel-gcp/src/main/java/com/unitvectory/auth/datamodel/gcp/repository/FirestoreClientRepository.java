@@ -37,7 +37,8 @@ public class FirestoreClientRepository implements ClientRepository {
 	@Override
 	public Client getClient(@NonNull String clientId) {
 		try {
-			DocumentSnapshot document = firestore.collection(this.collectionClients).document(clientId).get().get();
+			DocumentSnapshot document =
+					firestore.collection(this.collectionClients).document(clientId).get().get();
 			if (document.exists()) {
 				ClientRecord record = document.toObject(ClientRecord.class);
 				return record;
@@ -64,7 +65,8 @@ public class FirestoreClientRepository implements ClientRepository {
 		try {
 			// Reference to the document in the 'clients' collection with the specified
 			// clientId
-			DocumentReference document = firestore.collection(this.collectionClients).document(clientId);
+			DocumentReference document =
+					firestore.collection(this.collectionClients).document(clientId);
 
 			// Start a Firestore transaction
 
@@ -75,8 +77,8 @@ public class FirestoreClientRepository implements ClientRepository {
 				// If the document does not exist, create the new ClientRecord
 				if (!snapshot.exists()) {
 					@Nonnull
-					ClientRecord record = ClientRecord.builder().documentId(clientId).clientId(clientId)
-							.description(description).salt(salt).build();
+					ClientRecord record = ClientRecord.builder().documentId(clientId)
+							.clientId(clientId).description(description).salt(salt).build();
 
 					// Perform the transactional write to create the new record
 					transaction.set(document, record);
@@ -95,10 +97,12 @@ public class FirestoreClientRepository implements ClientRepository {
 	}
 
 	@Override
-	public void addAuthorizedJwt(@NonNull String clientId, @NonNull String id, @NonNull String jwksUrl,
-			@NonNull String iss, @NonNull String sub, @NonNull String aud) {
+	public void addAuthorizedJwt(@NonNull String clientId, @NonNull String id,
+			@NonNull String jwksUrl, @NonNull String iss, @NonNull String sub,
+			@NonNull String aud) {
 		try {
-			DocumentReference docRef = firestore.collection(this.collectionClients).document(clientId);
+			DocumentReference docRef =
+					firestore.collection(this.collectionClients).document(clientId);
 			firestore.runTransaction(transaction -> {
 				DocumentSnapshot snapshot = transaction.get(docRef).get();
 
@@ -116,8 +120,8 @@ public class FirestoreClientRepository implements ClientRepository {
 				}
 
 				// Constructing new JWT object
-				ClientJwtBearerRecord newJwt = ClientJwtBearerRecord.builder().id(id).jwksUrl(jwksUrl).iss(iss).sub(sub)
-						.aud(aud).build();
+				ClientJwtBearerRecord newJwt = ClientJwtBearerRecord.builder().id(id)
+						.jwksUrl(jwksUrl).iss(iss).sub(sub).aud(aud).build();
 
 				// Check for duplicates
 				for (ClientJwtBearer cjb : jwtBearerList) {
@@ -140,7 +144,8 @@ public class FirestoreClientRepository implements ClientRepository {
 	@Override
 	public void removeAuthorizedJwt(@NonNull String clientId, @NonNull String id) {
 		try {
-			DocumentReference docRef = firestore.collection(this.collectionClients).document(clientId);
+			DocumentReference docRef =
+					firestore.collection(this.collectionClients).document(clientId);
 			firestore.runTransaction(transaction -> {
 				DocumentSnapshot snapshot = transaction.get(docRef).get();
 
@@ -186,7 +191,8 @@ public class FirestoreClientRepository implements ClientRepository {
 	@Override
 	public void saveClientSecret1(@NonNull String clientId, @NonNull String hashedSecret) {
 		try {
-			firestore.collection(this.collectionClients).document(clientId).update(CLIENTSECRET1, hashedSecret).get();
+			firestore.collection(this.collectionClients).document(clientId)
+					.update(CLIENTSECRET1, hashedSecret).get();
 		} catch (InterruptedException | ExecutionException e) {
 			throw new InternalServerErrorException(e);
 		}
@@ -195,7 +201,8 @@ public class FirestoreClientRepository implements ClientRepository {
 	@Override
 	public void saveClientSecret2(@NonNull String clientId, @NonNull String hashedSecret) {
 		try {
-			firestore.collection(this.collectionClients).document(clientId).update(CLIENTSECRET2, hashedSecret).get();
+			firestore.collection(this.collectionClients).document(clientId)
+					.update(CLIENTSECRET2, hashedSecret).get();
 		} catch (InterruptedException | ExecutionException e) {
 			throw new InternalServerErrorException(e);
 		}
@@ -204,7 +211,8 @@ public class FirestoreClientRepository implements ClientRepository {
 	@Override
 	public void clearClientSecret1(@NonNull String clientId) {
 		try {
-			firestore.collection(this.collectionClients).document(clientId).update(CLIENTSECRET1, null).get();
+			firestore.collection(this.collectionClients).document(clientId)
+					.update(CLIENTSECRET1, null).get();
 		} catch (InterruptedException | ExecutionException e) {
 			throw new InternalServerErrorException(e);
 		}
@@ -213,7 +221,8 @@ public class FirestoreClientRepository implements ClientRepository {
 	@Override
 	public void clearClientSecret2(@NonNull String clientId) {
 		try {
-			firestore.collection(this.collectionClients).document(clientId).update(CLIENTSECRET2, null).get();
+			firestore.collection(this.collectionClients).document(clientId)
+					.update(CLIENTSECRET2, null).get();
 		} catch (InterruptedException | ExecutionException e) {
 			throw new InternalServerErrorException(e);
 		}

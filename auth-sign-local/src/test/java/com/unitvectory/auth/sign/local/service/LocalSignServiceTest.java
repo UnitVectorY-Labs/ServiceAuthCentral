@@ -17,7 +17,7 @@ import com.unitvectory.auth.sign.model.SignJwk;
 import com.unitvectory.auth.sign.service.SignService;
 
 @ExtendWith(SpringExtension.class)
-@ActiveProfiles({ "test", "sign-local" })
+@ActiveProfiles({"test", "sign-local"})
 @TestPropertySource(locations = "classpath:application-test.properties")
 @ContextConfiguration(classes = SignLocalConfig.class)
 public class LocalSignServiceTest {

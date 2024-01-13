@@ -20,8 +20,8 @@ public class TokenController {
 	private TokenService tokenService;
 
 	@PostMapping(path = "/v1/token", consumes = "application/x-www-form-urlencoded")
-	public ResponseEntity<TokenResponse> token(@Valid TokenRequest tokenRequest, BindingResult result)
-			throws Exception {
+	public ResponseEntity<TokenResponse> token(@Valid TokenRequest tokenRequest,
+			BindingResult result) throws Exception {
 		if (result.hasErrors()) {
 			// Throw custom exception
 			// throw new BadRequestException(result);

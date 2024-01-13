@@ -5,8 +5,7 @@ import java.util.Iterator;
 import com.unitvectory.auth.datamodel.model.Authorization;
 
 /**
- * Interface for repository handling the storage and retrieval of Authorization
- * documents.
+ * Interface for repository handling the storage and retrieval of Authorization documents.
  */
 public interface AuthorizationRepository {
 
@@ -14,8 +13,7 @@ public interface AuthorizationRepository {
 	 * Retrieves an Authorization document by its unique document ID.
 	 *
 	 * @param id the documentId for the Authorization document.
-	 * @return the Authorization document with the specified ID, or null if not
-	 *         found.
+	 * @return the Authorization document with the specified ID, or null if not found.
 	 */
 	Authorization getAuthorization(String id);
 
@@ -29,10 +27,9 @@ public interface AuthorizationRepository {
 	/**
 	 * Retrieves an Authorization document based on the subject and audience.
 	 *
-	 * @param subject  the clientId representing the subject of the authorization.
+	 * @param subject the clientId representing the subject of the authorization.
 	 * @param audience the clientId representing the audience of the authorization.
-	 * @return the Authorization document matching the subject and audience, or null
-	 *         if not found.
+	 * @return the Authorization document matching the subject and audience, or null if not found.
 	 */
 	Authorization getAuthorization(String subject, String audience);
 
@@ -53,19 +50,18 @@ public interface AuthorizationRepository {
 	Iterator<Authorization> getAuthorizationByAudience(String audience);
 
 	/**
-	 * Creates an authorization allowing the specified subject to act for the
-	 * specified audience.
+	 * Creates an authorization allowing the specified subject to act for the specified audience.
 	 *
-	 * @param subject  the clientId representing the subject of the authorization.
+	 * @param subject the clientId representing the subject of the authorization.
 	 * @param audience the clientId representing the audience of the authorization.
 	 */
 	void authorize(String subject, String audience);
 
 	/**
-	 * Removes an authorization, preventing the specified subject from acting for
-	 * the specified audience.
+	 * Removes an authorization, preventing the specified subject from acting for the specified
+	 * audience.
 	 *
-	 * @param subject  the clientId representing the subject of the authorization.
+	 * @param subject the clientId representing the subject of the authorization.
 	 * @param audience the clientId representing the audience of the authorization.
 	 */
 	void deauthorize(String subject, String audience);

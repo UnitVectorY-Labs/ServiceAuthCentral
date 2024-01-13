@@ -34,7 +34,8 @@ public class MemoryJwkCacheRepository implements JwkCacheRepository {
 		String key = key(url, jwk.getKid());
 
 		// Make a copy of the item
-		MemoryCachedJwk cachedJwk = MemoryCachedJwkMapper.INSTANCE.cachedJwkToMemoryCachedJwk(url, ttl, jwk);
+		MemoryCachedJwk cachedJwk =
+				MemoryCachedJwkMapper.INSTANCE.cachedJwkToMemoryCachedJwk(url, ttl, jwk);
 		cache.put(key, cachedJwk);
 	}
 
@@ -42,7 +43,8 @@ public class MemoryJwkCacheRepository implements JwkCacheRepository {
 	public void cacheJwkAbsent(@NonNull String url, @NonNull String kid, long ttl) {
 		String key = key(url, kid);
 
-		MemoryCachedJwk cachedJwk = MemoryCachedJwk.builder().url(url).kid(kid).ttl(ttl).valid(false).build();
+		MemoryCachedJwk cachedJwk =
+				MemoryCachedJwk.builder().url(url).kid(kid).ttl(ttl).valid(false).build();
 		cache.put(key, cachedJwk);
 	}
 

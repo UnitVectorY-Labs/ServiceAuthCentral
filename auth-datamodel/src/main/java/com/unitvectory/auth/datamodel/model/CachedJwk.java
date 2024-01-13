@@ -6,8 +6,8 @@ package com.unitvectory.auth.datamodel.model;
 public interface CachedJwk {
 
 	/**
-	 * Determines if this JWK record is valid. Invalid records are tombstones that
-	 * indicate the kid for the JWK does not exist.
+	 * Determines if this JWK record is valid. Invalid records are tombstones that indicate the kid
+	 * for the JWK does not exist.
 	 *
 	 * @return true if the record is valid, false otherwise.
 	 */
@@ -36,16 +36,16 @@ public interface CachedJwk {
 	String getKty();
 
 	/**
-	 * Returns the algorithm (alg) parameter that identifies the algorithm intended
-	 * for use with the key.
+	 * Returns the algorithm (alg) parameter that identifies the algorithm intended for use with the
+	 * key.
 	 *
 	 * @return the algorithm used.
 	 */
 	String getAlg();
 
 	/**
-	 * Returns the Public Key Use (use) parameter that identifies the intended use
-	 * of the public key.
+	 * Returns the Public Key Use (use) parameter that identifies the intended use of the public
+	 * key.
 	 *
 	 * @return the intended use of the public key.
 	 */

@@ -40,7 +40,8 @@ public class FirestoreJwkCacheRepository implements JwkCacheRepository {
 
 	@Override
 	public void cacheJwk(@NonNull String url, @NonNull CachedJwk jwk, long ttl) {
-		CachedJwkRecord cachedJwk = CachedJwkRecordMapper.INSTANCE.cachedJwkToCachedJwkRecord(url, ttl, jwk);
+		CachedJwkRecord cachedJwk =
+				CachedJwkRecordMapper.INSTANCE.cachedJwkToCachedJwkRecord(url, ttl, jwk);
 		String documentId = getId(url, jwk.getKid());
 		cachedJwk.setDocumentId(documentId);
 
@@ -56,8 +57,8 @@ public class FirestoreJwkCacheRepository implements JwkCacheRepository {
 		@Nonnull
 		String documentId = getId(url, kid);
 
-		CachedJwkRecord cachedJwk = CachedJwkRecord.builder().documentId(documentId).url(url).kid(kid)
-				.ttl(Timestamp.ofTimeSecondsAndNanos(ttl, 0)).build();
+		CachedJwkRecord cachedJwk = CachedJwkRecord.builder().documentId(documentId).url(url)
+				.kid(kid).ttl(Timestamp.ofTimeSecondsAndNanos(ttl, 0)).build();
 
 		try {
 			firestore.collection(this.collectionKeys).document(documentId).set(cachedJwk).get();
@@ -69,7 +70,8 @@ public class FirestoreJwkCacheRepository implements JwkCacheRepository {
 	@Override
 	public List<CachedJwk> getJwks(@NonNull String url) {
 		try {
-			QuerySnapshot query = firestore.collection(this.collectionKeys).whereEqualTo(URL, url).get().get();
+			QuerySnapshot query =
+					firestore.collection(this.collectionKeys).whereEqualTo(URL, url).get().get();
 
 			List<CachedJwk> list = new ArrayList<>();
 			for (DocumentSnapshot document : query.getDocuments()) {
@@ -87,7 +89,8 @@ public class FirestoreJwkCacheRepository implements JwkCacheRepository {
 	public CachedJwk getJwk(String url, String kid) {
 		String id = getId(url, kid);
 		try {
-			DocumentSnapshot document = firestore.collection(this.collectionKeys).document(id).get().get();
+			DocumentSnapshot document =
+					firestore.collection(this.collectionKeys).document(id).get().get();
 			if (document.exists()) {
 				CachedJwkRecord cachedJwk = document.toObject(CachedJwkRecord.class);
 				return cachedJwk;

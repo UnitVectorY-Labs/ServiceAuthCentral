@@ -36,7 +36,7 @@ import com.unitvectory.auth.sign.service.SignService;
 
 @SpringBootTest
 @AutoConfigureMockMvc
-@ActiveProfiles({ "test", "sign-local" })
+@ActiveProfiles({"test", "sign-local"})
 @TestPropertySource(locations = "classpath:test-application.properties")
 @Import(TestServiceAuthCentralConfig.class)
 public class TokenResponseTest {
@@ -78,7 +78,8 @@ public class TokenResponseTest {
 		Client client = this.clientRepository.getClient("foo");
 		this.clientRepository.saveClientSecret1("foo", client.hashSecret("mySuperSecretfoo"));
 
-		this.clientRepository.addAuthorizedJwt("foo", "myid", "http://example.com", issuer, "source", "foo");
+		this.clientRepository.addAuthorizedJwt("foo", "myid", "http://example.com", issuer,
+				"source", "foo");
 
 		// Populate Authorization Repository
 		if (this.authorizationRepository instanceof MemoryAuthorizationRepository) {
@@ -97,7 +98,8 @@ public class TokenResponseTest {
 		params.add("client_secret", "mySuperSecretfoo");
 		params.add("audience", "bar");
 
-		mockMvc.perform(post("/v1/token").params(params).contentType(MediaType.APPLICATION_FORM_URLENCODED))
+		mockMvc.perform(
+				post("/v1/token").params(params).contentType(MediaType.APPLICATION_FORM_URLENCODED))
 				.andExpect(status().is(400));
 
 	}
@@ -109,15 +111,16 @@ public class TokenResponseTest {
 		params.add("client_id", "foo");
 		params.add("client_secret", "mySuperSecretfoo");
 
-		mockMvc.perform(post("/v1/token").params(params).contentType(MediaType.APPLICATION_FORM_URLENCODED))
+		mockMvc.perform(
+				post("/v1/token").params(params).contentType(MediaType.APPLICATION_FORM_URLENCODED))
 				.andExpect(status().is(400));
 	}
 
 	@Test
 	public void postTokenAuthorizationSuccessTest() throws Exception {
 
-		JwtBuilder jwtBuilder = JwtBuilder.builder().withKeyId(kid).withIssuer(issuer).withSubject("source")
-				.withAudience("foo");
+		JwtBuilder jwtBuilder = JwtBuilder.builder().withKeyId(kid).withIssuer(issuer)
+				.withSubject("source").withAudience("foo");
 
 		String kid = this.signService.getActiveKid(this.timeService.getCurrentTimeSeconds());
 		String assertionToken = this.signService.sign(kid, jwtBuilder.buildUnsignedToken());
@@ -129,7 +132,8 @@ public class TokenResponseTest {
 		params.add("audience", "bar");
 
 		MvcResult mvcResult = mockMvc
-				.perform(post("/v1/token").params(params).contentType(MediaType.APPLICATION_FORM_URLENCODED))
+				.perform(post("/v1/token").params(params)
+						.contentType(MediaType.APPLICATION_FORM_URLENCODED))
 				.andExpect(status().isOk())
 				// access token (cannot validate the exact value as it is encoded and signed and
 				// the exact value can change based on ordering of JSON attributes)
@@ -158,7 +162,8 @@ public class TokenResponseTest {
 		params.add("audience", "bar");
 
 		MvcResult mvcResult = mockMvc
-				.perform(post("/v1/token").params(params).contentType(MediaType.APPLICATION_FORM_URLENCODED))
+				.perform(post("/v1/token").params(params)
+						.contentType(MediaType.APPLICATION_FORM_URLENCODED))
 				.andExpect(status().isOk())
 				// access token (cannot validate the exact value as it is encoded and signed and
 				// the exact value can change based on ordering of JSON attributes)

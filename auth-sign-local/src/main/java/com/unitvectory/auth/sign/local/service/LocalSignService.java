@@ -56,7 +56,8 @@ public class LocalSignService implements SignService {
 			Signature signature = Signature.getInstance("SHA256withRSA");
 			signature.initSign(privateKey);
 			signature.update(unsignedToken.getBytes());
-			String signed = Base64.getUrlEncoder().withoutPadding().encodeToString(signature.sign()).split("=")[0];
+			String signed = Base64.getUrlEncoder().withoutPadding().encodeToString(signature.sign())
+					.split("=")[0];
 
 			// Construct the JWT
 			String jwt = unsignedToken + "." + signed;
@@ -72,10 +73,12 @@ public class LocalSignService implements SignService {
 
 		List<SignJwk> list = new ArrayList<>();
 
-		RsaMoulousExponent key1 = RsaPemToModulusExponentMapper.INSTANCE.convert(this.key1PublicKey);
+		RsaMoulousExponent key1 =
+				RsaPemToModulusExponentMapper.INSTANCE.convert(this.key1PublicKey);
 
-		JsonWebKeyRecord jwksKey = JsonWebKeyRecord.builder().withKty("RSA").withN(key1.getModulus())
-				.withE(key1.getExponent()).withAlg("RS256").withKid(this.key1Kid).withUse("sig").build();
+		JsonWebKeyRecord jwksKey = JsonWebKeyRecord.builder().withKty("RSA")
+				.withN(key1.getModulus()).withE(key1.getExponent()).withAlg("RS256")
+				.withKid(this.key1Kid).withUse("sig").build();
 
 		list.add(jwksKey);
 

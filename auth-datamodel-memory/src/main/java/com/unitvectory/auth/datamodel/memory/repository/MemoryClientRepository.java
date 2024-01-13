@@ -39,7 +39,8 @@ public class MemoryClientRepository implements ClientRepository {
 	public void putClient(@NonNull String clientId, String description, String salt) {
 		MemoryClient record = this.memory.get(clientId);
 		if (record == null) {
-			record = MemoryClient.builder().clientId(clientId).description(description).salt(salt).build();
+			record = MemoryClient.builder().clientId(clientId).description(description).salt(salt)
+					.build();
 			this.memory.put(clientId, record);
 		} else {
 			throw new BadRequestException("client record already exists");
@@ -53,16 +54,17 @@ public class MemoryClientRepository implements ClientRepository {
 
 	@Override
 	@Synchronized
-	public void addAuthorizedJwt(@NonNull String clientId, @NonNull String id, @NonNull String jwksUrl,
-			@NonNull String iss, @NonNull String sub, @NonNull String aud) {
+	public void addAuthorizedJwt(@NonNull String clientId, @NonNull String id,
+			@NonNull String jwksUrl, @NonNull String iss, @NonNull String sub,
+			@NonNull String aud) {
 		MemoryClient record = this.memory.get(clientId);
 		if (record == null) {
 			throw new NotFoundException("client not found");
 		}
 
 		// What we are trying to add
-		MemoryClientJwtBearer jwt = MemoryClientJwtBearer.builder().id(id).jwksUrl(jwksUrl).iss(iss).sub(sub).aud(aud)
-				.build();
+		MemoryClientJwtBearer jwt = MemoryClientJwtBearer.builder().id(id).jwksUrl(jwksUrl).iss(iss)
+				.sub(sub).aud(aud).build();
 
 		List<ClientJwtBearer> list = record.getJwtBearer();
 

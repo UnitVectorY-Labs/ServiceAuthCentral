@@ -34,7 +34,8 @@ public class FirestoreAuthorizationRepository implements AuthorizationRepository
 	@Override
 	public Authorization getAuthorization(@NonNull String id) {
 		try {
-			DocumentSnapshot document = firestore.collection(this.collectionAuthorizations).document(id).get().get();
+			DocumentSnapshot document =
+					firestore.collection(this.collectionAuthorizations).document(id).get().get();
 			if (document.exists()) {
 				return document.toObject(AuthorizationRecord.class);
 			} else {
@@ -58,7 +59,8 @@ public class FirestoreAuthorizationRepository implements AuthorizationRepository
 	public Authorization getAuthorization(@NonNull String subject, @NonNull String audience) {
 		try {
 			QuerySnapshot querySnapshot = firestore.collection(this.collectionAuthorizations)
-					.whereEqualTo(SUBJECT, subject).whereEqualTo(AUDIENCE, audience).limit(1).get().get();
+					.whereEqualTo(SUBJECT, subject).whereEqualTo(AUDIENCE, audience).limit(1).get()
+					.get();
 
 			// Process the query results
 			List<QueryDocumentSnapshot> documents = querySnapshot.getDocuments();
@@ -113,16 +115,19 @@ public class FirestoreAuthorizationRepository implements AuthorizationRepository
 
 	@Override
 	public void authorize(@NonNull String subject, @NonNull String audience) {
-		AuthorizationRecord record = AuthorizationRecord.builder().subject(subject).audience(audience).build();
+		AuthorizationRecord record =
+				AuthorizationRecord.builder().subject(subject).audience(audience).build();
 		String documentId = getDocumentId(subject, audience);
-		DocumentReference docRef = this.firestore.collection(this.collectionAuthorizations).document(documentId);
+		DocumentReference docRef =
+				this.firestore.collection(this.collectionAuthorizations).document(documentId);
 		docRef.set(record);
 	}
 
 	@Override
 	public void deauthorize(@NonNull String subject, @NonNull String audience) {
 		String documentId = getDocumentId(subject, audience);
-		DocumentReference docRef = this.firestore.collection(this.collectionAuthorizations).document(documentId);
+		DocumentReference docRef =
+				this.firestore.collection(this.collectionAuthorizations).document(documentId);
 		docRef.delete();
 	}
 

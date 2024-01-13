@@ -13,8 +13,8 @@ import lombok.NoArgsConstructor;
 import lombok.NonNull;
 
 /**
- * This class provides a method to convert an RSA public key from PEM format to
- * its modulus and exponent.
+ * This class provides a method to convert an RSA public key from PEM format to its modulus and
+ * exponent.
  */
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class RsaPemToModulusExponentMapper {
@@ -25,8 +25,7 @@ public class RsaPemToModulusExponentMapper {
 	 * Converts PEM formatted RSA public key to modulus and exponent.
 	 * 
 	 * @param pemKey PEM formatted RSA public key. Must not be null.
-	 * @return An instance of RsaMoulousExponent containing the modulus and
-	 *         exponent.
+	 * @return An instance of RsaMoulousExponent containing the modulus and exponent.
 	 * @throws InternalServerErrorException if the conversion fails.
 	 */
 	public RsaMoulousExponent convert(@NonNull String pemKey) {
@@ -51,8 +50,8 @@ public class RsaPemToModulusExponentMapper {
 	 * @return The decoded byte array of the key.
 	 */
 	private byte[] decodePemPublicKey(String pemKey) {
-		String publicKeyPEM = pemKey.replace("-----BEGIN PUBLIC KEY-----", "").replace("-----END PUBLIC KEY-----", "")
-				.replaceAll("\\s", "");
+		String publicKeyPEM = pemKey.replace("-----BEGIN PUBLIC KEY-----", "")
+				.replace("-----END PUBLIC KEY-----", "").replaceAll("\\s", "");
 		return Base64.getDecoder().decode(publicKeyPEM);
 	}
 
@@ -73,8 +72,7 @@ public class RsaPemToModulusExponentMapper {
 	 * Extracts and formats the modulus and exponent from a RSAPublicKey.
 	 * 
 	 * @param publicKey The RSAPublicKey to extract the information from.
-	 * @return An instance of RsaMoulousExponent containing the formatted modulus
-	 *         and exponent.
+	 * @return An instance of RsaMoulousExponent containing the formatted modulus and exponent.
 	 */
 	private RsaMoulousExponent extractAndFormatModulusAndExponent(RSAPublicKey publicKey) {
 		String modulus = extractAndFormatModulus(publicKey);

@@ -64,10 +64,10 @@ public class JwtBuilder {
 	public String buildUnsignedToken() {
 		try {
 			// Encode Header and Payload into JSON
-			String encodedHeader = Base64.getUrlEncoder().withoutPadding()
-					.encodeToString(MAPPER.writeValueAsString(headers).getBytes(StandardCharsets.UTF_8));
-			String encodedPayload = Base64.getUrlEncoder().withoutPadding()
-					.encodeToString(MAPPER.writeValueAsString(payload).getBytes(StandardCharsets.UTF_8));
+			String encodedHeader = Base64.getUrlEncoder().withoutPadding().encodeToString(
+					MAPPER.writeValueAsString(headers).getBytes(StandardCharsets.UTF_8));
+			String encodedPayload = Base64.getUrlEncoder().withoutPadding().encodeToString(
+					MAPPER.writeValueAsString(payload).getBytes(StandardCharsets.UTF_8));
 
 			// Concatenate Encoded Header and Payload
 			String unsignedToken = encodedHeader + "." + encodedPayload;

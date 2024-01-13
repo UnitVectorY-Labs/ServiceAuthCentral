@@ -42,7 +42,8 @@ public class RsaPemToModulusExponentMapperTest {
 				+ "PrQah14RzA3Oc0P+Rn244O+LwdV//WR1\n" + "-----END PUBLIC KEY-----\n" + "";
 
 		InternalServerErrorException thrown = assertThrows(InternalServerErrorException.class,
-				() -> RsaPemToModulusExponentMapper.INSTANCE.convert(pemKey), "Invalid PEM should throw an exception");
+				() -> RsaPemToModulusExponentMapper.INSTANCE.convert(pemKey),
+				"Invalid PEM should throw an exception");
 
 		assertEquals("Failed to convert RSA PEM key", thrown.getMessage());
 
@@ -58,10 +59,11 @@ public class RsaPemToModulusExponentMapperTest {
 				+ "zMq5o/QY+sVgMXVCrZeJrJa6vg/cZ7N674JSXbLIVQCoWc9GPPk9NaJX5+K4kl89\n"
 				+ "kthAUM40lqidum/Vrl5fw8UH7fv7+kkCdDcT94jpIrirRKNnc3KMpwAXIPCBUZTb\n"
 				+ "x2F6luAYpjlxy6NPJLHkV8PRpEZYdBDUUwakEyatbycBQo4fosLoQczWA10s+gsh\n"
-				+ "PrQah14RzA3Oc0P+Rn244O+LwdV/7wwd8eBlL6XSCYjp7WcBsZRgW3yAFH9m/WR1\n" + "jwIDAQAB\n"
-				+ "-----END PUBLIC KEY-----\n" + "";
+				+ "PrQah14RzA3Oc0P+Rn244O+LwdV/7wwd8eBlL6XSCYjp7WcBsZRgW3yAFH9m/WR1\n"
+				+ "jwIDAQAB\n" + "-----END PUBLIC KEY-----\n" + "";
 
-		RsaMoulousExponent rsaMoulousExponent = RsaPemToModulusExponentMapper.INSTANCE.convert(pemKey);
+		RsaMoulousExponent rsaMoulousExponent =
+				RsaPemToModulusExponentMapper.INSTANCE.convert(pemKey);
 
 		assertNotNull(rsaMoulousExponent);
 

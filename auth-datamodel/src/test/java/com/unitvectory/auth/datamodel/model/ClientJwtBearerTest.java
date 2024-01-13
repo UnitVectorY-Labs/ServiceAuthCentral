@@ -10,26 +10,26 @@ import org.mockito.Mockito;
 
 public class ClientJwtBearerTest {
 
-	private ClientJwtBearer jwtA;
-	private ClientJwtBearer jwtB;
+    private ClientJwtBearer jwtA;
+    private ClientJwtBearer jwtB;
 
-	@BeforeEach
-	public void setUp() {
-		jwtA = Mockito.mock(ClientJwtBearer.class, Mockito.CALLS_REAL_METHODS);
-		jwtB = Mockito.mock(ClientJwtBearer.class, Mockito.CALLS_REAL_METHODS);
-	}
+    @BeforeEach
+    public void setUp() {
+        jwtA = Mockito.mock(ClientJwtBearer.class, Mockito.CALLS_REAL_METHODS);
+        jwtB = Mockito.mock(ClientJwtBearer.class, Mockito.CALLS_REAL_METHODS);
+    }
 
-	@Test
-	public void verifyMatchesSameObject() {
-		assertTrue(jwtA.matches(jwtA));
-	}
+    @Test
+    public void verifyMatchesSameObject() {
+        assertTrue(jwtA.matches(jwtA));
+    }
 
-	@Test
-	public void verifyMatchesNullObject() {
-		assertFalse(jwtA.matches(null));
-	}
+    @Test
+    public void verifyMatchesNullObject() {
+        assertFalse(jwtA.matches(null));
+    }
 
-	@Test
+    @Test
     public void verifyMatchesDifferentObjects() {
         when(jwtA.getJwksUrl()).thenReturn("urlA");
         when(jwtA.getIss()).thenReturn("issA");
@@ -44,7 +44,7 @@ public class ClientJwtBearerTest {
         assertTrue(jwtA.matches(jwtB));
     }
 
-	@Test
+    @Test
     public void verifyMismatchJwksUrl() {
         when(jwtA.getJwksUrl()).thenReturn("urlA");
         when(jwtB.getJwksUrl()).thenReturn("urlB");
@@ -61,7 +61,7 @@ public class ClientJwtBearerTest {
         assertFalse(jwtA.matches(jwtB));
     }
 
-	@Test
+    @Test
     public void verifyMismatchIss() {
         when(jwtA.getIss()).thenReturn("issA");
         when(jwtB.getIss()).thenReturn("issB");
@@ -69,7 +69,7 @@ public class ClientJwtBearerTest {
         assertFalse(jwtA.matches(jwtB));
     }
 
-	@Test
+    @Test
     public void verifyMismatchSub() {
         when(jwtA.getSub()).thenReturn("subA");
         when(jwtB.getSub()).thenReturn("subB");
@@ -77,7 +77,7 @@ public class ClientJwtBearerTest {
         assertFalse(jwtA.matches(jwtB));
     }
 
-	@Test
+    @Test
     public void verifyMismatchAud() {
         when(jwtA.getAud()).thenReturn("audA");
         when(jwtB.getAud()).thenReturn("audB");

@@ -21,7 +21,8 @@ public interface ClientService {
 
 	ClientSecretType clearClientSecret2(String clientId);
 
-	ResponseType authorizeJwtBearer(String clientId, String jwksUrl, String iss, String sub, String aud);
+	ResponseType authorizeJwtBearer(String clientId, String jwksUrl, String iss, String sub,
+			String aud);
 
 	ResponseType deauthorizeJwtBearer(String clientId, String id);
 

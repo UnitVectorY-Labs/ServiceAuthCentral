@@ -35,14 +35,16 @@ public class StaticEntropyServiceTest {
 
 	@Test
 	public void generateUuidTest() {
-		EntropyService entropy = new StaticEntropyService("11111111-0000-0000-0000-000000000000", 'B');
+		EntropyService entropy =
+				new StaticEntropyService("11111111-0000-0000-0000-000000000000", 'B');
 
 		assertEquals("11111111-0000-0000-0000-000000000000", entropy.generateUuid());
 	}
 
 	@Test
 	public void randomAlphaNumericTest() {
-		EntropyService entropy = new StaticEntropyService("11111111-0000-0000-0000-000000000000", 'B');
+		EntropyService entropy =
+				new StaticEntropyService("11111111-0000-0000-0000-000000000000", 'B');
 
 		assertEquals("", entropy.randomAlphaNumeric(0));
 		assertEquals("B", entropy.randomAlphaNumeric(1));

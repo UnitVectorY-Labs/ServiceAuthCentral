@@ -26,6 +26,7 @@ public class SignLocalConfig {
 
 	@Bean
 	public SignService signService() {
-		return new LocalSignService(this.activeKid, this.key1PrivateKey, this.key1PublicKey, this.key1Kid);
+		return new LocalSignService(this.activeKid, this.key1PrivateKey, this.key1PublicKey,
+				this.key1Kid);
 	}
 }

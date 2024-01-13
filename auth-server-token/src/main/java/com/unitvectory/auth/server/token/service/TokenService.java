@@ -70,7 +70,8 @@ public class TokenService {
 
 		String assertion = request.getAssertion();
 		if (assertion == null || assertion.isEmpty()) {
-			throw new BadRequestException("The request is missing the required parameter 'assertion'.");
+			throw new BadRequestException(
+					"The request is missing the required parameter 'assertion'.");
 		}
 
 		VerifyJwt assertionJwt = this.jwtVerifier.extractClaims(assertion);
@@ -104,11 +105,13 @@ public class TokenService {
 		}
 
 		// Look up the JWK, this will grabbed the cached version if possible
-		VerifyJwk jwk = this.externalJwkService.getJwk(jwtMatchedBearer.getJwksUrl(), assertionJwt.getKid());
+		VerifyJwk jwk = this.externalJwkService.getJwk(jwtMatchedBearer.getJwksUrl(),
+				assertionJwt.getKid());
 
 		// The parameters in the JWT that will be verified
-		VerifyParameters verifyParameters = VerifyParameters.builder().iss(jwtMatchedBearer.getIss())
-				.sub(jwtMatchedBearer.getSub()).aud(jwtMatchedBearer.getAud()).build();
+		VerifyParameters verifyParameters =
+				VerifyParameters.builder().iss(jwtMatchedBearer.getIss())
+						.sub(jwtMatchedBearer.getSub()).aud(jwtMatchedBearer.getAud()).build();
 
 		// Validate the JWT
 		if (!this.jwtVerifier.verifySignature(assertion, jwk, verifyParameters)) {
@@ -122,7 +125,8 @@ public class TokenService {
 		}
 
 		// Validated the authorization
-		Authorization authorizationRecord = this.authorizationRepository.getAuthorization(clientId, audience);
+		Authorization authorizationRecord =
+				this.authorizationRepository.getAuthorization(clientId, audience);
 		if (authorizationRecord == null) {
 			throw new ForbiddenException("The specified 'audience' is invalid.");
 		}
@@ -138,7 +142,8 @@ public class TokenService {
 
 		String clientSecret = request.getClient_secret();
 		if (clientSecret == null || clientSecret.isEmpty()) {
-			throw new BadRequestException("The request is missing the required parameter 'client_secret'.");
+			throw new BadRequestException(
+					"The request is missing the required parameter 'client_secret'.");
 		}
 
 		if (request.getAssertion() != null) {
@@ -153,7 +158,8 @@ public class TokenService {
 
 		// Verify the client_secret
 		if (!subjectRecord.verifySecret(clientSecret)) {
-			throw new UnauthorizedException("The request has invalid 'client_id' or 'client_secret.");
+			throw new UnauthorizedException(
+					"The request has invalid 'client_id' or 'client_secret.");
 		}
 
 		// Get the audience record
@@ -163,7 +169,8 @@ public class TokenService {
 		}
 
 		// Validated the authorization
-		Authorization authorizationRecord = this.authorizationRepository.getAuthorization(clientId, audience);
+		Authorization authorizationRecord =
+				this.authorizationRepository.getAuthorization(clientId, audience);
 		if (authorizationRecord == null) {
 			throw new ForbiddenException("The specified 'audience' is invalid.");
 		}
@@ -190,7 +197,8 @@ public class TokenService {
 		return issMatch && subMatch && audMatch;
 	}
 
-	private TokenResponse buildToken(Client subjectRecord, Client audienceRecord, Authorization authorizationRecord) {
+	private TokenResponse buildToken(Client subjectRecord, Client audienceRecord,
+			Authorization authorizationRecord) {
 
 		String clientId = subjectRecord.getClientId();
 		String audience = audienceRecord.getClientId();
@@ -200,7 +208,8 @@ public class TokenService {
 		// Get the active key
 		String kid = this.signService.getActiveKid(now);
 		if (kid == null) {
-			throw new InternalServerErrorException("No active signing keys, cannot generate access token.");
+			throw new InternalServerErrorException(
+					"No active signing keys, cannot generate access token.");
 		}
 
 		// How long the JWT is valid
@@ -220,7 +229,7 @@ public class TokenService {
 		String jwt = this.signService.sign(kid, unsignedJwt);
 
 		// Build the response
-		return TokenResponse.builder().withAccess_token(jwt).withExpires_in(validSeconds).withToken_type("Bearer")
-				.build();
+		return TokenResponse.builder().withAccess_token(jwt).withExpires_in(validSeconds)
+				.withToken_type("Bearer").build();
 	}
 }

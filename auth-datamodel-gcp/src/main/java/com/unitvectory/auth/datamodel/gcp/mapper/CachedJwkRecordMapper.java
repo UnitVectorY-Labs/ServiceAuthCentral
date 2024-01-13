@@ -14,7 +14,8 @@ public interface CachedJwkRecordMapper {
 
 	@Mapping(target = "documentId", ignore = true)
 	@Mapping(target = "url", source = "url")
-	@Mapping(target = "ttl", expression = "java(com.google.cloud.Timestamp.ofTimeSecondsAndNanos(ttl, 0))")
+	@Mapping(target = "ttl",
+			expression = "java(com.google.cloud.Timestamp.ofTimeSecondsAndNanos(ttl, 0))")
 	@Mapping(target = "valid", source = "jwk.valid")
 	@Mapping(target = "kid", source = "jwk.kid")
 	@Mapping(target = "kty", source = "jwk.kty")

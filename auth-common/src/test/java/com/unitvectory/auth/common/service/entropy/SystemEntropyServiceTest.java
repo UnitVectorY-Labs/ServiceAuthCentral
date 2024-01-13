@@ -10,7 +10,8 @@ import org.junit.jupiter.api.Test;
 
 public class SystemEntropyServiceTest {
 
-	private static final String UUID_PATTERN = "^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$";
+	private static final String UUID_PATTERN =
+			"^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$";
 
 	private static final String ALPHA_PATTERN = "^[a-zA-Z0-9]+";
 
@@ -21,7 +22,8 @@ public class SystemEntropyServiceTest {
 
 		assertNotNull(uuid);
 
-		assertTrue(Pattern.matches(UUID_PATTERN, uuid), "The string should be a valid UUID version 4");
+		assertTrue(Pattern.matches(UUID_PATTERN, uuid),
+				"The string should be a valid UUID version 4");
 	}
 
 	@Test

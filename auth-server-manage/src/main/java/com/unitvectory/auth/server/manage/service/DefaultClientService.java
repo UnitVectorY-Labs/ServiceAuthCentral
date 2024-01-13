@@ -43,8 +43,8 @@ public class DefaultClientService implements ClientService {
 	public ClientType addClient(String clientId, String description) {
 		String salt = this.entropyService.randomAlphaNumeric(LENGTH);
 		this.clientRepository.putClient(clientId, description, salt);
-		ClientType client = ClientType.builder().clientId(clientId).clientSecret1Set(false).clientSecret2Set(false)
-				.build();
+		ClientType client = ClientType.builder().clientId(clientId).clientSecret1Set(false)
+				.clientSecret2Set(false).build();
 		return client;
 	}
 
@@ -52,14 +52,16 @@ public class DefaultClientService implements ClientService {
 	public ResponseType deleteClient(String clientId) {
 
 		// Delete all of the authorization records where the clientId is the audience
-		Iterator<Authorization> aud = this.authorizationRepository.getAuthorizationByAudience(clientId);
+		Iterator<Authorization> aud =
+				this.authorizationRepository.getAuthorizationByAudience(clientId);
 		while (aud.hasNext()) {
 			Authorization auth = aud.next();
 			this.authorizationRepository.deleteAuthorization(auth.getDocumentId());
 		}
 
 		// Delete all of the authorization records where the clientId is the subject
-		Iterator<Authorization> sub = this.authorizationRepository.getAuthorizationBySubject(clientId);
+		Iterator<Authorization> sub =
+				this.authorizationRepository.getAuthorizationBySubject(clientId);
 		while (sub.hasNext()) {
 			Authorization auth = sub.next();
 			this.authorizationRepository.deleteAuthorization(auth.getDocumentId());
@@ -157,21 +159,26 @@ public class DefaultClientService implements ClientService {
 	@Override
 	public List<AuthorizationType> getAuthorizationsAsSubject(String clientId) {
 		return StreamSupport
-				.stream(Spliterators.spliteratorUnknownSize(authorizationRepository.getAuthorizationBySubject(clientId),
+				.stream(Spliterators.spliteratorUnknownSize(
+						authorizationRepository.getAuthorizationBySubject(clientId),
 						Spliterator.ORDERED), false)
-				.map(AuthorizationMapper.INSTANCE::authorizationToAuthorizationType).collect(Collectors.toList());
+				.map(AuthorizationMapper.INSTANCE::authorizationToAuthorizationType)
+				.collect(Collectors.toList());
 	}
 
 	@Override
 	public List<AuthorizationType> getAuthorizationsAsAudience(String clientId) {
 		return StreamSupport
 				.stream(Spliterators.spliteratorUnknownSize(
-						authorizationRepository.getAuthorizationByAudience(clientId), Spliterator.ORDERED), false)
-				.map(AuthorizationMapper.INSTANCE::authorizationToAuthorizationType).collect(Collectors.toList());
+						authorizationRepository.getAuthorizationByAudience(clientId),
+						Spliterator.ORDERED), false)
+				.map(AuthorizationMapper.INSTANCE::authorizationToAuthorizationType)
+				.collect(Collectors.toList());
 	}
 
 	@Override
-	public ResponseType authorizeJwtBearer(String clientId, String jwksUrl, String iss, String sub, String aud) {
+	public ResponseType authorizeJwtBearer(String clientId, String jwksUrl, String iss, String sub,
+			String aud) {
 		Client client = this.clientRepository.getClient(clientId);
 		if (client == null) {
 			return ResponseType.builder().success(false).build();

@@ -3,8 +3,8 @@ package com.unitvectory.auth.common.service.entropy;
 import lombok.NonNull;
 
 /**
- * Provides a mechanism to have the methods that normally return random
- * information return static information which is useful for testing.
+ * Provides a mechanism to have the methods that normally return random information return static
+ * information which is useful for testing.
  */
 public class StaticEntropyService implements EntropyService {
 

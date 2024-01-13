@@ -8,7 +8,8 @@ import java.util.UUID;
  */
 public class SystemEntropyService implements EntropyService {
 
-	private static final String ALPHANUMERIC_CHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+	private static final String ALPHANUMERIC_CHARS =
+			"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
 
 	private static final SecureRandom random = new SecureRandom();
 

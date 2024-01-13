@@ -59,7 +59,8 @@ public class Auth0JwtVerifier implements JwtVerifier {
 		} else if (!"RSA".equals(jwk.getKty())) {
 			throw new ForbiddenException("jwt verification only works for jwk with 'kty' of 'RSA'");
 		} else if (!"RS256".equals(jwk.getAlg())) {
-			throw new ForbiddenException("jwt verification only works for jwk with 'alg' of 'RS256'");
+			throw new ForbiddenException(
+					"jwt verification only works for jwk with 'alg' of 'RS256'");
 		}
 
 		Algorithm algorithm = Algorithm.RSA256(convertRsaKey(jwk), null);

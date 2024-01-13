@@ -51,15 +51,15 @@ public class KmsSignService implements SignService {
 	// API Calls to KMS are expensive and highly rate limited as a generous amount
 	// of caching is utilized by this service to minimize unnecessary calls
 
-	private final Cache<String, String> cacheActiveKid = Caffeine.newBuilder()
-			.expireAfterWrite(cacheJwksSeconds, TimeUnit.SECONDS).build();
+	private final Cache<String, String> cacheActiveKid =
+			Caffeine.newBuilder().expireAfterWrite(cacheJwksSeconds, TimeUnit.SECONDS).build();
 
 	private final Cache<String, String> cachePublicKeyPem = Caffeine.newBuilder().build();
 
 	private final Cache<String, String> cacheKidToKeyName = Caffeine.newBuilder().build();
 
-	private final Cache<String, List<JsonWebKeyRecord>> cacheAllRecords = Caffeine.newBuilder()
-			.expireAfterWrite(cacheJwksSeconds, TimeUnit.SECONDS).build();
+	private final Cache<String, List<JsonWebKeyRecord>> cacheAllRecords =
+			Caffeine.newBuilder().expireAfterWrite(cacheJwksSeconds, TimeUnit.SECONDS).build();
 
 	@Override
 	public String getActiveKid(long now) {
@@ -88,7 +88,8 @@ public class KmsSignService implements SignService {
 				// filter only active keys
 				.filter(JsonWebKeyRecord::isActive)
 				// Filter out keys that were created too recently
-				.filter(key -> now - key.getCreated() >= (this.cacheSafetyMultiple * this.cacheJwksSeconds))
+				.filter(key -> now
+						- key.getCreated() >= (this.cacheSafetyMultiple * this.cacheJwksSeconds))
 				// sort by created time, newest first
 				.sorted(Comparator.comparingLong(JsonWebKeyRecord::getCreated).reversed())
 				// get the first element (if present)
@@ -117,12 +118,15 @@ public class KmsSignService implements SignService {
 		Digest digest;
 		try {
 			digest = Digest.newBuilder()
-					.setSha256(ByteString.copyFrom(MessageDigest.getInstance("SHA-256").digest(tokenToSign))).build();
+					.setSha256(ByteString
+							.copyFrom(MessageDigest.getInstance("SHA-256").digest(tokenToSign)))
+					.build();
 		} catch (NoSuchAlgorithmException e) {
 			throw new RuntimeException(e);
 		}
 
-		AsymmetricSignRequest request = AsymmetricSignRequest.newBuilder().setName(keyName).setDigest(digest).build();
+		AsymmetricSignRequest request =
+				AsymmetricSignRequest.newBuilder().setName(keyName).setDigest(digest).build();
 
 		// Sign the JWT (API call to Cloud KMS)
 		AsymmetricSignResponse response = keyManagementServiceClient.asymmetricSign(request);
@@ -148,8 +152,8 @@ public class KmsSignService implements SignService {
 			return name;
 		}
 
-		name = this.getAllRecords().stream().filter(record -> kid.equals(record.getKid())).findFirst()
-				.map(JsonWebKeyRecord::getKeyName).orElse(null);
+		name = this.getAllRecords().stream().filter(record -> kid.equals(record.getKid()))
+				.findFirst().map(JsonWebKeyRecord::getKeyName).orElse(null);
 		this.cacheKidToKeyName.put(kid, name);
 		return name;
 	}
@@ -170,8 +174,8 @@ public class KmsSignService implements SignService {
 			return Collections.unmodifiableList(keys);
 		}
 
-		for (CryptoKeyVersion cryptoKeyVersion : keyManagementServiceClient.listCryptoKeyVersions(cryptoKey.getName())
-				.iterateAll()) {
+		for (CryptoKeyVersion cryptoKeyVersion : keyManagementServiceClient
+				.listCryptoKeyVersions(cryptoKey.getName()).iterateAll()) {
 
 			// Filter: Only the enabled keys can be used
 			boolean active = false;
@@ -191,15 +195,17 @@ public class KmsSignService implements SignService {
 
 			String pemKey = getPublicKeyPem(cryptoKeyVersion.getName());
 
-			RsaMoulousExponent rsaMoulousExponent = RsaPemToModulusExponentMapper.INSTANCE.convert(pemKey);
+			RsaMoulousExponent rsaMoulousExponent =
+					RsaPemToModulusExponentMapper.INSTANCE.convert(pemKey);
 
 			String keyName = cryptoKeyVersion.getName();
 			String kid = KidConverter.hash(keyName);
 
 			// Construct the JWKS JSON object
-			JsonWebKeyRecord jwksKey = JsonWebKeyRecord.builder().withKty("RSA").withN(rsaMoulousExponent.getModulus())
-					.withE(rsaMoulousExponent.getExponent()).withAlg("RS256").withKid(kid).withUse("sig")
-					.withKeyName(keyName).withActive(active).withCreated(created).build();
+			JsonWebKeyRecord jwksKey = JsonWebKeyRecord.builder().withKty("RSA")
+					.withN(rsaMoulousExponent.getModulus()).withE(rsaMoulousExponent.getExponent())
+					.withAlg("RS256").withKid(kid).withUse("sig").withKeyName(keyName)
+					.withActive(active).withCreated(created).build();
 
 			keys.add(jwksKey);
 		}

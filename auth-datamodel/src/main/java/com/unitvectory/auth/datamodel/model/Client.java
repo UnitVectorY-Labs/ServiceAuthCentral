@@ -47,8 +47,8 @@ public interface Client {
 
     /**
      * Returns a list of JWT Bearer details associated with the client.
-	 * 
-	 * These can be used in place of a secret for authentication.
+     * 
+     * These can be used in place of a secret for authentication.
      *
      * @return the list of JWT Bearer details.
      */
@@ -56,8 +56,8 @@ public interface Client {
 
     /**
      * Hashes a secret using SHA-256 and the client's salt.
-	 * 
-	 * Used as a helper method when setting a client secret.
+     * 
+     * Used as a helper method when setting a client secret.
      *
      * @param secret the secret to hash.
      * @return the hashed secret.

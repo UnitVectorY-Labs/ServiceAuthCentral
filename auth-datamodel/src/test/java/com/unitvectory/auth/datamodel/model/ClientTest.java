@@ -32,23 +32,23 @@ public class ClientTest {
 	}
 
 	@Test
-    public void testHashSecretWithNullSalt() {
-        when(client.getSalt()).thenReturn(null);
-        assertThrows(IllegalStateException.class, () -> client.hashSecret("secret"),
-                "Expected hashSecret to throw, but it didn't");
-    }
+	public void testHashSecretWithNullSalt() {
+		when(client.getSalt()).thenReturn(null);
+		assertThrows(IllegalStateException.class, () -> client.hashSecret("secret"),
+				"Expected hashSecret to throw, but it didn't");
+	}
 
 	@Test
-    public void testHashSecret() {
-        when(client.getSalt()).thenReturn("salt");
-        assertNotNull(client.hashSecret("secret"), "Hashed secret should not be null");
-    }
+	public void testHashSecret() {
+		when(client.getSalt()).thenReturn("salt");
+		assertNotNull(client.hashSecret("secret"), "Hashed secret should not be null");
+	}
 
 	@Test
-    public void testVerifySecretWithNullSalt() {
-        when(client.getSalt()).thenReturn(null);
-        assertFalse(client.verifySecret("secret"), "Should return false if salt is null");
-    }
+	public void testVerifySecretWithNullSalt() {
+		when(client.getSalt()).thenReturn(null);
+		assertFalse(client.verifySecret("secret"), "Should return false if salt is null");
+	}
 
 	@Test
 	public void testVerifySecretWithMatchingSecret1() {
@@ -62,7 +62,8 @@ public class ClientTest {
 
 		when(client.getClientSecret1()).thenReturn(hashedSecret);
 
-		assertTrue(client.verifySecret(secret), "Should return true if secret matches clientSecret1");
+		assertTrue(client.verifySecret(secret),
+				"Should return true if secret matches clientSecret1");
 	}
 
 	@Test
@@ -77,20 +78,21 @@ public class ClientTest {
 
 		when(client.getClientSecret2()).thenReturn(hashedSecret);
 
-		assertTrue(client.verifySecret(secret), "Should return true if secret matches clientSecret2");
+		assertTrue(client.verifySecret(secret),
+				"Should return true if secret matches clientSecret2");
 	}
 
 	@Test
-    public void testVerifySecretWithNoSecretNoMatch() {
-        when(client.getSalt()).thenReturn("salt");
-        assertFalse(client.verifySecret("secret"), "Should return false if no secrets match");
-    }
+	public void testVerifySecretWithNoSecretNoMatch() {
+		when(client.getSalt()).thenReturn("salt");
+		assertFalse(client.verifySecret("secret"), "Should return false if no secrets match");
+	}
 
 	@Test
-    public void testVerifySecretWithNoMatch() {
-        when(client.getSalt()).thenReturn("salt");
-        when(client.getClientSecret1()).thenReturn("otherSecret1");
-        when(client.getClientSecret2()).thenReturn("otherSecret2");
-        assertFalse(client.verifySecret("secret"), "Should return false if no secrets match");
-    }
+	public void testVerifySecretWithNoMatch() {
+		when(client.getSalt()).thenReturn("salt");
+		when(client.getClientSecret1()).thenReturn("otherSecret1");
+		when(client.getClientSecret2()).thenReturn("otherSecret2");
+		assertFalse(client.verifySecret("secret"), "Should return false if no secrets match");
+	}
 }

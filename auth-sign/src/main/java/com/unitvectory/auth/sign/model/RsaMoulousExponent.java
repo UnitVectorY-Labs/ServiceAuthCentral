@@ -11,16 +11,16 @@ import lombok.Value;
 public class RsaMoulousExponent {
 
 	/**
-	 * The modulus of the RSA key. It's a base64 URL encoded string. The modulus is
-	 * a part of the public key used in cryptographic operations.
+	 * The modulus of the RSA key. It's a base64 URL encoded string. The modulus is a part of the
+	 * public key used in cryptographic operations.
 	 *
 	 * @return the modulus of the RSA key.
 	 */
 	private final String modulus;
 
 	/**
-	 * The exponent of the RSA key. It's a base64 URL encoded string. The exponent
-	 * is a part of the public key used in cryptographic operations.
+	 * The exponent of the RSA key. It's a base64 URL encoded string. The exponent is a part of the
+	 * public key used in cryptographic operations.
 	 *
 	 * @return the exponent of the RSA key.
 	 */

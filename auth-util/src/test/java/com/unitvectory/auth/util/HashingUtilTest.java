@@ -14,7 +14,8 @@ public class HashingUtilTest {
 		// Known SHA-256 hash of "Hello, World!
 		String expectedHash = "dffd6021bb2bd5b0af676290809ec3a53191dd81c7f70a4b28688a362182986f";
 		String actualHash = HashingUtil.sha256(testString);
-		assertEquals(expectedHash, actualHash, "The SHA-256 hash should match the known hash value.");
+		assertEquals(expectedHash, actualHash,
+				"The SHA-256 hash should match the known hash value.");
 	}
 
 	@Test
@@ -47,6 +48,7 @@ public class HashingUtilTest {
 		String testString = "consistent";
 		String firstHash = HashingUtil.sha256(testString);
 		String secondHash = HashingUtil.sha256(testString);
-		assertEquals(firstHash, secondHash, "Hashing the same string multiple times should produce the same result.");
+		assertEquals(firstHash, secondHash,
+				"Hashing the same string multiple times should produce the same result.");
 	}
 }

@@ -20,7 +20,7 @@ import com.unitvectory.auth.server.token.config.TestServiceAuthCentralConfig;
 
 @SpringBootTest
 @AutoConfigureMockMvc
-@ActiveProfiles({ "test", "sign-local" })
+@ActiveProfiles({"test", "sign-local"})
 @TestPropertySource(locations = "classpath:test-application.properties")
 @Import(TestServiceAuthCentralConfig.class)
 public class JwksControllerTest {

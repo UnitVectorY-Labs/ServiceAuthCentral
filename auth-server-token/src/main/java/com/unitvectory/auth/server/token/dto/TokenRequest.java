@@ -32,7 +32,8 @@ public class TokenRequest {
 	@Pattern(regexp = "^[a-zA-Z0-9]+$", message = "Invalid 'audience' attribute format.")
 	private String audience;
 
-	@Pattern(regexp = "^[A-Za-z0-9-_=]+\\.[A-Za-z0-9-_=]+\\.[A-Za-z0-9-_=]+$", message = "Invalid 'assertion' attribute format.")
+	@Pattern(regexp = "^[A-Za-z0-9-_=]+\\.[A-Za-z0-9-_=]+\\.[A-Za-z0-9-_=]+$",
+			message = "Invalid 'assertion' attribute format.")
 	private String assertion;
 
 }

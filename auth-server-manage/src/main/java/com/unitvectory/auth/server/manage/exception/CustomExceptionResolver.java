@@ -21,24 +21,30 @@ public class CustomExceptionResolver extends DataFetcherExceptionResolverAdapter
 	@Override
 	protected GraphQLError resolveToSingleError(Throwable ex, DataFetchingEnvironment env) {
 		if (ex instanceof BadRequestException) {
-			return GraphqlErrorBuilder.newError().errorType(ErrorType.BAD_REQUEST).message(ex.getMessage())
-					.path(env.getExecutionStepInfo().getPath()).location(env.getField().getSourceLocation()).build();
+			return GraphqlErrorBuilder.newError().errorType(ErrorType.BAD_REQUEST)
+					.message(ex.getMessage()).path(env.getExecutionStepInfo().getPath())
+					.location(env.getField().getSourceLocation()).build();
 		} else if (ex instanceof ConflictException) {
 			// BAD_REQUEST is the wrong error type but other error types are missing
-			return GraphqlErrorBuilder.newError().errorType(ErrorType.BAD_REQUEST).message(ex.getMessage())
-					.path(env.getExecutionStepInfo().getPath()).location(env.getField().getSourceLocation()).build();
+			return GraphqlErrorBuilder.newError().errorType(ErrorType.BAD_REQUEST)
+					.message(ex.getMessage()).path(env.getExecutionStepInfo().getPath())
+					.location(env.getField().getSourceLocation()).build();
 		} else if (ex instanceof ForbiddenException) {
-			return GraphqlErrorBuilder.newError().errorType(ErrorType.FORBIDDEN).message(ex.getMessage())
-					.path(env.getExecutionStepInfo().getPath()).location(env.getField().getSourceLocation()).build();
+			return GraphqlErrorBuilder.newError().errorType(ErrorType.FORBIDDEN)
+					.message(ex.getMessage()).path(env.getExecutionStepInfo().getPath())
+					.location(env.getField().getSourceLocation()).build();
 		} else if (ex instanceof InternalServerErrorException) {
-			return GraphqlErrorBuilder.newError().errorType(ErrorType.INTERNAL_ERROR).message(ex.getMessage())
-					.path(env.getExecutionStepInfo().getPath()).location(env.getField().getSourceLocation()).build();
+			return GraphqlErrorBuilder.newError().errorType(ErrorType.INTERNAL_ERROR)
+					.message(ex.getMessage()).path(env.getExecutionStepInfo().getPath())
+					.location(env.getField().getSourceLocation()).build();
 		} else if (ex instanceof NotFoundException) {
-			return GraphqlErrorBuilder.newError().errorType(ErrorType.NOT_FOUND).message(ex.getMessage())
-					.path(env.getExecutionStepInfo().getPath()).location(env.getField().getSourceLocation()).build();
+			return GraphqlErrorBuilder.newError().errorType(ErrorType.NOT_FOUND)
+					.message(ex.getMessage()).path(env.getExecutionStepInfo().getPath())
+					.location(env.getField().getSourceLocation()).build();
 		} else if (ex instanceof UnauthorizedException) {
-			return GraphqlErrorBuilder.newError().errorType(ErrorType.UNAUTHORIZED).message(ex.getMessage())
-					.path(env.getExecutionStepInfo().getPath()).location(env.getField().getSourceLocation()).build();
+			return GraphqlErrorBuilder.newError().errorType(ErrorType.UNAUTHORIZED)
+					.message(ex.getMessage()).path(env.getExecutionStepInfo().getPath())
+					.location(env.getField().getSourceLocation()).build();
 		} else {
 			return null;
 		}

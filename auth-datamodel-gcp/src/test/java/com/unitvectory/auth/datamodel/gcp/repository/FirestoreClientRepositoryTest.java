@@ -34,8 +34,9 @@ public class FirestoreClientRepositoryTest {
 		Firestore firestore = Mockito.mock(Firestore.class);
 		FirestoreClientRepository repository = new FirestoreClientRepository(firestore, CLIENTS);
 
-		NullPointerException thrown = assertThrows(NullPointerException.class, () -> repository.getClient(null),
-				"Expected getClient with null clientId to throw exception");
+		NullPointerException thrown =
+				assertThrows(NullPointerException.class, () -> repository.getClient(null),
+						"Expected getClient with null clientId to throw exception");
 
 		assertEquals("clientId is marked non-null but is null", thrown.getMessage());
 	}
@@ -53,7 +54,8 @@ public class FirestoreClientRepositoryTest {
 
 		// Setup mocks
 		Mockito.when(firestore.collection("clients")).thenReturn(collectionReference);
-		Mockito.when(collectionReference.document("invalid-client-id")).thenReturn(documentReference);
+		Mockito.when(collectionReference.document("invalid-client-id"))
+				.thenReturn(documentReference);
 		Mockito.when(documentReference.get()).thenReturn(future);
 		Mockito.when(future.get()).thenReturn(document);
 		Mockito.when(document.exists()).thenReturn(false);
