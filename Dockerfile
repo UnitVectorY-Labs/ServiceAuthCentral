@@ -6,6 +6,7 @@ WORKDIR /app
 COPY auth-common ./auth-common
 COPY auth-datamodel ./auth-datamodel
 COPY auth-datamodel-gcp ./auth-datamodel-gcp
+COPY auth-datamodel-couchbase ./auth-datamodel-couchbase
 COPY auth-datamodel-memory ./auth-datamodel-memory
 COPY auth-server-manage ./auth-server-manage
 COPY auth-server-token ./auth-server-token
