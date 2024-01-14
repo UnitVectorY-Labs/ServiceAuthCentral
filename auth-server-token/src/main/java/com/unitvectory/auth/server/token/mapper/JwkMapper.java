@@ -39,12 +39,13 @@ public interface JwkMapper {
 	@Mapping(target = "e", source = "jwk.e")
 	VerifyJwk cachedJwkToVerifyJwk(CachedJwk jwk);
 
+	@Mapping(target = "url", source = "url")
 	@Mapping(target = "kid", source = "jwk.kid")
 	@Mapping(target = "kty", source = "jwk.kty")
 	@Mapping(target = "alg", source = "jwk.alg")
 	@Mapping(target = "use", source = "jwk.use")
 	@Mapping(target = "n", source = "jwk.n")
 	@Mapping(target = "e", source = "jwk.e")
-	CachedJwkRecord verifyJwkToCachedJwk(VerifyJwk jwk);
+	CachedJwkRecord verifyJwkToCachedJwk(String url, VerifyJwk jwk);
 
 }

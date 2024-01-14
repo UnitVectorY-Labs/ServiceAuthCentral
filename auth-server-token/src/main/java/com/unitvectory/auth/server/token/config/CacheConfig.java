@@ -7,7 +7,7 @@ import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.cache.caffeine.CaffeineCacheManager;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-
+import com.github.benmanes.caffeine.cache.Cache;
 import com.github.benmanes.caffeine.cache.Caffeine;
 
 @Configuration
@@ -19,8 +19,9 @@ public class CacheConfig {
 		CaffeineCacheManager cacheManager = new CaffeineCacheManager();
 
 		// Define different cache configurations
-		cacheManager.registerCustomCache("jwksCache",
-				Caffeine.newBuilder().expireAfterWrite(1, TimeUnit.HOURS).build());
+		Cache<Object, Object> caffeine =
+				Caffeine.newBuilder().expireAfterWrite(1, TimeUnit.HOURS).build();
+		cacheManager.registerCustomCache("jwksCache", caffeine);
 
 		// ... Register more caches as needed
 

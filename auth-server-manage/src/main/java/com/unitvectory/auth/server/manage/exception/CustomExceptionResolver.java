@@ -2,6 +2,7 @@ package com.unitvectory.auth.server.manage.exception;
 
 import org.springframework.graphql.execution.DataFetcherExceptionResolverAdapter;
 import org.springframework.graphql.execution.ErrorType;
+import org.springframework.lang.NonNull;
 import org.springframework.stereotype.Component;
 
 import com.unitvectory.auth.util.exception.BadRequestException;
@@ -19,7 +20,8 @@ import graphql.schema.DataFetchingEnvironment;
 public class CustomExceptionResolver extends DataFetcherExceptionResolverAdapter {
 
 	@Override
-	protected GraphQLError resolveToSingleError(Throwable ex, DataFetchingEnvironment env) {
+	protected GraphQLError resolveToSingleError(@NonNull Throwable ex,
+			@NonNull DataFetchingEnvironment env) {
 		if (ex instanceof BadRequestException) {
 			return GraphqlErrorBuilder.newError().errorType(ErrorType.BAD_REQUEST)
 					.message(ex.getMessage()).path(env.getExecutionStepInfo().getPath())

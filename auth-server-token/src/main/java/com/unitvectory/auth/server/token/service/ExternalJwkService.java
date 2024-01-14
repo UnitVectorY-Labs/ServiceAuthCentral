@@ -56,8 +56,8 @@ public class ExternalJwkService {
 
 			// Cache all of the keys in the database again
 			for (VerifyJwk jwk : jwks.getKeys()) {
-				this.jwkCacheRepository.cacheJwk(url, JwkMapper.INSTANCE.verifyJwkToCachedJwk(jwk),
-						now);
+				this.jwkCacheRepository.cacheJwk(url,
+						JwkMapper.INSTANCE.verifyJwkToCachedJwk(url, jwk), now);
 
 				// Look for the matching JWK based on KID
 				if (kid.equals(jwk.getKid())) {
