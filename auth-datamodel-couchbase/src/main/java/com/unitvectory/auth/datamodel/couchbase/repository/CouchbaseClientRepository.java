@@ -1,6 +1,8 @@
 package com.unitvectory.auth.datamodel.couchbase.repository;
 
+import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 
 import com.couchbase.client.core.error.DocumentNotFoundException;
 import com.couchbase.client.java.Cluster;
@@ -8,8 +10,11 @@ import com.couchbase.client.java.Collection;
 import com.couchbase.client.java.json.JsonObject;
 import com.couchbase.client.java.kv.MutateInSpec;
 import com.couchbase.client.java.query.QueryOptions;
+import com.couchbase.client.java.query.QueryResult;
 import com.unitvectory.auth.datamodel.couchbase.model.ClientRecord;
+import com.unitvectory.auth.datamodel.couchbase.model.ClientSummaryRecord;
 import com.unitvectory.auth.datamodel.model.Client;
+import com.unitvectory.auth.datamodel.model.ClientSummary;
 import com.unitvectory.auth.datamodel.repository.ClientRepository;
 
 import lombok.AllArgsConstructor;
@@ -21,6 +26,22 @@ public class CouchbaseClientRepository implements ClientRepository {
 	private final Cluster couchbaseCluster;
 
 	private final Collection collectionClients;
+
+	@Override
+	public List<ClientSummary> getClients() {
+		List<ClientSummary> records = new ArrayList<>();
+		final String query = "SELECT clientId, description " + "FROM `"
+				+ this.collectionClients.bucketName() + "`.`" + this.collectionClients.scopeName()
+				+ "`.`" + this.collectionClients.name() + "` ";
+
+		QueryResult result = couchbaseCluster.query(query);
+
+		result.rowsAs(ClientSummaryRecord.class).forEach(row -> {
+			records.add(row);
+		});
+
+		return records;
+	}
 
 	@Override
 	public Client getClient(@NonNull String clientId) {

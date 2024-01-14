@@ -1,11 +1,23 @@
 package com.unitvectory.auth.datamodel.repository;
 
+import java.util.List;
+
 import com.unitvectory.auth.datamodel.model.Client;
+import com.unitvectory.auth.datamodel.model.ClientSummary;
 
 /**
  * Interface for repository handling the storage, retrieval, and management of client details.
  */
 public interface ClientRepository {
+
+	/**
+	 * Retrieves a list of all clients.
+	 * 
+	 * This is not suitable for large scale and needs to be refactored.
+	 * 
+	 * @return list of clients
+	 */
+	List<ClientSummary> getClients();
 
 	/**
 	 * Retrieves a client by its unique identifier.

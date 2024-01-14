@@ -9,10 +9,14 @@ import javax.annotation.Nonnull;
 import com.google.cloud.firestore.DocumentReference;
 import com.google.cloud.firestore.DocumentSnapshot;
 import com.google.cloud.firestore.Firestore;
+import com.google.cloud.firestore.QueryDocumentSnapshot;
+import com.google.cloud.firestore.QuerySnapshot;
 import com.unitvectory.auth.datamodel.gcp.model.ClientJwtBearerRecord;
 import com.unitvectory.auth.datamodel.gcp.model.ClientRecord;
+import com.unitvectory.auth.datamodel.gcp.model.ClientSummaryRecord;
 import com.unitvectory.auth.datamodel.model.Client;
 import com.unitvectory.auth.datamodel.model.ClientJwtBearer;
+import com.unitvectory.auth.datamodel.model.ClientSummary;
 import com.unitvectory.auth.datamodel.repository.ClientRepository;
 import com.unitvectory.auth.util.exception.BadRequestException;
 import com.unitvectory.auth.util.exception.ConflictException;
@@ -33,6 +37,26 @@ public class FirestoreClientRepository implements ClientRepository {
 	private Firestore firestore;
 
 	private String collectionClients;
+
+	@Override
+	public List<ClientSummary> getClients() {
+
+		try {
+			QuerySnapshot querySnapshot = firestore.collection(this.collectionClients)
+					.select("clientId", "description").get().get();
+
+			ArrayList<ClientSummary> list = new ArrayList<>();
+
+			List<QueryDocumentSnapshot> documents = querySnapshot.getDocuments();
+			for (QueryDocumentSnapshot document : documents) {
+				list.add(document.toObject(ClientSummaryRecord.class));
+			}
+
+			return list;
+		} catch (InterruptedException | ExecutionException e) {
+			throw new InternalServerErrorException(e);
+		}
+	}
 
 	@Override
 	public Client getClient(@NonNull String clientId) {

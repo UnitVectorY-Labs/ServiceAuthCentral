@@ -13,6 +13,7 @@ public interface ClientMapper {
 	ClientMapper INSTANCE = Mappers.getMapper(ClientMapper.class);
 
 	@Mapping(target = "clientId", source = "clientId")
+	@Mapping(target = "description", source = "description")
 	@Mapping(target = "clientSecret1Set", expression = "java(client.getClientSecret1() != null)")
 	@Mapping(target = "clientSecret2Set", expression = "java(client.getClientSecret2() != null)")
 	@Mapping(target = "jwtBearer", source = "jwtBearer")

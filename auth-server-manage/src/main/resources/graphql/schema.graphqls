@@ -1,5 +1,6 @@
 
 type Query {
+  clients: [ClientSummary]
   client(clientId: ID!): Client
   authorization(id: ID!): Authorization
 }
@@ -17,8 +18,14 @@ type Mutation {
     deauthorize(subject: String!, audience: String!): Response!
 }
 
+type ClientSummary {
+  clientId: ID!
+  description: String
+}
+
 type Client {
   clientId: ID!
+  description: String
   clientSecret1Set: Boolean
   clientSecret2Set: Boolean
   authorizationsAsSubject: [Authorization]

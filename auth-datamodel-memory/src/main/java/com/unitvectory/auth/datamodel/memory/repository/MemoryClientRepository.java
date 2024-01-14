@@ -6,10 +6,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.unitvectory.auth.datamodel.memory.mapper.MemoryClientSummaryMapper;
 import com.unitvectory.auth.datamodel.memory.model.MemoryClient;
 import com.unitvectory.auth.datamodel.memory.model.MemoryClientJwtBearer;
 import com.unitvectory.auth.datamodel.model.Client;
 import com.unitvectory.auth.datamodel.model.ClientJwtBearer;
+import com.unitvectory.auth.datamodel.model.ClientSummary;
 import com.unitvectory.auth.datamodel.repository.ClientRepository;
 import com.unitvectory.auth.util.exception.BadRequestException;
 import com.unitvectory.auth.util.exception.NotFoundException;
@@ -27,6 +29,17 @@ public class MemoryClientRepository implements ClientRepository {
 
 	public void reset() {
 		this.memory.clear();
+	}
+
+	@Override
+	public List<ClientSummary> getClients() {
+		List<ClientSummary> list = new ArrayList<>();
+
+		for (MemoryClient client : memory.values()) {
+			list.add(MemoryClientSummaryMapper.INSTANCE.memoryClientToMemoryClientSummary(client));
+		}
+
+		return list;
 	}
 
 	@Override
