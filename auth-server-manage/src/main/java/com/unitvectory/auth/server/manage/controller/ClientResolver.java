@@ -74,6 +74,6 @@ public class ClientResolver {
 
 	@SchemaMapping(typeName = "Client", field = "authorizationsAsAudience")
 	public List<AuthorizationType> getAuthorizationsAsAudience(ClientType client) {
-		return this.clientService.getAuthorizationsAsSubject(client.getClientId());
+		return this.clientService.getAuthorizationsAsAudience(client.getClientId());
 	}
 }
