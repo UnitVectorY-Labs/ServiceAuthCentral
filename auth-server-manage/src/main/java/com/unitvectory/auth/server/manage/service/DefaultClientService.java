@@ -43,6 +43,31 @@ public class DefaultClientService implements ClientService {
 	@Override
 	public ClientSummaryConnection getClients(Integer first, String after, Integer last,
 			String before) {
+		// Validate that either first or last is provided, but not both
+		if ((first == null && last == null) || (first != null && last != null)) {
+			throw new IllegalArgumentException(
+					"Either 'first' or 'last' must be provided, but not both.");
+		}
+
+		// Validate that after is provided only if first is set
+		if (after != null && first == null) {
+			throw new IllegalArgumentException(
+					"The 'after' parameter can only be provided if 'first' is set.");
+		}
+
+		// Validate that before is provided only if last is set
+		if (before != null && last == null) {
+			throw new IllegalArgumentException(
+					"The 'before' parameter can only be provided if 'last' is set.");
+		}
+
+		// Check that first or last is between 1 and 10 if set
+		if ((first != null && (first < 1 || first > 10))
+				|| (last != null && (last < 1 || last > 10))) {
+			throw new IllegalArgumentException("'first' or 'last' must be between 1 and 10.");
+		}
+
+		// Call the repository method
 		ClientSummaryConnection clientSummaryPage =
 				this.clientRepository.getClients(first, after, last, before);
 		return clientSummaryPage;
