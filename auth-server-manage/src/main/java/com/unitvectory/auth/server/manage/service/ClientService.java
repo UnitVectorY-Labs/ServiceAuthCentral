@@ -2,15 +2,15 @@ package com.unitvectory.auth.server.manage.service;
 
 import java.util.List;
 
+import com.unitvectory.auth.datamodel.model.ClientSummaryConnection;
 import com.unitvectory.auth.server.manage.dto.AuthorizationType;
 import com.unitvectory.auth.server.manage.dto.ClientSecretType;
-import com.unitvectory.auth.server.manage.dto.ClientSummaryType;
 import com.unitvectory.auth.server.manage.dto.ClientType;
 import com.unitvectory.auth.server.manage.dto.ResponseType;
 
 public interface ClientService {
 
-	List<ClientSummaryType> getClients();
+	ClientSummaryConnection getClients(Integer first, String after, Integer last, String before);
 
 	ClientType addClient(String clientId, String description);
 

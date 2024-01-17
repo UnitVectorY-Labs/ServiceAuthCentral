@@ -1,6 +1,9 @@
 package com.unitvectory.auth.datamodel.gcp.repository;
 
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.Base64;
+import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
 
@@ -9,6 +12,7 @@ import javax.annotation.Nonnull;
 import com.google.cloud.firestore.DocumentReference;
 import com.google.cloud.firestore.DocumentSnapshot;
 import com.google.cloud.firestore.Firestore;
+import com.google.cloud.firestore.Query;
 import com.google.cloud.firestore.QueryDocumentSnapshot;
 import com.google.cloud.firestore.QuerySnapshot;
 import com.unitvectory.auth.datamodel.gcp.model.ClientJwtBearerRecord;
@@ -17,6 +21,9 @@ import com.unitvectory.auth.datamodel.gcp.model.ClientSummaryRecord;
 import com.unitvectory.auth.datamodel.model.Client;
 import com.unitvectory.auth.datamodel.model.ClientJwtBearer;
 import com.unitvectory.auth.datamodel.model.ClientSummary;
+import com.unitvectory.auth.datamodel.model.ClientSummaryConnection;
+import com.unitvectory.auth.datamodel.model.ClientSummaryEdge;
+import com.unitvectory.auth.datamodel.model.PageInfo;
 import com.unitvectory.auth.datamodel.repository.ClientRepository;
 import com.unitvectory.auth.util.exception.BadRequestException;
 import com.unitvectory.auth.util.exception.ConflictException;
@@ -39,23 +46,103 @@ public class FirestoreClientRepository implements ClientRepository {
 	private String collectionClients;
 
 	@Override
-	public List<ClientSummary> getClients() {
-
+	public ClientSummaryConnection getClients(Integer first, String after, Integer last,
+			String before) {
 		try {
-			QuerySnapshot querySnapshot = firestore.collection(this.collectionClients)
-					.select("clientId", "description").get().get();
+			Query query =
+					firestore.collection(this.collectionClients).select("clientId", "description");
+			boolean hasPreviousPage = false, hasNextPage = false;
 
-			ArrayList<ClientSummary> list = new ArrayList<>();
-
-			List<QueryDocumentSnapshot> documents = querySnapshot.getDocuments();
-			for (QueryDocumentSnapshot document : documents) {
-				list.add(document.toObject(ClientSummaryRecord.class));
+			// Forward pagination logic
+			if (first != null) {
+				query = query.orderBy("clientId");
+				if (after != null && !after.isEmpty()) {
+					String afterDecoded =
+							new String(Base64.getDecoder().decode(after), StandardCharsets.UTF_8);
+					query = query.startAfter(afterDecoded);
+					hasPreviousPage = checkForPreviousPage(afterDecoded);
+				}
+				query = query.limit(first + 1);
 			}
 
-			return list;
+			// Backward pagination logic
+			if (last != null) {
+				query = query.orderBy("clientId", Query.Direction.DESCENDING);
+				if (before != null && !before.isEmpty()) {
+					String beforeDecoded =
+							new String(Base64.getDecoder().decode(before), StandardCharsets.UTF_8);
+					query = query.startAfter(beforeDecoded); // Corrected method
+					hasNextPage = checkForNextPage(beforeDecoded);
+				}
+				query = query.limit(last + 1);
+			}
+
+			List<ClientSummaryEdge> edges = processQueryResults(query);
+
+			// Adjust the list for backward pagination
+			if (last != null) {
+				edges = reverseEdges(edges);
+				hasPreviousPage = edges.size() > last;
+				if (hasPreviousPage) {
+					edges.remove(0); // Remove the extra item at the beginning
+				}
+			}
+
+			// Adjust hasNextPage flag for forward pagination
+			if (first != null && edges.size() > first) {
+				hasNextPage = true;
+				edges.remove(edges.size() - 1); // Remove the extra item at the end
+			}
+
+			PageInfo pageInfo = constructPageInfo(edges, hasPreviousPage, hasNextPage);
+			return ClientSummaryConnection.builder().edges(edges).pageInfo(pageInfo).build();
 		} catch (InterruptedException | ExecutionException e) {
 			throw new InternalServerErrorException(e);
 		}
+	}
+
+	private boolean checkForPreviousPage(String afterDecoded)
+			throws InterruptedException, ExecutionException {
+		Query prevPageQuery = firestore.collection(this.collectionClients).orderBy("clientId")
+				.endBefore(afterDecoded).limit(1);
+		return !prevPageQuery.get().get().isEmpty();
+	}
+
+	private boolean checkForNextPage(String beforeDecoded)
+			throws InterruptedException, ExecutionException {
+		Query nextPageQuery = firestore.collection(this.collectionClients)
+				.orderBy("clientId", Query.Direction.DESCENDING).startAfter(beforeDecoded).limit(1);
+		return !nextPageQuery.get().get().isEmpty();
+	}
+
+	private List<ClientSummaryEdge> processQueryResults(Query query)
+			throws InterruptedException, ExecutionException {
+		QuerySnapshot querySnapshot = query.get().get();
+		List<ClientSummaryEdge> edges = new ArrayList<>();
+		for (QueryDocumentSnapshot document : querySnapshot.getDocuments()) {
+			ClientSummary summary = document.toObject(ClientSummaryRecord.class);
+			String cursor = Base64.getEncoder().encodeToString(
+					document.getString("clientId").getBytes(StandardCharsets.UTF_8));
+			edges.add(ClientSummaryEdge.builder().node(summary).cursor(cursor).build());
+		}
+		return edges;
+	}
+
+	private List<ClientSummaryEdge> reverseEdges(List<ClientSummaryEdge> edges) {
+		List<ClientSummaryEdge> reversed = new ArrayList<>(edges);
+		Collections.reverse(reversed);
+		return reversed;
+	}
+
+	private PageInfo constructPageInfo(List<ClientSummaryEdge> edges, boolean hasPreviousPage,
+			boolean hasNextPage) {
+		String startCursor = null, endCursor = null;
+		if (!edges.isEmpty()) {
+			startCursor = edges.get(0).getCursor();
+			endCursor = edges.get(edges.size() - 1).getCursor();
+		}
+		return PageInfo.builder().hasNextPage(hasNextPage).hasPreviousPage(hasPreviousPage)
+				.startCursor(startCursor).endCursor(endCursor).build();
 	}
 
 	@Override

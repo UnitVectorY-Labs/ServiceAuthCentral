@@ -1,6 +1,6 @@
 
 type Query {
-  clients: [ClientSummary]
+  clients(first: Int, after: String, last: Int, before: String): ClientSummaryConnection
   client(clientId: ID!): Client
   authorization(id: ID!): Authorization
 }
@@ -16,6 +16,23 @@ type Mutation {
     deauthorizeJwtBearer(clientId: String!, id: String!): Response!
     authorize(subject: String!, audience: String!): Response!
     deauthorize(subject: String!, audience: String!): Response!
+}
+
+type ClientSummaryConnection {
+  edges: [ClientSummaryEdge]
+  pageInfo: PageInfo!
+}
+
+type ClientSummaryEdge {
+  node: ClientSummary
+  cursor: String!
+}
+
+type PageInfo {
+  hasNextPage: Boolean!
+  hasPreviousPage: Boolean!
+  startCursor: String
+  endCursor: String
 }
 
 type ClientSummary {

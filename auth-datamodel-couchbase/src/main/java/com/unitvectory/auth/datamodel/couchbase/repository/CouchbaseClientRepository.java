@@ -14,7 +14,9 @@ import com.couchbase.client.java.query.QueryResult;
 import com.unitvectory.auth.datamodel.couchbase.model.ClientRecord;
 import com.unitvectory.auth.datamodel.couchbase.model.ClientSummaryRecord;
 import com.unitvectory.auth.datamodel.model.Client;
-import com.unitvectory.auth.datamodel.model.ClientSummary;
+import com.unitvectory.auth.datamodel.model.ClientSummaryConnection;
+import com.unitvectory.auth.datamodel.model.ClientSummaryEdge;
+import com.unitvectory.auth.datamodel.model.PageInfo;
 import com.unitvectory.auth.datamodel.repository.ClientRepository;
 
 import lombok.AllArgsConstructor;
@@ -28,19 +30,56 @@ public class CouchbaseClientRepository implements ClientRepository {
 	private final Collection collectionClients;
 
 	@Override
-	public List<ClientSummary> getClients() {
-		List<ClientSummary> records = new ArrayList<>();
-		final String query = "SELECT clientId, description " + "FROM `"
-				+ this.collectionClients.bucketName() + "`.`" + this.collectionClients.scopeName()
-				+ "`.`" + this.collectionClients.name() + "` ";
+	public ClientSummaryConnection getClients(Integer first, String after, Integer last,
+			String before) {
+		List<ClientSummaryEdge> edges = new ArrayList<>();
+		PageInfo pageInfo = null;
+		StringBuilder queryBuilder = new StringBuilder();
+		queryBuilder.append("SELECT clientId, description FROM `")
+				.append(this.collectionClients.bucketName()).append("`.`")
+				.append(this.collectionClients.scopeName()).append("`.`")
+				.append(this.collectionClients.name()).append("` ");
 
-		QueryResult result = couchbaseCluster.query(query);
+		// Forward Pagination
+		if (first != null && after != null) {
+			queryBuilder.append("WHERE clientId > '").append(after)
+					.append("' ORDER BY clientId ASC LIMIT ").append(first + 1);
+		} else if (first != null) {
+			queryBuilder.append("ORDER BY clientId ASC LIMIT ").append(first + 1);
+		}
 
-		result.rowsAs(ClientSummaryRecord.class).forEach(row -> {
-			records.add(row);
-		});
+		// Reverse Pagination
+		if (last != null && before != null) {
+			queryBuilder.append("WHERE clientId < '").append(before)
+					.append("' ORDER BY clientId DESC LIMIT ").append(last + 1);
+		} else if (last != null) {
+			queryBuilder.append("ORDER BY clientId DESC LIMIT ").append(last + 1);
+		}
 
-		return records;
+		// Execute Query
+		QueryResult result = couchbaseCluster.query(queryBuilder.toString());
+		List<ClientSummaryRecord> records = result.rowsAs(ClientSummaryRecord.class);
+
+		// Determine hasNextPage and hasPreviousPage
+		boolean hasNextPage = (first != null) && records.size() > first;
+		boolean hasPreviousPage = (last != null) && records.size() > last;
+
+		if (hasNextPage || hasPreviousPage) {
+			records.remove(records.size() - 1); // Remove extra record used for determining page
+												// availability
+		}
+
+		// Construct edges
+		records.forEach(record -> edges.add(
+				ClientSummaryEdge.builder().node(record).cursor(record.getClientId()).build()));
+
+		// Setting PageInfo
+		String startCursor = edges.isEmpty() ? null : edges.get(0).getCursor();
+		String endCursor = edges.isEmpty() ? null : edges.get(edges.size() - 1).getCursor();
+		pageInfo = PageInfo.builder().hasNextPage(hasNextPage).hasPreviousPage(hasPreviousPage)
+				.startCursor(startCursor).endCursor(endCursor).build();
+
+		return ClientSummaryConnection.builder().edges(edges).pageInfo(pageInfo).build();
 	}
 
 	@Override

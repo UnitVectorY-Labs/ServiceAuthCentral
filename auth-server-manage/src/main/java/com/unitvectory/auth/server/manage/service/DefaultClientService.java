@@ -1,6 +1,5 @@
 package com.unitvectory.auth.server.manage.service;
 
-import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Spliterator;
@@ -15,17 +14,15 @@ import com.unitvectory.auth.common.service.entropy.EntropyService;
 import com.unitvectory.auth.datamodel.model.Authorization;
 import com.unitvectory.auth.datamodel.model.Client;
 import com.unitvectory.auth.datamodel.model.ClientJwtBearer;
-import com.unitvectory.auth.datamodel.model.ClientSummary;
+import com.unitvectory.auth.datamodel.model.ClientSummaryConnection;
 import com.unitvectory.auth.datamodel.repository.AuthorizationRepository;
 import com.unitvectory.auth.datamodel.repository.ClientRepository;
 import com.unitvectory.auth.server.manage.dto.AuthorizationType;
 import com.unitvectory.auth.server.manage.dto.ClientSecretType;
-import com.unitvectory.auth.server.manage.dto.ClientSummaryType;
 import com.unitvectory.auth.server.manage.dto.ClientType;
 import com.unitvectory.auth.server.manage.dto.ResponseType;
 import com.unitvectory.auth.server.manage.mapper.AuthorizationMapper;
 import com.unitvectory.auth.server.manage.mapper.ClientMapper;
-import com.unitvectory.auth.server.manage.mapper.ClientSummaryMapper;
 import com.unitvectory.auth.util.exception.ConflictException;
 import com.unitvectory.auth.util.exception.NotFoundException;
 
@@ -44,13 +41,11 @@ public class DefaultClientService implements ClientService {
 	private EntropyService entropyService;
 
 	@Override
-	public List<ClientSummaryType> getClients() {
-		List<ClientSummaryType> list = new ArrayList<>();
-		for (ClientSummary client : this.clientRepository.getClients()) {
-			list.add(ClientSummaryMapper.INSTANCE.clientSummaryToClientSummaryType(client));
-		}
-
-		return list;
+	public ClientSummaryConnection getClients(Integer first, String after, Integer last,
+			String before) {
+		ClientSummaryConnection clientSummaryPage =
+				this.clientRepository.getClients(first, after, last, before);
+		return clientSummaryPage;
 	}
 
 	@Override

@@ -1,9 +1,7 @@
 package com.unitvectory.auth.datamodel.repository;
 
-import java.util.List;
-
 import com.unitvectory.auth.datamodel.model.Client;
-import com.unitvectory.auth.datamodel.model.ClientSummary;
+import com.unitvectory.auth.datamodel.model.ClientSummaryConnection;
 
 /**
  * Interface for repository handling the storage, retrieval, and management of client details.
@@ -11,13 +9,20 @@ import com.unitvectory.auth.datamodel.model.ClientSummary;
 public interface ClientRepository {
 
 	/**
-	 * Retrieves a list of all clients.
+	 * Retrieves a page of clients using cursor-based pagination.
 	 * 
-	 * This is not suitable for large scale and needs to be refactored.
-	 * 
-	 * @return list of clients
+	 * @param first The number of records to retrieve after the 'after' cursor. Used for forward
+	 *        pagination.
+	 * @param after The cursor indicating the starting point for forward pagination; null indicates
+	 *        the start.
+	 * @param last The number of records to retrieve before the 'before' cursor. Used for reverse
+	 *        pagination.
+	 * @param before The cursor indicating the starting point for reverse pagination; null indicates
+	 *        the end.
+	 * @return ClientSummaryConnection representing a paginated list of clients, including PageInfo
+	 *         with cursors for subsequent queries.
 	 */
-	List<ClientSummary> getClients();
+	ClientSummaryConnection getClients(Integer first, String after, Integer last, String before);
 
 	/**
 	 * Retrieves a client by its unique identifier.
