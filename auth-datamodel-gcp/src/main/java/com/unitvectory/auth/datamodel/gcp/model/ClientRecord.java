@@ -9,6 +9,7 @@ import com.google.cloud.firestore.annotation.DocumentId;
 import com.google.cloud.firestore.annotation.IgnoreExtraProperties;
 import com.unitvectory.auth.datamodel.model.Client;
 import com.unitvectory.auth.datamodel.model.ClientJwtBearer;
+import com.unitvectory.auth.datamodel.model.ClientType;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -30,6 +31,8 @@ public class ClientRecord implements Client {
 	private String description;
 
 	private String salt;
+
+	private ClientType clientType;
 
 	private String clientSecret1;
 
