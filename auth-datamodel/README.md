@@ -4,12 +4,10 @@ This library provides the interfaces for accessing the repositories and data so 
 
 ## Repository Interfaces
 
-Three different repositories are defined:
+The following interfaces are implemented to provide data persistence.
 
-- `SignService`: Service interface for signing operations and key management for JWTs and JWKS.
-
-## Data Interfaces
-
-The underlying data elements are handled through interfaces:
-
-- `JsonWebKey`: Interface representing a JSON Web Key (JWK).
+- `AuthorizationRepository`: Manage client authorizations; which clients are authorized to access others for centralized authorization model
+- `ClientRepository`: Manage clients; catalog of all of the registered clients.
+- `JwkCacheRepository`: Manage JWK cache; improves performance and availability for external authentications.
+- `LoginCodeRepository`: Manage login codes; the authorization code repository to allow users to log in
+- `LoginStateRepository`: Manage login state; the session needed to complete the OAuth user login flow

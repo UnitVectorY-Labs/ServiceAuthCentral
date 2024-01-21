@@ -27,6 +27,7 @@ import com.unitvectory.auth.common.service.time.TimeService;
 import com.unitvectory.auth.datamodel.memory.repository.MemoryAuthorizationRepository;
 import com.unitvectory.auth.datamodel.memory.repository.MemoryClientRepository;
 import com.unitvectory.auth.datamodel.model.Client;
+import com.unitvectory.auth.datamodel.model.ClientType;
 import com.unitvectory.auth.datamodel.repository.AuthorizationRepository;
 import com.unitvectory.auth.datamodel.repository.ClientRepository;
 import com.unitvectory.auth.server.token.config.TestServiceAuthCentralConfig;
@@ -73,8 +74,8 @@ public class TokenResponseTest {
 			((MemoryClientRepository) this.clientRepository).reset();
 		}
 
-		this.clientRepository.putClient("bar", "Test2", "xyz");
-		this.clientRepository.putClient("foo", "Test", "abc");
+		this.clientRepository.putClient("bar", "Test2", "xyz", ClientType.APPLICATION);
+		this.clientRepository.putClient("foo", "Test", "abc", ClientType.APPLICATION);
 		Client client = this.clientRepository.getClient("foo");
 		this.clientRepository.saveClientSecret1("foo", client.hashSecret("mySuperSecretfoo"));
 

@@ -11,9 +11,13 @@ import com.unitvectory.auth.common.service.time.TimeService;
 import com.unitvectory.auth.datamodel.memory.repository.MemoryAuthorizationRepository;
 import com.unitvectory.auth.datamodel.memory.repository.MemoryClientRepository;
 import com.unitvectory.auth.datamodel.memory.repository.MemoryJwkCacheRepository;
+import com.unitvectory.auth.datamodel.memory.repository.MemoryLoginCodeRepository;
+import com.unitvectory.auth.datamodel.memory.repository.MemoryLoginStateRepository;
 import com.unitvectory.auth.datamodel.repository.AuthorizationRepository;
 import com.unitvectory.auth.datamodel.repository.ClientRepository;
 import com.unitvectory.auth.datamodel.repository.JwkCacheRepository;
+import com.unitvectory.auth.datamodel.repository.LoginCodeRepository;
+import com.unitvectory.auth.datamodel.repository.LoginStateRepository;
 import com.unitvectory.auth.server.token.service.LocalJwksResolver;
 import com.unitvectory.auth.verify.auth0.service.Auth0JwtVerifier;
 import com.unitvectory.auth.verify.service.JwksResolver;
@@ -46,6 +50,16 @@ public class TestServiceAuthCentralConfig {
 	@Bean
 	public JwkCacheRepository jwkCacheRepository() {
 		return new MemoryJwkCacheRepository();
+	}
+
+	@Bean
+	public LoginCodeRepository loginCodeRepository() {
+		return new MemoryLoginCodeRepository();
+	}
+
+	@Bean
+	public LoginStateRepository loginStateRepository() {
+		return new MemoryLoginStateRepository();
 	}
 
 	@Bean

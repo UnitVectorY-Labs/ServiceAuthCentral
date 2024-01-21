@@ -11,6 +11,7 @@ import com.unitvectory.auth.server.manage.dto.ClientType;
 import com.unitvectory.auth.server.manage.dto.ResponseType;
 import com.unitvectory.auth.server.manage.mapper.AuthorizationMapper;
 import com.unitvectory.auth.server.manage.mapper.ClientMapper;
+import com.unitvectory.auth.util.exception.BadRequestException;
 
 public class DefaultAuthorizationService implements AuthorizationService {
 
@@ -30,6 +31,12 @@ public class DefaultAuthorizationService implements AuthorizationService {
 		Client audienceClient = this.clientRepository.getClient(audience);
 		if (audienceClient == null) {
 			return ResponseType.builder().success(false).build();
+		}
+
+		if (!com.unitvectory.auth.datamodel.model.ClientType.APPLICATION
+				.equals(audienceClient.getClientType())) {
+			throw new BadRequestException(
+					"Only clientType of APPLICATION can be used for the audience");
 		}
 
 		this.authorizationRepository.authorize(subject, audience);

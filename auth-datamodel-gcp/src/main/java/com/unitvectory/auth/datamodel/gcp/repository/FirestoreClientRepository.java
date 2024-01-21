@@ -23,6 +23,7 @@ import com.unitvectory.auth.datamodel.model.ClientJwtBearer;
 import com.unitvectory.auth.datamodel.model.ClientSummary;
 import com.unitvectory.auth.datamodel.model.ClientSummaryConnection;
 import com.unitvectory.auth.datamodel.model.ClientSummaryEdge;
+import com.unitvectory.auth.datamodel.model.ClientType;
 import com.unitvectory.auth.datamodel.model.PageInfo;
 import com.unitvectory.auth.datamodel.repository.ClientRepository;
 import com.unitvectory.auth.util.exception.BadRequestException;
@@ -171,7 +172,8 @@ public class FirestoreClientRepository implements ClientRepository {
 	}
 
 	@Override
-	public void putClient(@NonNull String clientId, String description, @NonNull String salt) {
+	public void putClient(@NonNull String clientId, String description, @NonNull String salt,
+			@NonNull ClientType clientType) {
 
 		try {
 			// Reference to the document in the 'clients' collection with the specified
@@ -189,7 +191,8 @@ public class FirestoreClientRepository implements ClientRepository {
 				if (!snapshot.exists()) {
 					@Nonnull
 					ClientRecord record = ClientRecord.builder().documentId(clientId)
-							.clientId(clientId).description(description).salt(salt).build();
+							.clientId(clientId).description(description).salt(salt)
+							.clientType(clientType).build();
 
 					// Perform the transactional write to create the new record
 					transaction.set(document, record);

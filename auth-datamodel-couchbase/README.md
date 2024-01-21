@@ -22,6 +22,8 @@ The application requires the following configuration properties for connecting a
 | `serviceauthcentral.datamodel.couchbase.collection.authorizations` | No       | `authorizations`     | Couchbase collection for authorizations |
 | `serviceauthcentral.datamodel.couchbase.collection.clients`        | No       | `clients`            | Couchbase collection for clients        |
 | `serviceauthcentral.datamodel.couchbase.collection.keys`           | No       | `keys`               | Couchbase collection for keys           |
+| `serviceauthcentral.datamodel.couchbase.collection.logincodes`     | No       | `loginCodes`         | Couchbase collection for login codes    |
+| `serviceauthcentral.datamodel.couchbase.collection.loginstates`    | No       | `loginStates`        | Couchbase collection for login states   |
 
 ## Bean Configurations
 
@@ -30,6 +32,10 @@ The `CouchbaseConfig` class initializes the `Cluster` bean based on the provided
 - `AuthorizationRepository`: Manages authorizations.
 - `ClientRepository`: Handles client data.
 - `JwkCacheRepository`: Caches JSON Web Keys.
+- `LoginCodeRepository`: Handles authorization codes.
+- `LoginStateRepository`: Handles login states.
+
+## Couchbase Repositories
 
 These repositories interact with their respective Couchbase collections, facilitating the core operations of the `auth-datamodel`.
 
