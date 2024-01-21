@@ -16,6 +16,7 @@ import com.unitvectory.auth.datamodel.couchbase.model.ClientSummaryRecord;
 import com.unitvectory.auth.datamodel.model.Client;
 import com.unitvectory.auth.datamodel.model.ClientSummaryConnection;
 import com.unitvectory.auth.datamodel.model.ClientSummaryEdge;
+import com.unitvectory.auth.datamodel.model.ClientType;
 import com.unitvectory.auth.datamodel.model.PageInfo;
 import com.unitvectory.auth.datamodel.repository.ClientRepository;
 
@@ -98,9 +99,9 @@ public class CouchbaseClientRepository implements ClientRepository {
 
 	@Override
 	public void putClient(@NonNull String clientId, @NonNull String description,
-			@NonNull String salt) {
+			@NonNull String salt, @NonNull ClientType clientType) {
 		ClientRecord client = ClientRecord.builder().clientId(clientId).description(description)
-				.salt(salt).build();
+				.salt(salt).clientType(clientType).build();
 		this.collectionClients.insert(clientId, client);
 	}
 
