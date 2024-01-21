@@ -28,22 +28,24 @@ public class AuthorizeController {
 
 	@GetMapping("/login/authorize")
 	public void authorize(@RequestParam("response_type") String responseType,
-			@RequestParam("client_id") String clientId, @RequestParam("redirect_uri") String redirectUri,
+			@RequestParam("client_id") String clientId,
+			@RequestParam("redirect_uri") String redirectUri,
 			@RequestParam("code_challenge") String codeChallenge,
-			@RequestParam("code_challenge_method") String codeChallengeMethod, @RequestParam("state") String state,
-			HttpServletResponse response) throws IOException {
+			@RequestParam("code_challenge_method") String codeChallengeMethod,
+			@RequestParam("state") String state, HttpServletResponse response) throws IOException {
 
 		String sessionId = this.entropyService.randomAlphaNumeric(25);
 
-		String redirect = this.loginService.authorize(sessionId, responseType, clientId, redirectUri, codeChallenge,
-				codeChallengeMethod, state);
+		String redirect = this.loginService.authorize(sessionId, responseType, clientId,
+				redirectUri, codeChallenge, codeChallengeMethod, state);
 
 		// Save the cookie
 		Cookie cookie = new Cookie("sessionId", sessionId);
 		cookie.setSecure(true);
 		cookie.setHttpOnly(true);
-		cookie.setPath("/login/");
-		cookie.setAttribute("SameSite", "Strict");
+		cookie.setPath("/");
+		// cookie.setPath("/login/");
+		// cookie.setAttribute("SameSite", "Strict");
 		cookie.setMaxAge(300);
 		response.addCookie(cookie);
 
@@ -53,8 +55,8 @@ public class AuthorizeController {
 
 	@GetMapping("/login/callback")
 	public void callback(@CookieValue(name = "sessionId", required = true) String sessionId,
-			@RequestParam("code") String code, @RequestParam("state") String state, HttpServletResponse response)
-			throws IOException {
+			@RequestParam("code") String code, @RequestParam("state") String state,
+			HttpServletResponse response) throws IOException {
 
 		String redirect = this.loginService.callback(sessionId, code, state, response);
 
@@ -62,8 +64,9 @@ public class AuthorizeController {
 		Cookie cookie = new Cookie("sessionId", "");
 		cookie.setSecure(true);
 		cookie.setHttpOnly(true);
-		cookie.setPath("/login/");
-		cookie.setAttribute("SameSite", "Strict");
+		cookie.setPath("/");
+		// cookie.setPath("/login/");
+		// cookie.setAttribute("SameSite", "Strict");
 		cookie.setMaxAge(0);
 		response.addCookie(cookie);
 
