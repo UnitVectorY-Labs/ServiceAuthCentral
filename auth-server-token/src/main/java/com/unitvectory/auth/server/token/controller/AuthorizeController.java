@@ -20,8 +20,6 @@ import jakarta.servlet.http.HttpServletResponse;
 @RestController
 public class AuthorizeController {
 
-	// http://localhost:8082/login/authorize?response_type=code&client_id=provider:github&redirect_uri=http%3A%2F%2Flocalhost%3A8080%2Fcallback&state=mystate&code_challenge=dab9f87eab32111dcb1aeff65c88fd7ef42ea25ef54e069eceedda749f18fe06&code_challenge_method=S256
-
 	@Autowired
 	private LoginService loginService;
 
