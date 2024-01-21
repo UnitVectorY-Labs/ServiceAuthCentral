@@ -43,6 +43,7 @@ type ClientSummary {
 type Client {
   clientId: ID!
   description: String
+  clientType: String
   clientSecret1Set: Boolean
   clientSecret2Set: Boolean
   authorizationsAsSubject: [Authorization]

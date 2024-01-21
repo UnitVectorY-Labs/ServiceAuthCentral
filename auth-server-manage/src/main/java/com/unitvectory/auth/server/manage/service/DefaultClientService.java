@@ -23,6 +23,7 @@ import com.unitvectory.auth.server.manage.dto.ClientType;
 import com.unitvectory.auth.server.manage.dto.ResponseType;
 import com.unitvectory.auth.server.manage.mapper.AuthorizationMapper;
 import com.unitvectory.auth.server.manage.mapper.ClientMapper;
+import com.unitvectory.auth.util.exception.BadRequestException;
 import com.unitvectory.auth.util.exception.ConflictException;
 import com.unitvectory.auth.util.exception.NotFoundException;
 
@@ -75,8 +76,16 @@ public class DefaultClientService implements ClientService {
 
 	@Override
 	public ClientType addClient(String clientId, String description) {
+
+		// Application clientIds cannot start with 'user:'
+		if (clientId.toLowerCase().startsWith("user:")) {
+			throw new IllegalArgumentException(
+					"Application 'clientId' cannot start with 'user:' as this is reserved for user accounts.");
+		}
+
 		String salt = this.entropyService.randomAlphaNumeric(LENGTH);
-		this.clientRepository.putClient(clientId, description, salt);
+		this.clientRepository.putClient(clientId, description, salt,
+				com.unitvectory.auth.datamodel.model.ClientType.APPLICATION);
 		ClientType client = ClientType.builder().clientId(clientId).clientSecret1Set(false)
 				.clientSecret2Set(false).build();
 		return client;
@@ -117,6 +126,11 @@ public class DefaultClientService implements ClientService {
 			throw new NotFoundException("clientId not found");
 		}
 
+		if (!com.unitvectory.auth.datamodel.model.ClientType.APPLICATION
+				.equals(client.getClientType())) {
+			throw new BadRequestException("Only clientType of APPLICATION can use client secrets");
+		}
+
 		if (client.getClientSecret1() != null) {
 			throw new ConflictException("clientId clientSecret1 already set");
 		}
@@ -135,6 +149,11 @@ public class DefaultClientService implements ClientService {
 		Client client = this.clientRepository.getClient(clientId);
 		if (client == null) {
 			throw new NotFoundException("clientId not found");
+		}
+
+		if (!com.unitvectory.auth.datamodel.model.ClientType.APPLICATION
+				.equals(client.getClientType())) {
+			throw new BadRequestException("Only clientType of APPLICATION can use client secrets");
 		}
 
 		if (client.getClientSecret2() != null) {
@@ -156,6 +175,8 @@ public class DefaultClientService implements ClientService {
 			throw new NotFoundException("clientId not found");
 		}
 
+		// Do not need to block deleting client secrets on users
+
 		if (client.getClientSecret1() != null) {
 			this.clientRepository.clearClientSecret1(clientId);
 		}
@@ -171,6 +192,8 @@ public class DefaultClientService implements ClientService {
 		if (client == null) {
 			throw new NotFoundException("clientId not found");
 		}
+
+		// Do not need to block deleting client secrets on users
 
 		if (client.getClientSecret2() != null) {
 			this.clientRepository.clearClientSecret2(clientId);
@@ -218,6 +241,12 @@ public class DefaultClientService implements ClientService {
 			return ResponseType.builder().success(false).build();
 		}
 
+		if (!com.unitvectory.auth.datamodel.model.ClientType.APPLICATION
+				.equals(client.getClientType())) {
+			throw new BadRequestException(
+					"Only clientType of APPLICATION can use jwt bearer authorizations");
+		}
+
 		for (ClientJwtBearer cjb : client.getJwtBearer()) {
 			if (cjb.matches(jwksUrl, iss, sub, aud)) {
 				// Already matches, fail
@@ -236,6 +265,8 @@ public class DefaultClientService implements ClientService {
 		if (client == null) {
 			return ResponseType.builder().success(false).build();
 		}
+
+		// Do not need to block deauthorizing jwt bearers on users
 
 		boolean matches = false;
 		for (ClientJwtBearer cjb : client.getJwtBearer()) {

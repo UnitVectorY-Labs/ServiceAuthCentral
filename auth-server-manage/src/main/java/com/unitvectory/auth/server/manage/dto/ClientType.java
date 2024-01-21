@@ -13,6 +13,8 @@ public class ClientType {
 
 	private final String description;
 
+	private final String clientType;
+
 	private final boolean clientSecret1Set;
 
 	private final boolean clientSecret2Set;

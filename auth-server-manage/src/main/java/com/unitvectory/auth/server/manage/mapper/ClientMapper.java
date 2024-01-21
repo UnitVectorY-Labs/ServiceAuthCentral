@@ -14,6 +14,7 @@ public interface ClientMapper {
 
 	@Mapping(target = "clientId", source = "clientId")
 	@Mapping(target = "description", source = "description")
+	@Mapping(target = "clientType", source = "clientType")
 	@Mapping(target = "clientSecret1Set", expression = "java(client.getClientSecret1() != null)")
 	@Mapping(target = "clientSecret2Set", expression = "java(client.getClientSecret2() != null)")
 	@Mapping(target = "jwtBearer", source = "jwtBearer")
