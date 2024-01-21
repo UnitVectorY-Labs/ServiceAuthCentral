@@ -81,6 +81,9 @@ public class DefaultClientService implements ClientService {
 		if (clientId.toLowerCase().startsWith("user:")) {
 			throw new IllegalArgumentException(
 					"Application 'clientId' cannot start with 'user:' as this is reserved for user accounts.");
+		} else if (clientId.toLowerCase().startsWith("provider:")) {
+			throw new IllegalArgumentException(
+					"Application 'clientId' cannot start with 'provider:' as this is reserved for login providers.");
 		}
 
 		String salt = this.entropyService.randomAlphaNumeric(LENGTH);

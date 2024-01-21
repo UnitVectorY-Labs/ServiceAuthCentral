@@ -9,12 +9,15 @@ import com.unitvectory.auth.common.service.time.TimeService;
 import com.unitvectory.auth.datamodel.model.Authorization;
 import com.unitvectory.auth.datamodel.model.Client;
 import com.unitvectory.auth.datamodel.model.ClientJwtBearer;
+import com.unitvectory.auth.datamodel.model.LoginCode;
 import com.unitvectory.auth.datamodel.repository.AuthorizationRepository;
 import com.unitvectory.auth.datamodel.repository.ClientRepository;
+import com.unitvectory.auth.datamodel.repository.LoginCodeRepository;
 import com.unitvectory.auth.server.token.dto.TokenRequest;
 import com.unitvectory.auth.server.token.dto.TokenResponse;
 import com.unitvectory.auth.server.token.model.JwtBuilder;
 import com.unitvectory.auth.sign.service.SignService;
+import com.unitvectory.auth.util.HashingUtil;
 import com.unitvectory.auth.util.exception.BadRequestException;
 import com.unitvectory.auth.util.exception.ForbiddenException;
 import com.unitvectory.auth.util.exception.InternalServerErrorException;
@@ -37,6 +40,9 @@ public class TokenService {
 	private ClientRepository clientRepository;
 
 	@Autowired
+	public LoginCodeRepository loginCodeRepository;
+
+	@Autowired
 	private SignService signService;
 
 	@Autowired
@@ -57,16 +63,90 @@ public class TokenService {
 			return this.clientCredentials(tokenRequest);
 		} else if ("urn:ietf:params:oauth:grant-type:jwt-bearer".equals(grantType)) {
 			return this.jwtAssertion(tokenRequest);
+		} else if ("authorization_code".equals(tokenRequest.getGrant_type())) {
+			return this.authorizationCode(tokenRequest);
 		} else {
 			// Invalid value for the grant type
 			throw new BadRequestException("The request 'grant_type' provided is not supported.");
 		}
 	}
 
+	private TokenResponse authorizationCode(TokenRequest request) throws Exception {
+
+		if (request.getClient_secret() != null) {
+			throw new BadRequestException("The request has unexpected parameter 'client_secret'.");
+		} else if (request.getAudience() != null) {
+			throw new BadRequestException("The request has unexpected parameter 'audience'.");
+		} else if (request.getAssertion() != null) {
+			throw new BadRequestException("The request has unexpected parameter 'assertion'.");
+		}
+
+		String code = request.getCode();
+		String redirectUri = request.getRedirect_uri();
+		String clientId = request.getClient_id();
+		String codeVerifier = request.getCode_verifier();
+
+		if (code == null || code.isEmpty()) {
+			throw new BadRequestException("The request is missing the required parameter 'code'.");
+		} else if (redirectUri == null || redirectUri.isEmpty()) {
+			throw new BadRequestException(
+					"The request is missing the required parameter 'redirect_uri'.");
+		} else if (codeVerifier == null || codeVerifier.isEmpty()) {
+			throw new BadRequestException(
+					"The request is missing the required parameter 'code_verifier'.");
+		}
+
+		// The code needs to be in the database and valid
+		LoginCode loginCode = this.loginCodeRepository.getCode(code);
+		if (loginCode == null) {
+			throw new BadRequestException("The request has invalid parameter 'code'.");
+		}
+
+		// The client_id passed in must match the client_id stored for the code
+		if (!clientId.equals(loginCode.getClientId())) {
+			throw new BadRequestException("The request has invalid parameter 'client_id'.");
+		}
+
+		// Validate the PKCE parameter
+		String codeChallenge = HashingUtil.sha256(codeVerifier);
+		if (!codeChallenge.equals(loginCode.getCodeChallenge())) {
+			throw new BadRequestException("The request has invalid parameter 'code_verifier'.");
+		}
+
+		// Validate the redirect_uri
+		if (!redirectUri.equals(loginCode.getRedirectUri())) {
+			throw new BadRequestException("The request has invalid parameter 'redirect_uri'.");
+		}
+
+		// TODO: Validate that the auth code is not expired.
+
+		Client userClient = this.clientRepository.getClient(loginCode.getUserClientId());
+
+		// Now delete the auth code so it can't be used again
+
+		this.loginCodeRepository.deleteCode(code);
+
+		// Build the JWT and return it
+		return buildToken(userClient, null, null);
+	}
+
 	private TokenResponse jwtAssertion(TokenRequest request) throws Exception {
+
+		if (request.getCode() != null) {
+			throw new BadRequestException("The request has unexpected parameter 'code'.");
+		} else if (request.getRedirect_uri() != null) {
+			throw new BadRequestException("The request has unexpected parameter 'redirect_uri'.");
+		} else if (request.getCode_verifier() != null) {
+			throw new BadRequestException("The request has unexpected parameter 'code_verifier'.");
+		}
 
 		String clientId = request.getClient_id();
 		String audience = request.getAudience();
+
+		if (audience == null || audience.isBlank()) {
+			throw new BadRequestException(
+					"The request is missing the required parameter 'audience'.");
+		}
 
 		String assertion = request.getAssertion();
 		if (assertion == null || assertion.isEmpty()) {
@@ -137,8 +217,21 @@ public class TokenService {
 
 	private TokenResponse clientCredentials(TokenRequest request) throws Exception {
 
+		if (request.getCode() != null) {
+			throw new BadRequestException("The request has unexpected parameter 'code'.");
+		} else if (request.getRedirect_uri() != null) {
+			throw new BadRequestException("The request has unexpected parameter 'redirect_uri'.");
+		} else if (request.getCode_verifier() != null) {
+			throw new BadRequestException("The request has unexpected parameter 'code_verifier'.");
+		}
+
 		String clientId = request.getClient_id();
 		String audience = request.getAudience();
+
+		if (audience == null || audience.isBlank()) {
+			throw new BadRequestException(
+					"The request is missing the required parameter 'audience'.");
+		}
 
 		String clientSecret = request.getClient_secret();
 		if (clientSecret == null || clientSecret.isEmpty()) {
@@ -200,9 +293,6 @@ public class TokenService {
 	private TokenResponse buildToken(Client subjectRecord, Client audienceRecord,
 			Authorization authorizationRecord) {
 
-		String clientId = subjectRecord.getClientId();
-		String audience = audienceRecord.getClientId();
-
 		long now = this.timeService.getCurrentTimeSeconds();
 
 		// Get the active key
@@ -221,8 +311,21 @@ public class TokenService {
 		builder.withTiming(timeService.getCurrentTimeSeconds(), validSeconds);
 		builder.withJwtId(entropyService.generateUuid());
 		builder.withKeyId(kid);
-		builder.withSubject(clientId);
-		builder.withAudience(audience);
+
+		if (subjectRecord != null) {
+			String clientId = subjectRecord.getClientId();
+			builder.withSubject(clientId);
+		}
+
+		if (audienceRecord != null) {
+			String audience = audienceRecord.getClientId();
+			builder.withAudience(audience);
+		}
+
+		if (authorizationRecord != null) {
+			// TODO: custom claims from the authorization can be added to the token here.
+		}
+
 		String unsignedJwt = builder.buildUnsignedToken();
 
 		// Sign the JWT

@@ -21,14 +21,13 @@ public class TokenRequest {
 	@NotNull(message = "The request is missing the required parameter 'grant_type'.")
 	private String grant_type;
 
-	@NotNull(message = "The request is missing the required parameter 'client_id'.pp")
+	@NotNull(message = "The request is missing the required parameter 'client_id'.")
 	@Pattern(regexp = "^[a-zA-Z0-9]+$", message = "Invalid 'client_id' attribute format.")
 	private String client_id;
 
 	@Pattern(regexp = "^[0-9a-zA-Z]{12,64}$", message = "Invalid 'client_secret' attribute format.")
 	private String client_secret;
 
-	@NotNull(message = "The request is missing the required parameter 'audience'.pp")
 	@Pattern(regexp = "^[a-zA-Z0-9]+$", message = "Invalid 'audience' attribute format.")
 	private String audience;
 
@@ -36,4 +35,11 @@ public class TokenRequest {
 			message = "Invalid 'assertion' attribute format.")
 	private String assertion;
 
+	@Pattern(regexp = "^[0-9a-zA-Z]{12,64}$", message = "Invalid 'code' attribute format.")
+	private String code;
+
+	private String redirect_uri;
+
+	@Pattern(regexp = "^[0-9a-zA-Z]{10,64}$", message = "Invalid 'code_verifier' attribute format.")
+	private String code_verifier;
 }
