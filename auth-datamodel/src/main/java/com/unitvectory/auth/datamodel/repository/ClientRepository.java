@@ -2,6 +2,7 @@ package com.unitvectory.auth.datamodel.repository;
 
 import com.unitvectory.auth.datamodel.model.Client;
 import com.unitvectory.auth.datamodel.model.ClientSummaryConnection;
+import com.unitvectory.auth.datamodel.model.ClientType;
 
 /**
  * Interface for repository handling the storage, retrieval, and management of client details.
@@ -45,8 +46,9 @@ public interface ClientRepository {
 	 * @param clientId the unique identifier for the client.
 	 * @param description a brief description of the client.
 	 * @param salt the salt to be used for hashing client secrets.
+	 * @param clientType the client type
 	 */
-	void putClient(String clientId, String description, String salt);
+	void putClient(String clientId, String description, String salt, ClientType clientType);
 
 	/**
 	 * Adds an authorized JWT to a client
