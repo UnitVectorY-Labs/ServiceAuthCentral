@@ -165,6 +165,6 @@ public class LoginService {
 
 		// Finally, construct the redirect
 
-		return String.format("%s?client_id=%s&state=%s", redirectUri, authCode, primaryState);
+		return String.format("%s?code=%s&state=%s", redirectUri, authCode, primaryState);
 	}
 }
