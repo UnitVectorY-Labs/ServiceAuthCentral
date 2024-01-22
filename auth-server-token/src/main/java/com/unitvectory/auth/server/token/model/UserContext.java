@@ -28,6 +28,6 @@ public class UserContext {
 	 * @return the userClientId
 	 */
 	public String getUserClientId() {
-		return String.format("user:{%s}:{%s}", this.provider, this.userId);
+		return String.format("user:%s:%s", this.provider, this.userId);
 	}
 }
