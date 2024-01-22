@@ -22,7 +22,7 @@ public class TokenRequest {
 	private String grant_type;
 
 	@NotNull(message = "The request is missing the required parameter 'client_id'.")
-	@Pattern(regexp = "^[a-zA-Z0-9]+$", message = "Invalid 'client_id' attribute format.")
+	@Pattern(regexp = "^[a-zA-Z0-9:_-]+$", message = "Invalid 'client_id' attribute format.")
 	private String client_id;
 
 	@Pattern(regexp = "^[0-9a-zA-Z]{12,64}$", message = "Invalid 'client_secret' attribute format.")
