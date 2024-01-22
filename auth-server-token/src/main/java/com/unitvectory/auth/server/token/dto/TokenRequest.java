@@ -40,6 +40,7 @@ public class TokenRequest {
 
 	private String redirect_uri;
 
-	@Pattern(regexp = "^[0-9a-zA-Z]{10,64}$", message = "Invalid 'code_verifier' attribute format.")
+	@Pattern(regexp = "^[0-9a-zA-Z]{10,200}$",
+			message = "Invalid 'code_verifier' attribute format.")
 	private String code_verifier;
 }
