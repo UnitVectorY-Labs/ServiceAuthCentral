@@ -108,7 +108,7 @@ public class TokenService {
 		}
 
 		// Validate the PKCE parameter
-		String codeChallenge = HashingUtil.sha256(codeVerifier);
+		String codeChallenge = HashingUtil.sha256Base64(codeVerifier);
 		if (!codeChallenge.equals(loginCode.getCodeChallenge())) {
 			throw new BadRequestException("The request has invalid parameter 'code_verifier'.");
 		}
