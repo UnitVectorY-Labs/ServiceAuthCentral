@@ -27,7 +27,7 @@ import lombok.NonNull;
 public class LoginService {
 
 	@Value("${serviceauthcentral.user.redirecturi}")
-	private String primaryRedirectUri;
+	private List<String> primaryRedirectUris;
 
 	@Autowired
 	private TimeService timeService;
@@ -61,15 +61,14 @@ public class LoginService {
 		return null;
 	}
 
-	public String authorize(@NonNull String sessionId, @NonNull String responseType,
-			@NonNull String clientId, @NonNull String redirectUri, @NonNull String codeChallenge,
-			@NonNull String codeChallengeMethod, @NonNull String state) {
+	public String authorize(@NonNull String sessionId, @NonNull String responseType, @NonNull String clientId,
+			@NonNull String redirectUri, @NonNull String codeChallenge, @NonNull String codeChallengeMethod,
+			@NonNull String state) {
 
 		// First phase is input validation
 
 		if (!"code".equals(responseType)) {
-			throw new RuntimeException(
-					"Provided 'response_type' is invalid. Only supports 'code'.");
+			throw new RuntimeException("Provided 'response_type' is invalid. Only supports 'code'.");
 		}
 
 		LoginProviderService loginProviderService = this.getLoginProvider(clientId);
@@ -77,13 +76,15 @@ public class LoginService {
 			throw new BadRequestException("Provided 'client_id' is invalid");
 		}
 
-		if (!primaryRedirectUri.equals(redirectUri)) {
+		if (primaryRedirectUris == null) {
+			throw new InternalServerErrorException("redirect uris not configured");
+		} else if (!primaryRedirectUris.contains(redirectUri)) {
+			// If the redirect URI isn't one of the configured valid values
 			throw new BadRequestException("Provided 'redirect_uri' is invalid");
 		}
 
 		if (!"S256".equalsIgnoreCase(codeChallengeMethod)) {
-			throw new BadRequestException(
-					"Provided 'code_challenge_method' is invalid. Only supports 'S256'.");
+			throw new BadRequestException("Provided 'code_challenge_method' is invalid. Only supports 'S256'.");
 		}
 
 		// Next phase is generating the dynamic information that is needed
@@ -94,8 +95,8 @@ public class LoginService {
 
 		// Now we can save the state into the database
 
-		this.loginStateRepository.saveState(sessionId, clientId, redirectUri, state, codeChallenge,
-				secondaryState, ttl);
+		this.loginStateRepository.saveState(sessionId, clientId, redirectUri, state, codeChallenge, secondaryState,
+				ttl);
 
 		// And we are done, generate the redirect URI
 
@@ -155,8 +156,7 @@ public class LoginService {
 
 		// Save the authorization code to the database
 
-		this.loginCodeRepository.saveCode(authCode, clientId, redirectUri, primaryCodeChallenge,
-				userClientId, ttl);
+		this.loginCodeRepository.saveCode(authCode, clientId, redirectUri, primaryCodeChallenge, userClientId, ttl);
 
 		// Now that we have the authorization code generated we can just go ahead and
 		// delete the state record
