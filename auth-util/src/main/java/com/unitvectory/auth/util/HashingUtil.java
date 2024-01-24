@@ -34,7 +34,7 @@ public class HashingUtil {
 			byte[] hashedByteArray = digest.digest(byteOfTextToHash);
 
 			// Convert the byte array to a Base64 encoded string without padding
-			return Base64.getEncoder().withoutPadding().encodeToString(hashedByteArray);
+			return Base64.getUrlEncoder().withoutPadding().encodeToString(hashedByteArray);
 		} catch (NoSuchAlgorithmException e) {
 			throw new InternalServerErrorException("Unable to find SHA-256 algorithm", e);
 		}
