@@ -1,31 +1,24 @@
 # Stage 1: Build the application
 FROM maven:3.9-amazoncorretto-17 AS build
 
+# Define arguments for Maven profile and JAR file name
+# Can pass value of "auth-server-manage" to compile the manage server
+ARG MAVEN_PROFILE=auth-server-token
+
 WORKDIR /app
 
-COPY auth-common ./auth-common
-COPY auth-datamodel ./auth-datamodel
-COPY auth-datamodel-gcp ./auth-datamodel-gcp
-COPY auth-datamodel-couchbase ./auth-datamodel-couchbase
-COPY auth-datamodel-memory ./auth-datamodel-memory
-COPY auth-server-manage ./auth-server-manage
-COPY auth-server-token ./auth-server-token
-COPY auth-sign ./auth-sign
-COPY auth-sign-gcp ./auth-sign-gcp
-COPY auth-sign-local ./auth-sign-local
-COPY auth-verify ./auth-verify
-COPY auth-verify-auth0 ./auth-verify-auth0
-COPY auth-util ./auth-util
-# Copy the necessary files to compile the app
-COPY auth-* pom.xml ./
+# Copy your project files
+COPY . .
 
 # Build the application
-RUN mvn clean package -DskipTests -ntp
+RUN mvn clean package -DskipTests -P${MAVEN_PROFILE} -ntp && \
+  mkdir -p /app/build && \
+  mv /app/${MAVEN_PROFILE}/target/*.jar /app/build/
+
 
 # Stage 2: Run the application
 FROM amazoncorretto:17-alpine-jdk
 WORKDIR /app
-COPY --from=build /app/auth-server-token/target/*.jar app.jar
+COPY --from=build /app/build/*.jar app.jar
 EXPOSE 8080
 ENTRYPOINT ["java", "-jar", "app.jar"]
-
