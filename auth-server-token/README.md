@@ -8,7 +8,7 @@ This implementation utilizes a modular architecture for the underlying database 
 
 The following configuration attributes:
 
-| Property                                | Required | Description                               |
-| --------------------------------------- | -------- | ----------------------------------------- |
-| sac.issuer                              | Yes      | The JWT issuer; populates the `iss` claim |
-| sac.server.token.external.cache.seconds | Yes      | Number of seconds external JWKS is cached |
+| Property                                | Required           | Description                               |
+| --------------------------------------- | ------------------ | ----------------------------------------- |
+| sac.issuer                              | Yes                | The JWT issuer; populates the `iss` claim |
+| sac.server.token.external.cache.seconds | No (default: 3600) | Number of seconds external JWKS is cached |
