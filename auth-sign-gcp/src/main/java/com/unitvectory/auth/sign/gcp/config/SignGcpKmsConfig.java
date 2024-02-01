@@ -16,13 +16,13 @@ public class SignGcpKmsConfig {
 	@Value("${google.cloud.project}")
 	private String projectId;
 
-	@Value("${serviceauthcentral.sign.gcp.key.location}")
+	@Value("${sac.sign.gcp.key.location:global}")
 	private String keyLocation;
 
-	@Value("${serviceauthcentral.sign.gcp.key.ring}")
+	@Value("${sac.sign.gcp.key.ring}")
 	private String keyRing;
 
-	@Value("${serviceauthcentral.sign.gcp.key.name}")
+	@Value("${sac.sign.gcp.key.name}")
 	private String keyName;
 
 	@Bean

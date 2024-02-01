@@ -13,6 +13,7 @@ import org.apache.hc.core5.http.io.HttpClientResponseHandler;
 import org.apache.hc.core5.http.io.entity.EntityUtils;
 import org.apache.hc.core5.http.io.entity.StringEntity;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Service;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -29,20 +30,19 @@ import com.unitvectory.auth.util.exception.UnauthorizedException;
 import lombok.Data;
 
 @Service
+@ConditionalOnProperty(name = "sac.user.provider.github.clientid")
 public class GitHubLoginProviderService implements LoginProviderService {
 
 	public static final String PROVIDER = "github";
 
-	public static final String CLIENTID_PROPERTY =
-			"serviceauthcentral.user.provider.github.clientid";
+	public static final String CLIENTID_PROPERTY = "sac.user.provider.github.clientid";
 
-	public static final String CLIENTSECRET_PROPERTY =
-			"serviceauthcentral.user.provider.github.clientsecret";
+	public static final String CLIENTSECRET_PROPERTY = "sac.user.provider.github.clientsecret";
 
-	@Value("${serviceauthcentral.user.provider.github.clientid}")
+	@Value("${sac.user.provider.github.clientid}")
 	private String clientId;
 
-	@Value("${serviceauthcentral.user.provider.github.clientsecret}")
+	@Value("${sac.user.provider.github.clientsecret}")
 	private String clientSecret;
 
 	private static final String TOKEN_ENDPOINT = "https://github.com/login/oauth/access_token";

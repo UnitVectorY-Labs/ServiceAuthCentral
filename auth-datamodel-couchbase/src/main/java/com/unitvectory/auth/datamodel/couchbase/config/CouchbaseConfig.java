@@ -11,13 +11,13 @@ import com.couchbase.client.java.Cluster;
 @Profile("datamodel-couchbase")
 public class CouchbaseConfig {
 
-	@Value("${serviceauthcentral.datamodel.couchbase.connection}")
+	@Value("${sac.datamodel.couchbase.connection}")
 	private String connection;
 
-	@Value("${serviceauthcentral.datamodel.couchbase.user}")
+	@Value("${sac.datamodel.couchbase.user}")
 	private String user;
 
-	@Value("${serviceauthcentral.datamodel.couchbase.password}")
+	@Value("${sac.datamodel.couchbase.password}")
 	private String password;
 
 	@Bean

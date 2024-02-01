@@ -12,16 +12,16 @@ import com.unitvectory.auth.sign.service.SignService;
 @Profile("sign-local")
 public class SignLocalConfig {
 
-	@Value("${serviceauthcentral.sign.local.active.kid}")
+	@Value("${sac.sign.local.active.kid}")
 	private String activeKid;
 
-	@Value("${serviceauthcentral.sign.local.key1.privatekey}")
+	@Value("${sac.sign.local.key1.privatekey}")
 	private String key1PrivateKey;
 
-	@Value("${serviceauthcentral.sign.local.key1.publickey}")
+	@Value("${sac.sign.local.key1.publickey}")
 	private String key1PublicKey;
 
-	@Value("${serviceauthcentral.sign.local.key1.kid}")
+	@Value("${sac.sign.local.key1.kid}")
 	private String key1Kid;
 
 	@Bean

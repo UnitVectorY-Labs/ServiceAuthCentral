@@ -20,7 +20,7 @@ import org.springframework.security.web.SecurityFilterChain;
 @EnableWebSecurity
 public class MyCustomSecurityConfiguration {
 
-	@Value("${serviceauthcentral.issuer}")
+	@Value("${sac.issuer}")
 	private String issuer;
 
 	@Bean
@@ -28,24 +28,27 @@ public class MyCustomSecurityConfiguration {
 		http
 				// Specify the authorization rules
 				// Require authentication for /graphql
-				.authorizeHttpRequests(authorize -> authorize.requestMatchers("/graphql").authenticated()
-						// Allow all other requests
-						.anyRequest().permitAll())
+				.authorizeHttpRequests(
+						authorize -> authorize.requestMatchers("/graphql").authenticated()
+								// Allow all other requests
+								.anyRequest().permitAll())
 				// Configure OAuth2 Resource Server
-				.oauth2ResourceServer(
-						oauth2 -> oauth2.jwt(jwt -> jwt.jwkSetUri(this.issuer + "/.well-known/jwks.json")));
+				.oauth2ResourceServer(oauth2 -> oauth2
+						.jwt(jwt -> jwt.jwkSetUri(this.issuer + "/.well-known/jwks.json")));
 		return http.build();
 	}
 
 	@Bean
 	public NimbusJwtDecoder jwtDecoder() {
-		NimbusJwtDecoder jwtDecoder = NimbusJwtDecoder.withJwkSetUri(this.issuer + "/.well-known/jwks.json").build();
+		NimbusJwtDecoder jwtDecoder =
+				NimbusJwtDecoder.withJwkSetUri(this.issuer + "/.well-known/jwks.json").build();
 
 		OAuth2TokenValidator<Jwt> withIssuer = JwtValidators.createDefaultWithIssuer(this.issuer);
 		OAuth2TokenValidator<Jwt> withAudience = new JwtClaimValidator<List<String>>(
 				OAuth2TokenIntrospectionClaimNames.AUD, aud -> aud.contains(this.issuer));
 
-		OAuth2TokenValidator<Jwt> validator = new DelegatingOAuth2TokenValidator<>(withIssuer, withAudience);
+		OAuth2TokenValidator<Jwt> validator =
+				new DelegatingOAuth2TokenValidator<>(withIssuer, withAudience);
 
 		jwtDecoder.setJwtValidator(validator);
 

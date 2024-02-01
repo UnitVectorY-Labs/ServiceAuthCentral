@@ -30,7 +30,7 @@ import com.unitvectory.auth.verify.service.JwtVerifier;
 @Service
 public class TokenService {
 
-	@Value("${serviceauthcentral.server.token.issuer}")
+	@Value("${sac.issuer}")
 	private String issuer;
 
 	@Autowired

@@ -42,10 +42,10 @@ import com.unitvectory.auth.sign.service.SignService;
 @Import(TestServiceAuthCentralConfig.class)
 public class TokenResponseTest {
 
-	@Value("${serviceauthcentral.server.token.issuer}")
+	@Value("${sac.issuer}")
 	private String issuer;
 
-	@Value("${serviceauthcentral.sign.local.active.kid}")
+	@Value("${sac.sign.local.active.kid}")
 	private String kid;
 
 	@Autowired

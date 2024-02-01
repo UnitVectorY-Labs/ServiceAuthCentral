@@ -17,7 +17,7 @@ import lombok.NonNull;
 @Service
 public class ExternalJwkService {
 
-	@Value("${serviceauthcentral.server.token.external.cache.seconds:3600}")
+	@Value("${sac.server.token.external.cache.seconds:3600}")
 	private long externalCacheHours;
 
 	@Autowired

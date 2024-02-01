@@ -25,7 +25,7 @@ import com.unitvectory.auth.server.token.config.TestServiceAuthCentralConfig;
 @Import(TestServiceAuthCentralConfig.class)
 public class JwksControllerTest {
 
-	@Value("${serviceauthcentral.sign.local.key1.kid}")
+	@Value("${sac.sign.local.key1.kid}")
 	private String kid;
 
 	@Autowired

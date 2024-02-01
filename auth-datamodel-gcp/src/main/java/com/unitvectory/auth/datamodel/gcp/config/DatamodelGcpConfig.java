@@ -25,19 +25,19 @@ public class DatamodelGcpConfig {
 	@Autowired
 	private Firestore firestore;
 
-	@Value("${serviceauthcentral.datamodel.gcp.collection.authorizations:authorizations}")
+	@Value("${sac.datamodel.gcp.collection.authorizations:authorizations}")
 	private String collectionAuthorizations;
 
-	@Value("${serviceauthcentral.datamodel.gcp.collection.clients:clients}")
+	@Value("${sac.datamodel.gcp.collection.clients:clients}")
 	private String collectionClients;
 
-	@Value("${serviceauthcentral.datamodel.gcp.collection.keys:keys}")
+	@Value("${sac.datamodel.gcp.collection.keys:keys}")
 	private String collectionKeys;
 
-	@Value("${serviceauthcentral.datamodel.gcp.collection.logincodes:loginCodes}")
+	@Value("${sac.datamodel.gcp.collection.logincodes:loginCodes}")
 	private String collectionLoginCodes;
 
-	@Value("${serviceauthcentral.datamodel.gcp.collection.loginstates:loginStates}")
+	@Value("${sac.datamodel.gcp.collection.loginstates:loginStates}")
 	private String collectionLoginStates;
 
 	@Bean

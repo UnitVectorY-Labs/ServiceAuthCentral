@@ -12,18 +12,18 @@ The `datamodel-couchbase` profile is used for integrating Couchbase with the app
 
 The application requires the following configuration properties for connecting and interacting with Couchbase:
 
-| Property                                                           | Required | Default              | Description                             |
-| ------------------------------------------------------------------ | -------- | -------------------- | --------------------------------------- |
-| `serviceauthcentral.datamodel.couchbase.connection`                | Yes      |                      | Couchbase cluster connection string     |
-| `serviceauthcentral.datamodel.couchbase.user`                      | Yes      |                      | Username for Couchbase authentication   |
-| `serviceauthcentral.datamodel.couchbase.password`                  | Yes      |                      | Password for Couchbase authentication   |
-| `serviceauthcentral.datamodel.couchbase.bucket`                    | No       | `serviceauthcentral` | Couchbase bucket name                   |
-| `serviceauthcentral.datamodel.couchbase.scope`                     | No       | `serviceauthcentral` | Couchbase scope name                    |
-| `serviceauthcentral.datamodel.couchbase.collection.authorizations` | No       | `authorizations`     | Couchbase collection for authorizations |
-| `serviceauthcentral.datamodel.couchbase.collection.clients`        | No       | `clients`            | Couchbase collection for clients        |
-| `serviceauthcentral.datamodel.couchbase.collection.keys`           | No       | `keys`               | Couchbase collection for keys           |
-| `serviceauthcentral.datamodel.couchbase.collection.logincodes`     | No       | `loginCodes`         | Couchbase collection for login codes    |
-| `serviceauthcentral.datamodel.couchbase.collection.loginstates`    | No       | `loginStates`        | Couchbase collection for login states   |
+| Property                                            | Required | Default              | Description                             |
+| --------------------------------------------------- | -------- | -------------------- | --------------------------------------- |
+| `sac.datamodel.couchbase.connection`                | Yes      |                      | Couchbase cluster connection string     |
+| `sac.datamodel.couchbase.user`                      | Yes      |                      | Username for Couchbase authentication   |
+| `sac.datamodel.couchbase.password`                  | Yes      |                      | Password for Couchbase authentication   |
+| `sac.datamodel.couchbase.bucket`                    | No       | `serviceauthcentral` | Couchbase bucket name                   |
+| `sac.datamodel.couchbase.scope`                     | No       | `serviceauthcentral` | Couchbase scope name                    |
+| `sac.datamodel.couchbase.collection.authorizations` | No       | `authorizations`     | Couchbase collection for authorizations |
+| `sac.datamodel.couchbase.collection.clients`        | No       | `clients`            | Couchbase collection for clients        |
+| `sac.datamodel.couchbase.collection.keys`           | No       | `keys`               | Couchbase collection for keys           |
+| `sac.datamodel.couchbase.collection.logincodes`     | No       | `loginCodes`         | Couchbase collection for login codes    |
+| `sac.datamodel.couchbase.collection.loginstates`    | No       | `loginStates`        | Couchbase collection for login states   |
 
 ## Bean Configurations
 

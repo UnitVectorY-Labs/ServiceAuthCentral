@@ -20,10 +20,10 @@ public class SignGcpConfig {
 	@Autowired
 	private String keyManagementServiceKeyName;
 
-	@Value("${serviceauthcentral.sign.gcp.cache.jwks.seconds:3600}")
+	@Value("${sac.sign.gcp.cache.jwks.seconds:3600}")
 	private long cacheJwksSeconds;
 
-	@Value("${serviceauthcentral.sign.gcp.cache.safety.multiple:24}")
+	@Value("${sac.sign.gcp.cache.safety.multiple:24}")
 	private int cacheSafetyMultiple;
 
 	@Bean

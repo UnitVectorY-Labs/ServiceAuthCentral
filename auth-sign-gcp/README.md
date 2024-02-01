@@ -17,25 +17,25 @@ The `sign-gcp` profile is enabled to utilize GCP KMS.
 
 The following configuration attributes:
 
-| Property                                          | Required           | Description                      |
-| ------------------------------------------------- | ------------------ | -------------------------------- |
-| google.cloud.project                              | Yes                | GCP Project name                 |
-| serviceauthcentral.sign.gcp.key.ring              | Yes                | KMS Key Ring Name                |
-| serviceauthcentral.sign.gcp.key.location          | Yes                | KMS Key Ring Location            |
-| serviceauthcentral.sign.gcp.key.name              | Yes                | KMS Key Name                     |
-| serviceauthcentral.sign.gcp.cache.jwks.seconds    | No (default: 3600) | Length of time keys are cached   |
-| serviceauthcentral.sign.gcp.cache.safety.multiple | No (default: 24)   | Multiple of cache before key use |
+| Property                           | Required             | Description                      |
+| ---------------------------------- | -------------------- | -------------------------------- |
+| google.cloud.project               | Yes                  | GCP Project name                 |
+| sac.sign.gcp.key.ring              | Yes                  | KMS Key Ring Name                |
+| sac.sign.gcp.key.name              | Yes                  | KMS Key Name                     |
+| sac.sign.gcp.key.location          | No (default: global) | KMS Key Ring Location            |
+| sac.sign.gcp.cache.jwks.seconds    | No (default: 3600)   | Length of time keys are cached   |
+| sac.sign.gcp.cache.safety.multiple | No (default: 24)     | Multiple of cache before key use |
 
 ## Key Rotation and Caching Considerations
 
 Public keys are retrieved from KMS and cached to avoid redundant API calls which may result in throttling.
-The default amount of time for caching is 1 hour, but this can be configured using `serviceauthcentral.sign.gcp.cache.jwks.seconds`.
+The default amount of time for caching is 1 hour, but this can be configured using `sac.sign.gcp.cache.jwks.seconds`.
 
 Due to this caching precautions must be taking when rotating keys.
 KMS's built in ability to create and delete keys is utilized allowing multiple keys to be active at a time.
 The problem arises when a new key is added, if it was immediately used for signing clients would not have the public key and would fail to verify it, therefore a period of time must elapse after it is created but before it can be used.
 
-This period of time is configured using the `serviceauthcentral.sign.gcp.cache.safety.multiple` which has a default of 24 and is multiplied by `serviceauthcentral.sign.gcp.cache.jwks.seconds` whose default of 1 hour means that new keys will not be used for 1 day after they are created. The exception to this is when only 1 key is available, it will be use regardless of when it was created.
+This period of time is configured using the `sac.sign.gcp.cache.safety.multiple` which has a default of 24 and is multiplied by `sac.sign.gcp.cache.jwks.seconds` whose default of 1 hour means that new keys will not be used for 1 day after they are created. The exception to this is when only 1 key is available, it will be use regardless of when it was created.
 
 After this time elapses the key will be selected and used for signing and the older keys can be scheduled for deletion once any outstanding JWTs have also expired.
 

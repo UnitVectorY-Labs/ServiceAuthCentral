@@ -14,11 +14,11 @@ The `datamodel-gcp` profile is enabled to utilize GCP Firestore.
 
 The following configuration attributes:
 
-| Property                                                   | Required                       | Description               |
-| ---------------------------------------------------------- | ------------------------------ | ------------------------- |
-| google.cloud.project                                       | Yes                            | GCP Project name          |
-| serviceauthcentral.datamodel.gcp.collection.authorizations | No (default: 'authorizations') | Firestore collection name |
-| serviceauthcentral.datamodel.gcp.collection.clients        | No (default: 'clients')        | Firestore collection name |
-| serviceauthcentral.datamodel.gcp.collection.keys           | No (default: 'keys')           | Firestore collection name |
-| serviceauthcentral.datamodel.gcp.collection.logincodes     | No (default: 'logincodes')     | Firestore collection name |
-| serviceauthcentral.datamodel.gcp.collection.loginstates    | No (default: 'loginStates')    | Firestore collection name |
+| Property                                    | Required                       | Description               |
+| ------------------------------------------- | ------------------------------ | ------------------------- |
+| google.cloud.project                        | Yes                            | GCP Project name          |
+| sac.datamodel.gcp.collection.authorizations | No (default: 'authorizations') | Firestore collection name |
+| sac.datamodel.gcp.collection.clients        | No (default: 'clients')        | Firestore collection name |
+| sac.datamodel.gcp.collection.keys           | No (default: 'keys')           | Firestore collection name |
+| sac.datamodel.gcp.collection.logincodes     | No (default: 'logincodes')     | Firestore collection name |
+| sac.datamodel.gcp.collection.loginstates    | No (default: 'loginStates')    | Firestore collection name |

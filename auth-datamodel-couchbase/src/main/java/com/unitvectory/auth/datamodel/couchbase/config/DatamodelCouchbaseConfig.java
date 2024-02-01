@@ -28,25 +28,25 @@ public class DatamodelCouchbaseConfig {
 	@Autowired
 	private Cluster couchbaseCluster;
 
-	@Value("${serviceauthcentral.datamodel.couchbase.bucket:serviceauthcentral}")
+	@Value("${sac.datamodel.couchbase.bucket:serviceauthcentral}")
 	private String bucket;
 
-	@Value("${serviceauthcentral.datamodel.couchbase.scope:serviceauthcentral}")
+	@Value("${sac.datamodel.couchbase.scope:serviceauthcentral}")
 	private String scope;
 
-	@Value("${serviceauthcentral.datamodel.couchbase.collection.authorizations:authorizations}")
+	@Value("${sac.datamodel.couchbase.collection.authorizations:authorizations}")
 	private String collectionAuthorizations;
 
-	@Value("${serviceauthcentral.datamodel.couchbase.collection.clients:clients}")
+	@Value("${sac.datamodel.couchbase.collection.clients:clients}")
 	private String collectionClients;
 
-	@Value("${serviceauthcentral.datamodel.couchbase.collection.keys:keys}")
+	@Value("${sac.datamodel.couchbase.collection.keys:keys}")
 	private String collectionKeys;
 
-	@Value("${serviceauthcentral.datamodel.couchbase.collection.logincodes:loginCodes}")
+	@Value("${sac.datamodel.couchbase.collection.logincodes:loginCodes}")
 	private String collectionLoginCodes;
 
-	@Value("${serviceauthcentral.datamodel.couchbase.collection.loginstate:loginStates}")
+	@Value("${sac.datamodel.couchbase.collection.loginstate:loginStates}")
 	private String collectionLoginStates;
 
 	@Bean
