@@ -148,7 +148,8 @@ public class LoginService {
 			// Create the client does not exist, create it
 
 			String salt = this.entropyService.randomAlphaNumeric(32);
-			this.clientRepository.putClient(userClientId, "GitHub user", salt, ClientType.USER);
+			this.clientRepository.putClient(userClientId,
+					"GitHub User: " + userContext.getUserName(), salt, ClientType.USER);
 		}
 
 		// Now we can generate the data needed to redirect the user
