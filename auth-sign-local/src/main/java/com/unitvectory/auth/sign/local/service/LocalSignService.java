@@ -18,6 +18,10 @@ import com.unitvectory.auth.util.exception.InternalServerErrorException;
 
 import lombok.AllArgsConstructor;
 
+/**
+ * 
+ * @author Jared Hatfield (UnitVectorY Labs)
+ */
 @AllArgsConstructor
 public class LocalSignService implements SignService {
 

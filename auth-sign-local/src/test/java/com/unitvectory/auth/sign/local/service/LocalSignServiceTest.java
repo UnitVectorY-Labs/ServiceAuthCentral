@@ -16,6 +16,10 @@ import com.unitvectory.auth.sign.local.config.SignLocalConfig;
 import com.unitvectory.auth.sign.model.SignJwk;
 import com.unitvectory.auth.sign.service.SignService;
 
+/**
+ * 
+ * @author Jared Hatfield (UnitVectorY Labs)
+ */
 @ExtendWith(SpringExtension.class)
 @ActiveProfiles({"test", "sign-local"})
 @TestPropertySource(locations = "classpath:application-test.properties")
