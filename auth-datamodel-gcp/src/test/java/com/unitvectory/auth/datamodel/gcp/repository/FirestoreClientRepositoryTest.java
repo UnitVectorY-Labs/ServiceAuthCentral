@@ -30,6 +30,7 @@ import com.google.cloud.firestore.DocumentSnapshot;
 import com.google.cloud.firestore.Firestore;
 import com.unitvectory.auth.datamodel.gcp.model.ClientRecord;
 import com.unitvectory.auth.datamodel.model.Client;
+import com.unitvectory.auth.util.HashingUtil;
 
 /**
  * 
@@ -71,7 +72,7 @@ public class FirestoreClientRepositoryTest {
 
 		// Setup mocks
 		Mockito.when(firestore.collection("clients")).thenReturn(collectionReference);
-		Mockito.when(collectionReference.document("invalid-client-id"))
+		Mockito.when(collectionReference.document(HashingUtil.sha256("invalid-client-id")))
 				.thenReturn(documentReference);
 		Mockito.when(documentReference.get()).thenReturn(future);
 		Mockito.when(future.get()).thenReturn(document);
@@ -93,7 +94,8 @@ public class FirestoreClientRepositoryTest {
 
 		// Setup mocks
 		Mockito.when(firestore.collection("clients")).thenReturn(collectionReference);
-		Mockito.when(collectionReference.document("client-id")).thenReturn(documentReference);
+		Mockito.when(collectionReference.document(HashingUtil.sha256("client-id")))
+				.thenReturn(documentReference);
 		Mockito.when(documentReference.get()).thenReturn(future);
 		Mockito.when(future.get()).thenReturn(document);
 		Mockito.when(document.exists()).thenReturn(true);
