@@ -25,6 +25,7 @@ It requires the following environment variables.
 | SAC_USER_PROVIDER_GITHUB_CLIENTID     | github-client-id                         |
 | SAC_USER_PROVIDER_GITHUB_CLIENTSECRET | github-client-secret                     |
 | SAC_USER_REDIRECTURI                  | https://admin.example.com/callback       |
+| SAC_CORS_ORIGINS                      | https://admin.example.com                |
 
 **Manage Server**
 
@@ -38,3 +39,4 @@ It requires the following environment variables.
 | GOOGLE_CLOUD_PROJECT   | Example                   |
 | SPRING_PROFILES_ACTIVE | prod,datamodel-gcp        |
 | SAC_ISSUER             | https://token.example.com |
+| SAC_CORS_ORIGINS       | https://admin.example.com |
