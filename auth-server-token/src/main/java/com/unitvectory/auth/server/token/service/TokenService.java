@@ -167,7 +167,7 @@ public class TokenService {
 		}
 
 		// Build the JWT and return it
-		return buildToken(userClient, null, null);
+		return buildToken(userClient, audienceRecord, authorizationRecord);
 	}
 
 	private TokenResponse jwtAssertion(TokenRequest request) throws Exception {
