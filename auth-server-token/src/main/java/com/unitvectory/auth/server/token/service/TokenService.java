@@ -158,7 +158,8 @@ public class TokenService {
 			}
 
 			// Validated the authorization
-			authorizationRecord = this.authorizationRepository.getAuthorization(clientId, audience);
+			authorizationRecord = this.authorizationRepository
+					.getAuthorization(loginCode.getUserClientId(), audience);
 			if (authorizationRecord == null) {
 				throw new ForbiddenException(
 						"The client is not authorized for the specified audience.");
