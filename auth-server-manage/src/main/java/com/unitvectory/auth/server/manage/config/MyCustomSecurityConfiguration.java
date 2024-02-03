@@ -13,23 +13,20 @@
  */
 package com.unitvectory.auth.server.manage.config;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.oauth2.core.DelegatingOAuth2TokenValidator;
-import org.springframework.security.oauth2.core.OAuth2TokenIntrospectionClaimNames;
 import org.springframework.security.oauth2.core.OAuth2TokenValidator;
 import org.springframework.security.oauth2.jwt.Jwt;
-import org.springframework.security.oauth2.jwt.JwtClaimValidator;
 import org.springframework.security.oauth2.jwt.JwtValidators;
 import org.springframework.security.oauth2.jwt.NimbusJwtDecoder;
 import org.springframework.security.web.SecurityFilterChain;
 
 /**
+ * Security Configuration
  * 
  * @author Jared Hatfield (UnitVectorY Labs)
  */
@@ -42,6 +39,15 @@ public class MyCustomSecurityConfiguration {
 
 	@Bean
 	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+		// JWT Decoding and validation
+		NimbusJwtDecoder jwtDecoder =
+				NimbusJwtDecoder.withJwkSetUri(this.issuer + "/.well-known/jwks.json").build();
+		OAuth2TokenValidator<Jwt> withIssuer = JwtValidators.createDefaultWithIssuer(this.issuer);
+		OAuth2TokenValidator<Jwt> withAudience = new AudienceClaimValidator(this.issuer);
+		OAuth2TokenValidator<Jwt> validator =
+				new DelegatingOAuth2TokenValidator<>(withIssuer, withAudience);
+		jwtDecoder.setJwtValidator(validator);
+
 		http
 				// Specify the authorization rules
 				// Require authentication for /graphql
@@ -50,26 +56,7 @@ public class MyCustomSecurityConfiguration {
 								// Allow all other requests
 								.anyRequest().permitAll())
 				// Configure OAuth2 Resource Server
-				.oauth2ResourceServer(oauth2 -> oauth2
-						.jwt(jwt -> jwt.jwkSetUri(this.issuer + "/.well-known/jwks.json")));
+				.oauth2ResourceServer(oauth2 -> oauth2.jwt(jwt -> jwt.decoder(jwtDecoder)));
 		return http.build();
 	}
-
-	@Bean
-	public NimbusJwtDecoder jwtDecoder() {
-		NimbusJwtDecoder jwtDecoder =
-				NimbusJwtDecoder.withJwkSetUri(this.issuer + "/.well-known/jwks.json").build();
-
-		OAuth2TokenValidator<Jwt> withIssuer = JwtValidators.createDefaultWithIssuer(this.issuer);
-		OAuth2TokenValidator<Jwt> withAudience = new JwtClaimValidator<List<String>>(
-				OAuth2TokenIntrospectionClaimNames.AUD, aud -> aud.contains(this.issuer));
-
-		OAuth2TokenValidator<Jwt> validator =
-				new DelegatingOAuth2TokenValidator<>(withIssuer, withAudience);
-
-		jwtDecoder.setJwtValidator(validator);
-
-		return jwtDecoder;
-	}
-
 }
