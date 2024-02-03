@@ -51,6 +51,7 @@ public class DefaultAuthorizationService implements AuthorizationService {
 			return ResponseType.builder().success(false).build();
 		}
 
+		// TODO: Consolidate the logic for enforcement and returning attributes to UI
 		if (!com.unitvectory.auth.datamodel.model.ClientType.APPLICATION
 				.equals(audienceClient.getClientType())) {
 			throw new BadRequestException(
@@ -63,6 +64,7 @@ public class DefaultAuthorizationService implements AuthorizationService {
 
 	@Override
 	public ResponseType deauthorize(String subject, String audience) {
+		// TODO: Consolidate the logic for enforcement and returning attributes to UI
 		this.authorizationRepository.deauthorize(subject, audience);
 		return ResponseType.builder().success(true).build();
 	}

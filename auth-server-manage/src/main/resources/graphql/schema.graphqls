@@ -1,21 +1,31 @@
-
 type Query {
-  clients(first: Int, after: String, last: Int, before: String): ClientSummaryConnection
+  clients(
+    first: Int
+    after: String
+    last: Int
+    before: String
+  ): ClientSummaryConnection
   client(clientId: ID!): Client
   authorization(id: ID!): Authorization
 }
 
 type Mutation {
-    addClient(clientId: String!, description: String!): Client!
-    deleteClient(clientId: String!): Response!
-    generateClientSecret1(clientId: String!): ClientSecret!
-    generateClientSecret2(clientId: String!): ClientSecret!
-    clearClientSecret1(clientId: String!): ClientSecret!
-    clearClientSecret2(clientId: String!): ClientSecret!
-    authorizeJwtBearer(clientId: String!, jwksUrl: String!, iss: String!, sub: String!, aud: String!): Response!
-    deauthorizeJwtBearer(clientId: String!, id: String!): Response!
-    authorize(subject: String!, audience: String!): Response!
-    deauthorize(subject: String!, audience: String!): Response!
+  addClient(clientId: String!, description: String!): Client!
+  deleteClient(clientId: String!): Response!
+  generateClientSecret1(clientId: String!): ClientSecret!
+  generateClientSecret2(clientId: String!): ClientSecret!
+  clearClientSecret1(clientId: String!): ClientSecret!
+  clearClientSecret2(clientId: String!): ClientSecret!
+  authorizeJwtBearer(
+    clientId: String!
+    jwksUrl: String!
+    iss: String!
+    sub: String!
+    aud: String!
+  ): Response!
+  deauthorizeJwtBearer(clientId: String!, id: String!): Response!
+  authorize(subject: String!, audience: String!): Response!
+  deauthorize(subject: String!, audience: String!): Response!
 }
 
 type ClientSummaryConnection {
@@ -49,6 +59,16 @@ type Client {
   authorizationsAsSubject: [Authorization]
   authorizationsAsAudience: [Authorization]
   jwtBearer: [JwtBearer]
+  managementPermissions: ClientManagementCapabilities
+}
+
+type ClientManagementCapabilities {
+  canDeleteClient: Boolean!
+  canAddClientSecret: Boolean!
+  canDeleteClientSecret: Boolean!
+  canAddClientAuthorization: Boolean!
+  canAddAuthorization: Boolean!
+  canDeleteAuthorization: Boolean!
 }
 
 type JwtBearer {

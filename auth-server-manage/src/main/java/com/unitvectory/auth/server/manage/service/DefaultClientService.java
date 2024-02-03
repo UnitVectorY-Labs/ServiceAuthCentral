@@ -115,6 +115,8 @@ public class DefaultClientService implements ClientService {
 	@Override
 	public ResponseType deleteClient(String clientId) {
 
+		// TODO: Consolidate the logic for enforcement and returning attributes to UI
+
 		// Delete all of the authorization records where the clientId is the audience
 		Iterator<Authorization> aud =
 				this.authorizationRepository.getAuthorizationByAudience(clientId);
@@ -147,6 +149,7 @@ public class DefaultClientService implements ClientService {
 			throw new NotFoundException("clientId not found");
 		}
 
+		// TODO: Consolidate the logic for enforcement and returning attributes to UI
 		if (!com.unitvectory.auth.datamodel.model.ClientType.APPLICATION
 				.equals(client.getClientType())) {
 			throw new BadRequestException("Only clientType of APPLICATION can use client secrets");
@@ -172,6 +175,7 @@ public class DefaultClientService implements ClientService {
 			throw new NotFoundException("clientId not found");
 		}
 
+		// TODO: Consolidate the logic for enforcement and returning attributes to UI
 		if (!com.unitvectory.auth.datamodel.model.ClientType.APPLICATION
 				.equals(client.getClientType())) {
 			throw new BadRequestException("Only clientType of APPLICATION can use client secrets");
@@ -196,7 +200,7 @@ public class DefaultClientService implements ClientService {
 			throw new NotFoundException("clientId not found");
 		}
 
-		// Do not need to block deleting client secrets on users
+		// TODO: Consolidate the logic for enforcement and returning attributes to UI
 
 		if (client.getClientSecret1() != null) {
 			this.clientRepository.clearClientSecret1(clientId);
@@ -214,7 +218,7 @@ public class DefaultClientService implements ClientService {
 			throw new NotFoundException("clientId not found");
 		}
 
-		// Do not need to block deleting client secrets on users
+		// TODO: Consolidate the logic for enforcement and returning attributes to UI
 
 		if (client.getClientSecret2() != null) {
 			this.clientRepository.clearClientSecret2(clientId);
@@ -262,6 +266,7 @@ public class DefaultClientService implements ClientService {
 			return ResponseType.builder().success(false).build();
 		}
 
+		// TODO: Consolidate the logic for enforcement and returning attributes to UI
 		if (!com.unitvectory.auth.datamodel.model.ClientType.APPLICATION
 				.equals(client.getClientType())) {
 			throw new BadRequestException(
@@ -287,7 +292,7 @@ public class DefaultClientService implements ClientService {
 			return ResponseType.builder().success(false).build();
 		}
 
-		// Do not need to block deauthorizing jwt bearers on users
+		// TODO: Consolidate the logic for enforcement and returning attributes to UI
 
 		boolean matches = false;
 		for (ClientJwtBearer cjb : client.getJwtBearer()) {
