@@ -95,8 +95,6 @@ public class TokenService {
 
 		if (request.getClient_secret() != null) {
 			throw new BadRequestException("The request has unexpected parameter 'client_secret'.");
-		} else if (request.getAudience() != null) {
-			throw new BadRequestException("The request has unexpected parameter 'audience'.");
 		} else if (request.getAssertion() != null) {
 			throw new BadRequestException("The request has unexpected parameter 'assertion'.");
 		}
@@ -149,18 +147,22 @@ public class TokenService {
 		// Now delete the auth code so it can't be used again
 		this.loginCodeRepository.deleteCode(code);
 
-		// Get the audience record
-		Client audienceRecord = clientRepository.getClient(audience);
-		if (audienceRecord == null) {
-			throw new ForbiddenException("The specified 'audience' is invalid.");
-		}
+		Client audienceRecord = null;
+		Authorization authorizationRecord = null;
 
-		// Validated the authorization
-		Authorization authorizationRecord =
-				this.authorizationRepository.getAuthorization(clientId, audience);
-		if (authorizationRecord == null) {
-			throw new ForbiddenException(
-					"The client is not authorized for the specified audience.");
+		if (audience != null) {
+			// Get the audience record
+			audienceRecord = clientRepository.getClient(audience);
+			if (audienceRecord == null) {
+				throw new ForbiddenException("The specified 'audience' is invalid.");
+			}
+
+			// Validated the authorization
+			authorizationRecord = this.authorizationRepository.getAuthorization(clientId, audience);
+			if (authorizationRecord == null) {
+				throw new ForbiddenException(
+						"The client is not authorized for the specified audience.");
+			}
 		}
 
 		// Build the JWT and return it
