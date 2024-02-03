@@ -39,13 +39,13 @@ public class TokenRequest {
 	private String grant_type;
 
 	@NotNull(message = "The request is missing the required parameter 'client_id'.")
-	@Pattern(regexp = "^(https:\\/\\/)?[a-zA-Z0-9:_-]+(\\.[a-zA-Z0-9:_-]+)*$", message = "Invalid 'client_id' attribute format.")
+	@Pattern(regexp = "^(https:\\/\\/)?[a-zA-Z0-9-_:\\.]+$", message = "Invalid 'client_id' attribute format.")
 	private String client_id;
 
 	@Pattern(regexp = "^[0-9a-zA-Z]{12,64}$", message = "Invalid 'client_secret' attribute format.")
 	private String client_secret;
 
-	@Pattern(regexp = "^(https:\\/\\/)?[a-zA-Z0-9:_-]+(\\.[a-zA-Z0-9:_-]+)*$", message = "Invalid 'audience' attribute format.")
+	@Pattern(regexp = "^(https:\\/\\/)?[a-zA-Z0-9-_:\\.]+$", message = "Invalid 'audience' attribute format.")
 	private String audience;
 
 	@Pattern(regexp = "^[A-Za-z0-9-_=]+\\.[A-Za-z0-9-_=]+\\.[A-Za-z0-9-_=]+$", message = "Invalid 'assertion' attribute format.")
