@@ -12,6 +12,7 @@ COPY . .
 
 # Build the application
 RUN mvn clean package -DskipTests -P${MAVEN_PROFILE} -ntp && \
+  rm -rf /app/${MAVEN_PROFILE}/target/*-javadoc.jar && \
   mkdir -p /app/build && \
   mv /app/${MAVEN_PROFILE}/target/*.jar /app/build/
 
