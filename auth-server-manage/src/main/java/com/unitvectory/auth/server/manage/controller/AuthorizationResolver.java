@@ -26,6 +26,7 @@ import com.unitvectory.auth.server.manage.dto.ResponseType;
 import com.unitvectory.auth.server.manage.service.AuthorizationService;
 
 /**
+ * The GraphQL Authorization Resolver
  * 
  * @author Jared Hatfield (UnitVectorY Labs)
  */

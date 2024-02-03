@@ -28,6 +28,7 @@ import lombok.AllArgsConstructor;
 import lombok.NonNull;
 
 /**
+ * The Firestore Login State Repository
  * 
  * @author Jared Hatfield (UnitVectorY Labs)
  */

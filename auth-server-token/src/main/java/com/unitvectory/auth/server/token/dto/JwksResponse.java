@@ -20,6 +20,7 @@ import lombok.Singular;
 import lombok.Value;
 
 /**
+ * The JWKS Response
  * 
  * @author Jared Hatfield (UnitVectorY Labs)
  */

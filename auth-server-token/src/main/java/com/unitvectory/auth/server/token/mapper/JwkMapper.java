@@ -24,6 +24,7 @@ import com.unitvectory.auth.sign.model.SignJwk;
 import com.unitvectory.auth.verify.model.VerifyJwk;
 
 /**
+ * The mapper for various JWK records
  * 
  * @author Jared Hatfield (UnitVectorY Labs)
  */

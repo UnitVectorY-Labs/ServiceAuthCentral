@@ -21,6 +21,7 @@ import com.auth0.jwk.Jwk;
 import com.unitvectory.auth.verify.model.VerifyJwk;
 
 /**
+ * The apper for VerifyJwk
  * 
  * @author Jared Hatfield (UnitVectorY Labs)
  */

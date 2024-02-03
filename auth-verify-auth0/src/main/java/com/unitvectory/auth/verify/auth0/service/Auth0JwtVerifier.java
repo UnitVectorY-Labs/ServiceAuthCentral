@@ -37,6 +37,9 @@ import com.unitvectory.auth.verify.service.JwtVerifier;
 import lombok.NonNull;
 
 /**
+ * The JWT Verifier that utilizies Auth0's client library.
+ * 
+ * This does not depend on the Auth0 service, just their library implementation.
  * 
  * @author Jared Hatfield (UnitVectorY Labs)
  */

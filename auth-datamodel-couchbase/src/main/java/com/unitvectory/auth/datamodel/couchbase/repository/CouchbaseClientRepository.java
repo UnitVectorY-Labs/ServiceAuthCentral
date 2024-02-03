@@ -37,6 +37,7 @@ import lombok.AllArgsConstructor;
 import lombok.NonNull;
 
 /**
+ * The Couchbase Client Repository
  * 
  * @author Jared Hatfield (UnitVectorY Labs)
  */

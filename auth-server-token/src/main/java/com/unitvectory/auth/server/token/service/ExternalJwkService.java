@@ -28,6 +28,10 @@ import com.unitvectory.auth.verify.service.JwksResolver;
 import lombok.NonNull;
 
 /**
+ * The External JWK Service
+ * 
+ * Used to retrieve remote JWK records so they can be used to validate
+ * urn:ietf:params:oauth:grant-type:jwt-bearer requests
  * 
  * @author Jared Hatfield (UnitVectorY Labs)
  */

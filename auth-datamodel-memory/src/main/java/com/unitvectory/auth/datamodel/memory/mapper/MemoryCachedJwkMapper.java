@@ -21,6 +21,7 @@ import com.unitvectory.auth.datamodel.memory.model.MemoryCachedJwk;
 import com.unitvectory.auth.datamodel.model.CachedJwk;
 
 /**
+ * The mapper for the MemoryCachedJwk
  * 
  * @author Jared Hatfield (UnitVectorY Labs)
  */

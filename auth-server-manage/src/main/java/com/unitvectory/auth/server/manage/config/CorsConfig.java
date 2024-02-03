@@ -25,6 +25,9 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
 
 /**
+ * The CORS Configuration
+ * 
+ * This allows POST to /graphql to the configured origins
  * 
  * @author Jared Hatfield (UnitVectorY Labs)
  */

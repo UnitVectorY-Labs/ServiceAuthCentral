@@ -18,6 +18,9 @@ import com.unitvectory.auth.verify.model.VerifyJwt;
 import com.unitvectory.auth.verify.model.VerifyParameters;
 
 /**
+ * The JWT Verifier interface
+ * 
+ * This is used to verify the signature of a JWT as well as extracting claims.
  * 
  * @author Jared Hatfield (UnitVectorY Labs)
  */

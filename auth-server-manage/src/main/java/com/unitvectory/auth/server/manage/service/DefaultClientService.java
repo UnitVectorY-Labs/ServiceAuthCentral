@@ -41,6 +41,7 @@ import com.unitvectory.auth.util.exception.ConflictException;
 import com.unitvectory.auth.util.exception.NotFoundException;
 
 /**
+ * The implementation of the Client Service
  * 
  * @author Jared Hatfield (UnitVectorY Labs)
  */

@@ -24,6 +24,7 @@ import com.github.benmanes.caffeine.cache.Cache;
 import com.github.benmanes.caffeine.cache.Caffeine;
 
 /**
+ * The cache configuration
  * 
  * @author Jared Hatfield (UnitVectorY Labs)
  */

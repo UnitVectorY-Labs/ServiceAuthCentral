@@ -28,6 +28,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
+ * The Client Record
  * 
  * @author Jared Hatfield (UnitVectorY Labs)
  */

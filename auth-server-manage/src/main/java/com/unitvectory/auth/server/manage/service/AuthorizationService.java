@@ -18,6 +18,7 @@ import com.unitvectory.auth.server.manage.dto.ClientType;
 import com.unitvectory.auth.server.manage.dto.ResponseType;
 
 /**
+ * The interface for the Authorization Service
  * 
  * @author Jared Hatfield (UnitVectorY Labs)
  */

@@ -18,6 +18,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
 
 /**
+ * The Spring Boot 3 app for the manage server
  * 
  * @author Jared Hatfield (UnitVectorY Labs)
  */

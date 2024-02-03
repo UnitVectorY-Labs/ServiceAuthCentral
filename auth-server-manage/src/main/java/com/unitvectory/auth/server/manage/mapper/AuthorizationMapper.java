@@ -21,6 +21,7 @@ import com.unitvectory.auth.datamodel.model.Authorization;
 import com.unitvectory.auth.server.manage.dto.AuthorizationType;
 
 /**
+ * The mapper for AuthorizationType
  * 
  * @author Jared Hatfield (UnitVectorY Labs)
  */

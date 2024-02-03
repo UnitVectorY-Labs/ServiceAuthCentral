@@ -27,6 +27,9 @@ import com.unitvectory.auth.verify.model.VerifyJwks;
 import com.unitvectory.auth.verify.service.JwksResolver;
 
 /**
+ * The JWKS Resolver that utilizies Auth0's client library.
+ * 
+ * This does not depend on the Auth0 service, just their library implementation.
  * 
  * @author Jared Hatfield (UnitVectorY Labs)
  */

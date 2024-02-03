@@ -19,6 +19,7 @@ import org.springframework.context.annotation.Configuration;
 import com.unitvectory.auth.server.token.service.LoginService;
 
 /**
+ * The login config
  * 
  * @author Jared Hatfield (UnitVectorY Labs)
  */

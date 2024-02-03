@@ -21,6 +21,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
+ * The Cached JWK Record
  * 
  * @author Jared Hatfield (UnitVectorY Labs)
  */

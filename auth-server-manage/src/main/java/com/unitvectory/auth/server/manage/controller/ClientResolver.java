@@ -29,6 +29,7 @@ import com.unitvectory.auth.server.manage.dto.ResponseType;
 import com.unitvectory.auth.server.manage.service.ClientService;
 
 /**
+ * The GraphQL Client Resolver
  * 
  * @author Jared Hatfield (UnitVectorY Labs)
  */

@@ -17,6 +17,7 @@ import lombok.Builder;
 import lombok.Value;
 
 /**
+ * The Response Type
  * 
  * @author Jared Hatfield (UnitVectorY Labs)
  */

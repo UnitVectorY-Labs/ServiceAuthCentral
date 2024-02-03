@@ -22,6 +22,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
+ * The Client Summary Record
  * 
  * @author Jared Hatfield (UnitVectorY Labs)
  */

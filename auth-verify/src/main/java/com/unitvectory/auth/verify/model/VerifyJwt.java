@@ -17,6 +17,7 @@ import lombok.Builder;
 import lombok.Value;
 
 /**
+ * The Verify JWT
  * 
  * @author Jared Hatfield (UnitVectorY Labs)
  */

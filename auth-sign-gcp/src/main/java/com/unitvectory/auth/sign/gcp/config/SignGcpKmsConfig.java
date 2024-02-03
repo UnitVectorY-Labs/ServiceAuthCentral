@@ -23,6 +23,7 @@ import org.springframework.context.annotation.Profile;
 import com.google.cloud.kms.v1.KeyManagementServiceClient;
 
 /**
+ * The GCP Sign Config for KMS
  * 
  * @author Jared Hatfield (UnitVectorY Labs)
  */

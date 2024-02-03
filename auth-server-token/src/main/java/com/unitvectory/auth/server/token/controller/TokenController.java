@@ -28,6 +28,7 @@ import com.unitvectory.auth.util.exception.BadRequestException;
 import jakarta.validation.Valid;
 
 /**
+ * The Token Controller
  * 
  * @author Jared Hatfield (UnitVectorY Labs)
  */

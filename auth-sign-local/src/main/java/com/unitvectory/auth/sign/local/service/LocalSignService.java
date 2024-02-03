@@ -19,6 +19,11 @@ import com.unitvectory.auth.util.exception.InternalServerErrorException;
 import lombok.AllArgsConstructor;
 
 /**
+ * The Sign Service for local signing.
+ * 
+ * This implementation depends on the private key to be accessable to the code base. While this
+ * implementation is useful it is not the recommended one for the design philosophy behind
+ * ServiceAuthCentral which is based on eliminating and locking down access to all secrets.
  * 
  * @author Jared Hatfield (UnitVectorY Labs)
  */

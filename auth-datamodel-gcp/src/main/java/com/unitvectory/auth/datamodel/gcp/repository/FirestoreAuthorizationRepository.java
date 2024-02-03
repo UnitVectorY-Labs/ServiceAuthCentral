@@ -33,6 +33,7 @@ import lombok.AllArgsConstructor;
 import lombok.NonNull;
 
 /**
+ * The Firestore Authorization Repository
  * 
  * @author Jared Hatfield (UnitVectorY Labs)
  */

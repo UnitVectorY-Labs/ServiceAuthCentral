@@ -21,6 +21,7 @@ import com.unitvectory.auth.datamodel.memory.model.MemoryClient;
 import com.unitvectory.auth.datamodel.memory.model.MemoryClientSummary;
 
 /**
+ * The mapper for the MemoryClientSummary
  * 
  * @author Jared Hatfield (UnitVectorY Labs)
  */

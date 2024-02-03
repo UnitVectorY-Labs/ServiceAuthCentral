@@ -23,6 +23,7 @@ import com.unitvectory.auth.common.service.time.SystemTimeService;
 import com.unitvectory.auth.common.service.time.TimeService;
 
 /**
+ * The configuration
  * 
  * @author Jared Hatfield (UnitVectorY Labs)
  */

@@ -17,6 +17,7 @@ import lombok.Builder;
 import lombok.Value;
 
 /**
+ * The Authorization Type
  * 
  * @author Jared Hatfield (UnitVectorY Labs)
  */

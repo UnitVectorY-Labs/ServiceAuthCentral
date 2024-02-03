@@ -22,6 +22,7 @@ import com.unitvectory.auth.sign.local.service.LocalSignService;
 import com.unitvectory.auth.sign.service.SignService;
 
 /**
+ * The config for using local JWT signing.
  * 
  * @author Jared Hatfield (UnitVectorY Labs)
  */

@@ -25,6 +25,9 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
 
 /**
+ * The CORS configuration.
+ * 
+ * This allows POST to /v1/token on the configured origins
  * 
  * @author Jared Hatfield (UnitVectorY Labs)
  */

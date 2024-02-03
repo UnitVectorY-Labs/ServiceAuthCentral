@@ -21,6 +21,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
+ * The Client JWT Bearer Record
  * 
  * @author Jared Hatfield (UnitVectorY Labs)
  */

@@ -32,6 +32,7 @@ import lombok.AllArgsConstructor;
 import lombok.NonNull;
 
 /**
+ * The Couchbase JWK Cache Repository
  * 
  * @author Jared Hatfield (UnitVectorY Labs)
  */

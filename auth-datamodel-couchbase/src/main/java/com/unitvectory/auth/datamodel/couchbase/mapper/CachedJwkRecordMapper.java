@@ -21,6 +21,7 @@ import com.unitvectory.auth.datamodel.couchbase.model.CachedJwkRecord;
 import com.unitvectory.auth.datamodel.model.CachedJwk;
 
 /**
+ * The mapper for CachedJwkRecord
  * 
  * @author Jared Hatfield (UnitVectorY Labs)
  */

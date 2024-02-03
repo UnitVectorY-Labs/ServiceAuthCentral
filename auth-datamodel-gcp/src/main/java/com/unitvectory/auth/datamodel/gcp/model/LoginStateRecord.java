@@ -23,6 +23,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
+ * The Login State Record
  * 
  * @author Jared Hatfield (UnitVectorY Labs)
  */

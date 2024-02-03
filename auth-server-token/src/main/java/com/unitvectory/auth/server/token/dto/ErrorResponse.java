@@ -23,6 +23,7 @@ import lombok.Singular;
 import lombok.Value;
 
 /**
+ * The Error Response
  * 
  * @author Jared Hatfield (UnitVectorY Labs)
  */

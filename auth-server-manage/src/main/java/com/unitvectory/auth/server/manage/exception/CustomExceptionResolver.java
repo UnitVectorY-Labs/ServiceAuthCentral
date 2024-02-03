@@ -30,6 +30,7 @@ import graphql.GraphqlErrorBuilder;
 import graphql.schema.DataFetchingEnvironment;
 
 /**
+ * The Custom Exception Resolver
  * 
  * @author Jared Hatfield (UnitVectorY Labs)
  */

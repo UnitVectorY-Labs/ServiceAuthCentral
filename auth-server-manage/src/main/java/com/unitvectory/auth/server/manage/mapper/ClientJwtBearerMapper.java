@@ -23,6 +23,7 @@ import com.unitvectory.auth.datamodel.model.ClientJwtBearer;
 import com.unitvectory.auth.server.manage.dto.ClientJwtBearerType;
 
 /**
+ * The mapper for ClientJwtBearerType
  * 
  * @author Jared Hatfield (UnitVectorY Labs)
  */

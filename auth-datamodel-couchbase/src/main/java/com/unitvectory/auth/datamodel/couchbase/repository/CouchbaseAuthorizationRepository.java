@@ -31,6 +31,7 @@ import lombok.AllArgsConstructor;
 import lombok.NonNull;
 
 /**
+ * The Couchbase Authorization Repository
  * 
  * @author Jared Hatfield (UnitVectorY Labs)
  */

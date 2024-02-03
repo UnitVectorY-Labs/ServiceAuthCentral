@@ -21,6 +21,7 @@ import com.unitvectory.auth.datamodel.gcp.model.CachedJwkRecord;
 import com.unitvectory.auth.datamodel.model.CachedJwk;
 
 /**
+ * The mapper for the CachedJwkRecord
  * 
  * @author Jared Hatfield (UnitVectorY Labs)
  */

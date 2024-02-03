@@ -24,6 +24,7 @@ import com.unitvectory.auth.server.manage.service.DefaultAuthorizationService;
 import com.unitvectory.auth.server.manage.service.DefaultClientService;
 
 /**
+ * The Service Auth Central configuration
  * 
  * @author Jared Hatfield (UnitVectorY Labs)
  */

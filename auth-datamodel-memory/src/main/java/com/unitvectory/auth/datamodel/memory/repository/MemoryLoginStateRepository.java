@@ -20,6 +20,7 @@ import com.unitvectory.auth.datamodel.model.LoginState;
 import com.unitvectory.auth.datamodel.repository.LoginStateRepository;
 
 /**
+ * The Memory Login State Repository
  * 
  * @author Jared Hatfield (UnitVectorY Labs)
  */

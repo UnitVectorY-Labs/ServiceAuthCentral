@@ -27,6 +27,7 @@ import com.unitvectory.auth.datamodel.repository.JwkCacheRepository;
 import lombok.NonNull;
 
 /**
+ * The Memory JWK Cache Repository
  * 
  * @author Jared Hatfield (UnitVectorY Labs)
  */

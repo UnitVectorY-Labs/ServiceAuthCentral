@@ -49,6 +49,7 @@ import lombok.AllArgsConstructor;
 import lombok.NonNull;
 
 /**
+ * The Firestore Client Repository
  * 
  * @author Jared Hatfield (UnitVectorY Labs)
  */

@@ -19,6 +19,7 @@ import lombok.Builder;
 import lombok.Value;
 
 /**
+ * The Memory Login State
  * 
  * @author Jared Hatfield (UnitVectorY Labs)
  */

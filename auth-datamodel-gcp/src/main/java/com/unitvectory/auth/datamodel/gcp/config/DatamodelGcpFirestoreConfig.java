@@ -22,6 +22,7 @@ import com.google.cloud.firestore.Firestore;
 import com.google.cloud.firestore.FirestoreOptions;
 
 /**
+ * The data model config for GCP Firestore
  * 
  * @author Jared Hatfield (UnitVectorY Labs)
  */

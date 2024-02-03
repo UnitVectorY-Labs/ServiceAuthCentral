@@ -19,6 +19,7 @@ import lombok.Builder;
 import lombok.Value;
 
 /**
+ * The Memory Client Summary
  * 
  * @author Jared Hatfield (UnitVectorY Labs)
  */

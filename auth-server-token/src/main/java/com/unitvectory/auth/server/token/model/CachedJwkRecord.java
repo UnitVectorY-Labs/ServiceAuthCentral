@@ -19,6 +19,7 @@ import lombok.Builder;
 import lombok.Value;
 
 /**
+ * The Cached JWK Records
  * 
  * @author Jared Hatfield (UnitVectorY Labs)
  */

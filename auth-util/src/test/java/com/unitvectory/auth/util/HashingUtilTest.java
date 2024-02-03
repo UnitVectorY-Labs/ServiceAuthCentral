@@ -20,6 +20,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import org.junit.jupiter.api.Test;
 
 /**
+ * The Hashing Util tests.
  * 
  * @author Jared Hatfield (UnitVectorY Labs)
  */

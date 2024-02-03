@@ -23,6 +23,9 @@ import com.unitvectory.auth.verify.service.JwksResolver;
 import com.unitvectory.auth.verify.service.JwtVerifier;
 
 /**
+ * The Verify configuration for using Auth0's library implementation.
+ * 
+ * This does not depend on the Auth0 service, just their library implementation.
  * 
  * @author Jared Hatfield (UnitVectorY Labs)
  */

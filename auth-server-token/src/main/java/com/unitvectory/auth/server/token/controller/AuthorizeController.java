@@ -31,6 +31,7 @@ import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletResponse;
 
 /**
+ * The Authorization Controller
  * 
  * @author Jared Hatfield (UnitVectorY Labs)
  */

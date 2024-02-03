@@ -20,6 +20,7 @@ import com.unitvectory.auth.datamodel.model.LoginCode;
 import com.unitvectory.auth.datamodel.repository.LoginCodeRepository;
 
 /**
+ * The Memory Login Code Repository
  * 
  * @author Jared Hatfield (UnitVectorY Labs)
  */

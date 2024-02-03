@@ -21,6 +21,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
+ * The Login Code Record
  * 
  * @author Jared Hatfield (UnitVectorY Labs)
  */

@@ -17,6 +17,7 @@ import lombok.Builder;
 import lombok.Value;
 
 /**
+ * The User Context
  * 
  * @author Jared Hatfield (UnitVectorY Labs)
  */

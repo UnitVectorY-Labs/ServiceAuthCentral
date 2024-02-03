@@ -17,6 +17,7 @@ import lombok.Builder;
 import lombok.Value;
 
 /**
+ * The Client JWT Bearer Type
  * 
  * @author Jared Hatfield (UnitVectorY Labs)
  */

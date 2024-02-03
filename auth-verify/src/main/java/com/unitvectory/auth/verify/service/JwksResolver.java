@@ -16,6 +16,9 @@ package com.unitvectory.auth.verify.service;
 import com.unitvectory.auth.verify.model.VerifyJwks;
 
 /**
+ * The JWKS Resolver interface
+ * 
+ * This is used to retrieve the VerifyJwks information for a public URL
  * 
  * @author Jared Hatfield (UnitVectorY Labs)
  */

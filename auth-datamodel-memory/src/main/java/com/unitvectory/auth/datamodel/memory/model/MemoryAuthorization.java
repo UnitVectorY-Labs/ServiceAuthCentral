@@ -21,6 +21,7 @@ import lombok.NonNull;
 import lombok.Value;
 
 /**
+ * The Memory Authorization
  * 
  * @author Jared Hatfield (UnitVectorY Labs)
  */

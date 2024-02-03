@@ -21,6 +21,7 @@ import com.unitvectory.auth.datamodel.model.Client;
 import com.unitvectory.auth.server.manage.dto.ClientType;
 
 /**
+ * The mapper for ClientType
  * 
  * @author Jared Hatfield (UnitVectorY Labs)
  */

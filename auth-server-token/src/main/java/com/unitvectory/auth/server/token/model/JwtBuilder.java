@@ -21,6 +21,7 @@ import java.util.TreeMap;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
+ * The JWT Builder
  * 
  * @author Jared Hatfield (UnitVectorY Labs)
  */

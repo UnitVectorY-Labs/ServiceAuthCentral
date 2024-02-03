@@ -22,6 +22,7 @@ import com.unitvectory.auth.server.manage.dto.ClientType;
 import com.unitvectory.auth.server.manage.dto.ResponseType;
 
 /**
+ * The interface for the Client Service
  * 
  * @author Jared Hatfield (UnitVectorY Labs)
  */

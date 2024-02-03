@@ -24,6 +24,7 @@ import com.unitvectory.auth.datamodel.repository.AuthorizationRepository;
 import lombok.NonNull;
 
 /**
+ * The Memory Authorization Repository
  * 
  * @author Jared Hatfield (UnitVectorY Labs)
  */

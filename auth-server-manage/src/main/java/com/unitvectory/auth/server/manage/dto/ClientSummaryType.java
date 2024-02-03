@@ -19,6 +19,7 @@ import lombok.Builder;
 import lombok.Value;
 
 /**
+ * The Client Summary Type
  * 
  * @author Jared Hatfield (UnitVectorY Labs)
  */

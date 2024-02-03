@@ -28,6 +28,7 @@ import com.unitvectory.auth.sign.model.SignJwk;
 import com.unitvectory.auth.sign.service.SignService;
 
 /**
+ * The JWKS Controller
  * 
  * @author Jared Hatfield (UnitVectorY Labs)
  */

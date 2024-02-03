@@ -27,6 +27,7 @@ import com.unitvectory.auth.server.manage.mapper.ClientMapper;
 import com.unitvectory.auth.util.exception.BadRequestException;
 
 /**
+ * The implementation of the Authorization Service
  * 
  * @author Jared Hatfield (UnitVectorY Labs)
  */

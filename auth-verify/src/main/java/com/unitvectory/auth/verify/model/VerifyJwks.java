@@ -19,6 +19,7 @@ import lombok.Builder;
 import lombok.Value;
 
 /**
+ * The Verify JWKS
  * 
  * @author Jared Hatfield (UnitVectorY Labs)
  */

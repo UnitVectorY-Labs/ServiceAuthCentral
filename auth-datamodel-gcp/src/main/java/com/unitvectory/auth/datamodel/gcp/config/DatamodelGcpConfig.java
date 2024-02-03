@@ -32,6 +32,7 @@ import com.unitvectory.auth.datamodel.repository.LoginCodeRepository;
 import com.unitvectory.auth.datamodel.repository.LoginStateRepository;
 
 /**
+ * The data model config for GCP
  * 
  * @author Jared Hatfield (UnitVectorY Labs)
  */

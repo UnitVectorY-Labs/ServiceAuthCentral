@@ -39,6 +39,7 @@ import lombok.NonNull;
 import lombok.Synchronized;
 
 /**
+ * The Memory Client Repository
  * 
  * @author Jared Hatfield (UnitVectorY Labs)
  */

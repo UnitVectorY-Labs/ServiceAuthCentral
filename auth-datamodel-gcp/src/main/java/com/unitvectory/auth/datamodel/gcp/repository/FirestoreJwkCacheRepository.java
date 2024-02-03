@@ -36,6 +36,7 @@ import lombok.AllArgsConstructor;
 import lombok.NonNull;
 
 /**
+ * The Firestore JWK Cache Repository
  * 
  * @author Jared Hatfield (UnitVectorY Labs)
  */

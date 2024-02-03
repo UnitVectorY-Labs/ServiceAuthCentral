@@ -38,16 +38,19 @@ import com.google.cloud.kms.v1.KeyManagementServiceClient;
 import com.google.cloud.kms.v1.PublicKey;
 import com.google.protobuf.ByteString;
 import com.unitvectory.auth.sign.gcp.model.JsonWebKeyRecord;
-import com.unitvectory.auth.sign.gcp.util.KidConverter;
 import com.unitvectory.auth.sign.mapper.RsaPemToModulusExponentMapper;
 import com.unitvectory.auth.sign.model.RsaMoulousExponent;
 import com.unitvectory.auth.sign.model.SignJwk;
 import com.unitvectory.auth.sign.service.SignService;
-
+import com.unitvectory.auth.util.HashingUtil;
 import lombok.AllArgsConstructor;
 import lombok.NonNull;
 
 /**
+ * The GCP based KMS Sign Service implementation.
+ * 
+ * This implementation utilizies GCP's KMS service to sign the JWTs meaning there is no access to
+ * the private key.
  * 
  * @author Jared Hatfield (UnitVectorY Labs)
  */
@@ -216,7 +219,7 @@ public class KmsSignService implements SignService {
 					RsaPemToModulusExponentMapper.INSTANCE.convert(pemKey);
 
 			String keyName = cryptoKeyVersion.getName();
-			String kid = KidConverter.hash(keyName);
+			String kid = HashingUtil.sha256(keyName);
 
 			// Construct the JWKS JSON object
 			JsonWebKeyRecord jwksKey = JsonWebKeyRecord.builder().withKty("RSA")

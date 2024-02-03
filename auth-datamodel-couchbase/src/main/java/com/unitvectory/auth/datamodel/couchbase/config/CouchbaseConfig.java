@@ -21,6 +21,7 @@ import org.springframework.context.annotation.Profile;
 import com.couchbase.client.java.Cluster;
 
 /**
+ * The Couchbase Config
  * 
  * @author Jared Hatfield (UnitVectorY Labs)
  */

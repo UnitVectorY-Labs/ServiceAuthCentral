@@ -23,6 +23,7 @@ import com.unitvectory.auth.util.HashingUtil;
 import lombok.AllArgsConstructor;
 
 /**
+ * The Couchbase Login State Repository
  * 
  * @author Jared Hatfield (UnitVectorY Labs)
  */

@@ -21,6 +21,7 @@ import com.unitvectory.auth.datamodel.model.ClientSummary;
 import com.unitvectory.auth.server.manage.dto.ClientSummaryType;
 
 /**
+ * The mapper for ClientSummaryType
  * 
  * @author Jared Hatfield (UnitVectorY Labs)
  */

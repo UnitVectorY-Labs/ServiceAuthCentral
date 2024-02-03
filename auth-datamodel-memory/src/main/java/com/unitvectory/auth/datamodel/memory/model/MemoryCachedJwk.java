@@ -20,6 +20,7 @@ import lombok.Builder;
 import lombok.Value;
 
 /**
+ * The Memory Cached JWK
  * 
  * @author Jared Hatfield (UnitVectorY Labs)
  */

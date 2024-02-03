@@ -35,6 +35,7 @@ import com.unitvectory.auth.datamodel.repository.LoginCodeRepository;
 import com.unitvectory.auth.datamodel.repository.LoginStateRepository;
 
 /**
+ * The mada model Couchbase config
  * 
  * @author Jared Hatfield (UnitVectorY Labs)
  */

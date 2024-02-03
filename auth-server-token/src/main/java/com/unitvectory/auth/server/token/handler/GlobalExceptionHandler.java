@@ -29,6 +29,7 @@ import com.unitvectory.auth.util.exception.NotFoundException;
 import com.unitvectory.auth.util.exception.UnauthorizedException;
 
 /**
+ * The global exception handler
  * 
  * @author Jared Hatfield (UnitVectorY Labs)
  */

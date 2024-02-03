@@ -26,8 +26,7 @@ import lombok.NoArgsConstructor;
 import lombok.NonNull;
 
 /**
- * This class provides a method to convert an RSA public key from PEM format to its modulus and
- * exponent.
+ * This provides a method to convert an RSA public key from PEM format to its modulus and exponent.
  * 
  * @author Jared Hatfield (UnitVectorY Labs)
  */

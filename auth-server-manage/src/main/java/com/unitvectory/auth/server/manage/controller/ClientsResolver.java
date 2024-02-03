@@ -22,6 +22,7 @@ import com.unitvectory.auth.datamodel.model.ClientSummaryConnection;
 import com.unitvectory.auth.server.manage.service.ClientService;
 
 /**
+ * The GraphQL Clients Resolver
  * 
  * @author Jared Hatfield (UnitVectorY Labs)
  */

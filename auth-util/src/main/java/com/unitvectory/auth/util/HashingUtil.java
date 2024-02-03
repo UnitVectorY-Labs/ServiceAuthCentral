@@ -24,6 +24,7 @@ import com.unitvectory.auth.util.exception.InternalServerErrorException;
 import lombok.NonNull;
 
 /**
+ * Utility class for hashing functions
  * 
  * @author Jared Hatfield (UnitVectorY Labs)
  */
