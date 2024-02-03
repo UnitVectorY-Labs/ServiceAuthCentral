@@ -41,6 +41,7 @@ import com.unitvectory.auth.verify.model.VerifyParameters;
 import com.unitvectory.auth.verify.service.JwtVerifier;
 
 /**
+ * The token service implementing the token exchange logic.
  * 
  * @author Jared Hatfield (UnitVectorY Labs)
  */
@@ -90,6 +91,8 @@ public class TokenService {
 
 	private TokenResponse authorizationCode(TokenRequest request) throws Exception {
 
+		long now = this.timeService.getCurrentTimeSeconds();
+
 		if (request.getClient_secret() != null) {
 			throw new BadRequestException("The request has unexpected parameter 'client_secret'.");
 		} else if (request.getAudience() != null) {
@@ -102,6 +105,7 @@ public class TokenService {
 		String redirectUri = request.getRedirect_uri();
 		String clientId = request.getClient_id();
 		String codeVerifier = request.getCode_verifier();
+		String audience = request.getAudience();
 
 		if (code == null || code.isEmpty()) {
 			throw new BadRequestException("The request is missing the required parameter 'code'.");
@@ -135,13 +139,29 @@ public class TokenService {
 			throw new BadRequestException("The request has invalid parameter 'redirect_uri'.");
 		}
 
-		// TODO: Validate that the auth code is not expired.
+		// Validate that the auth code is not expired.
+		if (loginCode.getTimeToLive() < now) {
+			throw new BadRequestException("The request auth code has expired.");
+		}
 
 		Client userClient = this.clientRepository.getClient(loginCode.getUserClientId());
 
 		// Now delete the auth code so it can't be used again
-
 		this.loginCodeRepository.deleteCode(code);
+
+		// Get the audience record
+		Client audienceRecord = clientRepository.getClient(audience);
+		if (audienceRecord == null) {
+			throw new ForbiddenException("The specified 'audience' is invalid.");
+		}
+
+		// Validated the authorization
+		Authorization authorizationRecord =
+				this.authorizationRepository.getAuthorization(clientId, audience);
+		if (authorizationRecord == null) {
+			throw new ForbiddenException(
+					"The client is not authorized for the specified audience.");
+		}
 
 		// Build the JWT and return it
 		return buildToken(userClient, null, null);
@@ -225,7 +245,8 @@ public class TokenService {
 		Authorization authorizationRecord =
 				this.authorizationRepository.getAuthorization(clientId, audience);
 		if (authorizationRecord == null) {
-			throw new ForbiddenException("The specified 'audience' is invalid.");
+			throw new ForbiddenException(
+					"The client is not authorized for the specified audience.");
 		}
 
 		// Build the JWT and return it
@@ -282,7 +303,8 @@ public class TokenService {
 		Authorization authorizationRecord =
 				this.authorizationRepository.getAuthorization(clientId, audience);
 		if (authorizationRecord == null) {
-			throw new ForbiddenException("The specified 'audience' is invalid.");
+			throw new ForbiddenException(
+					"The client is not authorized for the specified audience.");
 		}
 
 		// Build the JWT and return it

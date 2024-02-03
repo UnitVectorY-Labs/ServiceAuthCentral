@@ -40,4 +40,8 @@ public class LoginCodeRecord implements LoginCode {
 
 	private long ttl;
 
+	@Override
+	public long getTimeToLive() {
+		return this.ttl;
+	}
 }

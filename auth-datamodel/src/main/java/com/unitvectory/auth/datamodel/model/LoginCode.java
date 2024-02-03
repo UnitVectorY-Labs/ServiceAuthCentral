@@ -50,4 +50,11 @@ public interface LoginCode {
 	 */
 	String getUserClientId();
 
+	/**
+	 * Return the time to live
+	 * 
+	 * @return the time to live
+	 */
+	long getTimeToLive();
+
 }

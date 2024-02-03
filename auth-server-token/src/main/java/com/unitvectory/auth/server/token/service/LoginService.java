@@ -37,11 +37,14 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.NonNull;
 
 /**
+ * The Login Service for authenticating user accounts with double oauth.
  * 
  * @author Jared Hatfield (UnitVectorY Labs)
  */
 @Service
 public class LoginService {
+
+	private static final long AUTH_CODE_VALID_SECONDS = 60;
 
 	@Value("${sac.user.redirecturi}")
 	private List<String> primaryRedirectUris;
@@ -110,7 +113,7 @@ public class LoginService {
 
 		String secondaryState = this.entropyService.randomAlphaNumeric(25);
 
-		long ttl = this.timeService.getCurrentTimeSeconds() + 60;
+		long ttl = this.timeService.getCurrentTimeSeconds() + AUTH_CODE_VALID_SECONDS;
 
 		// Now we can save the state into the database
 

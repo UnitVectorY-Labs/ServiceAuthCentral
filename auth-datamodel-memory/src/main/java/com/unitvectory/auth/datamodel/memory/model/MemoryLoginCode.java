@@ -36,4 +36,7 @@ public class MemoryLoginCode implements LoginCode {
 
 	private long ttl;
 
+	public long getTimeToLive() {
+		return this.ttl;
+	}
 }

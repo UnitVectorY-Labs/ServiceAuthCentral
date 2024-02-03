@@ -43,4 +43,11 @@ public class LoginCodeRecord implements LoginCode {
 
 	private Timestamp ttl;
 
+	public long getTimeToLive() {
+		if (this.ttl != null) {
+			return this.ttl.getSeconds();
+		} else {
+			return 0;
+		}
+	}
 }
