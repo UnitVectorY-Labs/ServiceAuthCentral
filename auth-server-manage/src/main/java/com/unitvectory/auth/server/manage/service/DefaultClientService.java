@@ -322,8 +322,8 @@ public class DefaultClientService implements ClientService {
 		ClientManagementCapabilitiesType managementCapabilities =
 				this.managementCapabilitiesService.getClientManagementCapabilities(
 						ClientMapper.INSTANCE.clientToClientType(client), jwt);
-		if (!managementCapabilities.isCanAddClientAuthorization()) {
-			throw new BadRequestException("The client cannot have a client authorization added");
+		if (!managementCapabilities.isCanDeleteClientAuthorization()) {
+			throw new BadRequestException("The client cannot have a client authorization deleted");
 		}
 
 		boolean matches = false;

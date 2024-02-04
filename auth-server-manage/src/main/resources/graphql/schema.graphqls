@@ -67,6 +67,7 @@ type ClientManagementCapabilities {
   canAddClientSecret: Boolean!
   canDeleteClientSecret: Boolean!
   canAddClientAuthorization: Boolean!
+  canDeleteClientAuthorization: Boolean!
   canAddAuthorization: Boolean!
   canDeleteAuthorization: Boolean!
 }

@@ -38,6 +38,7 @@ public class DefaultManagementCapabilitiesService implements ManagementCapabilit
         boolean canAddClientSecret = true;
         boolean canDeleteClientSecret = true;
         boolean canAddClientAuthorization = true;
+        boolean canDeleteClientAuthorization = true;
         boolean canAddAuthorization = true;
         boolean canDeleteAuthorization = true;
 
@@ -46,6 +47,7 @@ public class DefaultManagementCapabilitiesService implements ManagementCapabilit
             canAddClientSecret = false;
             canDeleteClientSecret = false;
             canAddClientAuthorization = false;
+            canDeleteClientAuthorization = false;
             canAddAuthorization = false;
             canDeleteAuthorization = false;
         }
@@ -56,8 +58,7 @@ public class DefaultManagementCapabilitiesService implements ManagementCapabilit
             canAddClientSecret = false;
             canDeleteClientSecret = false;
             canAddClientAuthorization = false;
-            canAddAuthorization = false;
-            canDeleteAuthorization = false;
+            canDeleteClientAuthorization = false;
         }
 
         // If the subject of the JWT matches the clientId then it can't be deleted
@@ -68,6 +69,7 @@ public class DefaultManagementCapabilitiesService implements ManagementCapabilit
         return ClientManagementCapabilitiesType.builder().canDeleteClient(canDeleteClient)
                 .canAddClientSecret(canAddClientSecret).canDeleteClientSecret(canDeleteClientSecret)
                 .canAddClientAuthorization(canAddClientAuthorization)
+                .canDeleteClientAuthorization(canDeleteClientAuthorization)
                 .canAddAuthorization(canAddAuthorization)
                 .canDeleteAuthorization(canDeleteAuthorization).build();
     }
