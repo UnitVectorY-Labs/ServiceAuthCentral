@@ -18,7 +18,6 @@ import org.springframework.stereotype.Service;
 import com.unitvectory.auth.server.manage.dto.ClientManagementCapabilitiesType;
 import com.unitvectory.auth.server.manage.dto.ClientType;
 import com.unitvectory.auth.server.manage.dto.RequestJwt;
-import com.unitvectory.auth.server.manage.dto.ClientManagementCapabilitiesType.ClientManagementCapabilitiesTypeBuilder;
 
 /**
  * The implementation of the Management Capabilities Service
@@ -34,8 +33,6 @@ public class DefaultManagementCapabilitiesService implements ManagementCapabilit
     @Override
     public ClientManagementCapabilitiesType getClientManagementCapabilities(ClientType client,
             RequestJwt jwt) {
-        ClientManagementCapabilitiesTypeBuilder builder =
-                ClientManagementCapabilitiesType.builder();
 
         boolean canDeleteClient = true;
         boolean canAddClientSecret = true;
@@ -68,14 +65,11 @@ public class DefaultManagementCapabilitiesService implements ManagementCapabilit
             canDeleteClient = false;
         }
 
-        builder.canDeleteClient(canDeleteClient);
-        builder.canAddClientSecret(canAddClientSecret);
-        builder.canDeleteClientSecret(canDeleteClientSecret);
-        builder.canAddClientAuthorization(canAddClientAuthorization);
-        builder.canAddAuthorization(canAddAuthorization);
-        builder.canDeleteAuthorization(canDeleteAuthorization);
-
-        return builder.build();
+        return ClientManagementCapabilitiesType.builder().canDeleteClient(canDeleteClient)
+                .canAddClientSecret(canAddClientSecret).canDeleteClientSecret(canDeleteClientSecret)
+                .canAddClientAuthorization(canAddClientAuthorization)
+                .canAddAuthorization(canAddAuthorization)
+                .canDeleteAuthorization(canDeleteAuthorization).build();
     }
 
 }
