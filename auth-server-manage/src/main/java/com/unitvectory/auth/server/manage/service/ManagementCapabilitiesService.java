@@ -13,25 +13,17 @@
  */
 package com.unitvectory.auth.server.manage.service;
 
-import com.unitvectory.auth.server.manage.dto.AuthorizationType;
+import com.unitvectory.auth.server.manage.dto.ClientManagementCapabilitiesType;
 import com.unitvectory.auth.server.manage.dto.ClientType;
 import com.unitvectory.auth.server.manage.dto.RequestJwt;
-import com.unitvectory.auth.server.manage.dto.ResponseType;
 
 /**
- * The interface for the Authorization Service
+ * The interface for the Management Capabilities Service
  * 
  * @author Jared Hatfield (UnitVectorY Labs)
  */
-public interface AuthorizationService {
+public interface ManagementCapabilitiesService {
 
-	ResponseType authorize(String subject, String audience, RequestJwt jwt);
-
-	ResponseType deauthorize(String subject, String audience, RequestJwt jwt);
-
-	AuthorizationType authorization(String id);
-
-	ClientType subject(String subjectId);
-
-	ClientType audience(String audienceId);
+    ClientManagementCapabilitiesType getClientManagementCapabilities(ClientType client,
+            RequestJwt jwt);
 }

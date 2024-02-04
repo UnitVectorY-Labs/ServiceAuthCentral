@@ -31,8 +31,10 @@ import com.unitvectory.auth.datamodel.model.ClientSummaryConnection;
 import com.unitvectory.auth.datamodel.repository.AuthorizationRepository;
 import com.unitvectory.auth.datamodel.repository.ClientRepository;
 import com.unitvectory.auth.server.manage.dto.AuthorizationType;
+import com.unitvectory.auth.server.manage.dto.ClientManagementCapabilitiesType;
 import com.unitvectory.auth.server.manage.dto.ClientSecretType;
 import com.unitvectory.auth.server.manage.dto.ClientType;
+import com.unitvectory.auth.server.manage.dto.RequestJwt;
 import com.unitvectory.auth.server.manage.dto.ResponseType;
 import com.unitvectory.auth.server.manage.mapper.AuthorizationMapper;
 import com.unitvectory.auth.server.manage.mapper.ClientMapper;
@@ -58,6 +60,9 @@ public class DefaultClientService implements ClientService {
 
 	@Autowired
 	private EntropyService entropyService;
+
+	@Autowired
+	private ManagementCapabilitiesService managementCapabilitiesService;
 
 	@Override
 	public ClientSummaryConnection getClients(Integer first, String after, Integer last,
@@ -113,9 +118,19 @@ public class DefaultClientService implements ClientService {
 	}
 
 	@Override
-	public ResponseType deleteClient(String clientId) {
+	public ResponseType deleteClient(String clientId, RequestJwt jwt) {
 
-		// TODO: Consolidate the logic for enforcement and returning attributes to UI
+		Client client = this.clientRepository.getClient(clientId);
+		if (client == null) {
+			throw new NotFoundException("clientId not found");
+		}
+
+		ClientManagementCapabilitiesType managementCapabilities =
+				this.managementCapabilitiesService.getClientManagementCapabilities(
+						ClientMapper.INSTANCE.clientToClientType(client), jwt);
+		if (!managementCapabilities.isCanDeleteClient()) {
+			throw new BadRequestException("The client cannot be deleted");
+		}
 
 		// Delete all of the authorization records where the clientId is the audience
 		Iterator<Authorization> aud =
@@ -141,7 +156,7 @@ public class DefaultClientService implements ClientService {
 	}
 
 	@Override
-	public ClientSecretType generateClientSecret1(String clientId) {
+	public ClientSecretType generateClientSecret1(String clientId, RequestJwt jwt) {
 		String secret = this.entropyService.randomAlphaNumeric(LENGTH);
 
 		Client client = this.clientRepository.getClient(clientId);
@@ -149,10 +164,11 @@ public class DefaultClientService implements ClientService {
 			throw new NotFoundException("clientId not found");
 		}
 
-		// TODO: Consolidate the logic for enforcement and returning attributes to UI
-		if (!com.unitvectory.auth.datamodel.model.ClientType.APPLICATION
-				.equals(client.getClientType())) {
-			throw new BadRequestException("Only clientType of APPLICATION can use client secrets");
+		ClientManagementCapabilitiesType managementCapabilities =
+				this.managementCapabilitiesService.getClientManagementCapabilities(
+						ClientMapper.INSTANCE.clientToClientType(client), jwt);
+		if (!managementCapabilities.isCanAddClientSecret()) {
+			throw new BadRequestException("The client cannot have a client secret added");
 		}
 
 		if (client.getClientSecret1() != null) {
@@ -167,7 +183,7 @@ public class DefaultClientService implements ClientService {
 	}
 
 	@Override
-	public ClientSecretType generateClientSecret2(String clientId) {
+	public ClientSecretType generateClientSecret2(String clientId, RequestJwt jwt) {
 		String secret = this.entropyService.randomAlphaNumeric(LENGTH);
 
 		Client client = this.clientRepository.getClient(clientId);
@@ -175,10 +191,11 @@ public class DefaultClientService implements ClientService {
 			throw new NotFoundException("clientId not found");
 		}
 
-		// TODO: Consolidate the logic for enforcement and returning attributes to UI
-		if (!com.unitvectory.auth.datamodel.model.ClientType.APPLICATION
-				.equals(client.getClientType())) {
-			throw new BadRequestException("Only clientType of APPLICATION can use client secrets");
+		ClientManagementCapabilitiesType managementCapabilities =
+				this.managementCapabilitiesService.getClientManagementCapabilities(
+						ClientMapper.INSTANCE.clientToClientType(client), jwt);
+		if (!managementCapabilities.isCanAddClientSecret()) {
+			throw new BadRequestException("The client cannot have a client secret added");
 		}
 
 		if (client.getClientSecret2() != null) {
@@ -193,14 +210,19 @@ public class DefaultClientService implements ClientService {
 	}
 
 	@Override
-	public ClientSecretType clearClientSecret1(String clientId) {
+	public ClientSecretType clearClientSecret1(String clientId, RequestJwt jwt) {
 
 		Client client = this.clientRepository.getClient(clientId);
 		if (client == null) {
 			throw new NotFoundException("clientId not found");
 		}
 
-		// TODO: Consolidate the logic for enforcement and returning attributes to UI
+		ClientManagementCapabilitiesType managementCapabilities =
+				this.managementCapabilitiesService.getClientManagementCapabilities(
+						ClientMapper.INSTANCE.clientToClientType(client), jwt);
+		if (!managementCapabilities.isCanDeleteClientSecret()) {
+			throw new BadRequestException("The client cannot have a client secret deleted");
+		}
 
 		if (client.getClientSecret1() != null) {
 			this.clientRepository.clearClientSecret1(clientId);
@@ -211,14 +233,19 @@ public class DefaultClientService implements ClientService {
 	}
 
 	@Override
-	public ClientSecretType clearClientSecret2(String clientId) {
+	public ClientSecretType clearClientSecret2(String clientId, RequestJwt jwt) {
 
 		Client client = this.clientRepository.getClient(clientId);
 		if (client == null) {
 			throw new NotFoundException("clientId not found");
 		}
 
-		// TODO: Consolidate the logic for enforcement and returning attributes to UI
+		ClientManagementCapabilitiesType managementCapabilities =
+				this.managementCapabilitiesService.getClientManagementCapabilities(
+						ClientMapper.INSTANCE.clientToClientType(client), jwt);
+		if (!managementCapabilities.isCanDeleteClientSecret()) {
+			throw new BadRequestException("The client cannot have a client secret deleted");
+		}
 
 		if (client.getClientSecret2() != null) {
 			this.clientRepository.clearClientSecret2(clientId);
@@ -260,17 +287,17 @@ public class DefaultClientService implements ClientService {
 
 	@Override
 	public ResponseType authorizeJwtBearer(String clientId, String jwksUrl, String iss, String sub,
-			String aud) {
+			String aud, RequestJwt jwt) {
 		Client client = this.clientRepository.getClient(clientId);
 		if (client == null) {
 			return ResponseType.builder().success(false).build();
 		}
 
-		// TODO: Consolidate the logic for enforcement and returning attributes to UI
-		if (!com.unitvectory.auth.datamodel.model.ClientType.APPLICATION
-				.equals(client.getClientType())) {
-			throw new BadRequestException(
-					"Only clientType of APPLICATION can use jwt bearer authorizations");
+		ClientManagementCapabilitiesType managementCapabilities =
+				this.managementCapabilitiesService.getClientManagementCapabilities(
+						ClientMapper.INSTANCE.clientToClientType(client), jwt);
+		if (!managementCapabilities.isCanAddClientAuthorization()) {
+			throw new BadRequestException("The client cannot have a client authorization added");
 		}
 
 		for (ClientJwtBearer cjb : client.getJwtBearer()) {
@@ -286,13 +313,18 @@ public class DefaultClientService implements ClientService {
 	}
 
 	@Override
-	public ResponseType deauthorizeJwtBearer(String clientId, String id) {
+	public ResponseType deauthorizeJwtBearer(String clientId, String id, RequestJwt jwt) {
 		Client client = this.clientRepository.getClient(clientId);
 		if (client == null) {
 			return ResponseType.builder().success(false).build();
 		}
 
-		// TODO: Consolidate the logic for enforcement and returning attributes to UI
+		ClientManagementCapabilitiesType managementCapabilities =
+				this.managementCapabilitiesService.getClientManagementCapabilities(
+						ClientMapper.INSTANCE.clientToClientType(client), jwt);
+		if (!managementCapabilities.isCanAddClientAuthorization()) {
+			throw new BadRequestException("The client cannot have a client authorization added");
+		}
 
 		boolean matches = false;
 		for (ClientJwtBearer cjb : client.getJwtBearer()) {

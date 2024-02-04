@@ -11,27 +11,20 @@
  * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
  */
-package com.unitvectory.auth.server.manage.service;
+package com.unitvectory.auth.server.manage.dto;
 
-import com.unitvectory.auth.server.manage.dto.AuthorizationType;
-import com.unitvectory.auth.server.manage.dto.ClientType;
-import com.unitvectory.auth.server.manage.dto.RequestJwt;
-import com.unitvectory.auth.server.manage.dto.ResponseType;
+import lombok.Builder;
+import lombok.Value;
 
 /**
- * The interface for the Authorization Service
+ * The Request JWT
  * 
  * @author Jared Hatfield (UnitVectorY Labs)
  */
-public interface AuthorizationService {
+@Value
+@Builder
+public class RequestJwt {
 
-	ResponseType authorize(String subject, String audience, RequestJwt jwt);
+    private final String subject;
 
-	ResponseType deauthorize(String subject, String audience, RequestJwt jwt);
-
-	AuthorizationType authorization(String id);
-
-	ClientType subject(String subjectId);
-
-	ClientType audience(String audienceId);
 }

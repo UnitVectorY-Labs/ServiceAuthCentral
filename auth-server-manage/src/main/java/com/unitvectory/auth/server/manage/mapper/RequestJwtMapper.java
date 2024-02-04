@@ -11,27 +11,24 @@
  * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
  */
-package com.unitvectory.auth.server.manage.service;
+package com.unitvectory.auth.server.manage.mapper;
 
-import com.unitvectory.auth.server.manage.dto.AuthorizationType;
-import com.unitvectory.auth.server.manage.dto.ClientType;
+import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
+import org.mapstruct.factory.Mappers;
+import org.springframework.security.oauth2.jwt.Jwt;
 import com.unitvectory.auth.server.manage.dto.RequestJwt;
-import com.unitvectory.auth.server.manage.dto.ResponseType;
 
 /**
- * The interface for the Authorization Service
+ * The mapper for RequestJwt
  * 
  * @author Jared Hatfield (UnitVectorY Labs)
  */
-public interface AuthorizationService {
+@Mapper
+public interface RequestJwtMapper {
 
-	ResponseType authorize(String subject, String audience, RequestJwt jwt);
+    RequestJwtMapper INSTANCE = Mappers.getMapper(RequestJwtMapper.class);
 
-	ResponseType deauthorize(String subject, String audience, RequestJwt jwt);
-
-	AuthorizationType authorization(String id);
-
-	ClientType subject(String subjectId);
-
-	ClientType audience(String audienceId);
+    @Mapping(target = "subject", source = "subject")
+    RequestJwt requestJwt(Jwt jwt);
 }

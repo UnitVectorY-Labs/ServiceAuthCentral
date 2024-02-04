@@ -19,6 +19,7 @@ import com.unitvectory.auth.datamodel.model.ClientSummaryConnection;
 import com.unitvectory.auth.server.manage.dto.AuthorizationType;
 import com.unitvectory.auth.server.manage.dto.ClientSecretType;
 import com.unitvectory.auth.server.manage.dto.ClientType;
+import com.unitvectory.auth.server.manage.dto.RequestJwt;
 import com.unitvectory.auth.server.manage.dto.ResponseType;
 
 /**
@@ -32,20 +33,20 @@ public interface ClientService {
 
 	ClientType addClient(String clientId, String description);
 
-	ResponseType deleteClient(String clientId);
+	ResponseType deleteClient(String clientId, RequestJwt jwt);
 
-	ClientSecretType generateClientSecret1(String clientId);
+	ClientSecretType generateClientSecret1(String clientId, RequestJwt jwt);
 
-	ClientSecretType generateClientSecret2(String clientId);
+	ClientSecretType generateClientSecret2(String clientId, RequestJwt jwt);
 
-	ClientSecretType clearClientSecret1(String clientId);
+	ClientSecretType clearClientSecret1(String clientId, RequestJwt jwt);
 
-	ClientSecretType clearClientSecret2(String clientId);
+	ClientSecretType clearClientSecret2(String clientId, RequestJwt jwt);
 
 	ResponseType authorizeJwtBearer(String clientId, String jwksUrl, String iss, String sub,
-			String aud);
+			String aud, RequestJwt jwt);
 
-	ResponseType deauthorizeJwtBearer(String clientId, String id);
+	ResponseType deauthorizeJwtBearer(String clientId, String id, RequestJwt jwt);
 
 	ClientType client(String clientId);
 

@@ -20,7 +20,9 @@ import com.unitvectory.auth.datamodel.model.Client;
 import com.unitvectory.auth.datamodel.repository.AuthorizationRepository;
 import com.unitvectory.auth.datamodel.repository.ClientRepository;
 import com.unitvectory.auth.server.manage.dto.AuthorizationType;
+import com.unitvectory.auth.server.manage.dto.ClientManagementCapabilitiesType;
 import com.unitvectory.auth.server.manage.dto.ClientType;
+import com.unitvectory.auth.server.manage.dto.RequestJwt;
 import com.unitvectory.auth.server.manage.dto.ResponseType;
 import com.unitvectory.auth.server.manage.mapper.AuthorizationMapper;
 import com.unitvectory.auth.server.manage.mapper.ClientMapper;
@@ -39,8 +41,11 @@ public class DefaultAuthorizationService implements AuthorizationService {
 	@Autowired
 	private AuthorizationRepository authorizationRepository;
 
+	@Autowired
+	private ManagementCapabilitiesService managementCapabilitiesService;
+
 	@Override
-	public ResponseType authorize(String subject, String audience) {
+	public ResponseType authorize(String subject, String audience, RequestJwt jwt) {
 		Client subjectClient = this.clientRepository.getClient(subject);
 		if (subjectClient == null) {
 			return ResponseType.builder().success(false).build();
@@ -51,11 +56,11 @@ public class DefaultAuthorizationService implements AuthorizationService {
 			return ResponseType.builder().success(false).build();
 		}
 
-		// TODO: Consolidate the logic for enforcement and returning attributes to UI
-		if (!com.unitvectory.auth.datamodel.model.ClientType.APPLICATION
-				.equals(audienceClient.getClientType())) {
-			throw new BadRequestException(
-					"Only clientType of APPLICATION can be used for the audience");
+		ClientManagementCapabilitiesType managementCapabilities =
+				this.managementCapabilitiesService.getClientManagementCapabilities(
+						ClientMapper.INSTANCE.clientToClientType(audienceClient), jwt);
+		if (!managementCapabilities.isCanAddAuthorization()) {
+			throw new BadRequestException("The client cannot add authorization");
 		}
 
 		this.authorizationRepository.authorize(subject, audience);
@@ -63,8 +68,20 @@ public class DefaultAuthorizationService implements AuthorizationService {
 	}
 
 	@Override
-	public ResponseType deauthorize(String subject, String audience) {
-		// TODO: Consolidate the logic for enforcement and returning attributes to UI
+	public ResponseType deauthorize(String subject, String audience, RequestJwt jwt) {
+
+		Client audienceClient = this.clientRepository.getClient(audience);
+		if (audienceClient == null) {
+			return ResponseType.builder().success(false).build();
+		}
+
+		ClientManagementCapabilitiesType managementCapabilities =
+				this.managementCapabilitiesService.getClientManagementCapabilities(
+						ClientMapper.INSTANCE.clientToClientType(audienceClient), jwt);
+		if (!managementCapabilities.isCanDeleteAuthorization()) {
+			throw new BadRequestException("The client cannot delete authorization");
+		}
+
 		this.authorizationRepository.deauthorize(subject, audience);
 		return ResponseType.builder().success(true).build();
 	}

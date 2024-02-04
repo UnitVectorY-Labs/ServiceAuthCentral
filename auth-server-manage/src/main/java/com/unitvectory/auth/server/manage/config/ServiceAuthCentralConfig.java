@@ -22,6 +22,8 @@ import com.unitvectory.auth.server.manage.service.AuthorizationService;
 import com.unitvectory.auth.server.manage.service.ClientService;
 import com.unitvectory.auth.server.manage.service.DefaultAuthorizationService;
 import com.unitvectory.auth.server.manage.service.DefaultClientService;
+import com.unitvectory.auth.server.manage.service.DefaultManagementCapabilitiesService;
+import com.unitvectory.auth.server.manage.service.ManagementCapabilitiesService;
 
 /**
  * The Service Auth Central configuration
@@ -44,5 +46,10 @@ public class ServiceAuthCentralConfig {
 	@Bean
 	public AuthorizationService authorizationService() {
 		return new DefaultAuthorizationService();
+	}
+
+	@Bean
+	ManagementCapabilitiesService managementCapabilitiesService() {
+		return new DefaultManagementCapabilitiesService();
 	}
 }

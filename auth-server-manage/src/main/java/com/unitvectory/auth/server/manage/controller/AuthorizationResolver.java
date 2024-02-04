@@ -18,11 +18,14 @@ import org.springframework.graphql.data.method.annotation.Argument;
 import org.springframework.graphql.data.method.annotation.MutationMapping;
 import org.springframework.graphql.data.method.annotation.QueryMapping;
 import org.springframework.graphql.data.method.annotation.SchemaMapping;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.stereotype.Controller;
 
 import com.unitvectory.auth.server.manage.dto.AuthorizationType;
 import com.unitvectory.auth.server.manage.dto.ClientType;
 import com.unitvectory.auth.server.manage.dto.ResponseType;
+import com.unitvectory.auth.server.manage.mapper.RequestJwtMapper;
 import com.unitvectory.auth.server.manage.service.AuthorizationService;
 
 /**
@@ -37,13 +40,17 @@ public class AuthorizationResolver {
 	private AuthorizationService authorizationService;
 
 	@MutationMapping
-	public ResponseType authorize(@Argument String subject, @Argument String audience) {
-		return this.authorizationService.authorize(subject, audience);
+	public ResponseType authorize(@Argument String subject, @Argument String audience,
+			@AuthenticationPrincipal Jwt jwt) {
+		return this.authorizationService.authorize(subject, audience,
+				RequestJwtMapper.INSTANCE.requestJwt(jwt));
 	}
 
 	@MutationMapping
-	public ResponseType deauthorize(@Argument String subject, @Argument String audience) {
-		return this.authorizationService.deauthorize(subject, audience);
+	public ResponseType deauthorize(@Argument String subject, @Argument String audience,
+			@AuthenticationPrincipal Jwt jwt) {
+		return this.authorizationService.deauthorize(subject, audience,
+				RequestJwtMapper.INSTANCE.requestJwt(jwt));
 	}
 
 	@QueryMapping

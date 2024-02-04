@@ -16,7 +16,6 @@ package com.unitvectory.auth.server.manage.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.graphql.data.method.annotation.Argument;
 import org.springframework.graphql.data.method.annotation.MutationMapping;
 import org.springframework.graphql.data.method.annotation.QueryMapping;
@@ -30,8 +29,9 @@ import com.unitvectory.auth.server.manage.dto.ClientManagementCapabilitiesType;
 import com.unitvectory.auth.server.manage.dto.ClientSecretType;
 import com.unitvectory.auth.server.manage.dto.ClientType;
 import com.unitvectory.auth.server.manage.dto.ResponseType;
-import com.unitvectory.auth.server.manage.dto.ClientManagementCapabilitiesType.ClientManagementCapabilitiesTypeBuilder;
+import com.unitvectory.auth.server.manage.mapper.RequestJwtMapper;
 import com.unitvectory.auth.server.manage.service.ClientService;
+import com.unitvectory.auth.server.manage.service.ManagementCapabilitiesService;
 
 /**
  * The GraphQL Client Resolver
@@ -41,11 +41,11 @@ import com.unitvectory.auth.server.manage.service.ClientService;
 @Controller
 public class ClientResolver {
 
-	@Value("${sac.issuer}")
-	private String issuer;
-
 	@Autowired
 	private ClientService clientService;
+
+	@Autowired
+	private ManagementCapabilitiesService managementCapabilitiesService;
 
 	@MutationMapping
 	public ClientType addClient(@Argument String clientId, @Argument String description) {
@@ -53,39 +53,51 @@ public class ClientResolver {
 	}
 
 	@MutationMapping
-	public ResponseType deleteClient(@Argument String clientId) {
-		return this.clientService.deleteClient(clientId);
+	public ResponseType deleteClient(@Argument String clientId, @AuthenticationPrincipal Jwt jwt) {
+		return this.clientService.deleteClient(clientId, RequestJwtMapper.INSTANCE.requestJwt(jwt));
 	}
 
 	@MutationMapping
-	public ClientSecretType generateClientSecret1(@Argument String clientId) {
-		return this.clientService.generateClientSecret1(clientId);
+	public ClientSecretType generateClientSecret1(@Argument String clientId,
+			@AuthenticationPrincipal Jwt jwt) {
+		return this.clientService.generateClientSecret1(clientId,
+				RequestJwtMapper.INSTANCE.requestJwt(jwt));
 	}
 
 	@MutationMapping
-	public ClientSecretType generateClientSecret2(@Argument String clientId) {
-		return this.clientService.generateClientSecret2(clientId);
+	public ClientSecretType generateClientSecret2(@Argument String clientId,
+			@AuthenticationPrincipal Jwt jwt) {
+		return this.clientService.generateClientSecret2(clientId,
+				RequestJwtMapper.INSTANCE.requestJwt(jwt));
 	}
 
 	@MutationMapping
-	public ClientSecretType clearClientSecret1(@Argument String clientId) {
-		return this.clientService.clearClientSecret1(clientId);
+	public ClientSecretType clearClientSecret1(@Argument String clientId,
+			@AuthenticationPrincipal Jwt jwt) {
+		return this.clientService.clearClientSecret1(clientId,
+				RequestJwtMapper.INSTANCE.requestJwt(jwt));
 	}
 
 	@MutationMapping
-	public ClientSecretType clearClientSecret2(@Argument String clientId) {
-		return this.clientService.clearClientSecret2(clientId);
+	public ClientSecretType clearClientSecret2(@Argument String clientId,
+			@AuthenticationPrincipal Jwt jwt) {
+		return this.clientService.clearClientSecret2(clientId,
+				RequestJwtMapper.INSTANCE.requestJwt(jwt));
 	}
 
 	@MutationMapping
 	public ResponseType authorizeJwtBearer(@Argument String clientId, @Argument String jwksUrl,
-			@Argument String iss, @Argument String sub, @Argument String aud) {
-		return this.clientService.authorizeJwtBearer(clientId, jwksUrl, iss, sub, aud);
+			@Argument String iss, @Argument String sub, @Argument String aud,
+			@AuthenticationPrincipal Jwt jwt) {
+		return this.clientService.authorizeJwtBearer(clientId, jwksUrl, iss, sub, aud,
+				RequestJwtMapper.INSTANCE.requestJwt(jwt));
 	}
 
 	@MutationMapping
-	public ResponseType deauthorizeJwtBearer(@Argument String clientId, @Argument String id) {
-		return this.clientService.deauthorizeJwtBearer(clientId, id);
+	public ResponseType deauthorizeJwtBearer(@Argument String clientId, @Argument String id,
+			@AuthenticationPrincipal Jwt jwt) {
+		return this.clientService.deauthorizeJwtBearer(clientId, id,
+				RequestJwtMapper.INSTANCE.requestJwt(jwt));
 	}
 
 	@QueryMapping
@@ -96,48 +108,8 @@ public class ClientResolver {
 	@SchemaMapping(typeName = "Client", field = "managementPermissions")
 	public ClientManagementCapabilitiesType clientManagementCapabilities(ClientType client,
 			@AuthenticationPrincipal Jwt jwt) {
-		ClientManagementCapabilitiesTypeBuilder builder =
-				ClientManagementCapabilitiesType.builder();
-
-		boolean canDeleteClient = true;
-		boolean canAddClientSecret = true;
-		boolean canDeleteClientSecret = true;
-		boolean canAddClientAuthorization = true;
-		boolean canAddAuthorization = true;
-		boolean canDeleteAuthorization = true;
-
-		// User records are limited in what they can do
-		if ("USER".equals(client.getClientType())) {
-			canAddClientSecret = false;
-			canDeleteClientSecret = false;
-			canAddClientAuthorization = false;
-			canAddAuthorization = false;
-			canDeleteAuthorization = false;
-		}
-
-		// The Issuer application is highly limited as well
-		if (this.issuer.equals(client.getClientId())) {
-			canDeleteClient = false;
-			canAddClientSecret = false;
-			canDeleteClientSecret = false;
-			canAddClientAuthorization = false;
-			canAddAuthorization = false;
-			canDeleteAuthorization = false;
-		}
-
-		// If the subject of the JWT matches the clientId then it can't be deleted
-		if (jwt.getSubject().equals(client.getClientId())) {
-			canDeleteClient = false;
-		}
-
-		builder.canDeleteClient(canDeleteClient);
-		builder.canAddClientSecret(canAddClientSecret);
-		builder.canDeleteClientSecret(canDeleteClientSecret);
-		builder.canAddClientAuthorization(canAddClientAuthorization);
-		builder.canAddAuthorization(canAddAuthorization);
-		builder.canDeleteAuthorization(canDeleteAuthorization);
-
-		return builder.build();
+		return this.managementCapabilitiesService.getClientManagementCapabilities(client,
+				RequestJwtMapper.INSTANCE.requestJwt(jwt));
 	}
 
 
