@@ -64,7 +64,8 @@ public class DatamodelGcpConfig {
 
 	@Bean
 	public AuthorizationRepository authorizationRepository() {
-		return new FirestoreAuthorizationRepository(this.firestore, this.collectionAuthorizations);
+		return new FirestoreAuthorizationRepository(this.firestore, this.collectionAuthorizations,
+				this.timeService);
 	}
 
 	@Bean

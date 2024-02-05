@@ -56,7 +56,7 @@ public class TestServiceAuthCentralConfig {
 
 	@Bean
 	public AuthorizationRepository authorizationRepository() {
-		return new MemoryAuthorizationRepository();
+		return new MemoryAuthorizationRepository(this.timeService());
 	}
 
 	@Bean

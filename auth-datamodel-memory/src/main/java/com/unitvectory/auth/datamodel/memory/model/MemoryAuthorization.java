@@ -29,6 +29,8 @@ import lombok.Value;
 @Builder
 public class MemoryAuthorization implements Authorization {
 
+	private String authorizationCreated;
+
 	private String subject;
 
 	private String audience;

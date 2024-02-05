@@ -27,6 +27,8 @@ public class AuthorizationType {
 
 	private final String id;
 
+	private final String authorizationCreated;
+
 	private final String subjectId;
 
 	private final String audienceId;

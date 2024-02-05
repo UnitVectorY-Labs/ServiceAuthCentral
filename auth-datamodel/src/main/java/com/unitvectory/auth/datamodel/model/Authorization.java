@@ -28,6 +28,13 @@ public interface Authorization {
 	String getDocumentId();
 
 	/**
+	 * Returns the timestamp the authorization was created
+	 * 
+	 * @return the timestamp
+	 */
+	String getAuthorizationCreated();
+
+	/**
 	 * the client that is authorized as the subject for a token exchange
 	 * 
 	 * @return the clientId for the subject

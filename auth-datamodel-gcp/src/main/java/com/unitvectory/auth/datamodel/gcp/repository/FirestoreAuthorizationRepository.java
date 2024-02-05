@@ -23,6 +23,7 @@ import com.google.cloud.firestore.DocumentSnapshot;
 import com.google.cloud.firestore.Firestore;
 import com.google.cloud.firestore.QueryDocumentSnapshot;
 import com.google.cloud.firestore.QuerySnapshot;
+import com.unitvectory.auth.common.service.time.TimeService;
 import com.unitvectory.auth.datamodel.gcp.model.AuthorizationRecord;
 import com.unitvectory.auth.datamodel.model.Authorization;
 import com.unitvectory.auth.datamodel.repository.AuthorizationRepository;
@@ -48,6 +49,8 @@ public class FirestoreAuthorizationRepository implements AuthorizationRepository
 	private Firestore firestore;
 
 	private String collectionAuthorizations;
+
+	private TimeService timeService;
 
 	@Override
 	public Authorization getAuthorization(@NonNull String id) {
@@ -133,8 +136,9 @@ public class FirestoreAuthorizationRepository implements AuthorizationRepository
 
 	@Override
 	public void authorize(@NonNull String subject, @NonNull String audience) {
-		AuthorizationRecord record =
-				AuthorizationRecord.builder().subject(subject).audience(audience).build();
+		AuthorizationRecord record = AuthorizationRecord.builder()
+				.authorizationCreated(this.timeService.getCurrentTimestamp()).subject(subject)
+				.audience(audience).build();
 		String documentId = getDocumentId(subject, audience);
 		DocumentReference docRef =
 				this.firestore.collection(this.collectionAuthorizations).document(documentId);

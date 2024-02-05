@@ -15,7 +15,6 @@ package com.unitvectory.auth.datamodel.couchbase.repository;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 import com.couchbase.client.core.error.DocumentNotFoundException;

@@ -16,7 +16,7 @@ package com.unitvectory.auth.datamodel.memory.repository;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-
+import com.unitvectory.auth.common.service.time.TimeService;
 import com.unitvectory.auth.datamodel.memory.model.MemoryAuthorization;
 import com.unitvectory.auth.datamodel.model.Authorization;
 import com.unitvectory.auth.datamodel.repository.AuthorizationRepository;
@@ -32,8 +32,11 @@ public class MemoryAuthorizationRepository implements AuthorizationRepository {
 
 	private List<MemoryAuthorization> authorizations;
 
-	public MemoryAuthorizationRepository() {
+	private TimeService timeService;
+
+	public MemoryAuthorizationRepository(TimeService timeService) {
 		this.authorizations = new ArrayList<>();
+		this.timeService = timeService;
 	}
 
 	public void reset() {
@@ -104,8 +107,9 @@ public class MemoryAuthorizationRepository implements AuthorizationRepository {
 			}
 		}
 
-		this.authorizations
-				.add(MemoryAuthorization.builder().subject(subject).audience(audience).build());
+		this.authorizations.add(MemoryAuthorization.builder()
+				.authorizationCreated(this.timeService.getCurrentTimestamp()).subject(subject)
+				.audience(audience).build());
 	}
 
 	@Override

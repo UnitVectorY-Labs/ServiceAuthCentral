@@ -31,6 +31,7 @@ public interface AuthorizationMapper {
 	AuthorizationMapper INSTANCE = Mappers.getMapper(AuthorizationMapper.class);
 
 	@Mapping(target = "id", source = "documentId")
+	@Mapping(target = "authorizationCreated", source = "authorizationCreated")
 	@Mapping(target = "subjectId", source = "subject")
 	@Mapping(target = "audienceId", source = "audience")
 	AuthorizationType authorizationToAuthorizationType(Authorization authorization);

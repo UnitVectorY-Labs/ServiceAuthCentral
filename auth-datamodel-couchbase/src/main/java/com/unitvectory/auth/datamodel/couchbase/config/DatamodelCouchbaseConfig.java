@@ -77,7 +77,7 @@ public class DatamodelCouchbaseConfig {
 		Scope scope = bucket.scope(this.scope);
 		Collection collection = scope.collection(this.collectionAuthorizations);
 
-		return new CouchbaseAuthorizationRepository(couchbaseCluster, collection);
+		return new CouchbaseAuthorizationRepository(couchbaseCluster, collection, timeService);
 	}
 
 	@Bean

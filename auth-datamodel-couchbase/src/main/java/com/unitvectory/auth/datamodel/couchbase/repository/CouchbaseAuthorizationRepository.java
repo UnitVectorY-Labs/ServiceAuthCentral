@@ -22,6 +22,7 @@ import com.couchbase.client.java.Collection;
 import com.couchbase.client.java.json.JsonObject;
 import com.couchbase.client.java.query.QueryOptions;
 import com.couchbase.client.java.query.QueryResult;
+import com.unitvectory.auth.common.service.time.TimeService;
 import com.unitvectory.auth.datamodel.couchbase.model.AuthorizationRecord;
 import com.unitvectory.auth.datamodel.model.Authorization;
 import com.unitvectory.auth.datamodel.repository.AuthorizationRepository;
@@ -41,6 +42,8 @@ public class CouchbaseAuthorizationRepository implements AuthorizationRepository
 	private final Cluster couchbaseCluster;
 
 	private final Collection collectionAuthorizations;
+
+	private final TimeService timeService;
 
 	@Override
 	public Authorization getAuthorization(@NonNull String id) {
@@ -99,8 +102,9 @@ public class CouchbaseAuthorizationRepository implements AuthorizationRepository
 	@Override
 	public void authorize(@NonNull String subject, @NonNull String audience) {
 		String docId = getDocumentId(subject, audience);
-		AuthorizationRecord record =
-				AuthorizationRecord.builder().subject(subject).audience(audience).build();
+		AuthorizationRecord record = AuthorizationRecord.builder()
+				.authorizationCreated(this.timeService.getCurrentTimestamp()).subject(subject)
+				.audience(audience).build();
 		this.collectionAuthorizations.insert(docId, record);
 	}
 

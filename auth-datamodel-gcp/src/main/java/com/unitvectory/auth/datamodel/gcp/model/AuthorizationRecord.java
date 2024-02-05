@@ -37,6 +37,8 @@ public class AuthorizationRecord implements Authorization {
 	@DocumentId
 	private String documentId;
 
+	private String authorizationCreated;
+
 	private String subject;
 
 	private String audience;

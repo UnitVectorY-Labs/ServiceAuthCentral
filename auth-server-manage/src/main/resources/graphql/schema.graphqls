@@ -85,6 +85,7 @@ type JwtBearer {
 
 type Authorization {
   id: ID!
+  authorizationCreated: String
   subject: Client
   audience: Client
 }
