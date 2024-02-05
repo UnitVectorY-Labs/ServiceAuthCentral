@@ -20,6 +20,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 
 import com.google.cloud.firestore.Firestore;
+import com.unitvectory.auth.common.service.time.TimeService;
 import com.unitvectory.auth.datamodel.gcp.repository.FirestoreAuthorizationRepository;
 import com.unitvectory.auth.datamodel.gcp.repository.FirestoreClientRepository;
 import com.unitvectory.auth.datamodel.gcp.repository.FirestoreJwkCacheRepository;
@@ -43,6 +44,9 @@ public class DatamodelGcpConfig {
 	@Autowired
 	private Firestore firestore;
 
+	@Autowired
+	private TimeService timeService;
+
 	@Value("${sac.datamodel.gcp.collection.authorizations:authorizations}")
 	private String collectionAuthorizations;
 
@@ -65,7 +69,8 @@ public class DatamodelGcpConfig {
 
 	@Bean
 	public ClientRepository clientRepository() {
-		return new FirestoreClientRepository(this.firestore, this.collectionClients);
+		return new FirestoreClientRepository(this.firestore, this.collectionClients,
+				this.timeService);
 	}
 
 	@Bean

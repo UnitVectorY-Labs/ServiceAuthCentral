@@ -33,6 +33,8 @@ public class MemoryClient implements Client {
 
 	private String clientId;
 
+	private String clientCreated;
+
 	private String description;
 
 	private String salt;
@@ -41,7 +43,11 @@ public class MemoryClient implements Client {
 
 	private String clientSecret1;
 
+	private String clientSecret1Updated;
+
 	private String clientSecret2;
+
+	private String clientSecret2Updated;
 
 	private List<ClientJwtBearer> jwtBearer;
 

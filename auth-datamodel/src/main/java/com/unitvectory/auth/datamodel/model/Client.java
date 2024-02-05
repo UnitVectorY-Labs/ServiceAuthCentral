@@ -27,6 +27,13 @@ import lombok.NonNull;
 public interface Client {
 
 	/**
+	 * Returns the timestamp the client was created
+	 * 
+	 * @return the timestamp
+	 */
+	String getClientCreated();
+
+	/**
 	 * Returns the unique identifier for the client.
 	 *
 	 * @return the client ID.
@@ -62,11 +69,26 @@ public interface Client {
 	String getClientSecret1();
 
 	/**
+	 * Returns the timestamp the clientSecret1 was updated.
+	 * 
+	 * @return the timestamp
+	 */
+	String getClientSecret1Updated();
+
+	/**
 	 * Returns the second client secret as hashed value; may be null if not set.
 	 *
 	 * @return the second client secret.
 	 */
 	String getClientSecret2();
+
+
+	/**
+	 * Returns the timestamp the clientSecret2 was updated.
+	 * 
+	 * @return the timestamp
+	 */
+	String getClientSecret2Updated();
 
 	/**
 	 * Returns a list of JWT Bearer details associated with the client.

@@ -23,6 +23,7 @@ import com.couchbase.client.java.Bucket;
 import com.couchbase.client.java.Cluster;
 import com.couchbase.client.java.Collection;
 import com.couchbase.client.java.Scope;
+import com.unitvectory.auth.common.service.time.TimeService;
 import com.unitvectory.auth.datamodel.couchbase.repository.CouchbaseAuthorizationRepository;
 import com.unitvectory.auth.datamodel.couchbase.repository.CouchbaseClientRepository;
 import com.unitvectory.auth.datamodel.couchbase.repository.CouchbaseJwkCacheRepository;
@@ -45,6 +46,9 @@ public class DatamodelCouchbaseConfig {
 
 	@Autowired
 	private Cluster couchbaseCluster;
+
+	@Autowired
+	private TimeService timeService;
 
 	@Value("${sac.datamodel.couchbase.bucket:serviceauthcentral}")
 	private String bucket;
@@ -82,7 +86,7 @@ public class DatamodelCouchbaseConfig {
 		Scope scope = bucket.scope(this.scope);
 		Collection collection = scope.collection(this.collectionClients);
 
-		return new CouchbaseClientRepository(couchbaseCluster, collection);
+		return new CouchbaseClientRepository(couchbaseCluster, collection, timeService);
 	}
 
 	@Bean

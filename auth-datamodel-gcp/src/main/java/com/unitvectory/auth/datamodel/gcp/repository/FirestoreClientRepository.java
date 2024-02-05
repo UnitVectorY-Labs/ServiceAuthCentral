@@ -17,17 +17,19 @@ import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Base64;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.ExecutionException;
 
 import javax.annotation.Nonnull;
-
 import com.google.cloud.firestore.DocumentReference;
 import com.google.cloud.firestore.DocumentSnapshot;
 import com.google.cloud.firestore.Firestore;
 import com.google.cloud.firestore.Query;
 import com.google.cloud.firestore.QueryDocumentSnapshot;
 import com.google.cloud.firestore.QuerySnapshot;
+import com.unitvectory.auth.common.service.time.TimeService;
 import com.unitvectory.auth.datamodel.gcp.model.ClientJwtBearerRecord;
 import com.unitvectory.auth.datamodel.gcp.model.ClientRecord;
 import com.unitvectory.auth.datamodel.gcp.model.ClientSummaryRecord;
@@ -64,6 +66,8 @@ public class FirestoreClientRepository implements ClientRepository {
 	private Firestore firestore;
 
 	private String collectionClients;
+
+	private TimeService timeService;
 
 	@Override
 	public ClientSummaryConnection getClients(Integer first, String after, Integer last,
@@ -218,6 +222,7 @@ public class FirestoreClientRepository implements ClientRepository {
 				if (!snapshot.exists()) {
 					@Nonnull
 					ClientRecord record = ClientRecord.builder().documentId(documentId)
+							.clientCreated(this.timeService.getCurrentTimestamp())
 							.clientId(clientId).description(description).salt(salt)
 							.clientType(clientType).build();
 
@@ -340,9 +345,12 @@ public class FirestoreClientRepository implements ClientRepository {
 
 		String documentId = HashingUtil.sha256(clientId);
 
+		Map<String, Object> updates = new HashMap<>();
+		updates.put(CLIENTSECRET1, hashedSecret);
+		updates.put("clientSecret1Updated", this.timeService.getCurrentTimestamp());
+
 		try {
-			firestore.collection(this.collectionClients).document(documentId)
-					.update(CLIENTSECRET1, hashedSecret).get();
+			firestore.collection(this.collectionClients).document(documentId).update(updates).get();
 		} catch (InterruptedException | ExecutionException e) {
 			throw new InternalServerErrorException(e);
 		}
@@ -353,9 +361,12 @@ public class FirestoreClientRepository implements ClientRepository {
 
 		String documentId = HashingUtil.sha256(clientId);
 
+		Map<String, Object> updates = new HashMap<>();
+		updates.put(CLIENTSECRET2, hashedSecret);
+		updates.put("clientSecret2Updated", this.timeService.getCurrentTimestamp());
+
 		try {
-			firestore.collection(this.collectionClients).document(documentId)
-					.update(CLIENTSECRET2, hashedSecret).get();
+			firestore.collection(this.collectionClients).document(documentId).update(updates).get();
 		} catch (InterruptedException | ExecutionException e) {
 			throw new InternalServerErrorException(e);
 		}
@@ -366,9 +377,12 @@ public class FirestoreClientRepository implements ClientRepository {
 
 		String documentId = HashingUtil.sha256(clientId);
 
+		Map<String, Object> updates = new HashMap<>();
+		updates.put(CLIENTSECRET1, null);
+		updates.put("clientSecret1Updated", this.timeService.getCurrentTimestamp());
+
 		try {
-			firestore.collection(this.collectionClients).document(documentId)
-					.update(CLIENTSECRET1, null).get();
+			firestore.collection(this.collectionClients).document(documentId).update(updates).get();
 		} catch (InterruptedException | ExecutionException e) {
 			throw new InternalServerErrorException(e);
 		}
@@ -379,9 +393,12 @@ public class FirestoreClientRepository implements ClientRepository {
 
 		String documentId = HashingUtil.sha256(clientId);
 
+		Map<String, Object> updates = new HashMap<>();
+		updates.put(CLIENTSECRET2, null);
+		updates.put("clientSecret2Updated", this.timeService.getCurrentTimestamp());
+
 		try {
-			firestore.collection(this.collectionClients).document(documentId)
-					.update(CLIENTSECRET2, null).get();
+			firestore.collection(this.collectionClients).document(documentId).update(updates).get();
 		} catch (InterruptedException | ExecutionException e) {
 			throw new InternalServerErrorException(e);
 		}

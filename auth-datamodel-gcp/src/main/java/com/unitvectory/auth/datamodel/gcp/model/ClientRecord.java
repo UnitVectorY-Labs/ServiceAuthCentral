@@ -44,6 +44,8 @@ public class ClientRecord implements Client {
 	@DocumentId
 	private String documentId;
 
+	private String clientCreated;
+
 	private String clientId;
 
 	private String description;
@@ -54,7 +56,11 @@ public class ClientRecord implements Client {
 
 	private String clientSecret1;
 
+	private String clientSecret1Updated;
+
 	private String clientSecret2;
+
+	private String clientSecret2Updated;
 
 	private List<ClientJwtBearerRecord> jwtBearer;
 

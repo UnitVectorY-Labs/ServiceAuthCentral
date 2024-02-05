@@ -28,6 +28,8 @@ import com.google.cloud.firestore.CollectionReference;
 import com.google.cloud.firestore.DocumentReference;
 import com.google.cloud.firestore.DocumentSnapshot;
 import com.google.cloud.firestore.Firestore;
+import com.unitvectory.auth.common.service.time.StaticTimeService;
+import com.unitvectory.auth.common.service.time.TimeService;
 import com.unitvectory.auth.datamodel.gcp.model.ClientRecord;
 import com.unitvectory.auth.datamodel.model.Client;
 import com.unitvectory.auth.util.HashingUtil;
@@ -41,16 +43,20 @@ public class FirestoreClientRepositoryTest {
 
 	private static final String CLIENTS = "clients";
 
+	private final TimeService timeService = new StaticTimeService(0);
+
 	@Test
 	public void testNoArgs() throws InterruptedException, ExecutionException {
-		FirestoreClientRepository repository = new FirestoreClientRepository(null, CLIENTS);
+		FirestoreClientRepository repository =
+				new FirestoreClientRepository(null, CLIENTS, timeService);
 		assertNotNull(repository);
 	}
 
 	@Test
 	public void testGetClient_NoClientId() throws InterruptedException, ExecutionException {
 		Firestore firestore = Mockito.mock(Firestore.class);
-		FirestoreClientRepository repository = new FirestoreClientRepository(firestore, CLIENTS);
+		FirestoreClientRepository repository =
+				new FirestoreClientRepository(firestore, CLIENTS, timeService);
 
 		NullPointerException thrown =
 				assertThrows(NullPointerException.class, () -> repository.getClient(null),
@@ -62,7 +68,8 @@ public class FirestoreClientRepositoryTest {
 	@Test
 	public void testGetClient_InvalidClientId() throws InterruptedException, ExecutionException {
 		Firestore firestore = Mockito.mock(Firestore.class);
-		FirestoreClientRepository repository = new FirestoreClientRepository(firestore, CLIENTS);
+		FirestoreClientRepository repository =
+				new FirestoreClientRepository(firestore, CLIENTS, timeService);
 
 		// Mock Firestore dependencies
 		CollectionReference collectionReference = Mockito.mock(CollectionReference.class);
@@ -102,7 +109,8 @@ public class FirestoreClientRepositoryTest {
 		Mockito.when(document.toObject(ClientRecord.class)).thenReturn(new ClientRecord());
 
 		// Use constructor injection or Spring's dependency injection
-		FirestoreClientRepository repository = new FirestoreClientRepository(firestore, CLIENTS);
+		FirestoreClientRepository repository =
+				new FirestoreClientRepository(firestore, CLIENTS, timeService);
 
 		// Execute and assert
 		Client client = repository.getClient("client-id");

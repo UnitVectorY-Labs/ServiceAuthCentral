@@ -13,6 +13,10 @@
  */
 package com.unitvectory.auth.common.service.time;
 
+import java.time.Instant;
+import java.time.ZoneOffset;
+import java.time.format.DateTimeFormatter;
+
 /**
  * Service interface to get the current time.
  * 
@@ -26,4 +30,14 @@ public interface TimeService {
 	 * @return the current time in seconds
 	 */
 	long getCurrentTimeSeconds();
+
+	/**
+	 * Gets the current timestamp.
+	 * 
+	 * @return the timestamp
+	 */
+	default String getCurrentTimestamp() {
+		return DateTimeFormatter.ISO_INSTANT
+				.format(Instant.ofEpochSecond(this.getCurrentTimeSeconds()).atZone(ZoneOffset.UTC));
+	}
 }

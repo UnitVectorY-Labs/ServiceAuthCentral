@@ -14,6 +14,7 @@
 package com.unitvectory.auth.datamodel.couchbase.repository;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -24,6 +25,7 @@ import com.couchbase.client.java.json.JsonObject;
 import com.couchbase.client.java.kv.MutateInSpec;
 import com.couchbase.client.java.query.QueryOptions;
 import com.couchbase.client.java.query.QueryResult;
+import com.unitvectory.auth.common.service.time.TimeService;
 import com.unitvectory.auth.datamodel.couchbase.model.ClientRecord;
 import com.unitvectory.auth.datamodel.couchbase.model.ClientSummaryRecord;
 import com.unitvectory.auth.datamodel.model.Client;
@@ -47,6 +49,8 @@ public class CouchbaseClientRepository implements ClientRepository {
 	private final Cluster couchbaseCluster;
 
 	private final Collection collectionClients;
+
+	private final TimeService timeService;
 
 	@Override
 	public ClientSummaryConnection getClients(Integer first, String after, Integer last,
@@ -118,8 +122,9 @@ public class CouchbaseClientRepository implements ClientRepository {
 	@Override
 	public void putClient(@NonNull String clientId, @NonNull String description,
 			@NonNull String salt, @NonNull ClientType clientType) {
-		ClientRecord client = ClientRecord.builder().clientId(clientId).description(description)
-				.salt(salt).clientType(clientType).build();
+		ClientRecord client = ClientRecord.builder()
+				.clientCreated(this.timeService.getCurrentTimestamp()).clientId(clientId)
+				.description(description).salt(salt).clientType(clientType).build();
 		this.collectionClients.insert(clientId, client);
 	}
 
@@ -155,26 +160,34 @@ public class CouchbaseClientRepository implements ClientRepository {
 
 	@Override
 	public void saveClientSecret1(@NonNull String clientId, @NonNull String hashedSecret) {
-		this.collectionClients.mutateIn(clientId,
-				Collections.singletonList(MutateInSpec.upsert("clientSecret1", hashedSecret)));
+		List<MutateInSpec> mutations =
+				Arrays.asList(MutateInSpec.upsert("clientSecret1", hashedSecret), MutateInSpec
+						.upsert("clientSecret1Updated", this.timeService.getCurrentTimestamp()));
+		this.collectionClients.mutateIn(clientId, mutations);
 	}
 
 	@Override
 	public void saveClientSecret2(@NonNull String clientId, @NonNull String hashedSecret) {
-		this.collectionClients.mutateIn(clientId,
-				Collections.singletonList(MutateInSpec.upsert("clientSecret2", hashedSecret)));
+		List<MutateInSpec> mutations =
+				Arrays.asList(MutateInSpec.upsert("clientSecret2", hashedSecret), MutateInSpec
+						.upsert("clientSecret2Updated", this.timeService.getCurrentTimestamp()));
+		this.collectionClients.mutateIn(clientId, mutations);
 	}
 
 	@Override
 	public void clearClientSecret1(@NonNull String clientId) {
-		this.collectionClients.mutateIn(clientId,
-				Collections.singletonList(MutateInSpec.upsert("clientSecret1", null)));
+		List<MutateInSpec> mutations =
+				Arrays.asList(MutateInSpec.upsert("clientSecret1", null), MutateInSpec
+						.upsert("clientSecret1Updated", this.timeService.getCurrentTimestamp()));
+		this.collectionClients.mutateIn(clientId, mutations);
 	}
 
 	@Override
 	public void clearClientSecret2(@NonNull String clientId) {
-		this.collectionClients.mutateIn(clientId,
-				Collections.singletonList(MutateInSpec.upsert("clientSecret2", null)));
+		List<MutateInSpec> mutations =
+				Arrays.asList(MutateInSpec.upsert("clientSecret2", null), MutateInSpec
+						.upsert("clientSecret2Updated", this.timeService.getCurrentTimestamp()));
+		this.collectionClients.mutateIn(clientId, mutations);
 	}
 
 }

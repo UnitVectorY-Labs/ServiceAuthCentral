@@ -31,10 +31,13 @@ public interface ClientMapper {
 	ClientMapper INSTANCE = Mappers.getMapper(ClientMapper.class);
 
 	@Mapping(target = "clientId", source = "clientId")
+	@Mapping(target = "clientCreated", source = "clientCreated")
 	@Mapping(target = "description", source = "description")
 	@Mapping(target = "clientType", source = "clientType")
 	@Mapping(target = "clientSecret1Set", expression = "java(client.getClientSecret1() != null)")
+	@Mapping(target = "clientSecret1Updated", source = "clientSecret1Updated")
 	@Mapping(target = "clientSecret2Set", expression = "java(client.getClientSecret2() != null)")
+	@Mapping(target = "clientSecret2Updated", source = "clientSecret2Updated")
 	@Mapping(target = "jwtBearer", source = "jwtBearer")
 	ClientType clientToClientType(Client client);
 }

@@ -29,13 +29,19 @@ public class ClientType {
 
 	private final String clientId;
 
+	private String clientCreated;
+
 	private final String description;
 
 	private final String clientType;
 
 	private final boolean clientSecret1Set;
 
+	private String clientSecret1Updated;
+
 	private final boolean clientSecret2Set;
+
+	private String clientSecret2Updated;
 
 	private final List<ClientJwtBearerType> jwtBearer;
 }

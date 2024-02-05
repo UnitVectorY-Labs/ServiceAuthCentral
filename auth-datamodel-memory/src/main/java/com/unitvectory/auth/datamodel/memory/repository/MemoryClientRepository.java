@@ -20,7 +20,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
-
+import com.unitvectory.auth.common.service.time.TimeService;
 import com.unitvectory.auth.datamodel.memory.mapper.MemoryClientSummaryMapper;
 import com.unitvectory.auth.datamodel.memory.model.MemoryClient;
 import com.unitvectory.auth.datamodel.memory.model.MemoryClientJwtBearer;
@@ -45,10 +45,13 @@ import lombok.Synchronized;
  */
 public class MemoryClientRepository implements ClientRepository {
 
+	private TimeService timeService;
+
 	private Map<String, MemoryClient> memory;
 
-	public MemoryClientRepository() {
+	public MemoryClientRepository(TimeService timeService) {
 		this.memory = new TreeMap<>();
+		this.timeService = timeService;
 	}
 
 	public void reset() {
@@ -126,8 +129,8 @@ public class MemoryClientRepository implements ClientRepository {
 			@NonNull String salt, @NonNull ClientType clientType) {
 		MemoryClient record = this.memory.get(clientId);
 		if (record == null) {
-			record = MemoryClient.builder().clientId(clientId).description(description).salt(salt)
-					.build();
+			record = MemoryClient.builder().clientCreated(this.timeService.getCurrentTimestamp())
+					.clientId(clientId).description(description).salt(salt).build();
 			this.memory.put(clientId, record);
 		} else {
 			throw new BadRequestException("client record already exists");
@@ -211,7 +214,8 @@ public class MemoryClientRepository implements ClientRepository {
 			throw new NotFoundException("client not found");
 		}
 
-		record = record.toBuilder().clientSecret1(hashedSecret).build();
+		record = record.toBuilder().clientSecret1(hashedSecret)
+				.clientSecret1Updated(this.timeService.getCurrentTimestamp()).build();
 		this.memory.put(clientId, record);
 	}
 
@@ -223,7 +227,8 @@ public class MemoryClientRepository implements ClientRepository {
 			throw new NotFoundException("client not found");
 		}
 
-		record = record.toBuilder().clientSecret2(hashedSecret).build();
+		record = record.toBuilder().clientSecret2(hashedSecret)
+				.clientSecret2Updated(this.timeService.getCurrentTimestamp()).build();
 		this.memory.put(clientId, record);
 	}
 
@@ -235,7 +240,8 @@ public class MemoryClientRepository implements ClientRepository {
 			throw new NotFoundException("client not found");
 		}
 
-		record = record.toBuilder().clientSecret1(null).build();
+		record = record.toBuilder().clientSecret1(null)
+				.clientSecret1Updated(this.timeService.getCurrentTimestamp()).build();
 		this.memory.put(clientId, record);
 	}
 
@@ -247,7 +253,8 @@ public class MemoryClientRepository implements ClientRepository {
 			throw new NotFoundException("client not found");
 		}
 
-		record = record.toBuilder().clientSecret2(null).build();
+		record = record.toBuilder().clientSecret2(null)
+				.clientSecret2Updated(this.timeService.getCurrentTimestamp()).build();
 		this.memory.put(clientId, record);
 	}
 }

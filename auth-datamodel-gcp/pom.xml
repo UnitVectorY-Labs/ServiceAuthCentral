@@ -15,6 +15,11 @@
     <dependencies>
         <dependency>
             <groupId>com.unitvectory</groupId>
+            <artifactId>auth-common</artifactId>
+            <version>${project.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>com.unitvectory</groupId>
             <artifactId>auth-util</artifactId>
             <version>${project.version}</version>
         </dependency>

@@ -18,6 +18,8 @@ import org.springframework.context.annotation.Configuration;
 
 import com.unitvectory.auth.common.service.entropy.EntropyService;
 import com.unitvectory.auth.common.service.entropy.SystemEntropyService;
+import com.unitvectory.auth.common.service.time.SystemTimeService;
+import com.unitvectory.auth.common.service.time.TimeService;
 import com.unitvectory.auth.server.manage.service.AuthorizationService;
 import com.unitvectory.auth.server.manage.service.ClientService;
 import com.unitvectory.auth.server.manage.service.DefaultAuthorizationService;
@@ -32,6 +34,11 @@ import com.unitvectory.auth.server.manage.service.ManagementCapabilitiesService;
  */
 @Configuration
 public class ServiceAuthCentralConfig {
+
+	@Bean
+	TimeService timeService() {
+		return new SystemTimeService();
+	}
 
 	@Bean
 	public EntropyService entropyService() {

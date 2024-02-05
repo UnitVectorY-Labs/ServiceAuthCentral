@@ -61,7 +61,7 @@ public class TestServiceAuthCentralConfig {
 
 	@Bean
 	public ClientRepository clientRepository() {
-		return new MemoryClientRepository();
+		return new MemoryClientRepository(this.timeService());
 	}
 
 	@Bean

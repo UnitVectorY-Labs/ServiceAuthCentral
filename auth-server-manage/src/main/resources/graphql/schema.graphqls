@@ -52,10 +52,13 @@ type ClientSummary {
 
 type Client {
   clientId: ID!
+  clientCreated: String
   description: String
   clientType: String
   clientSecret1Set: Boolean
+  clientSecret1Updated: String
   clientSecret2Set: Boolean
+  clientSecret2Updated: String
   authorizationsAsSubject: [Authorization]
   authorizationsAsAudience: [Authorization]
   jwtBearer: [JwtBearer]
