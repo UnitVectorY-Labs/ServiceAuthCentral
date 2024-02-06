@@ -38,8 +38,16 @@ type Mutation {
     authorizedScopes: [String]
   ): Response!
   deauthorize(subject: String!, audience: String!): Response!
-  #  authorizeAddScope(subject: String!, audience: String!, authorizedScope: String!): Response!
-  #  authorizeRemoveScope(subject: String!, audience: String!, authorizedScope: String!): Response!
+  authorizeAddScope(
+    subject: String!
+    audience: String!
+    authorizedScope: String!
+  ): Response!
+  authorizeRemoveScope(
+    subject: String!
+    audience: String!
+    authorizedScope: String!
+  ): Response!
 }
 
 type ClientSummaryConnection {
@@ -99,6 +107,8 @@ type ClientManagementCapabilities {
   canAddAvailableScope: Boolean!
   canAddAuthorization: Boolean!
   canDeleteAuthorization: Boolean!
+  canAuthorizeAddScope: Boolean!
+  canAuthorizeRemoveScope: Boolean!
 }
 
 type JwtBearer {

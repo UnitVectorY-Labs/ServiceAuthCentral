@@ -42,6 +42,8 @@ public class DefaultManagementCapabilitiesService implements ManagementCapabilit
         boolean canAddAvailableScope = true;
         boolean canAddAuthorization = true;
         boolean canDeleteAuthorization = true;
+        boolean canAuthorizeAddScope = true;
+        boolean canAuthorizeRemoveScope = true;
 
         // User records are limited in what they can do
         if ("USER".equals(client.getClientType())) {
@@ -52,6 +54,8 @@ public class DefaultManagementCapabilitiesService implements ManagementCapabilit
             canAddAvailableScope = false;
             canAddAuthorization = false;
             canDeleteAuthorization = false;
+            canAuthorizeAddScope = false;
+            canAuthorizeRemoveScope = false;
         }
 
         // The Issuer application is highly limited as well
@@ -62,6 +66,8 @@ public class DefaultManagementCapabilitiesService implements ManagementCapabilit
             canAddAvailableScope = false;
             canAddClientAuthorization = false;
             canDeleteClientAuthorization = false;
+            canAuthorizeAddScope = false;
+            canAuthorizeRemoveScope = false;
         }
 
         // If the subject of the JWT matches the clientId then it can't be deleted
@@ -74,7 +80,9 @@ public class DefaultManagementCapabilitiesService implements ManagementCapabilit
                 .canAddClientAuthorization(canAddClientAuthorization)
                 .canDeleteClientAuthorization(canDeleteClientAuthorization)
                 .canAddAvailableScope(canAddAvailableScope).canAddAuthorization(canAddAuthorization)
-                .canDeleteAuthorization(canDeleteAuthorization).build();
+                .canDeleteAuthorization(canDeleteAuthorization)
+                .canAuthorizeAddScope(canAuthorizeAddScope)
+                .canAuthorizeRemoveScope(canAuthorizeRemoveScope).build();
     }
 
 }

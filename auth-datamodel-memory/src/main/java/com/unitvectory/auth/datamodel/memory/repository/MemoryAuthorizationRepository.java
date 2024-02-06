@@ -20,7 +20,7 @@ import com.unitvectory.auth.common.service.time.TimeService;
 import com.unitvectory.auth.datamodel.memory.model.MemoryAuthorization;
 import com.unitvectory.auth.datamodel.model.Authorization;
 import com.unitvectory.auth.datamodel.repository.AuthorizationRepository;
-
+import com.unitvectory.auth.util.exception.InternalServerErrorException;
 import lombok.NonNull;
 
 /**
@@ -126,5 +126,42 @@ public class MemoryAuthorizationRepository implements AuthorizationRepository {
 		if (match != null) {
 			this.authorizations.remove(match);
 		}
+	}
+
+	@Override
+	public void authorizeAddScope(@NonNull String subject, @NonNull String audience,
+			@NonNull String authorizedScope) {
+		MemoryAuthorization a = null;
+		for (MemoryAuthorization auth : this.authorizations) {
+			if (auth.matches(subject, audience)) {
+				a = auth;
+				break;
+			}
+		}
+
+		if (a == null) {
+			throw new InternalServerErrorException("Authorization not found");
+		}
+
+		a.getAuthorizedScopes().add(authorizedScope);
+
+	}
+
+	@Override
+	public void authorizeRemoveScope(@NonNull String subject, @NonNull String audience,
+			@NonNull String authorizedScope) {
+		MemoryAuthorization a = null;
+		for (MemoryAuthorization auth : this.authorizations) {
+			if (auth.matches(subject, audience)) {
+				a = auth;
+				break;
+			}
+		}
+
+		if (a == null) {
+			throw new InternalServerErrorException("Authorization not found");
+		}
+
+		a.getAuthorizedScopes().remove(authorizedScope);
 	}
 }

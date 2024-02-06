@@ -20,6 +20,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.unitvectory.auth.datamodel.model.Authorization;
 import com.unitvectory.auth.datamodel.model.Client;
+import com.unitvectory.auth.datamodel.model.ClientScope;
 import com.unitvectory.auth.datamodel.repository.AuthorizationRepository;
 import com.unitvectory.auth.datamodel.repository.ClientRepository;
 import com.unitvectory.auth.server.manage.dto.AuthorizationType;
@@ -122,5 +123,79 @@ public class DefaultAuthorizationService implements AuthorizationService {
 	public ClientType audience(String audienceId) {
 		Client client = this.clientRepository.getClient(audienceId);
 		return ClientMapper.INSTANCE.clientToClientType(client);
+	}
+
+	@Override
+	public ResponseType authorizeAddScope(String subject, String audience, String authorizedScope,
+			RequestJwt jwt) {
+
+		Authorization authorization =
+				this.authorizationRepository.getAuthorization(subject, audience);
+		if (authorization == null) {
+			throw new BadRequestException("The authorization does not exist");
+		}
+
+		Client audienceClient = this.clientRepository.getClient(audience);
+		if (audienceClient == null) {
+			return ResponseType.builder().success(false).build();
+		}
+
+		ClientManagementCapabilitiesType managementCapabilities =
+				this.managementCapabilitiesService.getClientManagementCapabilities(
+						ClientMapper.INSTANCE.clientToClientType(audienceClient), jwt);
+		if (!managementCapabilities.isCanAuthorizeAddScope()) {
+			throw new BadRequestException("The client cannot add scope from authorization");
+		}
+
+		if (authorization.getAuthorizedScopes().contains(authorizedScope)) {
+			// The scope is already authorized
+			return ResponseType.builder().success(true).build();
+		}
+
+		boolean scopeAllowed = false;
+		for (ClientScope scope : audienceClient.getAvailableScopes()) {
+			if (scope.getScope().equals(authorizedScope)) {
+				scopeAllowed = true;
+				break;
+			}
+		}
+
+		if (!scopeAllowed) {
+			throw new BadRequestException("The scope is not authorized");
+		}
+
+
+
+		this.authorizationRepository.authorizeAddScope(subject, audience, authorizedScope);
+
+
+		return ResponseType.builder().success(true).build();
+	}
+
+	@Override
+	public ResponseType authorizeRemoveScope(String subject, String audience,
+			String authorizedScope, RequestJwt jwt) {
+
+		Authorization authorization =
+				this.authorizationRepository.getAuthorization(subject, audience);
+		if (authorization == null) {
+			throw new BadRequestException("The authorization does not exist");
+		}
+
+		Client audienceClient = this.clientRepository.getClient(audience);
+		if (audienceClient == null) {
+			return ResponseType.builder().success(false).build();
+		}
+
+		ClientManagementCapabilitiesType managementCapabilities =
+				this.managementCapabilitiesService.getClientManagementCapabilities(
+						ClientMapper.INSTANCE.clientToClientType(audienceClient), jwt);
+		if (!managementCapabilities.isCanAuthorizeRemoveScope()) {
+			throw new BadRequestException("The client cannot remove scope from authorization");
+		}
+
+		this.authorizationRepository.authorizeRemoveScope(subject, audience, authorizedScope);
+
+		return ResponseType.builder().success(true).build();
 	}
 }

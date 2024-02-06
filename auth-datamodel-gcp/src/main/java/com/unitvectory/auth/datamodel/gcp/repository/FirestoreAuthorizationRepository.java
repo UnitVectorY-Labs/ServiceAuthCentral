@@ -24,12 +24,17 @@ import com.google.cloud.firestore.Firestore;
 import com.google.cloud.firestore.QueryDocumentSnapshot;
 import com.google.cloud.firestore.QuerySnapshot;
 import com.unitvectory.auth.common.service.time.TimeService;
+import com.unitvectory.auth.datamodel.gcp.mapper.ClientScopeMapper;
 import com.unitvectory.auth.datamodel.gcp.model.AuthorizationRecord;
+import com.unitvectory.auth.datamodel.gcp.model.ClientRecord;
+import com.unitvectory.auth.datamodel.gcp.model.ClientScopeRecord;
 import com.unitvectory.auth.datamodel.model.Authorization;
+import com.unitvectory.auth.datamodel.model.ClientScope;
 import com.unitvectory.auth.datamodel.repository.AuthorizationRepository;
 import com.unitvectory.auth.util.HashingUtil;
+import com.unitvectory.auth.util.exception.BadRequestException;
 import com.unitvectory.auth.util.exception.InternalServerErrorException;
-
+import com.unitvectory.auth.util.exception.NotFoundException;
 import lombok.AllArgsConstructor;
 import lombok.NonNull;
 
@@ -152,6 +157,74 @@ public class FirestoreAuthorizationRepository implements AuthorizationRepository
 		DocumentReference docRef =
 				this.firestore.collection(this.collectionAuthorizations).document(documentId);
 		docRef.delete();
+	}
+
+	@Override
+	public void authorizeAddScope(@NonNull String subject, @NonNull String audience,
+			@NonNull String authorizedScope) {
+		String documentId = getDocumentId(subject, audience);
+
+		try {
+			DocumentReference docRef =
+					firestore.collection(this.collectionAuthorizations).document(documentId);
+			firestore.runTransaction(transaction -> {
+				DocumentSnapshot snapshot = transaction.get(docRef).get();
+
+				if (!snapshot.exists()) {
+					throw new NotFoundException("Client not found");
+				}
+
+				AuthorizationRecord record = snapshot.toObject(AuthorizationRecord.class);
+
+				if (record.getAuthorizedScopes().contains(authorizedScope)) {
+					throw new BadRequestException("Scope already authorized");
+				}
+
+				List<String> authorizedScopesList = new ArrayList<>();
+				if (record.getAuthorizedScopes() != null) {
+					authorizedScopesList.addAll(record.getAuthorizedScopes());
+				}
+
+				authorizedScopesList.add(authorizedScope);
+				transaction.update(docRef, "authorizedScopes", authorizedScopesList);
+
+				return null; // Firestore transactions require that you return something
+			}).get();
+		} catch (InterruptedException | ExecutionException e) {
+			throw new InternalServerErrorException(e);
+		}
+	}
+
+	@Override
+	public void authorizeRemoveScope(@NonNull String subject, @NonNull String audience,
+			@NonNull String authorizedScope) {
+		String documentId = getDocumentId(subject, audience);
+
+		try {
+			DocumentReference docRef =
+					firestore.collection(this.collectionAuthorizations).document(documentId);
+			firestore.runTransaction(transaction -> {
+				DocumentSnapshot snapshot = transaction.get(docRef).get();
+
+				if (!snapshot.exists()) {
+					throw new NotFoundException("Client not found");
+				}
+
+				AuthorizationRecord record = snapshot.toObject(AuthorizationRecord.class);
+
+				List<String> authorizedScopesList = new ArrayList<>();
+				if (record.getAuthorizedScopes() != null) {
+					authorizedScopesList.addAll(record.getAuthorizedScopes());
+				}
+
+				authorizedScopesList.remove(authorizedScope);
+				transaction.update(docRef, "authorizedScopes", authorizedScopesList);
+
+				return null; // Firestore transactions require that you return something
+			}).get();
+		} catch (InterruptedException | ExecutionException e) {
+			throw new InternalServerErrorException(e);
+		}
 	}
 
 	private String getDocumentId(@NonNull String subject, @NonNull String audience) {

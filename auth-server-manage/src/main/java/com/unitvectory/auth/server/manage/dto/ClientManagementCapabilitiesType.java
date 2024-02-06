@@ -40,4 +40,9 @@ public class ClientManagementCapabilitiesType {
     private final boolean canAddAuthorization;
 
     private final boolean canDeleteAuthorization;
+
+    private final boolean canAuthorizeAddScope;
+
+    private final boolean canAuthorizeRemoveScope;
+
 }

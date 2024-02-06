@@ -81,4 +81,22 @@ public interface AuthorizationRepository {
 	 * @param audience the clientId representing the audience of the authorization.
 	 */
 	void deauthorize(String subject, String audience);
+
+	/**
+	 * Add an authorized scope.
+	 * 
+	 * @param subject the clientId representing the subject of the authorization.
+	 * @param audience the clientId representing the audience of the authorization.
+	 * @param authorizedScope the scope
+	 */
+	void authorizeAddScope(String subject, String audience, String authorizedScope);
+
+	/**
+	 * Remove an authorized scope.
+	 * 
+	 * @param subject the clientId representing the subject of the authorization.
+	 * @param audience the clientId representing the audience of the authorization.
+	 * @param authorizedScope the scope
+	 */
+	void authorizeRemoveScope(String subject, String audience, String authorizedScope);
 }

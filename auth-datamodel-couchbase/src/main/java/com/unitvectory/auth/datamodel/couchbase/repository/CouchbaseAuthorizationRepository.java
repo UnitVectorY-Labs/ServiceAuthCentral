@@ -115,6 +115,40 @@ public class CouchbaseAuthorizationRepository implements AuthorizationRepository
 		this.collectionAuthorizations.remove(docId);
 	}
 
+	@Override
+	public void authorizeAddScope(@NonNull String subject, @NonNull String audience,
+			@NonNull String authorizedScope) {
+		String docId = getDocumentId(subject, audience);
+		String query = "UPDATE `" + this.collectionAuthorizations.bucketName() + "`.`"
+				+ this.collectionAuthorizations.scopeName() + "`.`"
+				+ this.collectionAuthorizations.name() + "` "
+				+ "SET authorizedScopes = ARRAY_APPEND(IFMISSINGORNULL(authorizedScopes, []), $authorizedScope) "
+				+ "WHERE meta().id = $docId";
+
+		JsonObject parameters =
+				JsonObject.create().put("authorizedScope", authorizedScope).put("docId", docId);
+
+		couchbaseCluster.query(query, QueryOptions.queryOptions().parameters(parameters));
+	}
+
+
+	@Override
+	public void authorizeRemoveScope(@NonNull String subject, @NonNull String audience,
+			@NonNull String authorizedScope) {
+		String docId = getDocumentId(subject, audience);
+		String query = "UPDATE `" + this.collectionAuthorizations.bucketName() + "`.`"
+				+ this.collectionAuthorizations.scopeName() + "`.`"
+				+ this.collectionAuthorizations.name() + "` "
+				+ "SET authorizedScopes = ARRAY v FOR v IN authorizedScopes WHEN v != $authorizedScope END "
+				+ "WHERE meta().id = $docId";
+
+		JsonObject parameters =
+				JsonObject.create().put("authorizedScope", authorizedScope).put("docId", docId);
+
+		couchbaseCluster.query(query, QueryOptions.queryOptions().parameters(parameters));
+	}
+
+
 	private String getDocumentId(@NonNull String subject, @NonNull String audience) {
 		String subjectHash = HashingUtil.sha256(subject);
 		String audienceHash = HashingUtil.sha256(audience);

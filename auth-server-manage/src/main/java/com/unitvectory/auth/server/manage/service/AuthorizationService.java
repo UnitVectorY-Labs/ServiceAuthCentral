@@ -36,4 +36,10 @@ public interface AuthorizationService {
 	ClientType subject(String subjectId);
 
 	ClientType audience(String audienceId);
+
+	ResponseType authorizeAddScope(String subject, String audience, String authorizedScope,
+			RequestJwt jwt);
+
+	ResponseType authorizeRemoveScope(String subject, String audience, String authorizedScope,
+			RequestJwt jwt);
 }

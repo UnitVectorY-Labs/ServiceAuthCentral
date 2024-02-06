@@ -84,6 +84,43 @@ public class AuthorizationResolver {
 				RequestJwtMapper.INSTANCE.requestJwt(jwt));
 	}
 
+	@MutationMapping
+	public ResponseType authorizeAddScope(@Argument String subject, @Argument String audience,
+			@Argument String authorizedScope, @AuthenticationPrincipal Jwt jwt) {
+
+		// Input Validation
+
+		if (subject == null || !subject.matches(InputPatterns.CLIENT_ID)) {
+			throw new BadRequestException("Invalid 'subject' attribute format.");
+		} else if (audience == null || !audience.matches(InputPatterns.CLIENT_ID)) {
+			throw new BadRequestException("Invalid 'audience' attribute format.");
+		} else if (!authorizedScope.matches(InputPatterns.SCOPE)) {
+			throw new BadRequestException("Invalid 'authorizedScope' attribute format.");
+		}
+
+		return this.authorizationService.authorizeAddScope(subject, audience, authorizedScope,
+				RequestJwtMapper.INSTANCE.requestJwt(jwt));
+	}
+
+	@MutationMapping
+	public ResponseType authorizeRemoveScope(@Argument String subject, @Argument String audience,
+			@Argument String authorizedScope, @AuthenticationPrincipal Jwt jwt) {
+
+		// Input Validation
+
+		if (subject == null || !subject.matches(InputPatterns.CLIENT_ID)) {
+			throw new BadRequestException("Invalid 'subject' attribute format.");
+		} else if (audience == null || !audience.matches(InputPatterns.CLIENT_ID)) {
+			throw new BadRequestException("Invalid 'audience' attribute format.");
+		} else if (!authorizedScope.matches(InputPatterns.SCOPE)) {
+			throw new BadRequestException("Invalid 'authorizedScope' attribute format.");
+		}
+
+		return this.authorizationService.authorizeRemoveScope(subject, audience, authorizedScope,
+				RequestJwtMapper.INSTANCE.requestJwt(jwt));
+	}
+
+
 	@QueryMapping
 	public AuthorizationType authorization(@Argument String id) {
 		return this.authorizationService.authorization(id);
