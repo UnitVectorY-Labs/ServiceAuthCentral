@@ -15,7 +15,7 @@ package com.unitvectory.auth.server.token.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
-
+import com.unitvectory.auth.common.InputPatterns;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import lombok.AllArgsConstructor;
@@ -40,27 +40,25 @@ public class TokenRequest {
 	private String grant_type;
 
 	@NotNull(message = "The request is missing the required parameter 'client_id'.")
-	@Pattern(regexp = "^(https:\\/\\/)?[a-zA-Z0-9-_:\\.]+$",
-			message = "Invalid 'client_id' attribute format.")
+	@Pattern(regexp = InputPatterns.CLIENT_ID, message = "Invalid 'client_id' attribute format.")
 	private String client_id;
 
-	@Pattern(regexp = "^[0-9a-zA-Z]{12,64}$", message = "Invalid 'client_secret' attribute format.")
+	@Pattern(regexp = InputPatterns.CLIENT_SECRET,
+			message = "Invalid 'client_secret' attribute format.")
 	private String client_secret;
 
-	@Pattern(regexp = "^(https:\\/\\/)?[a-zA-Z0-9-_:\\.]+$",
-			message = "Invalid 'audience' attribute format.")
+	@Pattern(regexp = InputPatterns.CLIENT_ID, message = "Invalid 'audience' attribute format.")
 	private String audience;
 
-	@Pattern(regexp = "^[A-Za-z0-9-_=]+\\.[A-Za-z0-9-_=]+\\.[A-Za-z0-9-_=]+$",
-			message = "Invalid 'assertion' attribute format.")
+	@Pattern(regexp = InputPatterns.JWT, message = "Invalid 'assertion' attribute format.")
 	private String assertion;
 
-	@Pattern(regexp = "^[0-9a-zA-Z]{12,64}$", message = "Invalid 'code' attribute format.")
+	@Pattern(regexp = InputPatterns.AUTH_CODE, message = "Invalid 'code' attribute format.")
 	private String code;
 
 	private String redirect_uri;
 
-	@Pattern(regexp = "^[0-9a-zA-Z]{10,200}$",
+	@Pattern(regexp = InputPatterns.PKCE_CODE_VERIFIER,
 			message = "Invalid 'code_verifier' attribute format.")
 	private String code_verifier;
 }

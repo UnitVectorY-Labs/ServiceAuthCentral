@@ -21,12 +21,13 @@ import org.springframework.graphql.data.method.annotation.SchemaMapping;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.stereotype.Controller;
-
+import com.unitvectory.auth.common.InputPatterns;
 import com.unitvectory.auth.server.manage.dto.AuthorizationType;
 import com.unitvectory.auth.server.manage.dto.ClientType;
 import com.unitvectory.auth.server.manage.dto.ResponseType;
 import com.unitvectory.auth.server.manage.mapper.RequestJwtMapper;
 import com.unitvectory.auth.server.manage.service.AuthorizationService;
+import com.unitvectory.auth.util.exception.BadRequestException;
 
 /**
  * The GraphQL Authorization Resolver
@@ -42,6 +43,15 @@ public class AuthorizationResolver {
 	@MutationMapping
 	public ResponseType authorize(@Argument String subject, @Argument String audience,
 			@AuthenticationPrincipal Jwt jwt) {
+
+		// Input Validation
+
+		if (subject == null || !subject.matches(InputPatterns.CLIENT_ID)) {
+			throw new BadRequestException("Invalid 'subject' attribute format.");
+		} else if (audience == null || !audience.matches(InputPatterns.CLIENT_ID)) {
+			throw new BadRequestException("Invalid 'audience' attribute format.");
+		}
+
 		return this.authorizationService.authorize(subject, audience,
 				RequestJwtMapper.INSTANCE.requestJwt(jwt));
 	}
@@ -49,6 +59,15 @@ public class AuthorizationResolver {
 	@MutationMapping
 	public ResponseType deauthorize(@Argument String subject, @Argument String audience,
 			@AuthenticationPrincipal Jwt jwt) {
+
+		// Input Validation
+
+		if (subject == null || !subject.matches(InputPatterns.CLIENT_ID)) {
+			throw new BadRequestException("Invalid 'subject' attribute format.");
+		} else if (audience == null || !audience.matches(InputPatterns.CLIENT_ID)) {
+			throw new BadRequestException("Invalid 'audience' attribute format.");
+		}
+
 		return this.authorizationService.deauthorize(subject, audience,
 				RequestJwtMapper.INSTANCE.requestJwt(jwt));
 	}
