@@ -13,6 +13,7 @@
  */
 package com.unitvectory.auth.server.token.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +23,7 @@ import org.springframework.stereotype.Service;
 import com.unitvectory.auth.common.service.entropy.EntropyService;
 import com.unitvectory.auth.common.service.time.TimeService;
 import com.unitvectory.auth.datamodel.model.Client;
+import com.unitvectory.auth.datamodel.model.ClientScope;
 import com.unitvectory.auth.datamodel.model.ClientType;
 import com.unitvectory.auth.datamodel.model.LoginState;
 import com.unitvectory.auth.datamodel.repository.ClientRepository;
@@ -169,7 +171,8 @@ public class LoginService {
 
 			String salt = this.entropyService.randomAlphaNumeric(32);
 			this.clientRepository.putClient(userClientId,
-					"GitHub User: " + userContext.getUserName(), salt, ClientType.USER);
+					"GitHub User: " + userContext.getUserName(), salt, ClientType.USER,
+					new ArrayList<ClientScope>());
 		}
 
 		// Now we can generate the data needed to redirect the user

@@ -26,6 +26,7 @@ import org.springframework.stereotype.Controller;
 
 import com.unitvectory.auth.server.manage.dto.AuthorizationType;
 import com.unitvectory.auth.server.manage.dto.ClientManagementCapabilitiesType;
+import com.unitvectory.auth.server.manage.dto.ClientScopeType;
 import com.unitvectory.auth.server.manage.dto.ClientSecretType;
 import com.unitvectory.auth.server.manage.dto.ClientType;
 import com.unitvectory.auth.server.manage.dto.ResponseType;
@@ -48,8 +49,9 @@ public class ClientResolver {
 	private ManagementCapabilitiesService managementCapabilitiesService;
 
 	@MutationMapping
-	public ClientType addClient(@Argument String clientId, @Argument String description) {
-		return this.clientService.addClient(clientId, description);
+	public ClientType addClient(@Argument String clientId, @Argument String description,
+			@Argument List<ClientScopeType> availableScopes) {
+		return this.clientService.addClient(clientId, description, availableScopes);
 	}
 
 	@MutationMapping

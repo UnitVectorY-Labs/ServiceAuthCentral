@@ -13,7 +13,9 @@
  */
 package com.unitvectory.auth.datamodel.repository;
 
+import java.util.List;
 import com.unitvectory.auth.datamodel.model.Client;
+import com.unitvectory.auth.datamodel.model.ClientScope;
 import com.unitvectory.auth.datamodel.model.ClientSummaryConnection;
 import com.unitvectory.auth.datamodel.model.ClientType;
 
@@ -62,8 +64,10 @@ public interface ClientRepository {
 	 * @param description a brief description of the client.
 	 * @param salt the salt to be used for hashing client secrets.
 	 * @param clientType the client type
+	 * @param availableScopes the available scopes
 	 */
-	void putClient(String clientId, String description, String salt, ClientType clientType);
+	void putClient(String clientId, String description, String salt, ClientType clientType,
+			List<ClientScope> availableScopes);
 
 	/**
 	 * Adds an authorized JWT to a client

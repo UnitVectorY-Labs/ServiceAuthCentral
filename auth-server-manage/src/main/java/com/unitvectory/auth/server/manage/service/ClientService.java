@@ -17,6 +17,7 @@ import java.util.List;
 
 import com.unitvectory.auth.datamodel.model.ClientSummaryConnection;
 import com.unitvectory.auth.server.manage.dto.AuthorizationType;
+import com.unitvectory.auth.server.manage.dto.ClientScopeType;
 import com.unitvectory.auth.server.manage.dto.ClientSecretType;
 import com.unitvectory.auth.server.manage.dto.ClientType;
 import com.unitvectory.auth.server.manage.dto.RequestJwt;
@@ -31,7 +32,8 @@ public interface ClientService {
 
 	ClientSummaryConnection getClients(Integer first, String after, Integer last, String before);
 
-	ClientType addClient(String clientId, String description);
+	ClientType addClient(String clientId, String description,
+			List<ClientScopeType> availableScopes);
 
 	ResponseType deleteClient(String clientId, RequestJwt jwt);
 

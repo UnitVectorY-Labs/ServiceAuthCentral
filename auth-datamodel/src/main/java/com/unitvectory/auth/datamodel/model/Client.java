@@ -91,6 +91,13 @@ public interface Client {
 	String getClientSecret2Updated();
 
 	/**
+	 * Returns the list of available scopes associated with the client.
+	 *
+	 * @return the list of scopes.
+	 */
+	List<ClientScope> getAvailableScopes();
+
+	/**
 	 * Returns a list of JWT Bearer details associated with the client.
 	 * 
 	 * These can be used in place of a secret for authentication.

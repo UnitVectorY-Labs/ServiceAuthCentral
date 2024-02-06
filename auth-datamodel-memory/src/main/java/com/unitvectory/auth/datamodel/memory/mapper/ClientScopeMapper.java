@@ -11,47 +11,29 @@
  * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
  */
-package com.unitvectory.auth.datamodel.memory.model;
+package com.unitvectory.auth.datamodel.memory.mapper;
 
 import java.util.List;
+import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
+import org.mapstruct.factory.Mappers;
 
-import com.unitvectory.auth.datamodel.model.Client;
-import com.unitvectory.auth.datamodel.model.ClientJwtBearer;
+import com.unitvectory.auth.datamodel.memory.model.MemoryClientScope;
 import com.unitvectory.auth.datamodel.model.ClientScope;
-import com.unitvectory.auth.datamodel.model.ClientType;
-
-import lombok.Builder;
-import lombok.Value;
 
 /**
- * The Memory Client
+ * The mapper for CachedJwkRecord
  * 
  * @author Jared Hatfield (UnitVectorY Labs)
  */
-@Value
-@Builder(toBuilder = true)
-public class MemoryClient implements Client {
+@Mapper
+public interface ClientScopeMapper {
 
-	private String clientId;
+    ClientScopeMapper INSTANCE = Mappers.getMapper(ClientScopeMapper.class);
 
-	private String clientCreated;
+    @Mapping(target = "scope", source = "scope")
+    @Mapping(target = "description", source = "description")
+    MemoryClientScope clientScopeToMemoryClientScope(ClientScope clientScope);
 
-	private String description;
-
-	private String salt;
-
-	private ClientType clientType;
-
-	private String clientSecret1;
-
-	private String clientSecret1Updated;
-
-	private String clientSecret2;
-
-	private String clientSecret2Updated;
-
-	private List<ClientScope> availableScopes;
-
-	private List<ClientJwtBearer> jwtBearer;
-
+    List<MemoryClientScope> clientScopeToMemoryClientScope(List<ClientScope> clientScopes);
 }

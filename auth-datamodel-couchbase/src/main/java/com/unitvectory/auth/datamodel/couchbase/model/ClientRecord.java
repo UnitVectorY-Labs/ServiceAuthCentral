@@ -20,6 +20,7 @@ import java.util.stream.Collectors;
 
 import com.unitvectory.auth.datamodel.model.Client;
 import com.unitvectory.auth.datamodel.model.ClientJwtBearer;
+import com.unitvectory.auth.datamodel.model.ClientScope;
 import com.unitvectory.auth.datamodel.model.ClientType;
 
 import lombok.AllArgsConstructor;
@@ -57,6 +58,18 @@ public class ClientRecord implements Client {
 	private String clientSecret2;
 
 	private String clientSecret2Updated;
+
+	private List<ClientScopeRecord> availableScopes;
+
+	@Override
+	public List<ClientScope> getAvailableScopes() {
+		if (this.availableScopes == null) {
+			return Collections.emptyList();
+		}
+
+		return availableScopes.stream().map(obj -> (ClientScope) obj)
+				.collect(Collectors.toCollection(ArrayList::new));
+	}
 
 	private List<ClientJwtBearerRecord> jwtBearer;
 

@@ -25,9 +25,11 @@ import com.couchbase.client.java.kv.MutateInSpec;
 import com.couchbase.client.java.query.QueryOptions;
 import com.couchbase.client.java.query.QueryResult;
 import com.unitvectory.auth.common.service.time.TimeService;
+import com.unitvectory.auth.datamodel.couchbase.mapper.ClientScopeMapper;
 import com.unitvectory.auth.datamodel.couchbase.model.ClientRecord;
 import com.unitvectory.auth.datamodel.couchbase.model.ClientSummaryRecord;
 import com.unitvectory.auth.datamodel.model.Client;
+import com.unitvectory.auth.datamodel.model.ClientScope;
 import com.unitvectory.auth.datamodel.model.ClientSummaryConnection;
 import com.unitvectory.auth.datamodel.model.ClientSummaryEdge;
 import com.unitvectory.auth.datamodel.model.ClientType;
@@ -120,10 +122,14 @@ public class CouchbaseClientRepository implements ClientRepository {
 
 	@Override
 	public void putClient(@NonNull String clientId, @NonNull String description,
-			@NonNull String salt, @NonNull ClientType clientType) {
+			@NonNull String salt, @NonNull ClientType clientType,
+			@NonNull List<ClientScope> availableScopes) {
 		ClientRecord client = ClientRecord.builder()
 				.clientCreated(this.timeService.getCurrentTimestamp()).clientId(clientId)
-				.description(description).salt(salt).clientType(clientType).build();
+				.description(description).salt(salt).clientType(clientType)
+				.availableScopes(
+						ClientScopeMapper.INSTANCE.clientScopeToClientScopeRecord(availableScopes))
+				.build();
 		this.collectionClients.insert(clientId, client);
 	}
 

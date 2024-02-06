@@ -13,6 +13,7 @@
  */
 package com.unitvectory.auth.server.manage.service;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Spliterator;
@@ -27,11 +28,13 @@ import com.unitvectory.auth.common.service.entropy.EntropyService;
 import com.unitvectory.auth.datamodel.model.Authorization;
 import com.unitvectory.auth.datamodel.model.Client;
 import com.unitvectory.auth.datamodel.model.ClientJwtBearer;
+import com.unitvectory.auth.datamodel.model.ClientScope;
 import com.unitvectory.auth.datamodel.model.ClientSummaryConnection;
 import com.unitvectory.auth.datamodel.repository.AuthorizationRepository;
 import com.unitvectory.auth.datamodel.repository.ClientRepository;
 import com.unitvectory.auth.server.manage.dto.AuthorizationType;
 import com.unitvectory.auth.server.manage.dto.ClientManagementCapabilitiesType;
+import com.unitvectory.auth.server.manage.dto.ClientScopeType;
 import com.unitvectory.auth.server.manage.dto.ClientSecretType;
 import com.unitvectory.auth.server.manage.dto.ClientType;
 import com.unitvectory.auth.server.manage.dto.RequestJwt;
@@ -98,7 +101,8 @@ public class DefaultClientService implements ClientService {
 	}
 
 	@Override
-	public ClientType addClient(String clientId, String description) {
+	public ClientType addClient(String clientId, String description,
+			List<ClientScopeType> availableScopes) {
 
 		// Application clientIds cannot start with 'user:'
 		if (clientId.toLowerCase().startsWith("user:")) {
@@ -109,11 +113,20 @@ public class DefaultClientService implements ClientService {
 					"Application 'clientId' cannot start with 'provider:' as this is reserved for login providers.");
 		}
 
+		List<ClientScope> availableScopesList = new ArrayList<>();
+		if (availableScopes != null) {
+			for (ClientScopeType scope : availableScopes) {
+				availableScopesList.add(scope);
+			}
+		}
+
+
 		String salt = this.entropyService.randomAlphaNumeric(LENGTH);
 		this.clientRepository.putClient(clientId, description, salt,
-				com.unitvectory.auth.datamodel.model.ClientType.APPLICATION);
-		ClientType client = ClientType.builder().clientId(clientId).clientSecret1Set(false)
-				.clientSecret2Set(false).build();
+				com.unitvectory.auth.datamodel.model.ClientType.APPLICATION, availableScopesList);
+		ClientType client = ClientType.builder().clientId(clientId).description(description)
+				.availableScopes(availableScopes).clientSecret1Set(false).clientSecret2Set(false)
+				.build();
 		return client;
 	}
 

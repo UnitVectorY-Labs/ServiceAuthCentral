@@ -21,11 +21,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 import com.unitvectory.auth.common.service.time.TimeService;
+import com.unitvectory.auth.datamodel.memory.mapper.ClientScopeMapper;
 import com.unitvectory.auth.datamodel.memory.mapper.MemoryClientSummaryMapper;
 import com.unitvectory.auth.datamodel.memory.model.MemoryClient;
 import com.unitvectory.auth.datamodel.memory.model.MemoryClientJwtBearer;
 import com.unitvectory.auth.datamodel.model.Client;
 import com.unitvectory.auth.datamodel.model.ClientJwtBearer;
+import com.unitvectory.auth.datamodel.model.ClientScope;
 import com.unitvectory.auth.datamodel.model.ClientSummary;
 import com.unitvectory.auth.datamodel.model.ClientSummaryConnection;
 import com.unitvectory.auth.datamodel.model.ClientSummaryEdge;
@@ -126,11 +128,20 @@ public class MemoryClientRepository implements ClientRepository {
 	@Override
 	@Synchronized
 	public void putClient(@NonNull String clientId, @NonNull String description,
-			@NonNull String salt, @NonNull ClientType clientType) {
+			@NonNull String salt, @NonNull ClientType clientType,
+			@NonNull List<ClientScope> availableScopes) {
+
+		List<ClientScope> availableScopesList = new ArrayList<>();
+		for (ClientScope scope : availableScopes) {
+			availableScopesList
+					.add(ClientScopeMapper.INSTANCE.clientScopeToMemoryClientScope(scope));
+		}
+
 		MemoryClient record = this.memory.get(clientId);
 		if (record == null) {
 			record = MemoryClient.builder().clientCreated(this.timeService.getCurrentTimestamp())
-					.clientId(clientId).description(description).salt(salt).build();
+					.clientId(clientId).description(description).salt(salt)
+					.availableScopes(Collections.unmodifiableList(availableScopesList)).build();
 			this.memory.put(clientId, record);
 		} else {
 			throw new BadRequestException("client record already exists");

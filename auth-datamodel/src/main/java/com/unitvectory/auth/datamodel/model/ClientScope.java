@@ -11,39 +11,26 @@
  * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
  */
-package com.unitvectory.auth.server.manage.dto;
-
-import java.util.List;
-
-import lombok.Builder;
-import lombok.Value;
+package com.unitvectory.auth.datamodel.model;
 
 /**
- * The Client Type
+ * Interface representing the client's allowed scope
  * 
  * @author Jared Hatfield (UnitVectorY Labs)
  */
-@Value
-@Builder
-public class ClientType {
+public interface ClientScope {
 
-	private final String clientId;
+    /****
+     * Get the scope
+     * 
+     * @return the scope
+     */
+    String getScope();
 
-	private final String clientCreated;
-
-	private final String description;
-
-	private final String clientType;
-
-	private final boolean clientSecret1Set;
-
-	private final String clientSecret1Updated;
-
-	private final boolean clientSecret2Set;
-
-	private final String clientSecret2Updated;
-
-	private final List<ClientScopeType> availableScopes;
-
-	private final List<ClientJwtBearerType> jwtBearer;
+    /****
+     * Get the description
+     * 
+     * @return the description
+     */
+    String getDescription();
 }

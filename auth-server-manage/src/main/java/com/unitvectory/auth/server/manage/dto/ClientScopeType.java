@@ -13,8 +13,7 @@
  */
 package com.unitvectory.auth.server.manage.dto;
 
-import java.util.List;
-
+import com.unitvectory.auth.datamodel.model.ClientScope;
 import lombok.Builder;
 import lombok.Value;
 
@@ -25,25 +24,9 @@ import lombok.Value;
  */
 @Value
 @Builder
-public class ClientType {
+public class ClientScopeType implements ClientScope {
 
-	private final String clientId;
+    private final String scope;
 
-	private final String clientCreated;
-
-	private final String description;
-
-	private final String clientType;
-
-	private final boolean clientSecret1Set;
-
-	private final String clientSecret1Updated;
-
-	private final boolean clientSecret2Set;
-
-	private final String clientSecret2Updated;
-
-	private final List<ClientScopeType> availableScopes;
-
-	private final List<ClientJwtBearerType> jwtBearer;
+    private final String description;
 }

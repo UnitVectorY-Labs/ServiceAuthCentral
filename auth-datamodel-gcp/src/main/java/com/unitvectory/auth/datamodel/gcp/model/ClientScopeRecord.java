@@ -11,39 +11,27 @@
  * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
  */
-package com.unitvectory.auth.server.manage.dto;
+package com.unitvectory.auth.datamodel.gcp.model;
 
-import java.util.List;
-
+import com.unitvectory.auth.datamodel.model.ClientScope;
+import lombok.AllArgsConstructor;
 import lombok.Builder;
-import lombok.Value;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
- * The Client Type
+ * The Client Scope Record
  * 
  * @author Jared Hatfield (UnitVectorY Labs)
  */
-@Value
+@Data
 @Builder
-public class ClientType {
+@NoArgsConstructor
+@AllArgsConstructor
+public class ClientScopeRecord implements ClientScope {
 
-	private final String clientId;
+    private String scope;
 
-	private final String clientCreated;
+    private String description;
 
-	private final String description;
-
-	private final String clientType;
-
-	private final boolean clientSecret1Set;
-
-	private final String clientSecret1Updated;
-
-	private final boolean clientSecret2Set;
-
-	private final String clientSecret2Updated;
-
-	private final List<ClientScopeType> availableScopes;
-
-	private final List<ClientJwtBearerType> jwtBearer;
 }

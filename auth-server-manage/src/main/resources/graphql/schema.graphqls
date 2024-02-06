@@ -10,7 +10,11 @@ type Query {
 }
 
 type Mutation {
-  addClient(clientId: String!, description: String!): Client!
+  addClient(
+    clientId: String!
+    description: String!
+    availableScopes: [ClientScopeInput]
+  ): Client!
   deleteClient(clientId: String!): Response!
   generateClientSecret1(clientId: String!): ClientSecret!
   generateClientSecret2(clientId: String!): ClientSecret!
@@ -61,8 +65,19 @@ type Client {
   clientSecret2Updated: String
   authorizationsAsSubject: [Authorization]
   authorizationsAsAudience: [Authorization]
+  availableScopes: [ClientScope]
   jwtBearer: [JwtBearer]
   managementPermissions: ClientManagementCapabilities
+}
+
+type ClientScope {
+  scope: ID!
+  description: String
+}
+
+input ClientScopeInput {
+  scope: ID!
+  description: String
 }
 
 type ClientManagementCapabilities {

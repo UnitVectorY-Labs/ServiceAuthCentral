@@ -17,7 +17,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-
+import java.util.ArrayList;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,6 +40,7 @@ import com.unitvectory.auth.common.service.time.TimeService;
 import com.unitvectory.auth.datamodel.memory.repository.MemoryAuthorizationRepository;
 import com.unitvectory.auth.datamodel.memory.repository.MemoryClientRepository;
 import com.unitvectory.auth.datamodel.model.Client;
+import com.unitvectory.auth.datamodel.model.ClientScope;
 import com.unitvectory.auth.datamodel.model.ClientType;
 import com.unitvectory.auth.datamodel.repository.AuthorizationRepository;
 import com.unitvectory.auth.datamodel.repository.ClientRepository;
@@ -91,8 +92,10 @@ public class TokenResponseTest {
 			((MemoryClientRepository) this.clientRepository).reset();
 		}
 
-		this.clientRepository.putClient("bar", "Test2", "xyz", ClientType.APPLICATION);
-		this.clientRepository.putClient("foo", "Test", "abc", ClientType.APPLICATION);
+		this.clientRepository.putClient("bar", "Test2", "xyz", ClientType.APPLICATION,
+				new ArrayList<ClientScope>());
+		this.clientRepository.putClient("foo", "Test", "abc", ClientType.APPLICATION,
+				new ArrayList<ClientScope>());
 		Client client = this.clientRepository.getClient("foo");
 		this.clientRepository.saveClientSecret1("foo", client.hashSecret("mySuperSecretfoo"));
 

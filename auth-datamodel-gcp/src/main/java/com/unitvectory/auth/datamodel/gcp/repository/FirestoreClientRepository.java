@@ -30,11 +30,13 @@ import com.google.cloud.firestore.Query;
 import com.google.cloud.firestore.QueryDocumentSnapshot;
 import com.google.cloud.firestore.QuerySnapshot;
 import com.unitvectory.auth.common.service.time.TimeService;
+import com.unitvectory.auth.datamodel.gcp.mapper.ClientScopeMapper;
 import com.unitvectory.auth.datamodel.gcp.model.ClientJwtBearerRecord;
 import com.unitvectory.auth.datamodel.gcp.model.ClientRecord;
 import com.unitvectory.auth.datamodel.gcp.model.ClientSummaryRecord;
 import com.unitvectory.auth.datamodel.model.Client;
 import com.unitvectory.auth.datamodel.model.ClientJwtBearer;
+import com.unitvectory.auth.datamodel.model.ClientScope;
 import com.unitvectory.auth.datamodel.model.ClientSummary;
 import com.unitvectory.auth.datamodel.model.ClientSummaryConnection;
 import com.unitvectory.auth.datamodel.model.ClientSummaryEdge;
@@ -202,7 +204,7 @@ public class FirestoreClientRepository implements ClientRepository {
 
 	@Override
 	public void putClient(@NonNull String clientId, String description, @NonNull String salt,
-			@NonNull ClientType clientType) {
+			@NonNull ClientType clientType, @NonNull List<ClientScope> availableScopes) {
 
 		String documentId = HashingUtil.sha256(clientId);
 
@@ -221,10 +223,14 @@ public class FirestoreClientRepository implements ClientRepository {
 				// If the document does not exist, create the new ClientRecord
 				if (!snapshot.exists()) {
 					@Nonnull
-					ClientRecord record = ClientRecord.builder().documentId(documentId)
-							.clientCreated(this.timeService.getCurrentTimestamp())
-							.clientId(clientId).description(description).salt(salt)
-							.clientType(clientType).build();
+					ClientRecord record =
+							ClientRecord.builder().documentId(documentId)
+									.clientCreated(this.timeService.getCurrentTimestamp())
+									.clientId(clientId).description(description).salt(salt)
+									.clientType(clientType)
+									.availableScopes(ClientScopeMapper.INSTANCE
+											.clientScopeToClientScopeRecord(availableScopes))
+									.build();
 
 					// Perform the transactional write to create the new record
 					transaction.set(document, record);
