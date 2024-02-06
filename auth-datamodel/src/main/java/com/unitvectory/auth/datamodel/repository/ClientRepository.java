@@ -70,6 +70,14 @@ public interface ClientRepository {
 			List<ClientScope> availableScopes);
 
 	/**
+	 * Adds an available scope to an existing client
+	 * 
+	 * @param clientId the clientId to modify
+	 * @param availableScope the available scope to add
+	 */
+	void addClientAvailableScope(String clientId, ClientScope availableScope);
+
+	/**
 	 * Adds an authorized JWT to a client
 	 * 
 	 * @param clientId the clientId to modify

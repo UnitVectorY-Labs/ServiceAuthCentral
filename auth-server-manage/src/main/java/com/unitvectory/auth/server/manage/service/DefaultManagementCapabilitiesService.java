@@ -39,6 +39,7 @@ public class DefaultManagementCapabilitiesService implements ManagementCapabilit
         boolean canDeleteClientSecret = true;
         boolean canAddClientAuthorization = true;
         boolean canDeleteClientAuthorization = true;
+        boolean canAddAvailableScope = true;
         boolean canAddAuthorization = true;
         boolean canDeleteAuthorization = true;
 
@@ -48,6 +49,7 @@ public class DefaultManagementCapabilitiesService implements ManagementCapabilit
             canDeleteClientSecret = false;
             canAddClientAuthorization = false;
             canDeleteClientAuthorization = false;
+            canAddAvailableScope = false;
             canAddAuthorization = false;
             canDeleteAuthorization = false;
         }
@@ -57,6 +59,7 @@ public class DefaultManagementCapabilitiesService implements ManagementCapabilit
             canDeleteClient = false;
             canAddClientSecret = false;
             canDeleteClientSecret = false;
+            canAddAvailableScope = false;
             canAddClientAuthorization = false;
             canDeleteClientAuthorization = false;
         }
@@ -70,7 +73,7 @@ public class DefaultManagementCapabilitiesService implements ManagementCapabilit
                 .canAddClientSecret(canAddClientSecret).canDeleteClientSecret(canDeleteClientSecret)
                 .canAddClientAuthorization(canAddClientAuthorization)
                 .canDeleteClientAuthorization(canDeleteClientAuthorization)
-                .canAddAuthorization(canAddAuthorization)
+                .canAddAvailableScope(canAddAvailableScope).canAddAuthorization(canAddAuthorization)
                 .canDeleteAuthorization(canDeleteAuthorization).build();
     }
 

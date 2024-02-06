@@ -25,6 +25,7 @@
             <id>auth-server-token</id>
             <modules>
                 <module>auth-datamodel-gcp</module>
+                <module>auth-datamodel-couchbase</module>
                 <module>auth-sign</module>
                 <module>auth-sign-gcp</module>
                 <module>auth-sign-local</module>

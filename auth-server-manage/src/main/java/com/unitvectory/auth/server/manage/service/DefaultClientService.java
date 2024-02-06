@@ -139,6 +139,31 @@ public class DefaultClientService implements ClientService {
 	}
 
 	@Override
+	public ResponseType addClientAvailableScope(String clientId, ClientScopeType availableScope,
+			RequestJwt jwt) {
+		Client client = this.clientRepository.getClient(clientId);
+		if (client == null) {
+			return ResponseType.builder().success(false).build();
+		}
+
+		ClientManagementCapabilitiesType managementCapabilities =
+				this.managementCapabilitiesService.getClientManagementCapabilities(
+						ClientMapper.INSTANCE.clientToClientType(client), jwt);
+		if (!managementCapabilities.isCanAddAvailableScope()) {
+			throw new BadRequestException("The client cannot have an authorized scope added");
+		}
+
+		for (ClientScope cs : client.getAvailableScopes()) {
+			if (cs.getScope().equals(availableScope.getScope())) {
+				return ResponseType.builder().success(false).build();
+			}
+		}
+
+		this.clientRepository.addClientAvailableScope(clientId, availableScope);
+		return ResponseType.builder().success(true).build();
+	}
+
+	@Override
 	public ResponseType deleteClient(String clientId, RequestJwt jwt) {
 
 		Client client = this.clientRepository.getClient(clientId);

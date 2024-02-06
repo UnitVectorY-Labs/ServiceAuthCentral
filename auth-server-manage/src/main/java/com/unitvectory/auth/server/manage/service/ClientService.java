@@ -35,6 +35,9 @@ public interface ClientService {
 	ClientType addClient(String clientId, String description,
 			List<ClientScopeType> availableScopes);
 
+	ResponseType addClientAvailableScope(String clientId, ClientScopeType availableScope,
+			RequestJwt jwt);
+
 	ResponseType deleteClient(String clientId, RequestJwt jwt);
 
 	ClientSecretType generateClientSecret1(String clientId, RequestJwt jwt);

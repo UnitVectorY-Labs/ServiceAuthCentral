@@ -15,6 +15,10 @@ type Mutation {
     description: String!
     availableScopes: [ClientScopeInput]
   ): Client!
+  addClientAvailableScope(
+    clientId: String!
+    availableScope: ClientScopeInput!
+  ): Response!
   deleteClient(clientId: String!): Response!
   generateClientSecret1(clientId: String!): ClientSecret!
   generateClientSecret2(clientId: String!): ClientSecret!
@@ -34,6 +38,8 @@ type Mutation {
     authorizedScopes: [String]
   ): Response!
   deauthorize(subject: String!, audience: String!): Response!
+  #  authorizeAddScope(subject: String!, audience: String!, authorizedScope: String!): Response!
+  #  authorizeRemoveScope(subject: String!, audience: String!, authorizedScope: String!): Response!
 }
 
 type ClientSummaryConnection {
@@ -55,7 +61,7 @@ type PageInfo {
 
 type ClientSummary {
   clientId: ID!
-  description: String
+  description: String!
 }
 
 type Client {
@@ -90,6 +96,7 @@ type ClientManagementCapabilities {
   canDeleteClientSecret: Boolean!
   canAddClientAuthorization: Boolean!
   canDeleteClientAuthorization: Boolean!
+  canAddAvailableScope: Boolean!
   canAddAuthorization: Boolean!
   canDeleteAuthorization: Boolean!
 }

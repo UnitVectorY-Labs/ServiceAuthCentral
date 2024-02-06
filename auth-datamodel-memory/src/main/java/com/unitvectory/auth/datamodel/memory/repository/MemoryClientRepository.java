@@ -25,6 +25,7 @@ import com.unitvectory.auth.datamodel.memory.mapper.ClientScopeMapper;
 import com.unitvectory.auth.datamodel.memory.mapper.MemoryClientSummaryMapper;
 import com.unitvectory.auth.datamodel.memory.model.MemoryClient;
 import com.unitvectory.auth.datamodel.memory.model.MemoryClientJwtBearer;
+import com.unitvectory.auth.datamodel.memory.model.MemoryClientScope;
 import com.unitvectory.auth.datamodel.model.Client;
 import com.unitvectory.auth.datamodel.model.ClientJwtBearer;
 import com.unitvectory.auth.datamodel.model.ClientScope;
@@ -146,6 +147,40 @@ public class MemoryClientRepository implements ClientRepository {
 		} else {
 			throw new BadRequestException("client record already exists");
 		}
+	}
+
+	@Override
+	public void addClientAvailableScope(String clientId, ClientScope availableScope) {
+		MemoryClient record = this.memory.get(clientId);
+		if (record == null) {
+			throw new NotFoundException("client not found");
+		}
+
+		// What we are trying to add
+		MemoryClientScope scope =
+				ClientScopeMapper.INSTANCE.clientScopeToMemoryClientScope(availableScope);
+
+		// Make a copy of the array that can be edited
+		List<ClientScope> list = record.getAvailableScopes();
+		if (list == null) {
+			list = new ArrayList<>();
+		} else {
+			list = new ArrayList<>();
+			list.addAll(record.getAvailableScopes());
+		}
+
+		// Check for duplicates
+		for (ClientScope cs : list) {
+			if (scope.getScope().equals(cs.getScope())) {
+				throw new BadRequestException("duplicate scope");
+			}
+		}
+
+		list.add(scope);
+
+		// Clone the record, modify the list
+		record = record.toBuilder().availableScopes(Collections.unmodifiableList(list)).build();
+		this.memory.put(clientId, record);
 	}
 
 	@Override

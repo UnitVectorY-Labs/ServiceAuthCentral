@@ -33,6 +33,7 @@ import com.unitvectory.auth.common.service.time.TimeService;
 import com.unitvectory.auth.datamodel.gcp.mapper.ClientScopeMapper;
 import com.unitvectory.auth.datamodel.gcp.model.ClientJwtBearerRecord;
 import com.unitvectory.auth.datamodel.gcp.model.ClientRecord;
+import com.unitvectory.auth.datamodel.gcp.model.ClientScopeRecord;
 import com.unitvectory.auth.datamodel.gcp.model.ClientSummaryRecord;
 import com.unitvectory.auth.datamodel.model.Client;
 import com.unitvectory.auth.datamodel.model.ClientJwtBearer;
@@ -242,6 +243,43 @@ public class FirestoreClientRepository implements ClientRepository {
 
 				// Must return a result; here, null signifies nothing further to return
 				return null;
+			}).get();
+		} catch (InterruptedException | ExecutionException e) {
+			throw new InternalServerErrorException(e);
+		}
+	}
+
+	@Override
+	public void addClientAvailableScope(String clientId, ClientScope availableScope) {
+		String documentId = HashingUtil.sha256(clientId);
+
+		try {
+			DocumentReference docRef =
+					firestore.collection(this.collectionClients).document(documentId);
+			firestore.runTransaction(transaction -> {
+				DocumentSnapshot snapshot = transaction.get(docRef).get();
+
+				if (!snapshot.exists()) {
+					throw new NotFoundException("Client not found");
+				}
+
+				ClientRecord record = snapshot.toObject(ClientRecord.class);
+				List<ClientScope> availableScopesOriginal = record.getAvailableScopes();
+				List<ClientScopeRecord> availableScopesList = new ArrayList<>();
+				for (ClientScope scope : availableScopesOriginal) {
+					if (scope.getScope().equals(availableScope.getScope())) {
+						throw new BadRequestException("Duplicate scope");
+					}
+
+					availableScopesList
+							.add(ClientScopeMapper.INSTANCE.clientScopeToClientScopeRecord(scope));
+				}
+
+				availableScopesList.add(
+						ClientScopeMapper.INSTANCE.clientScopeToClientScopeRecord(availableScope));
+				transaction.update(docRef, "availableScopes", availableScopesList);
+
+				return null; // Firestore transactions require that you return something
 			}).get();
 		} catch (InterruptedException | ExecutionException e) {
 			throw new InternalServerErrorException(e);

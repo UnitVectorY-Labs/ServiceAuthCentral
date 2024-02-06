@@ -18,7 +18,6 @@ import java.util.Base64;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
-import org.apache.logging.log4j.util.Strings;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**

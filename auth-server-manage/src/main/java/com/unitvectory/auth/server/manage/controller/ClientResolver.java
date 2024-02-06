@@ -63,9 +63,9 @@ public class ClientResolver {
 
 		if (availableScopes != null) {
 			for (ClientScopeType scope : availableScopes) {
-				if (scope == null || !scope.getScope().matches(InputPatterns.SCOPE)) {
+				if (scope.getScope() == null || !scope.getScope().matches(InputPatterns.SCOPE)) {
 					throw new BadRequestException("Invalid 'scope' attribute format.");
-				} else if (scope == null
+				} else if (scope.getDescription() == null
 						|| !scope.getDescription().matches(InputPatterns.DESCRIPTION)) {
 					throw new BadRequestException("Invalid 'description' attribute format.");
 				}
@@ -73,6 +73,28 @@ public class ClientResolver {
 		}
 
 		return this.clientService.addClient(clientId, description, availableScopes);
+	}
+
+	@MutationMapping
+	public ResponseType addClientAvailableScope(@Argument String clientId,
+			@Argument ClientScopeType availableScope, @AuthenticationPrincipal Jwt jwt) {
+
+		// Input Validation
+
+		if (clientId == null || !clientId.matches(InputPatterns.CLIENT_ID)) {
+			throw new BadRequestException("Invalid 'client_id' attribute format.");
+		} else if (availableScope == null) {
+			throw new BadRequestException("Invalid 'availableScope' attribute format.");
+		} else if (availableScope.getScope() == null
+				|| !availableScope.getScope().matches(InputPatterns.SCOPE)) {
+			throw new BadRequestException("Invalid 'scope' attribute format.");
+		} else if (availableScope.getDescription() == null
+				|| !availableScope.getDescription().matches(InputPatterns.DESCRIPTION)) {
+			throw new BadRequestException("Invalid 'description' attribute format.");
+		}
+
+		return this.clientService.addClientAvailableScope(clientId, availableScope,
+				RequestJwtMapper.INSTANCE.requestJwt(jwt));
 	}
 
 	@MutationMapping

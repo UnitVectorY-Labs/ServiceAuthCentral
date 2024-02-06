@@ -116,6 +116,24 @@ public class CouchbaseClientRepository implements ClientRepository {
 	}
 
 	@Override
+	public void addClientAvailableScope(@NonNull String clientId,
+			@NonNull ClientScope availableScope) {
+		// Construct the N1QL update query to append the new scope to the availableScopes array
+		String query = "UPDATE `" + this.collectionClients.bucketName() + "`.`"
+				+ this.collectionClients.scopeName() + "`.`" + this.collectionClients.name() + "` "
+				+ "SET availableScopes = ARRAY_APPEND(IFMISSINGORNULL(availableScopes, []), "
+				+ "{`scope`: $scope, `description`: $description}) " + "WHERE clientId = $clientId";
+
+		// Prepare the parameters for the query
+		JsonObject parameters = JsonObject.create().put("scope", availableScope.getScope())
+				.put("description", availableScope.getDescription()).put("clientId", clientId);
+
+		// Execute the query
+		couchbaseCluster.query(query, QueryOptions.queryOptions().parameters(parameters));
+	}
+
+
+	@Override
 	public void deleteClient(@NonNull String clientId) {
 		this.collectionClients.remove(clientId);
 	}
