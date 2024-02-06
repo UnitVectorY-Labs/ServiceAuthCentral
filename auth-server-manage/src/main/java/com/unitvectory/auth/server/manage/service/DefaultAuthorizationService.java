@@ -13,6 +13,7 @@
  */
 package com.unitvectory.auth.server.manage.service;
 
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.unitvectory.auth.datamodel.model.Authorization;
@@ -45,7 +46,8 @@ public class DefaultAuthorizationService implements AuthorizationService {
 	private ManagementCapabilitiesService managementCapabilitiesService;
 
 	@Override
-	public ResponseType authorize(String subject, String audience, RequestJwt jwt) {
+	public ResponseType authorize(String subject, String audience, List<String> authorizedScopes,
+			RequestJwt jwt) {
 		Client subjectClient = this.clientRepository.getClient(subject);
 		if (subjectClient == null) {
 			return ResponseType.builder().success(false).build();
@@ -63,7 +65,13 @@ public class DefaultAuthorizationService implements AuthorizationService {
 			throw new BadRequestException("The client cannot add authorization");
 		}
 
-		this.authorizationRepository.authorize(subject, audience);
+		for (String scope : authorizedScopes) {
+			if (!audienceClient.hasScope(scope)) {
+				throw new BadRequestException("The client does not have the scope '" + scope + "'");
+			}
+		}
+
+		this.authorizationRepository.authorize(subject, audience, authorizedScopes);
 		return ResponseType.builder().success(true).build();
 	}
 

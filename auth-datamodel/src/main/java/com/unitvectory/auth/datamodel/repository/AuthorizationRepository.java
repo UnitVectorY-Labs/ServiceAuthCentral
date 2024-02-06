@@ -14,7 +14,7 @@
 package com.unitvectory.auth.datamodel.repository;
 
 import java.util.Iterator;
-
+import java.util.List;
 import com.unitvectory.auth.datamodel.model.Authorization;
 
 /**
@@ -69,8 +69,9 @@ public interface AuthorizationRepository {
 	 *
 	 * @param subject the clientId representing the subject of the authorization.
 	 * @param audience the clientId representing the audience of the authorization.
+	 * @param authorizedScopes the list of authorized scopes
 	 */
-	void authorize(String subject, String audience);
+	void authorize(String subject, String audience, List<String> authorizedScopes);
 
 	/**
 	 * Removes an authorization, preventing the specified subject from acting for the specified

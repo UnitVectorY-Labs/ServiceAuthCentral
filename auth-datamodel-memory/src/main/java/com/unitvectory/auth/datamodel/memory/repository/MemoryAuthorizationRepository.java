@@ -98,7 +98,8 @@ public class MemoryAuthorizationRepository implements AuthorizationRepository {
 	}
 
 	@Override
-	public void authorize(@NonNull String subject, @NonNull String audience) {
+	public void authorize(@NonNull String subject, @NonNull String audience,
+			@NonNull List<String> authorizedScopes) {
 
 		for (MemoryAuthorization auth : this.authorizations) {
 			if (auth.matches(subject, audience)) {
@@ -109,7 +110,7 @@ public class MemoryAuthorizationRepository implements AuthorizationRepository {
 
 		this.authorizations.add(MemoryAuthorization.builder()
 				.authorizationCreated(this.timeService.getCurrentTimestamp()).subject(subject)
-				.audience(audience).build());
+				.audience(audience).authorizedScopes(new ArrayList<>(authorizedScopes)).build());
 	}
 
 	@Override

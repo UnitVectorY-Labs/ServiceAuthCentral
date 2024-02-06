@@ -13,6 +13,7 @@
  */
 package com.unitvectory.auth.datamodel.memory.model;
 
+import java.util.List;
 import com.unitvectory.auth.datamodel.model.Authorization;
 import com.unitvectory.auth.util.HashingUtil;
 
@@ -34,6 +35,8 @@ public class MemoryAuthorization implements Authorization {
 	private String subject;
 
 	private String audience;
+
+	private List<String> authorizedScopes;
 
 	public boolean matches(@NonNull String subject, @NonNull String audience) {
 		return subject.equals(this.subject) && audience.equals(this.audience);

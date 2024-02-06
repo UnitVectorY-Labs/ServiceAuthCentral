@@ -13,6 +13,8 @@
  */
 package com.unitvectory.auth.datamodel.model;
 
+import java.util.List;
+
 /**
  * Authorization document interface
  * 
@@ -35,16 +37,23 @@ public interface Authorization {
 	String getAuthorizationCreated();
 
 	/**
-	 * the client that is authorized as the subject for a token exchange
+	 * The client that is authorized as the subject for a token exchange
 	 * 
 	 * @return the clientId for the subject
 	 */
 	String getSubject();
 
 	/**
-	 * the audience that is authorized as the audience for a token exchange
+	 * The audience that is authorized as the audience for a token exchange
 	 * 
 	 * @return the clientId for the audience
 	 */
 	String getAudience();
+
+	/**
+	 * The list of authorized scopes.
+	 * 
+	 * @return the list of scopes
+	 */
+	List<String> getAuthorizedScopes();
 }

@@ -100,11 +100,12 @@ public class CouchbaseAuthorizationRepository implements AuthorizationRepository
 	}
 
 	@Override
-	public void authorize(@NonNull String subject, @NonNull String audience) {
+	public void authorize(@NonNull String subject, @NonNull String audience,
+			@NonNull List<String> authorizedScopes) {
 		String docId = getDocumentId(subject, audience);
 		AuthorizationRecord record = AuthorizationRecord.builder()
 				.authorizationCreated(this.timeService.getCurrentTimestamp()).subject(subject)
-				.audience(audience).build();
+				.audience(audience).authorizedScopes(authorizedScopes).build();
 		this.collectionAuthorizations.insert(docId, record);
 	}
 

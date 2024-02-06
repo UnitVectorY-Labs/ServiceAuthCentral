@@ -28,7 +28,11 @@ type Mutation {
     aud: String!
   ): Response!
   deauthorizeJwtBearer(clientId: String!, id: String!): Response!
-  authorize(subject: String!, audience: String!): Response!
+  authorize(
+    subject: String!
+    audience: String!
+    authorizedScopes: [String]
+  ): Response!
   deauthorize(subject: String!, audience: String!): Response!
 }
 
@@ -103,6 +107,7 @@ type Authorization {
   authorizationCreated: String
   subject: Client
   audience: Client
+  authorizedScopes: [String]
 }
 
 type ClientSecret {

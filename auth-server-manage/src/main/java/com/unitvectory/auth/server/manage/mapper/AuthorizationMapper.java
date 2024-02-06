@@ -34,5 +34,7 @@ public interface AuthorizationMapper {
 	@Mapping(target = "authorizationCreated", source = "authorizationCreated")
 	@Mapping(target = "subjectId", source = "subject")
 	@Mapping(target = "audienceId", source = "audience")
+	@Mapping(target = "authorizedScopes", source = "authorizedScopes",
+			defaultExpression = "java(new ArrayList<String>())")
 	AuthorizationType authorizationToAuthorizationType(Authorization authorization);
 }

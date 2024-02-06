@@ -13,6 +13,7 @@
  */
 package com.unitvectory.auth.datamodel.couchbase.model;
 
+import java.util.List;
 import com.unitvectory.auth.datamodel.model.Authorization;
 
 import lombok.AllArgsConstructor;
@@ -39,4 +40,5 @@ public class AuthorizationRecord implements Authorization {
 
 	private String audience;
 
+	private List<String> authorizedScopes;
 }

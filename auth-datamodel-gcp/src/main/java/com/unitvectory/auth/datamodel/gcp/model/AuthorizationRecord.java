@@ -13,6 +13,7 @@
  */
 package com.unitvectory.auth.datamodel.gcp.model;
 
+import java.util.List;
 import com.google.cloud.firestore.annotation.DocumentId;
 import com.google.cloud.firestore.annotation.IgnoreExtraProperties;
 import com.unitvectory.auth.datamodel.model.Authorization;
@@ -42,5 +43,7 @@ public class AuthorizationRecord implements Authorization {
 	private String subject;
 
 	private String audience;
+
+	private List<String> authorizedScopes;
 
 }

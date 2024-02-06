@@ -13,6 +13,8 @@
  */
 package com.unitvectory.auth.server.manage.controller;
 
+import java.util.ArrayList;
+import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.graphql.data.method.annotation.Argument;
 import org.springframework.graphql.data.method.annotation.MutationMapping;
@@ -42,7 +44,7 @@ public class AuthorizationResolver {
 
 	@MutationMapping
 	public ResponseType authorize(@Argument String subject, @Argument String audience,
-			@AuthenticationPrincipal Jwt jwt) {
+			@Argument List<String> authorizedScopes, @AuthenticationPrincipal Jwt jwt) {
 
 		// Input Validation
 
@@ -52,7 +54,17 @@ public class AuthorizationResolver {
 			throw new BadRequestException("Invalid 'audience' attribute format.");
 		}
 
-		return this.authorizationService.authorize(subject, audience,
+		if (authorizedScopes != null) {
+			for (String scope : authorizedScopes) {
+				if (!scope.matches(InputPatterns.SCOPE)) {
+					throw new BadRequestException("Invalid 'authorizedScopes' attribute format.");
+				}
+			}
+		} else {
+			authorizedScopes = new ArrayList<>();
+		}
+
+		return this.authorizationService.authorize(subject, audience, authorizedScopes,
 				RequestJwtMapper.INSTANCE.requestJwt(jwt));
 	}
 

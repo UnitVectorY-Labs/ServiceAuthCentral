@@ -13,6 +13,7 @@
  */
 package com.unitvectory.auth.server.manage.service;
 
+import java.util.List;
 import com.unitvectory.auth.server.manage.dto.AuthorizationType;
 import com.unitvectory.auth.server.manage.dto.ClientType;
 import com.unitvectory.auth.server.manage.dto.RequestJwt;
@@ -25,7 +26,8 @@ import com.unitvectory.auth.server.manage.dto.ResponseType;
  */
 public interface AuthorizationService {
 
-	ResponseType authorize(String subject, String audience, RequestJwt jwt);
+	ResponseType authorize(String subject, String audience, List<String> authorizedScopes,
+			RequestJwt jwt);
 
 	ResponseType deauthorize(String subject, String audience, RequestJwt jwt);
 

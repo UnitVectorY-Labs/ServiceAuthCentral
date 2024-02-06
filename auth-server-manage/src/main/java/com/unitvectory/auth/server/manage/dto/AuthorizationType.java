@@ -13,6 +13,7 @@
  */
 package com.unitvectory.auth.server.manage.dto;
 
+import java.util.List;
 import lombok.Builder;
 import lombok.Value;
 
@@ -32,5 +33,7 @@ public class AuthorizationType {
 	private final String subjectId;
 
 	private final String audienceId;
+
+	private List<String> authorizedScopes;
 
 }

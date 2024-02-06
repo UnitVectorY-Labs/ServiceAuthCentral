@@ -149,4 +149,24 @@ public interface Client {
 
 		return false;
 	}
+
+	/***
+	 * Returns true if the client has the specified scope.
+	 *
+	 * @param scope the scope to check.
+	 * @return true if the client has the scope, false otherwise.
+	 */
+	public default boolean hasScope(@NonNull String scope) {
+		if (this.getAvailableScopes() == null) {
+			return false;
+		}
+
+		for (ClientScope clientScope : this.getAvailableScopes()) {
+			if (clientScope.getScope().equals(scope)) {
+				return true;
+			}
+		}
+
+		return false;
+	}
 }
