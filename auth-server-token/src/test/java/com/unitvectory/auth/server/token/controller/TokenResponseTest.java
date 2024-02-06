@@ -107,7 +107,7 @@ public class TokenResponseTest {
 			((MemoryAuthorizationRepository) this.authorizationRepository).reset();
 		}
 
-		this.authorizationRepository.authorize("foo", "bar");
+		this.authorizationRepository.authorize("foo", "bar", new ArrayList<String>());
 
 	}
 

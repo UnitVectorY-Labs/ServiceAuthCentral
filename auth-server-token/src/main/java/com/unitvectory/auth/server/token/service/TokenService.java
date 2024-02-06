@@ -13,6 +13,10 @@
  */
 package com.unitvectory.auth.server.token.service;
 
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.TreeSet;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -104,6 +108,7 @@ public class TokenService {
 		String clientId = request.getClient_id();
 		String codeVerifier = request.getCode_verifier();
 		String audience = request.getAudience();
+		String scope = request.getScope();
 
 		if (code == null || code.isEmpty()) {
 			throw new BadRequestException("The request is missing the required parameter 'code'.");
@@ -166,8 +171,10 @@ public class TokenService {
 			}
 		}
 
+		Set<String> scopeSet = getScopes(scope, audienceRecord, authorizationRecord);
+
 		// Build the JWT and return it
-		return buildToken(userClient, audienceRecord, authorizationRecord);
+		return buildToken(userClient, audienceRecord, authorizationRecord, scopeSet);
 	}
 
 	private TokenResponse jwtAssertion(TokenRequest request) throws Exception {
@@ -182,6 +189,7 @@ public class TokenService {
 
 		String clientId = request.getClient_id();
 		String audience = request.getAudience();
+		String scope = request.getScope();
 
 		if (audience == null || audience.isBlank()) {
 			throw new BadRequestException(
@@ -252,8 +260,10 @@ public class TokenService {
 					"The client is not authorized for the specified audience.");
 		}
 
+		Set<String> scopeSet = getScopes(scope, audienceRecord, authorizationRecord);
+
 		// Build the JWT and return it
-		return buildToken(subjectRecord, audienceRecord, authorizationRecord);
+		return buildToken(subjectRecord, audienceRecord, authorizationRecord, scopeSet);
 	}
 
 	private TokenResponse clientCredentials(TokenRequest request) throws Exception {
@@ -268,6 +278,7 @@ public class TokenService {
 
 		String clientId = request.getClient_id();
 		String audience = request.getAudience();
+		String scope = request.getScope();
 
 		if (audience == null || audience.isBlank()) {
 			throw new BadRequestException(
@@ -310,8 +321,31 @@ public class TokenService {
 					"The client is not authorized for the specified audience.");
 		}
 
+		Set<String> scopeSet = getScopes(scope, audienceRecord, authorizationRecord);
+
 		// Build the JWT and return it
-		return buildToken(subjectRecord, audienceRecord, authorizationRecord);
+		return buildToken(subjectRecord, audienceRecord, authorizationRecord, scopeSet);
+	}
+
+	private Set<String> getScopes(String scope, Client audienceRecord,
+			Authorization authorizationRecord) {
+		if (scope == null) {
+			return null;
+		}
+
+		Set<String> requestedScopes = new TreeSet<>();
+		requestedScopes.addAll(Arrays.asList(scope.split(" ")));
+
+		Set<String> validatedScopes = new TreeSet<>();
+		for (String s : requestedScopes) {
+			if (audienceRecord.hasScope(s) && authorizationRecord.hasScope(s)) {
+				validatedScopes.add(s);
+			} else {
+				throw new ForbiddenException("The specified scope '" + s + "' is invalid.");
+			}
+		}
+
+		return validatedScopes;
 	}
 
 	private boolean matches(ClientJwtBearer bearer, VerifyJwt jwt) {
@@ -333,7 +367,7 @@ public class TokenService {
 	}
 
 	private TokenResponse buildToken(Client subjectRecord, Client audienceRecord,
-			Authorization authorizationRecord) {
+			Authorization authorizationRecord, Set<String> scopes) {
 
 		long now = this.timeService.getCurrentTimeSeconds();
 
@@ -353,6 +387,10 @@ public class TokenService {
 		builder.withTiming(timeService.getCurrentTimeSeconds(), validSeconds);
 		builder.withJwtId(entropyService.generateUuid());
 		builder.withKeyId(kid);
+
+		if (scopes != null && scopes.size() > 0) {
+			builder.withScopes(scopes);
+		}
 
 		if (subjectRecord != null) {
 			String clientId = subjectRecord.getClientId();

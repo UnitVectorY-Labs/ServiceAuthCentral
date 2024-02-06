@@ -14,6 +14,7 @@
 package com.unitvectory.auth.datamodel.model;
 
 import java.util.List;
+import lombok.NonNull;
 
 /**
  * Authorization document interface
@@ -56,4 +57,18 @@ public interface Authorization {
 	 * @return the list of scopes
 	 */
 	List<String> getAuthorizedScopes();
+
+	/**
+	 * Returns true if the authorization has the specified scope.
+	 *
+	 * @param scope the scope to check.
+	 * @return true if the client has the scope, false otherwise.
+	 */
+	public default boolean hasScope(@NonNull String scope) {
+		if (this.getAuthorizedScopes() == null) {
+			return false;
+		}
+
+		return this.getAuthorizedScopes().contains(scope);
+	}
 }

@@ -13,7 +13,9 @@
  */
 package com.unitvectory.auth.server.manage.service;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.unitvectory.auth.datamodel.model.Authorization;
@@ -65,10 +67,16 @@ public class DefaultAuthorizationService implements AuthorizationService {
 			throw new BadRequestException("The client cannot add authorization");
 		}
 
+		Set<String> uniqueScopes = new HashSet<>();
 		for (String scope : authorizedScopes) {
 			if (!audienceClient.hasScope(scope)) {
 				throw new BadRequestException("The client does not have the scope '" + scope + "'");
 			}
+
+			if (uniqueScopes.contains(scope)) {
+				throw new IllegalArgumentException("The scope '" + scope + "' is duplicated.");
+			}
+			uniqueScopes.add(scope);
 		}
 
 		this.authorizationRepository.authorize(subject, audience, authorizedScopes);

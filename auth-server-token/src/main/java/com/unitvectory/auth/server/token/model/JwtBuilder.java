@@ -16,8 +16,9 @@ package com.unitvectory.auth.server.token.model;
 import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 import java.util.Map;
+import java.util.Set;
 import java.util.TreeMap;
-
+import org.apache.logging.log4j.util.Strings;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 /**
@@ -63,6 +64,11 @@ public class JwtBuilder {
 
 	public JwtBuilder withAudience(String aud) {
 		this.payload.put("aud", aud);
+		return this;
+	}
+
+	public JwtBuilder withScopes(Set<String> scopes) {
+		this.payload.put("scope", String.join(" ", scopes));
 		return this;
 	}
 

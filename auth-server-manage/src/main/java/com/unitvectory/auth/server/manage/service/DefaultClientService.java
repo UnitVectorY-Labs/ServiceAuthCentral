@@ -14,8 +14,10 @@
 package com.unitvectory.auth.server.manage.service;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 import java.util.Spliterator;
 import java.util.Spliterators;
 import java.util.stream.Collectors;
@@ -113,13 +115,19 @@ public class DefaultClientService implements ClientService {
 					"Application 'clientId' cannot start with 'provider:' as this is reserved for login providers.");
 		}
 
+		Set<String> uniqueScopes = new HashSet<>();
 		List<ClientScope> availableScopesList = new ArrayList<>();
 		if (availableScopes != null) {
 			for (ClientScopeType scope : availableScopes) {
+				if (uniqueScopes.contains(scope.getScope())) {
+					throw new IllegalArgumentException(
+							"The scope '" + scope.getScope() + "' is duplicated.");
+				}
+				uniqueScopes.add(scope.getScope());
+
 				availableScopesList.add(scope);
 			}
 		}
-
 
 		String salt = this.entropyService.randomAlphaNumeric(LENGTH);
 		this.clientRepository.putClient(clientId, description, salt,

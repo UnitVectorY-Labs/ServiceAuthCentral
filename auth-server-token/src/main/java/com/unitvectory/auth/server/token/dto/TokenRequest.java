@@ -50,6 +50,9 @@ public class TokenRequest {
 	@Pattern(regexp = InputPatterns.CLIENT_ID, message = "Invalid 'audience' attribute format.")
 	private String audience;
 
+	@Pattern(regexp = InputPatterns.SCOPES, message = "Invalid 'scope' attribute format.")
+	private String scope;
+
 	@Pattern(regexp = InputPatterns.JWT, message = "Invalid 'assertion' attribute format.")
 	private String assertion;
 

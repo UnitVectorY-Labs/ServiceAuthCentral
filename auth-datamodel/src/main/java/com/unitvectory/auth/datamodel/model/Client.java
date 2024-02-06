@@ -150,7 +150,7 @@ public interface Client {
 		return false;
 	}
 
-	/***
+	/**
 	 * Returns true if the client has the specified scope.
 	 *
 	 * @param scope the scope to check.

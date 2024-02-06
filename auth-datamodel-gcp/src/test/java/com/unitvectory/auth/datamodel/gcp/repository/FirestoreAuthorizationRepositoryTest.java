@@ -23,7 +23,7 @@ import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.concurrent.ExecutionException;
 
@@ -184,7 +184,7 @@ public class FirestoreAuthorizationRepositoryTest {
 
 		FirestoreAuthorizationRepository repository = new FirestoreAuthorizationRepository(
 				firestore, COLLECTION_AUTHORIZATIONS, timeService);
-		repository.authorize("subject", "audience");
+		repository.authorize("subject", "audience", new ArrayList<String>());
 
 		ArgumentCaptor<AuthorizationRecord> argument =
 				ArgumentCaptor.forClass(AuthorizationRecord.class);
