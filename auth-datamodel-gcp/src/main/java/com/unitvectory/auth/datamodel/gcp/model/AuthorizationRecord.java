@@ -13,6 +13,7 @@
  */
 package com.unitvectory.auth.datamodel.gcp.model;
 
+import java.util.ArrayList;
 import java.util.List;
 import com.google.cloud.firestore.annotation.DocumentId;
 import com.google.cloud.firestore.annotation.IgnoreExtraProperties;
@@ -22,6 +23,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.Singular;
 
 /**
  * The Authorization Record
@@ -44,6 +46,7 @@ public class AuthorizationRecord implements Authorization {
 
 	private String audience;
 
-	private List<String> authorizedScopes;
+	@Builder.Default
+	private List<String> authorizedScopes = new ArrayList<>();
 
 }
