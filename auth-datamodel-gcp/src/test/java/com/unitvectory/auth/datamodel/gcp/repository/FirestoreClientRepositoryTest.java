@@ -65,6 +65,7 @@ public class FirestoreClientRepositoryTest {
 		assertEquals("clientId is marked non-null but is null", thrown.getMessage());
 	}
 
+	@SuppressWarnings("null")
 	@Test
 	public void testGetClient_InvalidClientId() throws InterruptedException, ExecutionException {
 		Firestore firestore = Mockito.mock(Firestore.class);
@@ -89,6 +90,7 @@ public class FirestoreClientRepositoryTest {
 		assertNull(client);
 	}
 
+	@SuppressWarnings("null")
 	@Test
 	public void testGetClient_ClientExists() throws InterruptedException, ExecutionException {
 		Firestore firestore = Mockito.mock(Firestore.class);
