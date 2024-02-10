@@ -111,6 +111,7 @@ public class TokenResponseTest {
 
 	}
 
+	@SuppressWarnings("null")
 	@Test
 	public void postTokenInvalidGrantType() throws Exception {
 		MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
@@ -125,6 +126,7 @@ public class TokenResponseTest {
 
 	}
 
+	@SuppressWarnings("null")
 	@Test
 	public void postTokenMissingAudience() throws Exception {
 		MultiValueMap<String, String> params = new LinkedMultiValueMap<>();
@@ -137,6 +139,7 @@ public class TokenResponseTest {
 				.andExpect(status().is(400));
 	}
 
+	@SuppressWarnings("null")
 	@Test
 	public void postTokenAuthorizationSuccessTest() throws Exception {
 
@@ -174,6 +177,7 @@ public class TokenResponseTest {
 		assertEquals("bar", jwt.getAudience().get(0));
 	}
 
+	@SuppressWarnings("null")
 	@Test
 	public void postTokenSecretSuccessTest() throws Exception {
 		MultiValueMap<String, String> params = new LinkedMultiValueMap<>();

@@ -54,6 +54,7 @@ public class JwksControllerTest {
 				.andExpect(MockMvcResultMatchers.status().is(405));
 	}
 
+	@SuppressWarnings("null")
 	@Test
 	public void getJwks() throws Exception {
 		this.mockMvc.perform(MockMvcRequestBuilders.get("/.well-known/jwks.json"))
