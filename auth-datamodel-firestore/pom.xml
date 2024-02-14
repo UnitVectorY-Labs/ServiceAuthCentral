@@ -7,12 +7,11 @@
         <version>0.0.1-SNAPSHOT</version>
     </parent>
     
-    <artifactId>auth-server-token</artifactId>
+    <artifactId>auth-datamodel-firestore</artifactId>
 
     <properties>
-        <start-class>com.unitvectory.auth.server.token.App</start-class>
     </properties>
-    
+
     <dependencies>
         <dependency>
             <groupId>com.unitvectory</groupId>
@@ -30,72 +29,21 @@
             <version>${project.version}</version>
         </dependency>
         <dependency>
-            <groupId>com.unitvectory</groupId>
-            <artifactId>auth-datamodel-firestore</artifactId>
-            <version>${project.version}</version>
-            <scope>runtime</scope>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.unitvectory</groupId>
-            <artifactId>auth-sign</artifactId>
-            <version>${project.version}</version>
+            <groupId>com.google.cloud</groupId>
+            <artifactId>google-cloud-firestore</artifactId>
         </dependency>
         <dependency>
-            <groupId>com.unitvectory</groupId>
-            <artifactId>auth-sign-gcp</artifactId>
-            <version>${project.version}</version>
-            <scope>runtime</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.unitvectory</groupId>
-            <artifactId>auth-verify</artifactId>
-            <version>${project.version}</version>
-        </dependency>
-        <dependency>
-            <groupId>com.unitvectory</groupId>
-            <artifactId>auth-verify-auth0</artifactId>
-            <version>${project.version}</version>
-            <scope>runtime</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-json</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-validation</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-cache</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.apache.httpcomponents.client5</groupId>
-            <artifactId>httpclient5</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>com.github.ben-manes.caffeine</groupId>
-            <artifactId>caffeine</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-test</artifactId>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-core</artifactId>
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>com.unitvectory</groupId>
-            <artifactId>auth-datamodel-memory</artifactId>
-            <version>${project.version}</version>
-            <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>com.unitvectory</groupId>
-            <artifactId>auth-sign-local</artifactId>
-            <version>${project.version}</version>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-api</artifactId>
             <scope>test</scope>
         </dependency>
         <dependency>
@@ -115,6 +63,14 @@
 
     <build>
         <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+                <configuration>
+                    <!-- Required as this is a library that needs to not be repackaged -->
+                    <skip>true</skip>
+                </configuration>
+            </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
@@ -143,5 +99,3 @@
         </plugins>
     </build>
 </project>
-
-

@@ -24,7 +24,7 @@
     <profile>
             <id>auth-server-token</id>
             <modules>
-                <module>auth-datamodel-gcp</module>
+                <module>auth-datamodel-firestore</module>
                 <module>auth-datamodel-couchbase</module>
                 <module>auth-sign</module>
                 <module>auth-sign-gcp</module>
@@ -37,7 +37,7 @@
         <profile>
             <id>auth-server-manage</id>
             <modules>
-                <module>auth-datamodel-gcp</module>
+                <module>auth-datamodel-firestore</module>
                 <module>auth-server-manage</module>
             </modules>
         </profile>

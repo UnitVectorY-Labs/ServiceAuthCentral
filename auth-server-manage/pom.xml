@@ -31,7 +31,7 @@
         </dependency>
         <dependency>
             <groupId>com.unitvectory</groupId>
-            <artifactId>auth-datamodel-gcp</artifactId>
+            <artifactId>auth-datamodel-firestore</artifactId>
             <version>${project.version}</version>
             <scope>runtime</scope>
         </dependency>
