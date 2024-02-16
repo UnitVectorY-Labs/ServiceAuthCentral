@@ -1,3 +1,9 @@
+---
+layout: default
+title: Overview
+nav_order: 1
+---
+
 # ServiceAuthCentral
 
 ServiceAuthCentral is a tool designed to streamline authorization for microservices. Here's what makes it stand out:
