@@ -6,6 +6,15 @@ color_scheme: dark
 
 logo: "/assets/logo_transparent.png"
 
+mermaid:
+  # Version of mermaid library
+  # Pick an available version from https://cdn.jsdelivr.net/npm/mermaid/
+  version: "10.8.0"
+
+nav_external_links:
+  - title: ServiceAuthCentral on GitHub
+    url: https://github.com/UnitVectorY-Labs/ServiceAuthCentral
+
 # Footer "Edit this page on GitHub" link text
 gh_edit_link: true
 gh_edit_link_text: "Edit this page on GitHub."

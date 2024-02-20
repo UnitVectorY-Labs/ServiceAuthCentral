@@ -20,5 +20,5 @@ The following configuration attributes:
 | sac.datamodel.firestore.collection.authorizations | No (default: 'authorizations') | Firestore collection name |
 | sac.datamodel.firestore.collection.clients        | No (default: 'clients')        | Firestore collection name |
 | sac.datamodel.firestore.collection.keys           | No (default: 'keys')           | Firestore collection name |
-| sac.datamodel.firestore.collection.logincodes     | No (default: 'logincodes')     | Firestore collection name |
+| sac.datamodel.firestore.collection.logincodes     | No (default: 'loginCodes')     | Firestore collection name |
 | sac.datamodel.firestore.collection.loginstates    | No (default: 'loginStates')    | Firestore collection name |
