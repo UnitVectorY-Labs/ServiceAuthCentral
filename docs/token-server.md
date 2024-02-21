@@ -55,8 +55,8 @@ The Docker image for the token server is configured using environment variables.
 > {: .important }
 > These environment variables are required to be identical between the manage and token server deployment.
 
-| Environment Variable   | Required | Description                                                                                                                             |
-| ---------------------- | -------- | --------------------------------------------------------------------------------------------------------------------------------------- |
-| SPRING_PROFILES_ACTIVE | Yes      | The profile for selected [Data Store]({% link datastore %}), [Sign]({% link sign %}), and [Verify]({% link verify %}) must be selected. |
-| SAC_ISSUER             | Yes      | The JWT issuer url. Typically the domain name of the token server.                                                                      |
-| SAC_CORS_ORIGINS       | Yes      | CORS origins for web based logins. This is the domain name ServiceAuthCentral Web is deployed to.                                       |
+| Environment Variable   | Required | Description                                                                                                                                                            |
+| ---------------------- | -------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| SPRING_PROFILES_ACTIVE | Yes      | The profile for selected [Data Store]({% link datastore/datastore.md %}), [Sign]({% link sign/sign.md %}), and [Verify]({% link verify/verify.md %}) must be selected. |
+| SAC_ISSUER             | Yes      | The JWT issuer url. Typically the domain name of the token server.                                                                                                     |
+| SAC_CORS_ORIGINS       | Yes      | CORS origins for web based logins. This is the domain name ServiceAuthCentral Web is deployed to.                                                                      |
