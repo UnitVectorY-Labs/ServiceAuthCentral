@@ -40,7 +40,7 @@ flowchart LR
     Client -. API Call.-> ResourceServer
 ```
 
-## Build Manage Server Docker Image
+## Build Token Server Docker Image
 
 Both the manage and token service are compiled from the same repository git repository and Dockerfile. The command to build the token server requires the correct build-arg to be passed in to generate the docker container for the token server components.
 
@@ -52,10 +52,11 @@ docker build -f Dockerfile --build-arg MAVEN_PROFILE=auth-server-token -t servic
 
 The Docker image for the token server is configured using environment variables.
 
-> {: .highlight }
+> {: .important }
 > These environment variables are required to be identical between the manage and token server deployment.
 
-| Environment Variable | Required | Description                                                                                       |
-| -------------------- | -------- | ------------------------------------------------------------------------------------------------- |
-| SAC_ISSUER           | Yes      | The JWT issuer url. Typically the domain name of the token server.                                |
-| SAC_CORS_ORIGINS     | Yes      | CORS origins for web based logins. This is the domain name ServiceAuthCentral Web is deployed to. |
+| Environment Variable   | Required | Description                                                                                                                             |
+| ---------------------- | -------- | --------------------------------------------------------------------------------------------------------------------------------------- |
+| SPRING_PROFILES_ACTIVE | Yes      | The profile for selected [Data Store]({% link datastore %}), [Sign]({% link sign %}), and [Verify]({% link verify %}) must be selected. |
+| SAC_ISSUER             | Yes      | The JWT issuer url. Typically the domain name of the token server.                                                                      |
+| SAC_CORS_ORIGINS       | Yes      | CORS origins for web based logins. This is the domain name ServiceAuthCentral Web is deployed to.                                       |

@@ -21,3 +21,13 @@ flowchart TD
     loginCodes[(loginCodes)]
     loginStates[(loginStates)]
 ```
+
+## Configuration
+
+This module is enabled by setting the `SPRING_PROFILES_ACTIVE` to include the profile `datamodel-firestore`.
+
+The following environment variables are used by the Firestore module:
+
+| Environment Variable | Required | Description      |
+| -------------------- | -------- | ---------------- |
+| GOOGLE_CLOUD_PROJECT | Yes      | GCP Project name |

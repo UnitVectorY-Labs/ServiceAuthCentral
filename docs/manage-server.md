@@ -39,10 +39,11 @@ docker build -f Dockerfile --build-arg MAVEN_PROFILE=auth-server-manage -t servi
 
 The Docker image for the manage server is configured using environment variables.
 
-> {: .highlight }
+> {: .important }
 > These environment variables are required to be identical between the manage and token server deployment.
 
-| Environment Variable | Required | Description                                                                                       |
-| -------------------- | -------- | ------------------------------------------------------------------------------------------------- |
-| SAC_ISSUER           | Yes      | The JWT issuer url. Typically the domain name of the token server.                                |
-| SAC_CORS_ORIGINS     | Yes      | CORS origins for web based logins. This is the domain name ServiceAuthCentral Web is deployed to. |
+| Environment Variable   | Required | Description                                                                                       |
+| ---------------------- | -------- | ------------------------------------------------------------------------------------------------- |
+| SAC_ISSUER             | Yes      | The JWT issuer url. Typically the domain name of the token server.                                |
+| SAC_CORS_ORIGINS       | Yes      | CORS origins for web based logins. This is the domain name ServiceAuthCentral Web is deployed to. |
+| SPRING_PROFILES_ACTIVE | Yes      | The profile for selected [Data Store]({% link datastore %})                                       |

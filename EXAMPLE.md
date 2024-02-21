@@ -15,17 +15,17 @@ The specific implementation of `auth-verify` does not impact the operation so `a
 
 It requires the following environment variables.
 
-| Environment Variable                  | Example Value                                  |
-| ------------------------------------- | ---------------------------------------------- |
-| GOOGLE_CLOUD_PROJECT                  | Example                                        |
-| SPRING_PROFILES_ACTIVE                | prod,datamodel-firestore,sign-gcp,verify-auth0 |
-| SAC_SIGN_GCP_KEY_RING                 | authorization                                  |
-| SAC_SIGN_GCP_KEY_NAME                 | jwk-key                                        |
-| SAC_SERVER_TOKEN_ISSUER               | https://token.example.com                      |
-| SAC_USER_PROVIDER_GITHUB_CLIENTID     | github-client-id                               |
-| SAC_USER_PROVIDER_GITHUB_CLIENTSECRET | github-client-secret                           |
-| SAC_USER_REDIRECTURI                  | https://admin.example.com/callback             |
-| SAC_CORS_ORIGINS                      | https://admin.example.com                      |
+| Environment Variable                  | Example Value                             |
+| ------------------------------------- | ----------------------------------------- |
+| GOOGLE_CLOUD_PROJECT                  | Example                                   |
+| SPRING_PROFILES_ACTIVE                | datamodel-firestore,sign-gcp,verify-auth0 |
+| SAC_SIGN_GCP_KEY_RING                 | authorization                             |
+| SAC_SIGN_GCP_KEY_NAME                 | jwk-key                                   |
+| SAC_SERVER_TOKEN_ISSUER               | https://token.example.com                 |
+| SAC_USER_PROVIDER_GITHUB_CLIENTID     | github-client-id                          |
+| SAC_USER_PROVIDER_GITHUB_CLIENTSECRET | github-client-secret                      |
+| SAC_USER_REDIRECTURI                  | https://admin.example.com/callback        |
+| SAC_CORS_ORIGINS                      | https://admin.example.com                 |
 
 **Manage Server**
 
@@ -37,6 +37,6 @@ It requires the following environment variables.
 | Environment Variable   | Example Value             |
 | ---------------------- | ------------------------- |
 | GOOGLE_CLOUD_PROJECT   | Example                   |
-| SPRING_PROFILES_ACTIVE | prod,datamodel-firestore  |
+| SPRING_PROFILES_ACTIVE | datamodel-firestore       |
 | SAC_ISSUER             | https://token.example.com |
 | SAC_CORS_ORIGINS       | https://admin.example.com |
