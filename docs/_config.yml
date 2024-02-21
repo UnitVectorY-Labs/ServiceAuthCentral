@@ -6,6 +6,8 @@ color_scheme: dark
 
 logo: "/assets/logo_transparent.png"
 
+baseurl: /ServiceAuthCentral
+
 mermaid:
   # Version of mermaid library
   # Pick an available version from https://cdn.jsdelivr.net/npm/mermaid/
