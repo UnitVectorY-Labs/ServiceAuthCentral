@@ -12,3 +12,9 @@ The following configuration attributes:
 | ---------------- | -------- | ------------------ |
 | sac.issuer       | Yes      | The JWT issuer url |
 | sac.cors.origins | Yes      | CORS origins       |
+
+## Authentication and Authorization
+
+While the primary purpose of ServiceAuthCentral is server-to-server authentication with OAuth 2.0, this management API needs a mechanism to vend access tokens to the web based front end specifically [serviceauthcentralweb](https://github.com/UnitVectorY-Labs/serviceauthcentralweb). To support this auth-server-token supports a PKCE login flow.
+
+The tokens that are able to call the management API have the audience value which has the value of the issuer. Meaning in the JWT the issuer and audience have the same value.

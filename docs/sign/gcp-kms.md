@@ -7,7 +7,7 @@ nav_order: 1
 
 # GCP KMS
 
-GCP KMS supports managing asymmetric keys for signing that are secured such that the private key is not accessable thereby providing additional protections.
+This module provides an implementation for the JWT signing using asymmetric keys for signing using stored in [GCP KMS](https://cloud.google.com/security/products/security-key-management) with the benefit being the private key is not accessable thereby providing additional protections.
 
 ```mermaid
 flowchart LR

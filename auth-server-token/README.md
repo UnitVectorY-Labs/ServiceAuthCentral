@@ -10,8 +10,9 @@ External token verification is also modular implementing the `auth-verify` inter
 
 The following configuration attributes:
 
-| Property                                | Required           | Description                               |
-| --------------------------------------- | ------------------ | ----------------------------------------- |
-| sac.issuer                              | Yes                | The JWT issuer; populates the `iss` claim |
-| sac.cors.origins                        | Yes                | CORS origins                              |
-| sac.server.token.external.cache.seconds | No (default: 3600) | Number of seconds external JWKS is cached |
+| Property                                | Required           | Description                                                                                      |
+| --------------------------------------- | ------------------ | ------------------------------------------------------------------------------------------------ |
+| sac.issuer                              | Yes                | The JWT issuer; populates the `iss` claim                                                        |
+| sac.user.redirecturi                    | Yes                | The redirect URI for serviceauthcentralweb; multiple values can be specified separated by commas |
+| sac.cors.origins                        | Yes                | CORS origins                                                                                     |
+| sac.server.token.external.cache.seconds | No (default: 3600) | Number of seconds external JWKS is cached                                                        |
