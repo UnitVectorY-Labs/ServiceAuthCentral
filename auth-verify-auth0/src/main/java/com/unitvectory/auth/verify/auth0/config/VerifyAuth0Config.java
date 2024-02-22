@@ -30,7 +30,6 @@ import com.unitvectory.auth.verify.service.JwtVerifier;
  * @author Jared Hatfield (UnitVectorY Labs)
  */
 @Configuration
-@Profile("verify-auth0")
 public class VerifyAuth0Config {
 
 	@Bean
