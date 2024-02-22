@@ -1,6 +1,6 @@
 # ServiceAuthCentral
 
-Cloud based client credentials authorization server with no-secret authentication support
+Simplify microservice security with ServiceAuthCentral: Centralized, open-source authorization in the cloud, minus the shared secrets.
 
 ## Overview
 

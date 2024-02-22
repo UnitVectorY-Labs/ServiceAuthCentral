@@ -1,3 +1,6 @@
+title: ServiceAuthCentral
+description: Simplify microservice security with ServiceAuthCentral: Centralized, open-source authorization in the cloud, minus the shared secrets.
+
 remote_theme: just-the-docs/just-the-docs@v0.7.0
 plugins:
   - jekyll-remote-theme
@@ -25,3 +28,19 @@ gh_edit_repository: "https://github.com/UnitVectorY-Labs/ServiceAuthCentral"
 gh_edit_branch: "main"
 gh_edit_source: "docs"
 gh_edit_view_mode: "tree"
+
+callouts:
+  highlight:
+    color: yellow
+  important:
+    title: Important
+    color: blue
+  new:
+    title: New
+    color: green
+  note:
+    title: Note
+    color: purple
+  warning:
+    title: Warning
+    color: red

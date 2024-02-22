@@ -18,4 +18,4 @@ This is done by including one of the following profiles in the `SPRING_PROFILES_
 > {: .important }
 > Each module implementation may have additional environment variables that are required for it to work correctly when it is enabled.
 
-- `datamodel-firestore - Use GCP KMS to sign the JWTs
+- `datamodel-firestore` - Use GCP KMS to sign the JWTs
