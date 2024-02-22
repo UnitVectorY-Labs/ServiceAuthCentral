@@ -1,12 +1,12 @@
 ---
 layout: default
-title: Data Store
+title: Data Model
 nav_order: 4
 has_children: true
-permalink: /datastore
+permalink: /datamodel
 ---
 
-# Data Store
+# Data Model
 
 A flexible deployment is supported by allowing different underlying database technologies based on the desired deployment mechanism.
 

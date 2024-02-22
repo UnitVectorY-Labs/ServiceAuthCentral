@@ -1,7 +1,7 @@
 ---
 layout: default
 title: Firestore
-parent: Data Store
+parent: Data Model
 nav_order: 1
 ---
 
