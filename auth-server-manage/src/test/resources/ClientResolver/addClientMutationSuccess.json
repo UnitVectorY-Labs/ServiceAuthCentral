@@ -1,0 +1,13 @@
+{
+  "documentName": "addClientMutation",
+  "parameters": {
+    "clientId": "foo",
+    "description": "my description"
+  },
+  "path": "addClient",
+  "output": {
+    "clientId": "foo",
+    "description": "my description",
+    "availableScopes": null
+  }
+}

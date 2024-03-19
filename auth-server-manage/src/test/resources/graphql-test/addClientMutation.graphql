@@ -1,0 +1,18 @@
+mutation addClient(
+  $clientId: String!
+  $description: String!
+  $availableScopes: [ClientScopeInput]
+) {
+  addClient(
+    clientId: $clientId
+    description: $description
+    availableScopes: $availableScopes
+  ) {
+    clientId
+    description
+    availableScopes {
+      scope
+      description
+    }
+  }
+}
