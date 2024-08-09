@@ -1,18 +1,20 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>com.unitvectory</groupId>
         <artifactId>serviceauthcentral</artifactId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>
-    
+
     <artifactId>auth-server-token</artifactId>
 
     <properties>
         <start-class>com.unitvectory.auth.server.token.App</start-class>
     </properties>
-    
+
     <dependencies>
         <dependency>
             <groupId>com.unitvectory</groupId>
@@ -117,6 +119,16 @@
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <configuration>
+                    <additionalClasspathElements>
+                        <additionalClasspathElement>
+                            ${project.build.directory}/generated-sources/annotations</additionalClasspathElement>
+                    </additionalClasspathElements>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <configuration>
                     <source>${java.version}</source>
@@ -143,5 +155,3 @@
         </plugins>
     </build>
 </project>
-
-
