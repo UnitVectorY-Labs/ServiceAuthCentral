@@ -22,7 +22,6 @@ type Query {
     The cursor before which to return the items. Used for backward pagination.
     """
     before: String
-
   ): ClientSummaryConnection
 
   """
@@ -33,7 +32,6 @@ type Query {
     The clientId of the client to retrieve.
     """
     clientId: ID!
-
   ): Client
 
   """
@@ -44,7 +42,6 @@ type Query {
     The id of the authorization to retrieve.
     """
     id: ID!
-
   ): Authorization
 }
 
@@ -67,7 +64,6 @@ type Mutation {
     The list of scopes that this client is aware of and are available to be assigned to an authorized client.
     """
     availableScopes: [ClientScopeInput]
-
   ): Client!
 
   """
@@ -82,7 +78,6 @@ type Mutation {
     The scope to add to the client.
     """
     availableScope: ClientScopeInput!
-
   ): Response!
 
   """
@@ -92,7 +87,8 @@ type Mutation {
     """
     The clientId of the client to delete.
     """
-    clientId: String!): Response!
+    clientId: String!
+  ): Response!
 
   """
   Generates a new client secret for a client.
@@ -102,7 +98,6 @@ type Mutation {
     The clientId of the client to generate a new secret for.
     """
     clientId: String!
-
   ): ClientSecret!
 
   """
@@ -113,7 +108,6 @@ type Mutation {
     The clientId of the client to generate a new secret for.
     """
     clientId: String!
-
   ): ClientSecret!
 
   """
@@ -124,7 +118,6 @@ type Mutation {
     The clientId of the client to clear the secret for.
     """
     clientId: String!
-
   ): ClientSecret!
 
   """
@@ -135,7 +128,6 @@ type Mutation {
     The clientId of the client to clear the secret for.
     """
     clientId: String!
-
   ): ClientSecret!
 
   """
@@ -166,7 +158,6 @@ type Mutation {
     The aud claim that must be present in the JWT.
     """
     aud: String!
-
   ): Response!
 
   """
@@ -182,7 +173,6 @@ type Mutation {
     The id of the jwt-bearer configuration to deauthorize.
     """
     id: String!
-    
   ): Response!
 
   """
@@ -203,7 +193,6 @@ type Mutation {
     The scopes that the subject is authorized to access on the audience.  The scopes must be a subset of the audience's available scopes.
     """
     authorizedScopes: [String]
-
   ): Response!
 
   """
@@ -219,7 +208,6 @@ type Mutation {
     The clientId of the audience that the subject will be deauthorized from.
     """
     audience: String!
-
   ): Response!
 
   """
@@ -235,12 +223,11 @@ type Mutation {
     The clientId of the audience that the subject will be authorized to access the scope on. The scope must be a subset of the audience's available scopes.
     """
     audience: String!
-    
+
     """
     The scope that the subject will be authorized to access on the audience.
     """
     authorizedScope: String!
-    
   ): Response!
 
   """
@@ -261,7 +248,6 @@ type Mutation {
     The scope that the subject will be deauthorized from accessing on the audience.
     """
     authorizedScope: String!
-
   ): Response!
 }
 
@@ -278,11 +264,11 @@ type ClientSummaryConnection {
   The page information used for pagination.
   """
   pageInfo: PageInfo!
-
 }
 
 """
 An edge in a paginated list of ClientSummary objects.
+"""
 type ClientSummaryEdge {
   """
   The ClientSummary node.
@@ -293,7 +279,6 @@ type ClientSummaryEdge {
   The cursor for use in pagination.
   """
   cursor: String!
-
 }
 
 """
@@ -319,7 +304,6 @@ type PageInfo {
   The cursor corresponding to the last node in the current page of results.
   """
   endCursor: String
-
 }
 
 """
@@ -335,7 +319,6 @@ type ClientSummary {
   The description of the client.
   """
   description: String!
-
 }
 
 """
@@ -522,7 +505,7 @@ type Authorization {
   The id of the authorization.
   """
   id: ID!
-  
+
   """
   The date the authorization was created.
   Returned in ISO-8601 format. yyyy-MM-dd'T'HH:mm:ssZ
