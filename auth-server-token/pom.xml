@@ -9,6 +9,7 @@
         <version>0.0.1-SNAPSHOT</version>
     </parent>
 
+    <groupId>com.unitvectory.serviceauthcentral</groupId>
     <artifactId>auth-server-token</artifactId>
 
     <properties>
@@ -17,44 +18,44 @@
 
     <dependencies>
         <dependency>
-            <groupId>com.unitvectory</groupId>
+            <groupId>com.unitvectory.serviceauthcentral</groupId>
             <artifactId>auth-common</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
-            <groupId>com.unitvectory</groupId>
+            <groupId>com.unitvectory.serviceauthcentral</groupId>
             <artifactId>auth-util</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
-            <groupId>com.unitvectory</groupId>
+            <groupId>com.unitvectory.serviceauthcentral</groupId>
             <artifactId>auth-datamodel</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
-            <groupId>com.unitvectory</groupId>
+            <groupId>com.unitvectory.serviceauthcentral</groupId>
             <artifactId>auth-datamodel-firestore</artifactId>
             <version>${project.version}</version>
             <scope>runtime</scope>
         </dependency>
         <dependency>
-            <groupId>com.unitvectory</groupId>
+            <groupId>com.unitvectory.serviceauthcentral</groupId>
             <artifactId>auth-sign</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
-            <groupId>com.unitvectory</groupId>
+            <groupId>com.unitvectory.serviceauthcentral</groupId>
             <artifactId>auth-sign-gcp</artifactId>
             <version>${project.version}</version>
             <scope>runtime</scope>
         </dependency>
         <dependency>
-            <groupId>com.unitvectory</groupId>
+            <groupId>com.unitvectory.serviceauthcentral</groupId>
             <artifactId>auth-verify</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
-            <groupId>com.unitvectory</groupId>
+            <groupId>com.unitvectory.serviceauthcentral</groupId>
             <artifactId>auth-verify-auth0</artifactId>
             <version>${project.version}</version>
             <scope>runtime</scope>
@@ -89,13 +90,13 @@
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>com.unitvectory</groupId>
+            <groupId>com.unitvectory.serviceauthcentral</groupId>
             <artifactId>auth-datamodel-memory</artifactId>
             <version>${project.version}</version>
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>com.unitvectory</groupId>
+            <groupId>com.unitvectory.serviceauthcentral</groupId>
             <artifactId>auth-sign-local</artifactId>
             <version>${project.version}</version>
             <scope>test</scope>
@@ -122,8 +123,7 @@
                 <artifactId>maven-surefire-plugin</artifactId>
                 <configuration>
                     <additionalClasspathElements>
-                        <additionalClasspathElement>
-                            ${project.build.directory}/generated-sources/annotations</additionalClasspathElement>
+                        <additionalClasspathElement>${project.build.directory}/generated-sources/annotations</additionalClasspathElement>
                     </additionalClasspathElements>
                 </configuration>
             </plugin>

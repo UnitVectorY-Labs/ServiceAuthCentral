@@ -7,6 +7,7 @@
         <version>0.0.1-SNAPSHOT</version>
     </parent>
     
+    <groupId>com.unitvectory.serviceauthcentral</groupId>
     <artifactId>auth-datamodel-memory</artifactId>
 
     <properties>
@@ -14,17 +15,17 @@
     
     <dependencies>
         <dependency>
-            <groupId>com.unitvectory</groupId>
+            <groupId>com.unitvectory.serviceauthcentral</groupId>
             <artifactId>auth-common</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
-            <groupId>com.unitvectory</groupId>
+            <groupId>com.unitvectory.serviceauthcentral</groupId>
             <artifactId>auth-util</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
-            <groupId>com.unitvectory</groupId>
+            <groupId>com.unitvectory.serviceauthcentral</groupId>
             <artifactId>auth-datamodel</artifactId>
             <version>${project.version}</version>
         </dependency>
@@ -59,8 +60,7 @@
                 <artifactId>maven-surefire-plugin</artifactId>
                 <configuration>
                     <additionalClasspathElements>
-                        <additionalClasspathElement>
-                            ${project.build.directory}/generated-sources/annotations</additionalClasspathElement>
+                        <additionalClasspathElement>{project.build.directory}/generated-sources/annotations</additionalClasspathElement>
                     </additionalClasspathElements>
                 </configuration>
             </plugin>

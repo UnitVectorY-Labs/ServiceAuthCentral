@@ -7,6 +7,7 @@
         <version>0.0.1-SNAPSHOT</version>
     </parent>
 
+    <groupId>com.unitvectory.serviceauthcentral</groupId>
     <artifactId>auth-sign-local</artifactId>
 
     <properties>
@@ -14,12 +15,12 @@
 
     <dependencies>
         <dependency>
-            <groupId>com.unitvectory</groupId>
+            <groupId>com.unitvectory.serviceauthcentral</groupId>
             <artifactId>auth-util</artifactId>
             <version>${project.version}</version>
         </dependency>
         <dependency>
-            <groupId>com.unitvectory</groupId>
+            <groupId>com.unitvectory.serviceauthcentral</groupId>
             <artifactId>auth-sign</artifactId>
             <version>${project.version}</version>
         </dependency>
