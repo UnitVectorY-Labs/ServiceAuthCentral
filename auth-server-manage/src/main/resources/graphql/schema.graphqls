@@ -1,136 +1,566 @@
 type Query {
+  """
+  Get a list of clients.
+  """
   clients(
+    """
+    The number of items to return starting after the cursor specified by 'after'. Used for forward pagination.
+    """
     first: Int
+
+    """
+    The cursor after which to return the items. Used for forward pagination.
+    """
     after: String
+
+    """
+    The number of items to return ending before the cursor specified by 'before'. Used for backward pagination.
+    """
     last: Int
+
+    """
+    The cursor before which to return the items. Used for backward pagination.
+    """
     before: String
+
   ): ClientSummaryConnection
-  client(clientId: ID!): Client
-  authorization(id: ID!): Authorization
+
+  """
+  Get a client by the clientId.
+  """
+  client(
+    """
+    The clientId of the client to retrieve.
+    """
+    clientId: ID!
+
+  ): Client
+
+  """
+  Get an authorization by the id.
+  """
+  authorization(
+    """
+    The id of the authorization to retrieve.
+    """
+    id: ID!
+
+  ): Authorization
 }
 
 type Mutation {
+  """
+  Add a new client.
+  """
   addClient(
+    """
+    The clientId of the new client. Must be globally unique.
+    """
     clientId: String!
+
+    """
+    The description of the client.
+    """
     description: String!
+
+    """
+    The list of scopes that this client is aware of and are available to be assigned to an authorized client.
+    """
     availableScopes: [ClientScopeInput]
+
   ): Client!
+
+  """
+  Add an additional available scope to an existing client that can be assigned to an authorized client.
+  """
   addClientAvailableScope(
+    """
+    The clientId of the client to add the available scope to.
+    """
     clientId: String!
+    """
+    The scope to add to the client.
+    """
     availableScope: ClientScopeInput!
+
   ): Response!
-  deleteClient(clientId: String!): Response!
-  generateClientSecret1(clientId: String!): ClientSecret!
-  generateClientSecret2(clientId: String!): ClientSecret!
-  clearClientSecret1(clientId: String!): ClientSecret!
-  clearClientSecret2(clientId: String!): ClientSecret!
-  authorizeJwtBearer(
+
+  """
+  Delete a client.
+  """
+  deleteClient(
+    """
+    The clientId of the client to delete.
+    """
+    clientId: String!): Response!
+
+  """
+  Generates a new client secret for a client.
+  """
+  generateClientSecret1(
+    """
+    The clientId of the client to generate a new secret for.
+    """
     clientId: String!
+
+  ): ClientSecret!
+
+  """
+  Generates a new client secret for a client.
+  """
+  generateClientSecret2(
+    """
+    The clientId of the client to generate a new secret for.
+    """
+    clientId: String!
+
+  ): ClientSecret!
+
+  """
+  Clears the client secret for a client.
+  """
+  clearClientSecret1(
+    """
+    The clientId of the client to clear the secret for.
+    """
+    clientId: String!
+
+  ): ClientSecret!
+
+  """
+  Clears the client secret for a client.
+  """
+  clearClientSecret2(
+    """
+    The clientId of the client to clear the secret for.
+    """
+    clientId: String!
+
+  ): ClientSecret!
+
+  """
+  Add a jwt-bearer configuration to a client to use as an authorized user for the client.
+  """
+  authorizeJwtBearer(
+    """
+    The clientId of the client to authorize for use with jwt-bearer.
+    """
+    clientId: String!
+
+    """
+    The jwksUrl of the jwt-bearer used to validate the JWT.
+    """
     jwksUrl: String!
+
+    """
+    The iss claim that must be present in the JWT.
+    """
     iss: String!
+
+    """
+    The sub claim that must be present in the JWT.
+    """
     sub: String!
+
+    """
+    The aud claim that must be present in the JWT.
+    """
     aud: String!
+
   ): Response!
-  deauthorizeJwtBearer(clientId: String!, id: String!): Response!
+
+  """
+  Deauthorize a jwt-bearer configuration from a client.
+  """
+  deauthorizeJwtBearer(
+    """
+    The clientId of the client to deauthorize for use with jwt-bearer.
+    """
+    clientId: String!
+
+    """
+    The id of the jwt-bearer configuration to deauthorize.
+    """
+    id: String!
+    
+  ): Response!
+
+  """
+  Authorize a client to access another client with the authorization.
+  """
   authorize(
+    """
+    The clientId of the service that will be be granted access to the specified audience.
+    """
     subject: String!
+
+    """
+    The clientId of the service that is being accessed by the specified subject.
+    """
     audience: String!
+
+    """
+    The scopes that the subject is authorized to access on the audience.  The scopes must be a subset of the audience's available scopes.
+    """
     authorizedScopes: [String]
+
   ): Response!
-  deauthorize(subject: String!, audience: String!): Response!
+
+  """
+  Deauthorize a client from accessing another client.
+  """
+  deauthorize(
+    """
+    The clientId of the subject that will be deauthorized from the specified audience.
+    """
+    subject: String!
+
+    """
+    The clientId of the audience that the subject will be deauthorized from.
+    """
+    audience: String!
+
+  ): Response!
+
+  """
+  Add an authorized scope to an existing authorization.
+  """
   authorizeAddScope(
+    """
+    The clientId of the subject that will be authorized to access the scope.
+    """
     subject: String!
+
+    """
+    The clientId of the audience that the subject will be authorized to access the scope on. The scope must be a subset of the audience's available scopes.
+    """
     audience: String!
+    
+    """
+    The scope that the subject will be authorized to access on the audience.
+    """
     authorizedScope: String!
+    
   ): Response!
+
+  """
+  Remove an authorized scope from an existing authorization.
+  """
   authorizeRemoveScope(
+    """
+    The clientId of the subject that will be deauthorized from accessing the scope.
+    """
     subject: String!
+
+    """
+    The clientId of the audience that the subject will be deauthorized from accessing the scope on.
+    """
     audience: String!
+
+    """
+    The scope that the subject will be deauthorized from accessing on the audience.
+    """
     authorizedScope: String!
+
   ): Response!
 }
 
+"""
+A connection object for paginated ClientSummary results.
+"""
 type ClientSummaryConnection {
+  """
+  The list of edges each containing a ClientSummary.
+  """
   edges: [ClientSummaryEdge]
+
+  """
+  The page information used for pagination.
+  """
   pageInfo: PageInfo!
+
 }
 
+"""
+An edge in a paginated list of ClientSummary objects.
 type ClientSummaryEdge {
+  """
+  The ClientSummary node.
+  """
   node: ClientSummary
+
+  """
+  The cursor for use in pagination.
+  """
   cursor: String!
+
 }
 
+"""
+Information about pagination in a connection.
+"""
 type PageInfo {
+  """
+  Indicates if there are more pages to fetch after the current one.
+  """
   hasNextPage: Boolean!
+
+  """
+  Indicates if there are more pages to fetch before the current one.
+  """
   hasPreviousPage: Boolean!
+
+  """
+  The cursor corresponding to the first node in the current page of results.
+  """
   startCursor: String
+
+  """
+  The cursor corresponding to the last node in the current page of results.
+  """
   endCursor: String
+
 }
 
+"""
+The abreviated representation of a client.
+"""
 type ClientSummary {
+  """
+  The clientId of the client.
+  """
   clientId: ID!
+
+  """
+  The description of the client.
+  """
   description: String!
+
 }
 
+"""
+The full representation of a client.
+"""
 type Client {
+  """
+  The clientId of the client.
+  """
   clientId: ID!
+
+  """
+  The date the client was created.
+  """
   clientCreated: String
+
+  """
+  The description of the client.
+  """
   description: String
+
+  """
+  The type of client.
+  """
   clientType: String
+
+  """
+  The indicator that the first client secret has been set for the client.
+  The client secret is used to authenticate the client to the authorization server, but is stored as a hashed value and cannot be retrieved after it is set.
+  """
   clientSecret1Set: Boolean
+
+  """
+  The time the first client secret was modified.
+  Returned in ISO-8601 format. yyyy-MM-dd'T'HH:mm:ssZ
+  """
   clientSecret1Updated: String
+
+  """
+  The indicator that the second client secret has been set for the client.
+  The client secret is used to authenticate the client to the authorization server, but is stored as a hashed value and cannot be retrieved after it is set.
+  """
   clientSecret2Set: Boolean
+
+  """
+  The time the second client secret was modified.
+  Returned in ISO-8601 format. yyyy-MM-dd'T'HH:mm:ssZ
+  """
   clientSecret2Updated: String
+
+  """
+  The list of authorizations where the client is the subject.
+  """
   authorizationsAsSubject: [Authorization]
+
+  """
+  The list of authorizations where the client is the audience.
+  """
   authorizationsAsAudience: [Authorization]
+
+  """
+  The list of available scopes that can be assigned to an authorized client.
+  """
   availableScopes: [ClientScope]
+
+  """
+  The list of jwt-bearer configurations that can be used to authorize the client.
+  """
   jwtBearer: [JwtBearer]
+
+  """
+  The client management permissions for the client. These permissions are used to determine what actions can be taken on the client.
+  """
   managementPermissions: ClientManagementCapabilities
 }
 
+"""
+The scope that can be assigned to an authorized client.
+"""
 type ClientScope {
   scope: ID!
   description: String
 }
 
+"""
+The input object for adding a new available scope to a client.
+"""
 input ClientScopeInput {
   scope: ID!
   description: String
 }
 
+"""
+The client management permissions for a client.
+These permissions are used to determine what actions can be taken on the client.
+"""
 type ClientManagementCapabilities {
+  """
+  Indicates if the client can be deleted.
+  """
   canDeleteClient: Boolean!
+
+  """
+  Indicates if the client secret can be added.
+  """
   canAddClientSecret: Boolean!
+
+  """
+  Indicates if the client secret can be deleted.
+  """
   canDeleteClientSecret: Boolean!
+
+  """
+  Indicates a jwt-bearer configuration can be added to the client.
+  """
   canAddClientAuthorization: Boolean!
+
+  """
+  Indicates a jwt-bearer configuration can be removed from the client.
+  """
   canDeleteClientAuthorization: Boolean!
+
+  """
+  Indicates an available scope can be added to the client.
+  """
   canAddAvailableScope: Boolean!
+
+  """
+  Indicates a client can be authorized to access this client.
+  """
   canAddAuthorization: Boolean!
+
+  """
+  Indicates a client can be deauthorized from accessing this client.
+  """
   canDeleteAuthorization: Boolean!
+
+  """
+  Indicates a scope can be added.
+  """
   canAuthorizeAddScope: Boolean!
+
+  """
+  Indicates a scope can be removed.
+  """
   canAuthorizeRemoveScope: Boolean!
 }
 
+"""
+The jwt-bearer configuration that can be used.
+"""
 type JwtBearer {
+  """
+  The id of the jwt-bearer configuration.
+  """
   id: ID!
+
+  """
+  The jwksUrl of the jwt-bearer used to validate the JWT.
+  """
   jwksUrl: String
+
+  """
+  The iss claim that must be present in the JWT.
+  """
   iss: String
+
+  """
+  The sub claim that must be present in the JWT.
+  """
   sub: String
+
+  """
+  The aud claim that must be present in the JWT.
+  """
   aud: String
 }
 
+"""
+The authorization that allows a client to access another client.
+"""
 type Authorization {
+  """
+  The id of the authorization.
+  """
   id: ID!
+  
+  """
+  The date the authorization was created.
+  Returned in ISO-8601 format. yyyy-MM-dd'T'HH:mm:ssZ
+  """
   authorizationCreated: String
+
+  """
+  The clientId of the subject that is authorized to access the audience.
+  """
   subject: Client
+
+  """
+  The clientId of the audience that the subject is authorized to access.
+  """
   audience: Client
+
+  """
+  The scopes that the subject is authorized to access on the audience.
+  """
   authorizedScopes: [String]
 }
 
+"""
+The client secret.
+"""
 type ClientSecret {
+  """
+  The generated client secret.  This value is only returned once and cannot be retrieved again.
+  """
   clientSecret: String
 }
 
+"""
+The response object for mutations.
+"""
 type Response {
+  """
+  The flag indicating if the operation was successful.
+  """
   success: Boolean!
 }
