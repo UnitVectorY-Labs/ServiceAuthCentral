@@ -74,8 +74,9 @@ type Mutation {
     The clientId of the client to add the available scope to.
     """
     clientId: String!
+
     """
-    The scope to add to the client.
+    The available scope to add to the client.
     """
     availableScope: ClientScopeInput!
   ): Response!
@@ -91,7 +92,7 @@ type Mutation {
   ): Response!
 
   """
-  Generates a new client secret for a client.
+  Generates a new client secret for a client. This is one of two methods to generate a new client secret, differentiated by their names.
   """
   generateClientSecret1(
     """
@@ -101,7 +102,7 @@ type Mutation {
   ): ClientSecret!
 
   """
-  Generates a new client secret for a client.
+  Generates a new client secret for a client. This is one of two methods to generate a new client secret, differentiated by their names.
   """
   generateClientSecret2(
     """
@@ -111,7 +112,7 @@ type Mutation {
   ): ClientSecret!
 
   """
-  Clears the client secret for a client.
+  Clears the client secret for a client. This is one of two methods to clear the client secret, differentiated by their names.
   """
   clearClientSecret1(
     """
@@ -121,7 +122,7 @@ type Mutation {
   ): ClientSecret!
 
   """
-  Clears the client secret for a client.
+  Clears the client secret for a client. This is one of two methods to clear the client secret, differentiated by their names.
   """
   clearClientSecret2(
     """
@@ -140,22 +141,22 @@ type Mutation {
     clientId: String!
 
     """
-    The jwksUrl of the jwt-bearer used to validate the JWT.
+    The jwksUrl of the JWT bearer used to validate the JWT.
     """
     jwksUrl: String!
 
     """
-    The iss claim that must be present in the JWT.
+    The `iss` (issuer) claim that must be present in the JWT.
     """
     iss: String!
 
     """
-    The sub claim that must be present in the JWT.
+    The `sub` (subject) claim that must be present in the JWT.
     """
     sub: String!
 
     """
-    The aud claim that must be present in the JWT.
+    The `aud` (audience) claim that must be present in the JWT.
     """
     aud: String!
   ): Response!
@@ -170,7 +171,7 @@ type Mutation {
     clientId: String!
 
     """
-    The id of the jwt-bearer configuration to deauthorize.
+    The id of the JWT bearer configuration to deauthorize.
     """
     id: String!
   ): Response!
@@ -180,7 +181,7 @@ type Mutation {
   """
   authorize(
     """
-    The clientId of the service that will be be granted access to the specified audience.
+    The clientId of the service that will be granted access to the specified audience.
     """
     subject: String!
 
@@ -190,7 +191,7 @@ type Mutation {
     audience: String!
 
     """
-    The scopes that the subject is authorized to access on the audience.  The scopes must be a subset of the audience's available scopes.
+    The scopes that the subject is authorized to access on the audience. The scopes must be a subset of the audience's available scopes.
     """
     authorizedScopes: [String]
   ): Response!
@@ -256,7 +257,7 @@ A connection object for paginated ClientSummary results.
 """
 type ClientSummaryConnection {
   """
-  The list of edges each containing a ClientSummary.
+  The list of edges, each containing a ClientSummary.
   """
   edges: [ClientSummaryEdge]
 
@@ -307,7 +308,7 @@ type PageInfo {
 }
 
 """
-The abreviated representation of a client.
+The abbreviated representation of a client.
 """
 type ClientSummary {
   """
@@ -347,25 +348,25 @@ type Client {
 
   """
   The indicator that the first client secret has been set for the client.
-  The client secret is used to authenticate the client to the authorization server, but is stored as a hashed value and cannot be retrieved after it is set.
+  The client secret is used to authenticate the client to the authorization server but is stored as a hashed value and cannot be retrieved after it is set.
   """
   clientSecret1Set: Boolean
 
   """
   The time the first client secret was modified.
-  Returned in ISO-8601 format. yyyy-MM-dd'T'HH:mm:ssZ
+  Returned in ISO-8601 format (yyyy-MM-dd'T'HH:mm:ssZ). The 'Z' indicates UTC, which is always used.
   """
   clientSecret1Updated: String
 
   """
   The indicator that the second client secret has been set for the client.
-  The client secret is used to authenticate the client to the authorization server, but is stored as a hashed value and cannot be retrieved after it is set.
+  The client secret is used to authenticate the client to the authorization server but is stored as a hashed value and cannot be retrieved after it is set.
   """
   clientSecret2Set: Boolean
 
   """
   The time the second client secret was modified.
-  Returned in ISO-8601 format. yyyy-MM-dd'T'HH:mm:ssZ
+  Returned in ISO-8601 format (yyyy-MM-dd'T'HH:mm:ssZ). The 'Z' indicates UTC, which is always used.
   """
   clientSecret2Updated: String
 
@@ -390,7 +391,7 @@ type Client {
   jwtBearer: [JwtBearer]
 
   """
-  The client management permissions for the client. These permissions are used to determine what actions can be taken on the client.
+  The client management permissions for the client. These permissions are used to determine what actions can be taken on the client
   """
   managementPermissions: ClientManagementCapabilities
 }
@@ -491,22 +492,22 @@ type JwtBearer {
   id: ID!
 
   """
-  The jwksUrl of the jwt-bearer used to validate the JWT.
+  The jwksUrl of the JWT bearer used to validate the JWT.
   """
   jwksUrl: String
 
   """
-  The iss claim that must be present in the JWT.
+  The iss (issuer) claim that must be present in the JWT.
   """
   iss: String
 
   """
-  The sub claim that must be present in the JWT.
+  The sub (subject) claim that must be present in the JWT.
   """
   sub: String
 
   """
-  The aud claim that must be present in the JWT.
+  The aud (audience) claim that must be present in the JWT.
   """
   aud: String
 }
@@ -522,7 +523,7 @@ type Authorization {
 
   """
   The date the authorization was created.
-  Returned in ISO-8601 format. yyyy-MM-dd'T'HH:mm:ssZ
+  Returned in ISO-8601 format (yyyy-MM-dd’T’HH:mm:ssZ). The ‘Z’ indicates UTC, which is always used.
   """
   authorizationCreated: String
 
@@ -547,7 +548,7 @@ The client secret.
 """
 type ClientSecret {
   """
-  The generated client secret.  This value is only returned once and cannot be retrieved again.
+  The generated client secret. This value is only returned once and cannot be retrieved again.
   """
   clientSecret: String
 }
