@@ -13,7 +13,7 @@
     <artifactId>server-token</artifactId>
 
     <properties>
-        <start-class>com.unitvectory.auth.server.token.App</start-class>
+        <start-class>com.unitvectory.serviceauthcentral.server.token.App</start-class>
     </properties>
 
     <dependencies>

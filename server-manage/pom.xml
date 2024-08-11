@@ -13,7 +13,7 @@
     <artifactId>server-manage</artifactId>
 
     <properties>
-        <start-class>com.unitvectory.auth.server.manage.App</start-class>
+        <start-class>com.unitvectory.serviceauthcentral.server.manage.App</start-class>
     </properties>
 
     <dependencies>
