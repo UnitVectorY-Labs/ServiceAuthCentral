@@ -15,9 +15,9 @@ jobs:
     strategy:
       matrix:
         include:
-          - profile: auth-server-manage
+          - profile: server-manage
             tag: manage
-          - profile: auth-server-token
+          - profile: server-token
             tag: token
 
     steps:

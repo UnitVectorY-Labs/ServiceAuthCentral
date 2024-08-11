@@ -9,8 +9,8 @@ This example uses GCP to host the container providing access to
 **Token Server**
 
 The token server can be deployed as a Cloud Run service.
-It can utilize GCP Firesture through the `auth-datamodel-firestore` module with the `datamodel-firestore` Spring Boot profile.
-It can utilize GCP KMS through the `auth-sign-gcp` module with the `sign-gcp` Spring Boot profile.
+It can utilize GCP Firesture through the `datamodel-firestore` module with the `datamodel-firestore` Spring Boot profile.
+It can utilize GCP KMS through the `sign-gcp` module with the `sign-gcp` Spring Boot profile.
 
 It requires the following environment variables.
 
@@ -29,7 +29,7 @@ It requires the following environment variables.
 **Manage Server**
 
 The manage server can be deployed as a Cloud Run service.
-It must utilize the same GCP Firestore collections utilizing the the `auth-datamodel-firestore` module with the `datamodel-firestore` Spring Boot profile.
+It must utilize the same GCP Firestore collections utilizing the the `datamodel-firestore` module with the `datamodel-firestore` Spring Boot profile.
 
 It requires the following environment variables.
 

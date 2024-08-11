@@ -45,7 +45,7 @@ flowchart LR
 Both the manage and token service are compiled from the same repository git repository and Dockerfile. The command to build the token server requires the correct build-arg to be passed in to generate the docker container for the token server components.
 
 ```
-docker build -f Dockerfile --build-arg MAVEN_PROFILE=auth-server-token -t serviceauthcentral/auth-server-token .
+docker build -f Dockerfile --build-arg MAVEN_PROFILE=server-token -t serviceauthcentral/server-token .
 ```
 
 ## Run Token Server Using Docker

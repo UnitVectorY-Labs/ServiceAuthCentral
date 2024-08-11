@@ -2,8 +2,8 @@
 FROM maven:3.9-amazoncorretto-17 AS build
 
 # Define arguments for Maven profile and JAR file name
-# Can pass value of "auth-server-manage" to compile the manage server
-ARG MAVEN_PROFILE=auth-server-token
+# Can pass value of "server-manage" to compile the manage server
+ARG MAVEN_PROFILE=server-token
 
 WORKDIR /app
 

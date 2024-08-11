@@ -32,7 +32,7 @@ flowchart LR
 Both the manage and token service are compiled from the same repository git repository and Dockerfile. The command to build the manage server requires the correct build-arg to be passed in to generate the docker container for the manage server components.
 
 ```
-docker build -f Dockerfile --build-arg MAVEN_PROFILE=auth-server-manage -t serviceauthcentral/auth-server-manage .
+docker build -f Dockerfile --build-arg MAVEN_PROFILE=server-manage -t serviceauthcentral/server-manage .
 ```
 
 ## Run Manage Server Using Docker
