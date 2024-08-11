@@ -399,7 +399,14 @@ type Client {
 The scope that can be assigned to an authorized client.
 """
 type ClientScope {
+  """
+  The value for the scope.
+  """
   scope: ID!
+
+  """
+  The description of the scope.
+  """
   description: String
 }
 
@@ -407,7 +414,14 @@ type ClientScope {
 The input object for adding a new available scope to a client.
 """
 input ClientScopeInput {
+  """
+  The value for the scope.
+  """
   scope: ID!
+
+  """
+  The description of the scope.
+  """
   description: String
 }
 
