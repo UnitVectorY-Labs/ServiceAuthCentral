@@ -171,7 +171,8 @@ public class LoginService {
 
 			String salt = this.entropyService.randomAlphaNumeric(32);
 			this.clientRepository.putClient(userClientId,
-					"GitHub User: " + userContext.getUserName(), salt, ClientType.USER,
+					loginProviderService.getProviderDisplayName() + " User: " + userContext.getUserName(), salt,
+					ClientType.USER,
 					new ArrayList<ClientScope>());
 		}
 
