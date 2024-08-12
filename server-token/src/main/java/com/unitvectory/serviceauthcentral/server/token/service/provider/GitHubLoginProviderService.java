@@ -43,7 +43,8 @@ import com.unitvectory.serviceauthcentral.util.exception.UnauthorizedException;
 import lombok.Data;
 
 /**
- * The GitHub implementation of the Login Provider Service to facilitate logins with GitHub
+ * The GitHub implementation of the Login Provider Service to facilitate logins
+ * with GitHub
  * 
  * @author Jared Hatfield (UnitVectorY Labs)
  */
@@ -53,9 +54,13 @@ public class GitHubLoginProviderService implements LoginProviderService {
 
 	public static final String PROVIDER = "github";
 
-	public static final String CLIENTID_PROPERTY = "sac.user.provider.github.clientid";
+	public static final String PROVIDER_NAME = "GitHub";
 
-	public static final String CLIENTSECRET_PROPERTY = "sac.user.provider.github.clientsecret";
+	private static final String TOKEN_ENDPOINT = "https://github.com/login/oauth/access_token";
+
+	private static final String USER_ENDPOINT = "https://api.github.com/user";
+
+	private static final String AUTHORIZE_URI = "https://github.com/login/oauth/authorize";
 
 	@Value("${sac.user.provider.github.clientid}")
 	private String clientId;
@@ -63,11 +68,10 @@ public class GitHubLoginProviderService implements LoginProviderService {
 	@Value("${sac.user.provider.github.clientsecret}")
 	private String clientSecret;
 
-	private static final String TOKEN_ENDPOINT = "https://github.com/login/oauth/access_token";
-
-	private static final String USER_ENDPOINT = "https://api.github.com/user";
-
-	private static final String AUTHORIZE_URI = "https://github.com/login/oauth/authorize";
+	@Override
+	public String getProviderDisplayName() {
+		return PROVIDER_NAME;
+	}
 
 	@Override
 	public boolean isActive() {
@@ -119,8 +123,7 @@ public class GitHubLoginProviderService implements LoginProviderService {
 		};
 
 		String json = client.execute(httpPost, responseHandler);
-		AccessTokenResponse accessTokenResponse =
-				objectMapper.readValue(json, AccessTokenResponse.class);
+		AccessTokenResponse accessTokenResponse = objectMapper.readValue(json, AccessTokenResponse.class);
 		return accessTokenResponse.getAccessToken();
 	}
 

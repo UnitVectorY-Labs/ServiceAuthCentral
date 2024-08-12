@@ -20,9 +20,12 @@ It requires the following environment variables.
 | SPRING_PROFILES_ACTIVE                | datamodel-firestore,sign-gcp       |
 | SAC_SIGN_GCP_KEY_RING                 | authorization                      |
 | SAC_SIGN_GCP_KEY_NAME                 | jwk-key                            |
-| SAC_SERVER_TOKEN_ISSUER               | https://token.example.com          |
+| SAC_ISSUER                            | https://token.example.com          |
+| SAC_TOKEN_URL                         | https://token.example.com          |
 | SAC_USER_PROVIDER_GITHUB_CLIENTID     | github-client-id                   |
 | SAC_USER_PROVIDER_GITHUB_CLIENTSECRET | github-client-secret               |
+| SAC_USER_PROVIDER_GOOGLE_CLIENTID     | google-client-id                   |
+| SAC_USER_PROVIDER_GOOGLE_CLIENTSECRET | google-client-secret               |
 | SAC_USER_REDIRECTURI                  | https://admin.example.com/callback |
 | SAC_CORS_ORIGINS                      | https://admin.example.com          |
 

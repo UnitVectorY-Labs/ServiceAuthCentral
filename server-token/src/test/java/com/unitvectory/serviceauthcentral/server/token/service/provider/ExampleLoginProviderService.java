@@ -47,4 +47,9 @@ public class ExampleLoginProviderService implements LoginProviderService {
 		return "http://localhost/auth";
 	}
 
+	@Override
+	public String getProviderDisplayName() {
+		return "Example";
+	}
+
 }

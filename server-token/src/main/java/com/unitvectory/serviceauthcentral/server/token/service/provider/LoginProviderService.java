@@ -18,12 +18,20 @@ import com.unitvectory.serviceauthcentral.server.token.model.UserContext;
 /**
  * Interface to provide separate implementations for OAuth login provider.
  * 
- * This allows for multiple OAuth providers to be implemented in the context of the double OAuth
+ * This allows for multiple OAuth providers to be implemented in the context of
+ * the double OAuth
  * flow facilitated with PKCE to the front end web application
  * 
  * @author Jared Hatfield (UnitVectorY Labs)
  */
 public interface LoginProviderService {
+
+	/**
+	 * Gets the name of the provider for display purposes.
+	 * 
+	 * @return the provider name
+	 */
+	String getProviderDisplayName();
 
 	/**
 	 * True if this service is configured to be active, otherwise false.
@@ -40,7 +48,8 @@ public interface LoginProviderService {
 	String getClientId();
 
 	/**
-	 * Takes an authorization code and exchanges it for an access token. Instead of returning a
+	 * Takes an authorization code and exchanges it for an access token. Instead of
+	 * returning a
 	 * token the token is used to get the user identifier
 	 * 
 	 * @param code the authorization code
