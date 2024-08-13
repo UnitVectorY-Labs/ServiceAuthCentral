@@ -11,27 +11,24 @@
  * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
  */
-package com.unitvectory.serviceauthcentral.server.token.service.provider;
-
-import com.unitvectory.serviceauthcentral.server.token.model.UserContext;
+package com.unitvectory.serviceauthcentral.user;
 
 /**
- * Interface to provide separate implementations for OAuth login provider.
+ * Interface to provide separate implementations for OAuth login service.
  * 
- * This allows for multiple OAuth providers to be implemented in the context of
- * the double OAuth
- * flow facilitated with PKCE to the front end web application
+ * This allows for multiple OAuth services to be implemented in the context of
+ * the double OAuth flow facilitated with PKCE to the front end web application
  * 
  * @author Jared Hatfield (UnitVectorY Labs)
  */
-public interface LoginProviderService {
+public interface LoginUserService {
 
 	/**
-	 * Gets the name of the provider for display purposes.
+	 * Gets the name of the service for display purposes.
 	 * 
-	 * @return the provider name
+	 * @return the service name
 	 */
-	String getProviderDisplayName();
+	String getServiceDisplayName();
 
 	/**
 	 * True if this service is configured to be active, otherwise false.
@@ -41,7 +38,7 @@ public interface LoginProviderService {
 	boolean isActive();
 
 	/**
-	 * Gets the clientId for the provider
+	 * Gets the clientId for the service
 	 * 
 	 * @return the client id
 	 */
@@ -58,10 +55,11 @@ public interface LoginProviderService {
 	UserContext authorizationCodeToUserContext(String code);
 
 	/**
-	 * Constructs the redirect URI for the provider.
+	 * Constructs the redirect URI for the service.
 	 * 
 	 * @param state the state
 	 * @return the redirect uri
 	 */
 	String getAuthorizationRedirectUri(String state);
 }
+
