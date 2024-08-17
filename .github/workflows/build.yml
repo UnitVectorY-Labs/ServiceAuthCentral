@@ -29,3 +29,5 @@ jobs:
       run: mvn package -ntp -Pserver-token -Pserver-manage
     - name: Submit Dependency Snapshot
       uses: advanced-security/maven-dependency-submission-action@v4
+      with:
+        maven-args: "-Pserver-token -Pserver-manage"
