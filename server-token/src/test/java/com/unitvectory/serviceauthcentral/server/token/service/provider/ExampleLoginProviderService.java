@@ -15,14 +15,15 @@ package com.unitvectory.serviceauthcentral.server.token.service.provider;
 
 import org.springframework.stereotype.Service;
 
-import com.unitvectory.serviceauthcentral.server.token.model.UserContext;
+import com.unitvectory.serviceauthcentral.user.LoginUserService;
+import com.unitvectory.serviceauthcentral.user.UserContext;
 
 /**
  * 
  * @author Jared Hatfield (UnitVectorY Labs)
  */
 @Service
-public class ExampleLoginProviderService implements LoginProviderService {
+public class ExampleLoginProviderService implements LoginUserService {
 
 	public static final String PROVIDER = "github";
 
@@ -48,7 +49,7 @@ public class ExampleLoginProviderService implements LoginProviderService {
 	}
 
 	@Override
-	public String getProviderDisplayName() {
+	public String getServiceDisplayName() {
 		return "Example";
 	}
 

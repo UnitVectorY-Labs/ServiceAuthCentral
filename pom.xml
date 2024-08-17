@@ -31,6 +31,9 @@
                 <module>sign-local</module>
                 <module>verify</module>
                 <module>verify-auth0</module>
+                <module>user</module>
+                <module>user-github</module>
+                <module>user-google</module>
                 <module>server-token</module>
             </modules>
         </profile>

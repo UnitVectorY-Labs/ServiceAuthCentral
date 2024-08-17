@@ -11,7 +11,7 @@
  * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
  */
-package com.unitvectory.serviceauthcentral.server.token.service.provider;
+package com.unitvectory.serviceauthcentral.user.google;
 
 import java.io.IOException;
 import java.util.Map;
@@ -27,13 +27,13 @@ import org.apache.hc.core5.http.io.entity.EntityUtils;
 import org.apache.hc.core5.http.io.entity.StringEntity;
 import org.apache.hc.core5.net.URIBuilder;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Service;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.unitvectory.serviceauthcentral.server.token.model.UserContext;
+import com.unitvectory.serviceauthcentral.user.LoginUserService;
+import com.unitvectory.serviceauthcentral.user.UserContext;
 import com.unitvectory.serviceauthcentral.util.exception.BadRequestException;
 import com.unitvectory.serviceauthcentral.util.exception.ConflictException;
 import com.unitvectory.serviceauthcentral.util.exception.ForbiddenException;
@@ -50,8 +50,7 @@ import lombok.Data;
  * @author Jared Hatfield (UnitVectorY Labs)
  */
 @Service
-@ConditionalOnProperty(name = "sac.user.provider.google.clientid")
-public class GoogleLoginProvider implements LoginProviderService {
+public class GoogleLoginUserService implements LoginUserService {
 
     private static final String PROVIDER = "google";
 
@@ -77,7 +76,7 @@ public class GoogleLoginProvider implements LoginProviderService {
     private String tokenUrl;
 
     @Override
-    public String getProviderDisplayName() {
+    public String getServiceDisplayName() {
         return PROVIDER_NAME;
     }
 

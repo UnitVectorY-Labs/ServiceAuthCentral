@@ -29,8 +29,8 @@ import com.unitvectory.serviceauthcentral.datamodel.model.LoginState;
 import com.unitvectory.serviceauthcentral.datamodel.repository.ClientRepository;
 import com.unitvectory.serviceauthcentral.datamodel.repository.LoginCodeRepository;
 import com.unitvectory.serviceauthcentral.datamodel.repository.LoginStateRepository;
-import com.unitvectory.serviceauthcentral.server.token.model.UserContext;
-import com.unitvectory.serviceauthcentral.server.token.service.provider.LoginProviderService;
+import com.unitvectory.serviceauthcentral.user.LoginUserService;
+import com.unitvectory.serviceauthcentral.user.UserContext;
 import com.unitvectory.serviceauthcentral.util.exception.BadRequestException;
 import com.unitvectory.serviceauthcentral.util.exception.InternalServerErrorException;
 import com.unitvectory.serviceauthcentral.util.exception.UnauthorizedException;
@@ -67,10 +67,10 @@ public class LoginService {
 	private ClientRepository clientRepository;
 
 	@Autowired
-	private List<LoginProviderService> loginProviders;
+	private List<LoginUserService> loginUserService;
 
-	private LoginProviderService getLoginProvider(@NonNull String clientId) {
-		for (LoginProviderService loginProvider : this.loginProviders) {
+	private LoginUserService getLoginProvider(@NonNull String clientId) {
+		for (LoginUserService loginProvider : this.loginUserService) {
 			if (!loginProvider.isActive()) {
 				continue;
 			}
@@ -94,8 +94,8 @@ public class LoginService {
 					"Provided 'response_type' is invalid. Only supports 'code'.");
 		}
 
-		LoginProviderService loginProviderService = this.getLoginProvider(clientId);
-		if (loginProviderService == null) {
+		LoginUserService loginUserService = this.getLoginProvider(clientId);
+		if (loginUserService == null) {
 			throw new BadRequestException("Provided 'client_id' is invalid");
 		}
 
@@ -124,7 +124,7 @@ public class LoginService {
 
 		// And we are done, generate the redirect URI
 
-		return loginProviderService.getAuthorizationRedirectUri(secondaryState);
+		return loginUserService.getAuthorizationRedirectUri(secondaryState);
 	}
 
 	public String callback(@NonNull String sessionId, @NonNull String code, @NonNull String state,
@@ -141,8 +141,8 @@ public class LoginService {
 		String primaryCodeChallenge = loginState.getPrimaryCodeChallenge();
 		String secondaryState = loginState.getSecondaryState();
 
-		LoginProviderService loginProviderService = this.getLoginProvider(clientId);
-		if (loginProviderService == null) {
+		LoginUserService loginUserService = this.getLoginProvider(clientId);
+		if (loginUserService == null) {
 			throw new BadRequestException("Provided 'client_id' is invalid");
 		}
 
@@ -153,7 +153,7 @@ public class LoginService {
 		// Perform the actual exchange of the auth code and retrieve the user
 		// information from the third party
 
-		UserContext userContext = loginProviderService.authorizationCodeToUserContext(code);
+		UserContext userContext = loginUserService.authorizationCodeToUserContext(code);
 		if (userContext == null) {
 			throw new InternalServerErrorException("Unable to exchange authorization code");
 		}
@@ -171,7 +171,7 @@ public class LoginService {
 
 			String salt = this.entropyService.randomAlphaNumeric(32);
 			this.clientRepository.putClient(userClientId,
-					loginProviderService.getProviderDisplayName() + " User: " + userContext.getUserName(), salt,
+					loginUserService.getServiceDisplayName() + " User: " + userContext.getUserName(), salt,
 					ClientType.USER,
 					new ArrayList<ClientScope>());
 		}
