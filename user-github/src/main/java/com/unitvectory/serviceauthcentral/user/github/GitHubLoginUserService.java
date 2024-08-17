@@ -26,6 +26,7 @@ import org.apache.hc.core5.http.io.HttpClientResponseHandler;
 import org.apache.hc.core5.http.io.entity.EntityUtils;
 import org.apache.hc.core5.http.io.entity.StringEntity;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -49,6 +50,7 @@ import lombok.Data;
  * @author Jared Hatfield (UnitVectorY Labs)
  */
 @Service
+@Profile("!test")
 public class GitHubLoginUserService implements LoginUserService {
 
     public static final String PROVIDER = "github";

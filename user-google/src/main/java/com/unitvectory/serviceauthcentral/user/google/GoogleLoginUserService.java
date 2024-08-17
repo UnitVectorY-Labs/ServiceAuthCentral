@@ -27,6 +27,7 @@ import org.apache.hc.core5.http.io.entity.EntityUtils;
 import org.apache.hc.core5.http.io.entity.StringEntity;
 import org.apache.hc.core5.net.URIBuilder;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -50,6 +51,7 @@ import lombok.Data;
  * @author Jared Hatfield (UnitVectorY Labs)
  */
 @Service
+@Profile("!test")
 public class GoogleLoginUserService implements LoginUserService {
 
     private static final String PROVIDER = "google";
