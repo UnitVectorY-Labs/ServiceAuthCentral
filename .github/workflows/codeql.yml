@@ -79,7 +79,7 @@ jobs:
 
     # Build the project with all modules activated
     - name: Build with Maven
-      run: mvn clean package -Pserver-token -Pserver-manage -DskipTests=true
+      run: mvn clean package -Pserver-token -Pserver-manage -ntp -DskipTests=true
       shell: bash
 
     - name: Perform CodeQL Analysis
