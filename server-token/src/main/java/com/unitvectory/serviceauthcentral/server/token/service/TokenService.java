@@ -172,8 +172,12 @@ public class TokenService {
 
 		Set<String> scopeSet = getScopes(scope, audienceRecord, authorizationRecord);
 
+		// The description is populated for authorization_code tokens as it identifies
+		// the user in a way that can be displayed to the user.
+		String description = userClient.getDescription();
+
 		// Build the JWT and return it
-		return buildToken(userClient, audienceRecord, authorizationRecord, scopeSet);
+		return buildToken(userClient, audienceRecord, authorizationRecord, scopeSet, description);
 	}
 
 	private TokenResponse jwtAssertion(TokenRequest request) throws Exception {
@@ -236,9 +240,8 @@ public class TokenService {
 				assertionJwt.getKid());
 
 		// The parameters in the JWT that will be verified
-		VerifyParameters verifyParameters =
-				VerifyParameters.builder().iss(jwtMatchedBearer.getIss())
-						.sub(jwtMatchedBearer.getSub()).aud(jwtMatchedBearer.getAud()).build();
+		VerifyParameters verifyParameters = VerifyParameters.builder().iss(jwtMatchedBearer.getIss())
+				.sub(jwtMatchedBearer.getSub()).aud(jwtMatchedBearer.getAud()).build();
 
 		// Validate the JWT
 		if (!this.jwtVerifier.verifySignature(assertion, jwk, verifyParameters)) {
@@ -252,8 +255,7 @@ public class TokenService {
 		}
 
 		// Validated the authorization
-		Authorization authorizationRecord =
-				this.authorizationRepository.getAuthorization(clientId, audience);
+		Authorization authorizationRecord = this.authorizationRepository.getAuthorization(clientId, audience);
 		if (authorizationRecord == null) {
 			throw new ForbiddenException(
 					"The client is not authorized for the specified audience.");
@@ -261,8 +263,11 @@ public class TokenService {
 
 		Set<String> scopeSet = getScopes(scope, audienceRecord, authorizationRecord);
 
+		// The description is not being populated for jwt-bearer tokens
+		String description = null;
+
 		// Build the JWT and return it
-		return buildToken(subjectRecord, audienceRecord, authorizationRecord, scopeSet);
+		return buildToken(subjectRecord, audienceRecord, authorizationRecord, scopeSet, description);
 	}
 
 	private TokenResponse clientCredentials(TokenRequest request) throws Exception {
@@ -313,8 +318,7 @@ public class TokenService {
 		}
 
 		// Validated the authorization
-		Authorization authorizationRecord =
-				this.authorizationRepository.getAuthorization(clientId, audience);
+		Authorization authorizationRecord = this.authorizationRepository.getAuthorization(clientId, audience);
 		if (authorizationRecord == null) {
 			throw new ForbiddenException(
 					"The client is not authorized for the specified audience.");
@@ -322,8 +326,11 @@ public class TokenService {
 
 		Set<String> scopeSet = getScopes(scope, audienceRecord, authorizationRecord);
 
+		// The description is not being populated for client_credentials tokens
+		String description = null;
+
 		// Build the JWT and return it
-		return buildToken(subjectRecord, audienceRecord, authorizationRecord, scopeSet);
+		return buildToken(subjectRecord, audienceRecord, authorizationRecord, scopeSet, description);
 	}
 
 	private Set<String> getScopes(String scope, Client audienceRecord,
@@ -366,7 +373,7 @@ public class TokenService {
 	}
 
 	private TokenResponse buildToken(Client subjectRecord, Client audienceRecord,
-			Authorization authorizationRecord, Set<String> scopes) {
+			Authorization authorizationRecord, Set<String> scopes, String description) {
 
 		long now = this.timeService.getCurrentTimeSeconds();
 
@@ -386,6 +393,7 @@ public class TokenService {
 		builder.withTiming(timeService.getCurrentTimeSeconds(), validSeconds);
 		builder.withJwtId(entropyService.generateUuid());
 		builder.withKeyId(kid);
+		builder.withDescription(description);
 
 		if (scopes != null && scopes.size() > 0) {
 			builder.withScopes(scopes);

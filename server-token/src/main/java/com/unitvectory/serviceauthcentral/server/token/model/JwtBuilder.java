@@ -71,6 +71,14 @@ public class JwtBuilder {
 		return this;
 	}
 
+	public JwtBuilder withDescription(String description) {
+		if (description != null) {
+			this.payload.put("description", description);
+		}
+
+		return this;
+	}
+
 	public JwtBuilder withJwtId(String jti) {
 		this.payload.put("jti", jti);
 		return this;
