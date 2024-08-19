@@ -1,9 +1,8 @@
 ---
 layout: default
 title: Sign
+parent: Integration Guide
 nav_order: 5
-has_children: true
-permalink: /sign
 ---
 
 # Sign

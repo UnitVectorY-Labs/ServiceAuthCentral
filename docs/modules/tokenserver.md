@@ -1,7 +1,8 @@
 ---
 layout: default
 title: Token Server
-nav_order: 2
+parent: Integration Guide
+nav_order: 1
 ---
 
 # Token Server

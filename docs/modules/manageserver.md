@@ -1,7 +1,8 @@
 ---
 layout: default
 title: Manage Server
-nav_order: 3
+parent: Integration Guide
+nav_order: 2
 ---
 
 # Manage Server

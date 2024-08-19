@@ -1,9 +1,8 @@
 ---
 layout: default
 title: Data Model
-nav_order: 4
-has_children: true
-permalink: /datamodel
+parent: Integration Guide
+nav_order: 3
 ---
 
 # Data Model

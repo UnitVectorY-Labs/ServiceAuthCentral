@@ -1,11 +1,12 @@
 ---
 layout: default
-title: GCP KMS
-parent: Sign
-nav_order: 1
+title: Sign - GCP
+parent: Integration Guide
+nav_order: 6
 ---
 
-# GCP KMS
+# Sign - GCP
+
 
 This module provides an implementation for the JWT signing using asymmetric keys for signing using stored in [GCP KMS](https://cloud.google.com/security/products/security-key-management) with the benefit being the private key is not accessable thereby providing additional protections.
 

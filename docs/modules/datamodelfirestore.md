@@ -1,11 +1,11 @@
 ---
 layout: default
-title: Firestore
-parent: Data Model
-nav_order: 1
+title: Data Model - Firestore
+parent: Integration Guide
+nav_order: 4
 ---
 
-# Firestore
+# Data Model - Firestore
 
 GCP Firestore provides a managed NoSQL option for storing the client and authorization data.
 
