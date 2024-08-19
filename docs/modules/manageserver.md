@@ -45,6 +45,6 @@ The Docker image for the manage server is configured using environment variables
 
 | Environment Variable   | Required | Description                                                                                                    |
 | ---------------------- | -------- | -------------------------------------------------------------------------------------------------------------- |
-| SPRING_PROFILES_ACTIVE | Yes      | A corresponding profile must be selected for [Data Model]({{ site.baseurl }}{% link datamodel/datamodel.md %}) |
+| SPRING_PROFILES_ACTIVE | Yes      | A corresponding profile must be selected for [Data Model]({{ site.baseurl }}{% link modules/datamodel.md %}) |
 | SAC_ISSUER             | Yes      | The JWT issuer url. Typically the domain name of the token server.                                             |
 | SAC_CORS_ORIGINS       | Yes      | CORS origins for web based logins. This is the domain name ServiceAuthCentral Web is deployed to.              |
