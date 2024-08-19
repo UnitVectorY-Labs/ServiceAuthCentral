@@ -9,6 +9,10 @@ nav_order: 2
 
 The manage server provides the control plane for ServiceAuthCentral in the form of a GraphQL endpoint for managing the authorization server.
 
+## Overview
+
+The manage server provides a GraphQL endpoint providing the control plane for ServiceAuthCentral. This includes the ability to manage authorizations and clients.
+
 ```mermaid
 flowchart LR
     subgraph SAC[ServiceAuthCentral]
@@ -48,3 +52,9 @@ The Docker image for the manage server is configured using environment variables
 | SPRING_PROFILES_ACTIVE | Yes      | A corresponding profile must be selected for [Data Model]({{ site.baseurl }}{% link modules/datamodel.md %}) |
 | SAC_ISSUER             | Yes      | The JWT issuer url. Typically the domain name of the token server.                                             |
 | SAC_CORS_ORIGINS       | Yes      | CORS origins for web based logins. This is the domain name ServiceAuthCentral Web is deployed to.              |
+
+## Authentication and Authorization
+
+While the primary purpose of ServiceAuthCentral is server-to-server authentication with OAuth 2.0, this management API needs a mechanism to vend access tokens to the web based front end specifically [serviceauthcentralweb](https://github.com/UnitVectorY-Labs/serviceauthcentralweb). To support this server-token supports a PKCE login flow.
+
+The tokens that are able to call the management API have the audience value which has the value of the issuer. Meaning in the JWT the issuer and audience have the same value.

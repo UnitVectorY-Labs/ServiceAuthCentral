@@ -9,6 +9,8 @@ nav_order: 1
 
 The token server provides the data plane for ServiceAuthCentral in the form of the token endpoint used to vend the JWT access tokens.
 
+## Overview
+
 The token server provides two major functions. First is providing the JWKS endpoint to resource servers. The public keys are retrieved from the specific implementation of the `sign` module. And the primary function is providing the OAuth 2.0 endpoint for clients to request access tokens which are returned in the form of JWTs.
 
 ```mermaid
@@ -56,9 +58,10 @@ The Docker image for the token server is configured using environment variables.
 > {: .important }
 > These environment variables are required to be identical between the manage and token server deployment.
 
-| Environment Variable   | Required | Description                                                                                                                                                                                                            |
-| ---------------------- | -------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| SPRING_PROFILES_ACTIVE | Yes      | A corresponding profile must be selected for each of [Data Model]({{ site.baseurl }}{% link modules/datamodel.md %}) and [Sign]({{ site.baseurl }}{% link modules/sign.md %}). These are set as a comma separated list. |
-| SAC_USER_REDIRECTURI   | Yes      | The redirect URI for serviceauthcentralweb; multiple values can be specified separated by commas                                                                                                                       |
-| SAC_ISSUER             | Yes      | The JWT issuer url. Typically the domain name of the token server.                                                                                                                                                     |
-| SAC_CORS_ORIGINS       | Yes      | CORS origins for web based logins. This is the domain name ServiceAuthCentral Web is deployed to.                                                                                                                      |
+| Environment Variable                    | Required | Description                                                                                                                                                                                                             |
+| --------------------------------------- | -------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| SPRING_PROFILES_ACTIVE                  | Yes      | A corresponding profile must be selected for each of [Data Model]({{ site.baseurl }}{% link modules/datamodel.md %}) and [Sign]({{ site.baseurl }}{% link modules/sign.md %}). These are set as a comma separated list. |
+| SAC_USER_REDIRECTURI                    | Yes      | The redirect URI for serviceauthcentralweb; multiple values can be specified separated by commas                                                                                                                        |
+| SAC_ISSUER                              | Yes      | The JWT issuer url. Typically the domain name of the token server.                                                                                                                                                      |
+| SAC_CORS_ORIGINS                        | Yes      | CORS origins for web based logins. This is the domain name ServiceAuthCentral Web is deployed to.                                                                                                                       |
+| SAC_SERVER_TOKEN_EXTERNAL_CACHE_SECONDS | No | Number of seconds external JWKS is cached. Default is 3600 seconds.                                                                                                                                                           |

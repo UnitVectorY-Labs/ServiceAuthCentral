@@ -1,10 +1,5 @@
 # verify
 
-This library provides the interfaces for validating the signatures of JWTs in addition to retrieving the JWK from a remote server.
+This module provides the interfaces for verifying / validating the JWTs so that the underlying implementation can be swapped out as a runtime dependency.
 
-## Service Interfaces
-
-Two different interfaces are defined:
-
-- `JwksResolver`: Retrieve remote JWKs from another server.
-- `JwtVerifier`: Extract claims from JWT and verify JWT signature.
+For additional details on this module see, please visit the [Verify](/docs/modules/verify.md).

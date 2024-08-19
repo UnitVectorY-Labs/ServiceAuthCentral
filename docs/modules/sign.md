@@ -2,19 +2,19 @@
 layout: default
 title: Sign
 parent: Modules
-nav_order: 5
+nav_order: 6
 ---
 
 # Sign
 
-A flexible deployment is supported by allowing different underlying JWT signing mechanism based on the desired deployment mechanism.
+The sign module provides the interfaces for accessing and using the public keyes used for signing JWTs so that the underlying implementation can be swapped out as a runtime dependency.
 
-## Configuration
+## Sign Implementations
 
-One of the following implementations must be configured for the sign component.
-This is done by including one of the following profiles in the `SPRING_PROFILES_ACTIVE` environment varilable.
+There are multiple data model implementations that are available. Exactly one module must be enabled at runtime.
 
 > {: .important }
-> Each module implementation may have additional environment variables that are required for it to work correctly when it is enabled.
+> Each module implementation will have additional environment variables that are required for it to work correctly when it is enabled.
 
-- `sign-gcp` - Use GCP KMS to sign the JWTs
+- [Sign - GCP](/docs/modules/signgcp.md): Utilizing GCP's KMS service for managing and signing JWTs
+- [Sign - Local](/docs/modules/signlocal.md): Utilize a local RSA key for signing JWTs
