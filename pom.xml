@@ -25,7 +25,6 @@
             <id>server-token</id>
             <modules>
                 <module>datamodel-firestore</module>
-                <module>datamodel-couchbase</module>
                 <module>sign</module>
                 <module>sign-gcp</module>
                 <module>sign-local</module>
