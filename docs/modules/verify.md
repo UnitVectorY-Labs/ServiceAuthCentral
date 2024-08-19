@@ -20,4 +20,4 @@ The following interfaces are implemented to provide JWT and JWKS validation.
 
 There is currently only one implementation for verify, but this is left as an integration point for future implementations.
 
-- [Verify - Auth0](/docs/modules/verifyauth0.md): A verify implementation that utilizes Auth0's Java library (this doesn't actually interact with Auth0)
+- [Verify - Auth0]({{ site.baseurl }}{% link modules/verifyauth0.md %}): A verify implementation that utilizes Auth0's Java library (this doesn't actually interact with Auth0)

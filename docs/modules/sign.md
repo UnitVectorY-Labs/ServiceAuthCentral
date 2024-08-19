@@ -16,5 +16,5 @@ There are multiple data model implementations that are available. Exactly one mo
 > {: .important }
 > Each module implementation will have additional environment variables that are required for it to work correctly when it is enabled.
 
-- [Sign - GCP](/docs/modules/signgcp.md): Utilizing GCP's KMS service for managing and signing JWTs
-- [Sign - Local](/docs/modules/signlocal.md): Utilize a local RSA key for signing JWTs
+- [Sign - GCP]({{ site.baseurl }}{% link modules/signgcp.md %}): Utilizing GCP's KMS service for managing and signing JWTs
+- [Sign - Local]({{ site.baseurl }}{% link modules/signlocal.md %}): Utilize a local RSA key for signing JWTs
