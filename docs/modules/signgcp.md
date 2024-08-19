@@ -1,7 +1,7 @@
 ---
 layout: default
 title: Sign - GCP
-parent: Integration Guide
+parent: Modules
 nav_order: 6
 ---
 

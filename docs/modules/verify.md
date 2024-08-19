@@ -1,7 +1,7 @@
 ---
 layout: default
 title: Verify
-parent: Integration Guide
+parent: Modules
 nav_order: 10
 ---
 

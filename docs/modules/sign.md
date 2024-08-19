@@ -1,7 +1,7 @@
 ---
 layout: default
 title: Sign
-parent: Integration Guide
+parent: Modules
 nav_order: 5
 ---
 

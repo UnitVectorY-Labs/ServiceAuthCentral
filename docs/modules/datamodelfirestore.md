@@ -1,7 +1,7 @@
 ---
 layout: default
 title: Data Model - Firestore
-parent: Integration Guide
+parent: Modules
 nav_order: 4
 ---
 

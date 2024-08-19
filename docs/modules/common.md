@@ -1,7 +1,7 @@
 ---
 layout: default
 title: Common
-parent: Integration Guide
+parent: Modules
 nav_order: 12
 ---
 

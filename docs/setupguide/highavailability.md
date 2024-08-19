@@ -1,7 +1,7 @@
 ---
 layout: default
-title: Deployment
-parent: High Availability
+title: High Availability
+parent: Setup Guide
 nav_order: 3
 ---
 

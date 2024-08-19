@@ -1,7 +1,7 @@
 ---
 layout: default
 title: User
-parent: Integration Guide
+parent: Modules
 nav_order: 7
 ---
 

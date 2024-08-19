@@ -1,7 +1,7 @@
 ---
 layout: default
 title: Verify - Auth0
-parent: Integration Guide
+parent: Modules
 nav_order: 11
 ---
 

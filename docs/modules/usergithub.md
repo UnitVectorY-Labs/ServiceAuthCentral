@@ -1,7 +1,7 @@
 ---
 layout: default
 title: User - GitHub
-parent: Integration Guide
+parent: Modules
 nav_order: 8
 ---
 

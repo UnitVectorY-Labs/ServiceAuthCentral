@@ -1,7 +1,7 @@
 ---
 layout: default
 title: Manage Server
-parent: Integration Guide
+parent: Modules
 nav_order: 2
 ---
 

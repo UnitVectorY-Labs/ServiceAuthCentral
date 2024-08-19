@@ -1,6 +1,6 @@
 ---
 layout: default
-title: Setup Guid
+title: Setup Guide
 nav_order: 2
 has_children: true
 permalink: /setupguide
