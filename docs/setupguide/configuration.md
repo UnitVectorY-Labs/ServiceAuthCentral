@@ -75,7 +75,7 @@ The [data model Firestore module]({{ site.baseurl }}{% link modules/datamodelfir
 
 ## Web Configuration
 
-The [serviceauthcentralweb]({{ site.baseurl }}{% link modules/serviceauthcentralweb.md %}) requires the following variables to be configured for build and deploying:
+The [serviceauthcentralweb](https://github.com/UnitVectorY-Labs/serviceauthcentralweb) requires the following variables to be configured for build and deploying:
 
 | Environment Variable                | Description                                                      |
 | ----------------------------------- | ---------------------------------------------------------------- |
