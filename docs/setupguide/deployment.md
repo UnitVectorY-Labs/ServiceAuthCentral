@@ -60,3 +60,63 @@ gcloud firestore fields ttls update ttl \
   --enable-ttl
 ```
 </details>
+
+The KMS key ring and key are used for signing and verifying JWTs.  The key ring and key can be created using the OpenTofu module [serviceauthcentral-kms-gcp-tofu](https://github.com/UnitVectorY-Labs/serviceauthcentral-kms-gcp-tofu). The recommendation here would be to use a global location for the key ring and key so it can be used in any region. 
+
+<details>
+<summary>Manual deployment of KMS keyring and signing key with `gcloud`</summary>
+
+```bash
+# Create the KMS key ring
+gcloud kms keyrings create "serviceauthcentral-key-ring" \
+  --location="global"
+
+# Create the KMS asymmetric signing key
+gcloud kms keys create "serviceauthcentral-sign-key" \
+  --location="global" \
+  --keyring="serviceauthcentral-key-ring" \
+  --purpose="asymmetric-signing" \
+  --destroy-scheduled-duration="1d" \
+  --protection-level="software" \
+  --default-algorithm="rsa-sign-pkcs1-2048-sha256" \
+  --skip-initial-version-creation
+```
+</details>
+
+## Deploying ServiceAuthCentral Token API
+
+The main data plane for ServiceAuthCentral is the Token API.  This API is responsible for issuing and validating JWTs.  The Token API can be deployed to GCP Cloud Run using the OpenTofu module [serviceauthcentral-token-gcp-tofu](https://github.com/UnitVectorY-Labs/serviceauthcentral-token-gcp-tofu).
+
+Alternatively the docker image can be deployed manually:
+
+> {: .warning }
+> The below version deploys the 'dev' tag which is the latest development version. At this time there is no stable release.  See the latest releases on the [GitHub releases page](https://github.com/UnitVectorY-Labs/ServiceAuthCentral/pkgs/container/serviceauthcentral-token) for the latest version.
+
+```bash
+docker pull ghcr.io/unitvectory-labs/serviceauthcentral-token:dev
+```
+
+The token server is configured using envirionment variables as outlined on the [configuration]({{ site.baseurl }}{% link setupguide/configuration.md %}) guide.
+
+## Deploying ServiceAuthCentral Manage API
+
+The control plane for ServiceAuthCentral is the Manage API.  This API is responsible for managing the clients and authorizations for ServiceAuthCentral through a GraphQL API.  The Manage API can be deployed to GCP Cloud Run using the OpenTofu module [serviceauthcentral-manage-gcp-tofu](https://github.com/UnitVectorY-Labs/serviceauthcentral-manage-gcp-tofu).
+
+Alternatively the docker image can be deployed manually:
+
+> {: .warning }
+> The below version deploys the 'dev' tag which is the latest development version. At this time there is no stable release.  See the latest releases on the [GitHub releases page](https://github.com/UnitVectorY-Labs/ServiceAuthCentral/pkgs/container/serviceauthcentral-manage) for the latest version.
+
+```bash
+docker pull ghcr.io/unitvectory-labs/serviceauthcentral-manage:dev
+```
+
+The manage server is configured using envirionment variables as outlined on the [configuration]({{ site.baseurl }}{% link setupguide/configuration.md %}) guide.
+
+## Deploying ServiceAuthCentral Web Portal
+
+The web portal for ServiceAuthCentral is a static website, [serviceauthcentralweb](https://github.com/UnitVectorY-Labs/serviceauthcentralweb), which can be deployed a variety of ways.
+
+The portal is a Vue 3 application that must be compiled with the appropriate `.env.production` configuration. The compiled static website can then be served.
+
+The web portal is configured using envirionment variables as outlined on the [configuration]({{ site.baseurl }}{% link setupguide/configuration.md %}) guide.

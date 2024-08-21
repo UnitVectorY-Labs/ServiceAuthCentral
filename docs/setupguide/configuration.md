@@ -7,4 +7,16 @@ nav_order: 2
 
 # Configuration
 
-TODO: Document everything
+The design principal behind ServiceAuthCentral is to be modular therefore there is some complexity to the configuration.  The guide here will walk through the minimal configuration needed to configure ServiceAuthCentral for running on GCP.
+
+## Token API Configuration
+
+TODO
+
+## Manage API Configuration
+
+TODO
+
+## Web Configuration
+
+TODO
