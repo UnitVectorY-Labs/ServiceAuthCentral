@@ -56,12 +56,12 @@ docker build -f Dockerfile --build-arg MAVEN_PROFILE=server-token -t serviceauth
 The Docker image for the token server is configured using environment variables.
 
 > {: .important }
-> These environment variables are required to be identical between the manage and token server deployment.
+> These properties are required to be identical between the manage and token server deployment.
 
-| Environment Variable                    | Required | Description                                                                                                                                                                                                             |
+| Property                                | Required | Description                                                                                                                                                                                                             |
 | --------------------------------------- | -------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| SPRING_PROFILES_ACTIVE                  | Yes      | A corresponding profile must be selected for each of [Data Model]({{ site.baseurl }}{% link modules/datamodel.md %}) and [Sign]({{ site.baseurl }}{% link modules/sign.md %}). These are set as a comma separated list. |
-| SAC_USER_REDIRECTURI                    | Yes      | The redirect URI for serviceauthcentralweb; multiple values can be specified separated by commas                                                                                                                        |
-| SAC_ISSUER                              | Yes      | The JWT issuer url. Typically the domain name of the token server.                                                                                                                                                      |
-| SAC_CORS_ORIGINS                        | Yes      | CORS origins for web based logins. This is the domain name ServiceAuthCentral Web is deployed to.                                                                                                                       |
-| SAC_SERVER_TOKEN_EXTERNAL_CACHE_SECONDS | No | Number of seconds external JWKS is cached. Default is 3600 seconds.                                                                                                                                                           |
+| spring.profiles.active                  | Yes      | A corresponding profile must be selected for each of [Data Model]({{ site.baseurl }}{% link modules/datamodel.md %}) and [Sign]({{ site.baseurl }}{% link modules/sign.md %}). These are set as a comma separated list. |
+| sac.user.redirecturi                    | Yes      | The redirect URI for serviceauthcentralweb; multiple values can be specified separated by commas                                                                                                                        |
+| sac.issuer                              | Yes      | The JWT issuer url. Typically the domain name of the token server.                                                                                                                                                      |
+| sac.cors.origins                        | Yes      | CORS origins for web based logins. This is the domain name ServiceAuthCentral Web is deployed to.                                                                                                                       |
+| sac.server.token.external.cache.seconds | No       | Number of seconds external JWKS is cached. Default is 3600 seconds.                                                                                                                                                     |

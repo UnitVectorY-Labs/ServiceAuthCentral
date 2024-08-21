@@ -11,4 +11,4 @@ The verify Auth0 module provides an implementation for verifying JWTs based on t
 
 ## Spring Boot Profile
 
-Spring Boot 3's dependency injection is used to initialize the relevant Beans. This is accomplished through profiles for the other modules but only one verify implementation is available so it is automatically enabled.
+Given the less of a need to swap out the verify implementation, the verify implementation is enabled by default.
