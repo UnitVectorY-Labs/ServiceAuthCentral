@@ -17,7 +17,7 @@ The Firestore database can be deployed using the OpenTofu module [serviceauthcen
 
 <details>
 <summary>Manual deployment of Firestore database with `gcloud`</summary>
-
+<div markdown="span">
 ```bash
 # This example creates a Firestore database named 'serviceauthcentral' in the us-east4 region
 
@@ -59,13 +59,14 @@ gcloud firestore fields ttls update ttl \
   --database="serviceauthcentral" \
   --enable-ttl
 ```
+</div>
 </details>
 
 The KMS key ring and key are used for signing and verifying JWTs.  The key ring and key can be created using the OpenTofu module [serviceauthcentral-kms-gcp-tofu](https://github.com/UnitVectorY-Labs/serviceauthcentral-kms-gcp-tofu). The recommendation here would be to use a global location for the key ring and key so it can be used in any region. 
 
 <details>
 <summary>Manual deployment of KMS keyring and signing key with `gcloud`</summary>
-
+<div markdown="span">
 ```bash
 # Create the KMS key ring
 gcloud kms keyrings create "serviceauthcentral-key-ring" \
@@ -81,6 +82,7 @@ gcloud kms keys create "serviceauthcentral-sign-key" \
   --default-algorithm="rsa-sign-pkcs1-2048-sha256" \
   --skip-initial-version-creation
 ```
+</div>
 </details>
 
 ## Deploying ServiceAuthCentral Token API
