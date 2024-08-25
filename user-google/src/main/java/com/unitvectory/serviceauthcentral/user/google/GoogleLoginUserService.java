@@ -27,6 +27,7 @@ import org.apache.hc.core5.http.io.entity.EntityUtils;
 import org.apache.hc.core5.http.io.entity.StringEntity;
 import org.apache.hc.core5.net.URIBuilder;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
@@ -52,6 +53,7 @@ import lombok.Data;
  */
 @Service
 @Profile("!test")
+@ConditionalOnProperty(name = {"sac.user.provider.google.clientid", "sac.user.provider.google.clientsecret"})
 public class GoogleLoginUserService implements LoginUserService {
 
     private static final String PROVIDER = "google";

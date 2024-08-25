@@ -26,6 +26,7 @@ import org.apache.hc.core5.http.io.HttpClientResponseHandler;
 import org.apache.hc.core5.http.io.entity.EntityUtils;
 import org.apache.hc.core5.http.io.entity.StringEntity;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
 
@@ -51,6 +52,7 @@ import lombok.Data;
  */
 @Service
 @Profile("!test")
+@ConditionalOnProperty(name = {"sac.user.provider.github.clientid", "sac.user.provider.github.clientsecret"})
 public class GitHubLoginUserService implements LoginUserService {
 
     public static final String PROVIDER = "github";
