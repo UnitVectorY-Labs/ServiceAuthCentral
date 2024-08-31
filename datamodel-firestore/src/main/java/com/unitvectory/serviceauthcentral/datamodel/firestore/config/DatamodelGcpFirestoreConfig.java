@@ -33,9 +33,13 @@ public class DatamodelGcpFirestoreConfig {
 	@Value("${google.cloud.project}")
 	private String projectId;
 
+	@Value("${sac.datamodel.firestore.database:(default)}")
+	private String firestoreDatabase;
+
 	@Bean
 	public Firestore firestore() {
 		FirestoreOptions firestoreOptions = FirestoreOptions.getDefaultInstance().toBuilder()
+				.setDatabaseId(this.firestoreDatabase)
 				.setProjectId(this.projectId).build();
 		return firestoreOptions.getService();
 	}
