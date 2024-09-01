@@ -17,6 +17,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.oauth2.core.DelegatingOAuth2TokenValidator;
@@ -42,21 +43,21 @@ public class MyCustomSecurityConfiguration {
 	@Bean
 	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 		// JWT Decoding and validation
-		NimbusJwtDecoder jwtDecoder =
-				NimbusJwtDecoder.withJwkSetUri(this.issuer + "/.well-known/jwks.json").build();
+		NimbusJwtDecoder jwtDecoder = NimbusJwtDecoder.withJwkSetUri(this.issuer + "/.well-known/jwks.json").build();
 		OAuth2TokenValidator<Jwt> withIssuer = JwtValidators.createDefaultWithIssuer(this.issuer);
 		OAuth2TokenValidator<Jwt> withAudience = new AudienceClaimValidator(this.issuer);
-		OAuth2TokenValidator<Jwt> validator =
-				new DelegatingOAuth2TokenValidator<>(withIssuer, withAudience);
+		OAuth2TokenValidator<Jwt> validator = new DelegatingOAuth2TokenValidator<>(withIssuer, withAudience);
 		jwtDecoder.setJwtValidator(validator);
 
 		http
 				// Specify the authorization rules
-				// Require authentication for /graphql
-				.authorizeHttpRequests(
-						authorize -> authorize.requestMatchers("/graphql").authenticated()
-								// Allow all other requests
-								.anyRequest().permitAll())
+				.authorizeHttpRequests(authorize -> authorize
+						// Allow OPTIONS requests to pass through without authentication
+						.requestMatchers(HttpMethod.OPTIONS, "/**").permitAll()
+						// Require authentication for /graphql
+						.requestMatchers("/graphql").authenticated()
+						// Allow all other requests
+						.anyRequest().permitAll())
 				// Configure OAuth2 Resource Server
 				.oauth2ResourceServer(oauth2 -> oauth2.jwt(jwt -> jwt.decoder(jwtDecoder)));
 		return http.build();

@@ -35,6 +35,7 @@ The following configuration attributes:
 | Property                                          | Required                       | Description               |
 | ------------------------------------------------- | ------------------------------ | ------------------------- |
 | google.cloud.project                              | Yes                            | GCP Project name          |
+| sac.datamodel.firestore.database                  | No (default: '(default)')      | Firestore database name   |
 | sac.datamodel.firestore.collection.authorizations | No (default: 'authorizations') | Firestore collection name |
 | sac.datamodel.firestore.collection.clients        | No (default: 'clients')        | Firestore collection name |
 | sac.datamodel.firestore.collection.keys           | No (default: 'keys')           | Firestore collection name |

@@ -14,7 +14,6 @@
 package com.unitvectory.serviceauthcentral.server.manage.config;
 
 import java.util.Arrays;
-import java.util.Collections;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Value;
@@ -44,7 +43,7 @@ public class CorsConfig {
 		// CORS configuration for /graphql endpoint
 		CorsConfiguration graphqlConfig = new CorsConfiguration();
 		graphqlConfig.setAllowedOrigins(this.corsOrigins);
-		graphqlConfig.setAllowedMethods(Collections.singletonList("POST"));
+		graphqlConfig.setAllowedMethods(Arrays.asList("POST", "OPTIONS"));
 		graphqlConfig.setAllowedHeaders(Arrays.asList("Authorization", "Content-Type"));
 
 		// Register configurations
