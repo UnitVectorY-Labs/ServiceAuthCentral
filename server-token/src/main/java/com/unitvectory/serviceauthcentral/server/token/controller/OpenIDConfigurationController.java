@@ -26,7 +26,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.context.request.WebRequest;
 
 import com.unitvectory.serviceauthcentral.server.token.dto.OpenIDConfigurationResponse;
-import com.unitvectory.serviceauthcentral.util.HashingUtil;
+import com.unitvectory.serviceauthcentral.server.token.model.OpenIDConfigurationETagResponse;
 
 /**
  * The OpenID Configuration Controller
@@ -41,8 +41,8 @@ public class OpenIDConfigurationController {
 
     @GetMapping("/.well-known/openid-configuration")
     public ResponseEntity<OpenIDConfigurationResponse> config(WebRequest request) {
-        OpenIDConfigurationResponse config = getConfig();
-        String eTag = config.getETag();
+        OpenIDConfigurationETagResponse configETagResponse = getConfig();
+        String eTag = configETagResponse.getETag();
 
         if (request.checkNotModified(eTag)) {
             // Return 304 if not modified, the ETag is the same
@@ -56,18 +56,18 @@ public class OpenIDConfigurationController {
                 // calls to the Sign service
                 .cacheControl(CacheControl.maxAge(1, TimeUnit.HOURS))
                 .eTag(eTag)
-                .body(config);
+                .body(configETagResponse.getConfig());
     }
 
     @Cacheable(value = "openIDConfiguration", key = "openId")
-    private OpenIDConfigurationResponse getConfig() {
-        return OpenIDConfigurationResponse.builder()
+    private OpenIDConfigurationETagResponse getConfig() {
+        OpenIDConfigurationResponse response = OpenIDConfigurationResponse.builder()
                 // The issuer is the URL of the service
                 .issuer(this.issuer)
                 // The JWKS URL is derived from the issuer URL
                 .jwks_uri(issuer + "/.well-known/jwks.json")
-                // Calculating a unique eTag based on the issuer
-                .eTag(HashingUtil.sha256("eTag:" + issuer))
                 .build();
+
+        return new OpenIDConfigurationETagResponse(response);
     }
 }

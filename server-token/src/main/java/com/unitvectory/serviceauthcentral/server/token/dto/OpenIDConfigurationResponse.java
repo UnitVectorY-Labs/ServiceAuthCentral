@@ -13,12 +13,10 @@
  */
 package com.unitvectory.serviceauthcentral.server.token.dto;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
 import lombok.Builder;
-import lombok.Getter;
 import lombok.Value;
 
 /**
@@ -34,7 +32,4 @@ public class OpenIDConfigurationResponse {
     private String issuer;
 
     private String jwks_uri;
-
-    @Getter(onMethod_ = @JsonIgnore)
-    private String eTag;
 }
