@@ -15,15 +15,23 @@ package com.unitvectory.serviceauthcentral.server.token.controller;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.http.CacheControl;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.context.request.WebRequest;
 
 import com.unitvectory.serviceauthcentral.server.token.dto.JwkResponse;
 import com.unitvectory.serviceauthcentral.server.token.dto.JwksResponse;
 import com.unitvectory.serviceauthcentral.server.token.mapper.JwkMapper;
+import com.unitvectory.serviceauthcentral.server.token.model.JwkETagResponse;
 import com.unitvectory.serviceauthcentral.sign.model.SignJwk;
 import com.unitvectory.serviceauthcentral.sign.service.SignService;
 
@@ -38,9 +46,33 @@ public class JwksController {
 	@Autowired
 	private SignService signService;
 
-	@Cacheable(value = "jwksCache", key = "'jwksKey'")
+	@Value("${sac.server.token.external.cache.seconds:3600}")
+	private long externalCacheHours;
+
 	@GetMapping("/.well-known/jwks.json")
-	public JwksResponse jwks() {
+	public ResponseEntity<JwksResponse> jwks(WebRequest request) {
+
+		JwkETagResponse jwksETagResponse = this.getJwks();
+		String eTag = jwksETagResponse.getETag();
+
+		if (request.checkNotModified(eTag)) {
+			// Return 304 if not modified, the ETag is the same
+			return ResponseEntity.status(HttpStatus.NOT_MODIFIED).build();
+		}
+
+		// Return the response with the ETag
+		return ResponseEntity
+				.ok()
+                .contentType(MediaType.APPLICATION_JSON)
+				// This response can be cached for the externalCacheHours, goal is to reduce the number of calls to the Sign service
+				.cacheControl(CacheControl.maxAge(this.externalCacheHours, TimeUnit.SECONDS))
+				.eTag(eTag)
+				.body(jwksETagResponse.getJwks());
+	}
+
+	@Cacheable(value = "jwksCache", key = "'jwksKey'")
+	private JwkETagResponse getJwks() {
+		// This requires a call to the Sign service which is an external call so we want to cache the result to reduce the number of calls
 		List<SignJwk> key = this.signService.getAll();
 
 		List<JwkResponse> keys = new ArrayList<>();
@@ -49,6 +81,6 @@ public class JwksController {
 			keys.add(JwkMapper.INSTANCE.signJwkToJwkResponse(k));
 		}
 
-		return JwksResponse.builder().keys(keys).build();
+		return new JwkETagResponse(JwksResponse.builder().keys(keys).build());
 	}
 }

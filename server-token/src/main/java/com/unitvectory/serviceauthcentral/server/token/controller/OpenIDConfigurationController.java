@@ -13,12 +13,20 @@
  */
 package com.unitvectory.serviceauthcentral.server.token.controller;
 
+import java.util.concurrent.TimeUnit;
+
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.http.CacheControl;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.context.request.WebRequest;
 
 import com.unitvectory.serviceauthcentral.server.token.dto.OpenIDConfigurationResponse;
+import com.unitvectory.serviceauthcentral.util.HashingUtil;
 
 /**
  * The OpenID Configuration Controller
@@ -31,15 +39,35 @@ public class OpenIDConfigurationController {
     @Value("${sac.issuer}")
     private String issuer;
 
-    @Cacheable(value = "openIDConfiguration", key = "'openId'")
     @GetMapping("/.well-known/openid-configuration")
-    public OpenIDConfigurationResponse config() {
-        // Returning a minimal configuration
+    public ResponseEntity<OpenIDConfigurationResponse> config(WebRequest request) {
+        OpenIDConfigurationResponse config = getConfig();
+        String eTag = config.getETag();
+
+        if (request.checkNotModified(eTag)) {
+            // Return 304 if not modified, the ETag is the same
+            return ResponseEntity.status(HttpStatus.NOT_MODIFIED).build();
+        }
+        // Return the response with the ETag
+        return ResponseEntity
+                .ok()
+                .contentType(MediaType.APPLICATION_JSON)
+                // This response can be cached for an hour, goal is to reduce the number of
+                // calls to the Sign service
+                .cacheControl(CacheControl.maxAge(1, TimeUnit.HOURS))
+                .eTag(eTag)
+                .body(config);
+    }
+
+    @Cacheable(value = "openIDConfiguration", key = "openId")
+    private OpenIDConfigurationResponse getConfig() {
         return OpenIDConfigurationResponse.builder()
                 // The issuer is the URL of the service
                 .issuer(this.issuer)
                 // The JWKS URL is derived from the issuer URL
                 .jwks_uri(issuer + "/.well-known/jwks.json")
+                // Calculating a unique eTag based on the issuer
+                .eTag(HashingUtil.sha256("eTag:" + issuer))
                 .build();
     }
 }

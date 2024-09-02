@@ -13,6 +13,7 @@
  */
 package com.unitvectory.serviceauthcentral.server.token.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
@@ -32,4 +33,7 @@ public class OpenIDConfigurationResponse {
     private String issuer;
 
     private String jwks_uri;
+
+    @JsonIgnore
+    private String eTag;
 }
