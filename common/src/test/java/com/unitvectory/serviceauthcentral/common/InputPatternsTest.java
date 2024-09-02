@@ -28,7 +28,18 @@ public class InputPatternsTest {
     @Test
     void testClientIdPattern() {
         assertTrue("https://example.com".matches(InputPatterns.CLIENT_ID));
+        assertTrue("https://example.com/foo".matches(InputPatterns.CLIENT_ID));
+        assertTrue("valid-pattern".matches(InputPatterns.CLIENT_ID));
+        assertTrue("valid.pattern".matches(InputPatterns.CLIENT_ID));
+        assertTrue("valid:pattern".matches(InputPatterns.CLIENT_ID));
+        assertTrue("bS4G4gPTpnt4uzCjG0zkCkwuTKgTZ7cbg6e5FAxz5YBNc0BOEoOUjxbCdrwaq6odKhfypDxHvikC7gGW2WRp8rrnmLfVhMjOYqWm3Byc83fvMkm8I5ukzVCVC5Fr9zDHkekApgsKydk5Gn2hc8ShtW7OFpf5oYbNPEBboi389yratAJ46l38TQUhbG3wQMvTvrpxsYcybNPhG7cgvRNrdHdsD5gEst2jg8avzpPcy7Igoqz18ELIk5Dmk67k9oB".matches(InputPatterns.CLIENT_ID));
+        assertTrue("https://Tpnt4uzCjG0zkCkwuTKgTZ7cbg6e5FAxz5YBNc0BOEoOUjxbCdrwaq6odKhfypDxHvikC7gGW2WRp8rrnmLfVhMjOYqWm3Byc83fvMkm8I5ukzVCVC5Fr9zDHkekApgsKdk5Gn2hc8ShtW7OFpf5oYbNPEBboi389yratAJ46l38TQUhbG3wQMvTvrpxsYcybNPhG7cgvRNrdHdsD5gEst2jg8avzpPcy7Igoqz18ELIk5Dmk67.com".matches(InputPatterns.CLIENT_ID));
+        
         assertFalse("https:://invalid-url".matches(InputPatterns.CLIENT_ID));
+        assertFalse("https:/invalid-url".matches(InputPatterns.CLIENT_ID));
+        assertFalse("http://example.com".matches(InputPatterns.CLIENT_ID));
+        assertFalse("bS4G4gPTpnt4uzCjG0zkCkwuTKgTZ7cbg6e5FAxz5YBNc0BOEoOUjxbCdrwaq6odKhfypDxHvikC7gGW2WRp8rrnmLfVhMjOYqWm3Byc83fvMkm8I5ukzVCVC5Fr9zDHkekApgsKydk5Gn2hc8ShtW7OFpf5oYbNPEBboi389yratAJ46l38TQUhbG3wQMvTvrpxsYcybNPhG7cgvRNrdHdsD5gEst2jg8avzpPcy7Igoqz18ELIk5Dmk67k9oBX".matches(InputPatterns.CLIENT_ID));
+        assertFalse("https://Tpnt4uzCjG0zkCkwuTKgTZ7cbg6e5FAxz5YBNc0BOEoOUjxbCdrwaq6odKhfypDxHvikC7gGW2WRp8rrnmLfVhMjOYqWm3Byc83fvMkm8I5ukzVCVC5Fr9zDHkekApgsKydk5Gn2hc8ShtW7OFpf5oYbNPEBboi389yratAJ46l38TQUhbG3wQMvTvrpxsYcybNPhG7cgvRNrdHdsD5gEst2jg8avzpPcy7Igoqz18ELIk5Dm67BX.com".matches(InputPatterns.CLIENT_ID));
     }
 
     @Test
