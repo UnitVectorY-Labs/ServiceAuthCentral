@@ -45,6 +45,9 @@ public class AuthorizationRecord implements Authorization {
 
 	private String audience;
 
+	// The locked flag is being used on Firestore records but the code is not using it yet
+	private Boolean locked;
+
 	@Builder.Default
 	private List<String> authorizedScopes = new ArrayList<>();
 

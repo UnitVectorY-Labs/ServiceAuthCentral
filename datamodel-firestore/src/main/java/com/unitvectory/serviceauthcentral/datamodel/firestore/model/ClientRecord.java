@@ -65,6 +65,8 @@ public class ClientRecord implements Client {
 
 	private List<ClientScopeRecord> availableScopes;
 
+	private Boolean locked;
+
 	@Override
 	public List<ClientScope> getAvailableScopes() {
 		if (this.availableScopes == null) {

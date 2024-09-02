@@ -70,6 +70,16 @@ public class DefaultManagementCapabilitiesService implements ManagementCapabilit
             canAuthorizeRemoveScope = false;
         }
 
+        // Locked clients are restricted and can't be edited
+        if (client.isLocked()) {
+            canDeleteClient = false;
+            canAddClientSecret = false;
+            canDeleteClientSecret = false;
+            canAddAvailableScope = false;
+            canAddClientAuthorization = false;
+            canDeleteClientAuthorization = false;
+        }
+
         // If the subject of the JWT matches the clientId then it can't be deleted
         if (jwt.getSubject().equals(client.getClientId())) {
             canDeleteClient = false;

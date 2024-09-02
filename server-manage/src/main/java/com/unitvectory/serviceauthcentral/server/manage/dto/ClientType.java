@@ -46,4 +46,6 @@ public class ClientType {
 	private final List<ClientScopeType> availableScopes;
 
 	private final List<ClientJwtBearerType> jwtBearer;
+
+	private final boolean locked;
 }
