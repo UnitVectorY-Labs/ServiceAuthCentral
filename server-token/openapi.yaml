@@ -45,6 +45,24 @@ paths:
                     type: integer
                   scope:
                     type: string
+  /.well-known/openid-configuration:
+    get:
+      summary: OpenID Connect Discovery
+      operationId: getOpenIDConfiguration
+      tags:
+        - OpenID Connect
+      responses:
+        '200':
+          description: OpenID Connect Discovery
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  issuer:
+                    type: string
+                  jwks_uri:
+                    type: string
   /.well-known/jwks.json:
     get:
       summary: JSON Web Key Set
