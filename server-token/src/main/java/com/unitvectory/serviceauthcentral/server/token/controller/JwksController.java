@@ -63,16 +63,30 @@ public class JwksController {
 		// Return the response with the ETag
 		return ResponseEntity
 				.ok()
-                .contentType(MediaType.APPLICATION_JSON)
-				// This response can be cached for the externalCacheHours, goal is to reduce the number of calls to the Sign service
-				.cacheControl(CacheControl.maxAge(this.externalCacheHours, TimeUnit.SECONDS))
+				.contentType(MediaType.APPLICATION_JSON)
+				// Set an aggressive cache policy to reduce the number of calls of this very slowly changing data
+				.cacheControl(CacheControl
+						// Cache the response for externalCacheHours duration
+						.maxAge(this.externalCacheHours, TimeUnit.SECONDS)
+						// Cache the response for externalCacheHours duration
+                        .sMaxAge(2, TimeUnit.HOURS)
+						// Allow caching by public caches (e.g., CDNs, browser caches)
+						.cachePublic()
+						// The resource is immutable during its lifetime
+						.immutable()
+						// Serve stale content while asynchronously revalidating for up to 1 hour
+						.staleWhileRevalidate(1, TimeUnit.HOURS)
+						/// Serve stale content for up to 12 hours in case of an error during
+						/// revalidation
+						.staleIfError(12, TimeUnit.HOURS))
 				.eTag(eTag)
 				.body(jwksETagResponse.getJwks());
 	}
 
 	@Cacheable(value = "jwksCache", key = "'jwksKey'")
 	private JwkETagResponse getJwks() {
-		// This requires a call to the Sign service which is an external call so we want to cache the result to reduce the number of calls
+		// This requires a call to the Sign service which is an external call so we want
+		// to cache the result to reduce the number of calls
 		List<SignJwk> key = this.signService.getAll();
 
 		List<JwkResponse> keys = new ArrayList<>();

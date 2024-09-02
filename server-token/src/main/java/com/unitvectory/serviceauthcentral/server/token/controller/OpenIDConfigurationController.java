@@ -52,9 +52,21 @@ public class OpenIDConfigurationController {
         return ResponseEntity
                 .ok()
                 .contentType(MediaType.APPLICATION_JSON)
-                // This response can be cached for an hour, goal is to reduce the number of
-                // calls to the Sign service
-                .cacheControl(CacheControl.maxAge(1, TimeUnit.HOURS))
+				// Set an aggressive cache policy to reduce the number of calls of this very slowly changing data
+				.cacheControl(CacheControl
+						// Cache the response for an hour
+						.maxAge(1, TimeUnit.HOURS)
+						// Cache the response for an hour
+                        .sMaxAge(2, TimeUnit.HOURS)
+						// Allow caching by public caches (e.g., CDNs, browser caches)
+						.cachePublic()
+						// The resource is immutable during its lifetime
+						.immutable()
+						// Serve stale content while asynchronously revalidating for up to 1 hour
+						.staleWhileRevalidate(1, TimeUnit.HOURS)
+						/// Serve stale content for up to 12 hours in case of an error during
+						/// revalidation
+						.staleIfError(12, TimeUnit.HOURS))
                 .eTag(eTag)
                 .body(configETagResponse.getConfig());
     }
