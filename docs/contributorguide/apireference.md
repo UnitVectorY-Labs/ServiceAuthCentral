@@ -12,9 +12,14 @@ The following is an API reference for the ServiceAuthCentral manage service and 
 > {: .important }
 > For the API reference on the token server and how vend and validate tokens, see the [Integration Guide - API Reference]({{ site.baseurl }}{% link integrationguide/apireference.md %}) page.
 
+## POST /v1/token
+
+The `POST /v1/token` endpoint on the token API is primarily used for the client credentials and jwt bearer grant types as ServiceAuthCentral is primarily used for server-to-server authentication. However, to support the PKCE flow for the serviceauthcentralweb application, the token API also supports the authorization code grant type.  This flow is initiated by the serviceauthcentralweb application and then proceeds to the 3rd party application to authenticate the user completing a double OAuth 2.0 authorization process.
+
+
 ## GET /login/authorize
 
-The GET `/login/authorize` endpoint initiates the OAuth 2.0 authorization process using the PKCE (Proof Key for Code Exchange) flow from the serviceauthcentralweb application and then proceeds a flow for the 3rd party application to authenticate the user.
+The `GET /login/authorize` endpoint on the token API initiates the OAuth 2.0 authorization process using the PKCE (Proof Key for Code Exchange) flow from the serviceauthcentralweb application and then proceeds a flow for the 3rd party application to authenticate the user.
 
 **Request Parameters:**
 
@@ -31,7 +36,7 @@ On success, the endpoint will redirect the user to the 3rd party application for
 
 ## GET /login/callback
 
-The `GET /login/callback` endpoint handles the callback from the third-party authentication provider after the user has authenticated. This endpoint completes the OAuth 2.0 authorization process by exchanging the authorization code for user information and generating an authorization code for the client application.
+The `GET /login/callback` endpoint on the token API handles the callback from the third-party authentication provider after the user has authenticated. This endpoint completes the OAuth 2.0 authorization process by exchanging the authorization code for user information and generating an authorization code for the client application.
 
 **Request Parameters:**
 

@@ -59,7 +59,9 @@ gcloud firestore fields ttls update ttl \
   --enable-ttl
 ```
 
-The KMS key ring and key are used for signing and verifying JWTs.  The key ring and key can be created using the OpenTofu module [serviceauthcentral-kms-gcp-tofu](https://github.com/UnitVectorY-Labs/serviceauthcentral-kms-gcp-tofu). The recommendation here would be to use a global location for the key ring and key so it can be used in any region. 
+The KMS key ring and key are used for signing and verifying JWTs.  The key ring and key can be created using the OpenTofu module [serviceauthcentral-kms-gcp-tofu](https://github.com/UnitVectorY-Labs/serviceauthcentral-kms-gcp-tofu). The recommendation here would be to use a global location for the key ring and key so it can be used in any region.
+
+In order to bootstrap the Firestore database with the necessary data, the OpenTofu module[serviceauthcentral-firestore-bootstrap-gcp-tofu](https://github.com/UnitVectorY-Labs/serviceauthcentral-firestore-bootstrap-gcp-tofu) can be used to create the necessary record for the issuer and the authorization for the initial user to be able to log into the portal.
 
 **Manual deployment of KMS keyring and signing key with `gcloud`**
 
