@@ -39,5 +39,6 @@ public interface ClientMapper {
 	@Mapping(target = "clientSecret2Set", expression = "java(client.getClientSecret2() != null)")
 	@Mapping(target = "clientSecret2Updated", source = "clientSecret2Updated")
 	@Mapping(target = "jwtBearer", source = "jwtBearer")
+	@Mapping(target = "locked", source = "locked", defaultValue = "false")
 	ClientType clientToClientType(Client client);
 }

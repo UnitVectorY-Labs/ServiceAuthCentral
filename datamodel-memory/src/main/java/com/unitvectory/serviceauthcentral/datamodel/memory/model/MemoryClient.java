@@ -54,4 +54,5 @@ public class MemoryClient implements Client {
 
 	private List<ClientJwtBearer> jwtBearer;
 
+	private Boolean locked;
 }

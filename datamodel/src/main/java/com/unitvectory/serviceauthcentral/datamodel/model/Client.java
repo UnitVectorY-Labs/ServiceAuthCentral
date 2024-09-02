@@ -82,7 +82,6 @@ public interface Client {
 	 */
 	String getClientSecret2();
 
-
 	/**
 	 * Returns the timestamp the clientSecret2 was updated.
 	 * 
@@ -107,6 +106,13 @@ public interface Client {
 	List<ClientJwtBearer> getJwtBearer();
 
 	/**
+	 * The flag indicating the record is locked and cannot be modified.
+	 * 
+	 * @return the locked flag
+	 */
+	Boolean getLocked();
+
+	/**
 	 * Hashes a secret using SHA-256 and the client's salt.
 	 * 
 	 * Used as a helper method when setting a client secret.
@@ -128,7 +134,8 @@ public interface Client {
 	 * Verifies a secret against the stored client secrets.
 	 *
 	 * @param secret the secret to verify.
-	 * @return true if the secret matches either of the stored secrets, false otherwise.
+	 * @return true if the secret matches either of the stored secrets, false
+	 *         otherwise.
 	 */
 	public default boolean verifySecret(@NonNull String secret) {
 
