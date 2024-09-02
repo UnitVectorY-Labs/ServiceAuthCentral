@@ -18,6 +18,7 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
 import lombok.Builder;
+import lombok.Getter;
 import lombok.Value;
 
 /**
@@ -34,6 +35,6 @@ public class OpenIDConfigurationResponse {
 
     private String jwks_uri;
 
-    @JsonIgnore
+    @Getter(onMethod_ = @JsonIgnore)
     private String eTag;
 }
