@@ -24,7 +24,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class InputPatterns {
 
-        public static final String CLIENT_ID = "^(https:\\/\\/[a-zA-Z0-9-_.:\\/]{1,248}|[a-zA-Z0-9-_.:]{1,255})$";
+        public static final String CLIENT_ID = "^((https:)?\\/\\/[a-zA-Z0-9-_.:\\/]{1,248}|[a-zA-Z0-9-_.:]{1,255})$";
 
         public static final String CLIENT_SECRET = "^[0-9a-zA-Z]{12,64}$";
 
