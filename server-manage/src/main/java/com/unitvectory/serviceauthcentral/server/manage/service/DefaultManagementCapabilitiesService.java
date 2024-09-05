@@ -66,8 +66,6 @@ public class DefaultManagementCapabilitiesService implements ManagementCapabilit
             canAddAvailableScope = false;
             canAddClientAuthorization = false;
             canDeleteClientAuthorization = false;
-            canAuthorizeAddScope = false;
-            canAuthorizeRemoveScope = false;
         }
 
         // Locked clients are restricted and can't be edited
