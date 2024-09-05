@@ -170,7 +170,9 @@ public class TokenService {
 			}
 		}
 
-		Set<String> scopeSet = getScopes(scope, audienceRecord, authorizationRecord);
+		// Get the scopes, this request is permissive, if an invalid or unauthorized
+		// scope is passed it just won't be used instead of causing the request to fail
+		Set<String> scopeSet = getScopes(scope, audienceRecord, authorizationRecord, true);
 
 		// The description is populated for authorization_code tokens as it identifies
 		// the user in a way that can be displayed to the user.
@@ -261,7 +263,7 @@ public class TokenService {
 					"The client is not authorized for the specified audience.");
 		}
 
-		Set<String> scopeSet = getScopes(scope, audienceRecord, authorizationRecord);
+		Set<String> scopeSet = getScopes(scope, audienceRecord, authorizationRecord, false);
 
 		// The description is not being populated for jwt-bearer tokens
 		String description = null;
@@ -324,7 +326,7 @@ public class TokenService {
 					"The client is not authorized for the specified audience.");
 		}
 
-		Set<String> scopeSet = getScopes(scope, audienceRecord, authorizationRecord);
+		Set<String> scopeSet = getScopes(scope, audienceRecord, authorizationRecord, false);
 
 		// The description is not being populated for client_credentials tokens
 		String description = null;
@@ -334,7 +336,7 @@ public class TokenService {
 	}
 
 	private Set<String> getScopes(String scope, Client audienceRecord,
-			Authorization authorizationRecord) {
+			Authorization authorizationRecord, boolean permissive) {
 		if (scope == null) {
 			return null;
 		}
@@ -346,7 +348,10 @@ public class TokenService {
 		for (String s : requestedScopes) {
 			if (audienceRecord.hasScope(s) && authorizationRecord.hasScope(s)) {
 				validatedScopes.add(s);
-			} else {
+			} else if (!permissive) {
+				// Permissive scopes will just be ignored; this is used in the case of auth
+				// code, but the service aide use cases for client credentials and jwt bearer
+				// this will fail hard
 				throw new ForbiddenException("The specified scope '" + s + "' is invalid.");
 			}
 		}
