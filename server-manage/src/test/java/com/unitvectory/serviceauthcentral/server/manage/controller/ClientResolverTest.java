@@ -27,12 +27,12 @@ import com.unitvectory.fileparamunit.ListFileSource;
  * 
  * @author Jared Hatfield (UnitVectorY Labs)
  */
-@SpringBootTest(properties = {"graphql.servlet.enabled=false",
+@SpringBootTest(properties = { "graphql.servlet.enabled=false",
         "graphql.servlet.websocket.enabled=false", "sac.issuer=https://api.example.com",
-        "sac.cors.origins=https://console.example.com"})
+        "sac.cors.origins=https://console.example.com" })
 @AutoConfigureHttpGraphQlTester
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-@ActiveProfiles({"datamodel-memory", "test"})
+@ActiveProfiles({ "datamodel-memory", "test" })
 public class ClientResolverTest extends AbstractResolverTest {
 
     @Autowired

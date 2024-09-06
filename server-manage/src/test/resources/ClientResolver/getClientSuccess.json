@@ -1,0 +1,28 @@
+[
+    {
+        "documentName": "addClientMutation",
+        "accessToken": "admin-token",
+        "parameters": {
+          "clientId": "foo",
+          "description": "my description"
+        },
+        "path": "addClient",
+        "output": {
+          "clientId": "foo",
+          "description": "my description",
+          "availableScopes": null
+        }
+      },
+      {
+        "documentName": "getClient",
+        "accessToken": "user-token",
+        "parameters": {
+          "clientId": "foo"
+        },
+        "path": "client",
+        "output": {
+          "clientId": "foo",
+          "description": "my description"
+        }
+    }
+]
