@@ -26,6 +26,7 @@ import org.springframework.stereotype.Controller;
 import com.unitvectory.serviceauthcentral.common.InputPatterns;
 import com.unitvectory.serviceauthcentral.server.manage.dto.AuthorizationType;
 import com.unitvectory.serviceauthcentral.server.manage.dto.ClientType;
+import com.unitvectory.serviceauthcentral.server.manage.dto.RequestJwt;
 import com.unitvectory.serviceauthcentral.server.manage.dto.ResponseType;
 import com.unitvectory.serviceauthcentral.server.manage.mapper.RequestJwtMapper;
 import com.unitvectory.serviceauthcentral.server.manage.service.AuthorizationService;
@@ -46,6 +47,13 @@ public class AuthorizationResolver {
 	public ResponseType authorize(@Argument String subject, @Argument String audience,
 			@Argument List<String> authorizedScopes, @AuthenticationPrincipal Jwt jwt) {
 
+		// Authorize the request
+
+		RequestJwt requestJwt = RequestJwtMapper.INSTANCE.requestJwt(jwt);
+		if (!requestJwt.isWriteAuthorized()) {
+			throw new BadRequestException("Unauthorized, missing required scope.");
+		}
+
 		// Input Validation
 
 		if (subject == null || !subject.matches(InputPatterns.CLIENT_ID)) {
@@ -64,14 +72,20 @@ public class AuthorizationResolver {
 			authorizedScopes = new ArrayList<>();
 		}
 
-		return this.authorizationService.authorize(subject, audience, authorizedScopes,
-				RequestJwtMapper.INSTANCE.requestJwt(jwt));
+		return this.authorizationService.authorize(subject, audience, authorizedScopes, requestJwt);
 	}
 
 	@MutationMapping
 	public ResponseType deauthorize(@Argument String subject, @Argument String audience,
 			@AuthenticationPrincipal Jwt jwt) {
 
+		// Authorize the request
+
+		RequestJwt requestJwt = RequestJwtMapper.INSTANCE.requestJwt(jwt);
+		if (!requestJwt.isWriteAuthorized()) {
+			throw new BadRequestException("Unauthorized, missing required scope.");
+		}
+
 		// Input Validation
 
 		if (subject == null || !subject.matches(InputPatterns.CLIENT_ID)) {
@@ -80,14 +94,20 @@ public class AuthorizationResolver {
 			throw new BadRequestException("Invalid 'audience' attribute format.");
 		}
 
-		return this.authorizationService.deauthorize(subject, audience,
-				RequestJwtMapper.INSTANCE.requestJwt(jwt));
+		return this.authorizationService.deauthorize(subject, audience, requestJwt);
 	}
 
 	@MutationMapping
 	public ResponseType authorizeAddScope(@Argument String subject, @Argument String audience,
 			@Argument String authorizedScope, @AuthenticationPrincipal Jwt jwt) {
 
+		// Authorize the request
+
+		RequestJwt requestJwt = RequestJwtMapper.INSTANCE.requestJwt(jwt);
+		if (!requestJwt.isWriteAuthorized()) {
+			throw new BadRequestException("Unauthorized, missing required scope.");
+		}
+
 		// Input Validation
 
 		if (subject == null || !subject.matches(InputPatterns.CLIENT_ID)) {
@@ -98,14 +118,20 @@ public class AuthorizationResolver {
 			throw new BadRequestException("Invalid 'authorizedScope' attribute format.");
 		}
 
-		return this.authorizationService.authorizeAddScope(subject, audience, authorizedScope,
-				RequestJwtMapper.INSTANCE.requestJwt(jwt));
+		return this.authorizationService.authorizeAddScope(subject, audience, authorizedScope, requestJwt);
 	}
 
 	@MutationMapping
 	public ResponseType authorizeRemoveScope(@Argument String subject, @Argument String audience,
 			@Argument String authorizedScope, @AuthenticationPrincipal Jwt jwt) {
 
+		// Authorize the request
+
+		RequestJwt requestJwt = RequestJwtMapper.INSTANCE.requestJwt(jwt);
+		if (!requestJwt.isWriteAuthorized()) {
+			throw new BadRequestException("Unauthorized, missing required scope.");
+		}
+
 		// Input Validation
 
 		if (subject == null || !subject.matches(InputPatterns.CLIENT_ID)) {
@@ -116,13 +142,19 @@ public class AuthorizationResolver {
 			throw new BadRequestException("Invalid 'authorizedScope' attribute format.");
 		}
 
-		return this.authorizationService.authorizeRemoveScope(subject, audience, authorizedScope,
-				RequestJwtMapper.INSTANCE.requestJwt(jwt));
+		return this.authorizationService.authorizeRemoveScope(subject, audience, authorizedScope, requestJwt);
 	}
 
-
 	@QueryMapping
-	public AuthorizationType authorization(@Argument String id) {
+	public AuthorizationType authorization(@Argument String id, @AuthenticationPrincipal Jwt jwt) {
+
+		// Authorize the request
+
+		RequestJwt requestJwt = RequestJwtMapper.INSTANCE.requestJwt(jwt);
+		if (!requestJwt.isReadAuthorized()) {
+			throw new BadRequestException("Unauthorized, missing required scope.");
+		}
+
 		return this.authorizationService.authorization(id);
 	}
 

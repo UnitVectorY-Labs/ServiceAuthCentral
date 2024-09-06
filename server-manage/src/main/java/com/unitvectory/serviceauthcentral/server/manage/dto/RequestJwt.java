@@ -13,6 +13,10 @@
  */
 package com.unitvectory.serviceauthcentral.server.manage.dto;
 
+import java.util.Arrays;
+import java.util.Set;
+import java.util.stream.Collectors;
+
 import lombok.Builder;
 import lombok.Value;
 
@@ -25,6 +29,36 @@ import lombok.Value;
 @Builder
 public class RequestJwt {
 
+    /**
+     * The subject claim
+     */
     private final String subject;
 
+    /**
+     * The scope claim
+     */
+    private final String scope;
+
+    /**
+     * Get the scopes as a set
+     * 
+     * @return the scopes
+     */
+    public Set<String> getScopesSet() {
+        if (this.scope == null) {
+            return Set.of();
+        }
+
+        return Arrays.stream(scope.split(" ")).collect(Collectors.toSet());
+    }
+
+    public boolean isReadAuthorized() {
+        // Scopes contains "Read" or "Admin"
+        return this.getScopesSet().contains("Read") || this.getScopesSet().contains("Admin");
+    }
+
+    public boolean isWriteAuthorized() {
+        // Scopes contains "Admin"
+        return this.getScopesSet().contains("Admin");
+    }
 }

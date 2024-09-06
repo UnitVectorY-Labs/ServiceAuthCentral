@@ -34,6 +34,8 @@ public class DefaultManagementCapabilitiesService implements ManagementCapabilit
     public ClientManagementCapabilitiesType getClientManagementCapabilities(ClientType client,
             RequestJwt jwt) {
 
+        // The approach here is to start with the permissions enabled, and then progress
+        // through the different scenarios disabling them as appropriate
         boolean canDeleteClient = true;
         boolean canAddClientSecret = true;
         boolean canDeleteClientSecret = true;
@@ -44,6 +46,20 @@ public class DefaultManagementCapabilitiesService implements ManagementCapabilit
         boolean canDeleteAuthorization = true;
         boolean canAuthorizeAddScope = true;
         boolean canAuthorizeRemoveScope = true;
+
+        // If the client doesn't have the "Admin" scope then they can't do anything
+        if (!jwt.isWriteAuthorized()) {
+            canDeleteClient = false;
+            canAddClientSecret = false;
+            canDeleteClientSecret = false;
+            canAddClientAuthorization = false;
+            canDeleteClientAuthorization = false;
+            canAddAvailableScope = false;
+            canAddAuthorization = false;
+            canDeleteAuthorization = false;
+            canAuthorizeAddScope = false;
+            canAuthorizeRemoveScope = false;
+        }
 
         // User records are limited in what they can do
         if ("USER".equals(client.getClientType())) {
@@ -83,14 +99,19 @@ public class DefaultManagementCapabilitiesService implements ManagementCapabilit
             canDeleteClient = false;
         }
 
-        return ClientManagementCapabilitiesType.builder().canDeleteClient(canDeleteClient)
-                .canAddClientSecret(canAddClientSecret).canDeleteClientSecret(canDeleteClientSecret)
+        // Now return the capabilities
+        return ClientManagementCapabilitiesType.builder()
+                .canDeleteClient(canDeleteClient)
+                .canAddClientSecret(canAddClientSecret)
+                .canDeleteClientSecret(canDeleteClientSecret)
                 .canAddClientAuthorization(canAddClientAuthorization)
                 .canDeleteClientAuthorization(canDeleteClientAuthorization)
-                .canAddAvailableScope(canAddAvailableScope).canAddAuthorization(canAddAuthorization)
+                .canAddAvailableScope(canAddAvailableScope)
+                .canAddAuthorization(canAddAuthorization)
                 .canDeleteAuthorization(canDeleteAuthorization)
                 .canAuthorizeAddScope(canAuthorizeAddScope)
-                .canAuthorizeRemoveScope(canAuthorizeRemoveScope).build();
+                .canAuthorizeRemoveScope(canAuthorizeRemoveScope)
+                .build();
     }
 
 }

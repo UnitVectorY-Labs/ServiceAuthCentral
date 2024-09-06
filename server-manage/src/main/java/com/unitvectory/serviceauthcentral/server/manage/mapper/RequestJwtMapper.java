@@ -15,6 +15,7 @@ package com.unitvectory.serviceauthcentral.server.manage.mapper;
 
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
+import org.mapstruct.Named;
 import org.mapstruct.factory.Mappers;
 import org.springframework.security.oauth2.jwt.Jwt;
 import com.unitvectory.serviceauthcentral.server.manage.dto.RequestJwt;
@@ -30,5 +31,11 @@ public interface RequestJwtMapper {
     RequestJwtMapper INSTANCE = Mappers.getMapper(RequestJwtMapper.class);
 
     @Mapping(target = "subject", source = "subject")
+    @Mapping(target = "scope", source = "jwt", qualifiedByName = "extractScope")
     RequestJwt requestJwt(Jwt jwt);
+
+    @Named("extractScope")
+    default String extractScope(Jwt jwt) {
+        return jwt.getClaimAsString("scope");
+    }
 }

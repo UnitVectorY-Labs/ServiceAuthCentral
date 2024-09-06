@@ -29,6 +29,7 @@ import com.unitvectory.serviceauthcentral.server.manage.dto.ClientManagementCapa
 import com.unitvectory.serviceauthcentral.server.manage.dto.ClientScopeType;
 import com.unitvectory.serviceauthcentral.server.manage.dto.ClientSecretType;
 import com.unitvectory.serviceauthcentral.server.manage.dto.ClientType;
+import com.unitvectory.serviceauthcentral.server.manage.dto.RequestJwt;
 import com.unitvectory.serviceauthcentral.server.manage.dto.ResponseType;
 import com.unitvectory.serviceauthcentral.server.manage.mapper.RequestJwtMapper;
 import com.unitvectory.serviceauthcentral.server.manage.service.ClientService;
@@ -51,7 +52,14 @@ public class ClientResolver {
 
 	@MutationMapping
 	public ClientType addClient(@Argument String clientId, @Argument String description,
-			@Argument List<ClientScopeType> availableScopes) {
+			@Argument List<ClientScopeType> availableScopes, @AuthenticationPrincipal Jwt jwt) {
+
+		// Authorize the request
+
+		RequestJwt requestJwt = RequestJwtMapper.INSTANCE.requestJwt(jwt);
+		if (!requestJwt.isWriteAuthorized()) {
+			throw new BadRequestException("Unauthorized, missing required scope.");
+		}
 
 		// Input Validation
 
@@ -79,6 +87,13 @@ public class ClientResolver {
 	public ResponseType addClientAvailableScope(@Argument String clientId,
 			@Argument ClientScopeType availableScope, @AuthenticationPrincipal Jwt jwt) {
 
+		// Authorize the request
+
+		RequestJwt requestJwt = RequestJwtMapper.INSTANCE.requestJwt(jwt);
+		if (!requestJwt.isWriteAuthorized()) {
+			throw new BadRequestException("Unauthorized, missing required scope.");
+		}
+
 		// Input Validation
 
 		if (clientId == null || !clientId.matches(InputPatterns.CLIENT_ID)) {
@@ -93,12 +108,18 @@ public class ClientResolver {
 			throw new BadRequestException("Invalid 'description' attribute format.");
 		}
 
-		return this.clientService.addClientAvailableScope(clientId, availableScope,
-				RequestJwtMapper.INSTANCE.requestJwt(jwt));
+		return this.clientService.addClientAvailableScope(clientId, availableScope, requestJwt);
 	}
 
 	@MutationMapping
 	public ResponseType deleteClient(@Argument String clientId, @AuthenticationPrincipal Jwt jwt) {
+
+		// Authorize the request
+
+		RequestJwt requestJwt = RequestJwtMapper.INSTANCE.requestJwt(jwt);
+		if (!requestJwt.isWriteAuthorized()) {
+			throw new BadRequestException("Unauthorized, missing required scope.");
+		}
 
 		// Input Validation
 
@@ -106,69 +127,100 @@ public class ClientResolver {
 			throw new BadRequestException("Invalid 'client_id' attribute format.");
 		}
 
-		return this.clientService.deleteClient(clientId, RequestJwtMapper.INSTANCE.requestJwt(jwt));
+		return this.clientService.deleteClient(clientId, requestJwt);
 	}
 
 	@MutationMapping
 	public ClientSecretType generateClientSecret1(@Argument String clientId,
 			@AuthenticationPrincipal Jwt jwt) {
 
+		// Authorize the request
+
+		RequestJwt requestJwt = RequestJwtMapper.INSTANCE.requestJwt(jwt);
+		if (!requestJwt.isWriteAuthorized()) {
+			throw new BadRequestException("Unauthorized, missing required scope.");
+		}
+
 		// Input Validation
 
 		if (clientId == null || !clientId.matches(InputPatterns.CLIENT_ID)) {
 			throw new BadRequestException("Invalid 'client_id' attribute format.");
 		}
 
-		return this.clientService.generateClientSecret1(clientId,
-				RequestJwtMapper.INSTANCE.requestJwt(jwt));
+		return this.clientService.generateClientSecret1(clientId, requestJwt);
 	}
 
 	@MutationMapping
 	public ClientSecretType generateClientSecret2(@Argument String clientId,
 			@AuthenticationPrincipal Jwt jwt) {
 
+		// Authorize the request
+
+		RequestJwt requestJwt = RequestJwtMapper.INSTANCE.requestJwt(jwt);
+		if (!requestJwt.isWriteAuthorized()) {
+			throw new BadRequestException("Unauthorized, missing required scope.");
+		}
+
 		// Input Validation
 
 		if (clientId == null || !clientId.matches(InputPatterns.CLIENT_ID)) {
 			throw new BadRequestException("Invalid 'client_id' attribute format.");
 		}
 
-		return this.clientService.generateClientSecret2(clientId,
-				RequestJwtMapper.INSTANCE.requestJwt(jwt));
+		return this.clientService.generateClientSecret2(clientId, requestJwt);
 	}
 
 	@MutationMapping
 	public ClientSecretType clearClientSecret1(@Argument String clientId,
 			@AuthenticationPrincipal Jwt jwt) {
 
+		// Authorize the request
+
+		RequestJwt requestJwt = RequestJwtMapper.INSTANCE.requestJwt(jwt);
+		if (!requestJwt.isWriteAuthorized()) {
+			throw new BadRequestException("Unauthorized, missing required scope.");
+		}
+
 		// Input Validation
 
 		if (clientId == null || !clientId.matches(InputPatterns.CLIENT_ID)) {
 			throw new BadRequestException("Invalid 'client_id' attribute format.");
 		}
 
-		return this.clientService.clearClientSecret1(clientId,
-				RequestJwtMapper.INSTANCE.requestJwt(jwt));
+		return this.clientService.clearClientSecret1(clientId, requestJwt);
 	}
 
 	@MutationMapping
 	public ClientSecretType clearClientSecret2(@Argument String clientId,
 			@AuthenticationPrincipal Jwt jwt) {
 
+		// Authorize the request
+
+		RequestJwt requestJwt = RequestJwtMapper.INSTANCE.requestJwt(jwt);
+		if (!requestJwt.isWriteAuthorized()) {
+			throw new BadRequestException("Unauthorized, missing required scope.");
+		}
+
 		// Input Validation
 
 		if (clientId == null || !clientId.matches(InputPatterns.CLIENT_ID)) {
 			throw new BadRequestException("Invalid 'client_id' attribute format.");
 		}
 
-		return this.clientService.clearClientSecret2(clientId,
-				RequestJwtMapper.INSTANCE.requestJwt(jwt));
+		return this.clientService.clearClientSecret2(clientId, requestJwt);
 	}
 
 	@MutationMapping
 	public ResponseType authorizeJwtBearer(@Argument String clientId, @Argument String jwksUrl,
 			@Argument String iss, @Argument String sub, @Argument String aud,
 			@AuthenticationPrincipal Jwt jwt) {
+
+		// Authorize the request
+
+		RequestJwt requestJwt = RequestJwtMapper.INSTANCE.requestJwt(jwt);
+		if (!requestJwt.isWriteAuthorized()) {
+			throw new BadRequestException("Unauthorized, missing required scope.");
+		}
 
 		// Input Validation
 
@@ -184,13 +236,19 @@ public class ClientResolver {
 			throw new BadRequestException("Invalid 'aud' attribute format.");
 		}
 
-		return this.clientService.authorizeJwtBearer(clientId, jwksUrl, iss, sub, aud,
-				RequestJwtMapper.INSTANCE.requestJwt(jwt));
+		return this.clientService.authorizeJwtBearer(clientId, jwksUrl, iss, sub, aud, requestJwt);
 	}
 
 	@MutationMapping
 	public ResponseType deauthorizeJwtBearer(@Argument String clientId, @Argument String id,
 			@AuthenticationPrincipal Jwt jwt) {
+
+		// Authorize the request
+
+		RequestJwt requestJwt = RequestJwtMapper.INSTANCE.requestJwt(jwt);
+		if (!requestJwt.isWriteAuthorized()) {
+			throw new BadRequestException("Unauthorized, missing required scope.");
+		}
 
 		// Input Validation
 
@@ -200,12 +258,19 @@ public class ClientResolver {
 			throw new BadRequestException("Invalid 'id' attribute format.");
 		}
 
-		return this.clientService.deauthorizeJwtBearer(clientId, id,
-				RequestJwtMapper.INSTANCE.requestJwt(jwt));
+		return this.clientService.deauthorizeJwtBearer(clientId, id, requestJwt);
 	}
 
 	@QueryMapping
-	public ClientType client(@Argument String clientId) {
+	public ClientType client(@Argument String clientId, @AuthenticationPrincipal Jwt jwt) {
+
+		// Authorize the request
+
+		RequestJwt requestJwt = RequestJwtMapper.INSTANCE.requestJwt(jwt);
+		if (!requestJwt.isReadAuthorized()) {
+			throw new BadRequestException("Unauthorized, missing required scope.");
+		}
+
 		return this.clientService.client(clientId);
 	}
 
@@ -215,7 +280,6 @@ public class ClientResolver {
 		return this.managementCapabilitiesService.getClientManagementCapabilities(client,
 				RequestJwtMapper.INSTANCE.requestJwt(jwt));
 	}
-
 
 	@SchemaMapping(typeName = "Client", field = "authorizationsAsSubject")
 	public List<AuthorizationType> getAuthorizationsAsSubject(ClientType client) {

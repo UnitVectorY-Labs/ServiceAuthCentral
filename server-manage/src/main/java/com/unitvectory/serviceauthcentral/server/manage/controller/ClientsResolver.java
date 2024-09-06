@@ -16,10 +16,15 @@ package com.unitvectory.serviceauthcentral.server.manage.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.graphql.data.method.annotation.Argument;
 import org.springframework.graphql.data.method.annotation.QueryMapping;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.stereotype.Controller;
 
 import com.unitvectory.serviceauthcentral.datamodel.model.ClientSummaryConnection;
+import com.unitvectory.serviceauthcentral.server.manage.dto.RequestJwt;
+import com.unitvectory.serviceauthcentral.server.manage.mapper.RequestJwtMapper;
 import com.unitvectory.serviceauthcentral.server.manage.service.ClientService;
+import com.unitvectory.serviceauthcentral.util.exception.BadRequestException;
 
 /**
  * The GraphQL Clients Resolver
@@ -34,7 +39,15 @@ public class ClientsResolver {
 
 	@QueryMapping
 	public ClientSummaryConnection clients(@Argument Integer first, @Argument String after,
-			@Argument Integer last, @Argument String before) {
+			@Argument Integer last, @Argument String before, @AuthenticationPrincipal Jwt jwt) {
+
+		// Authorize the request
+
+		RequestJwt requestJwt = RequestJwtMapper.INSTANCE.requestJwt(jwt);
+		if (!requestJwt.isReadAuthorized()) {
+			throw new BadRequestException("Unauthorized, missing required scope.");
+		}
+
 		return this.clientService.getClients(first, after, last, before);
 	}
 }
