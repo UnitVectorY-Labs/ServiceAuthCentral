@@ -4,6 +4,13 @@
 
 Simplify microservice security with ServiceAuthCentral: Centralized, open-source authorization in the cloud, minus the shared secrets.
 
+## References
+
+- [ServiceAuthCentral](https://github.com/UnitVectorY-Labs/ServiceAuthCentral) - Simplify microservice security with ServiceAuthCentral: Centralized, open-source authorization in the cloud, minus the shared secrets.
+- [ServiceAuthCentral Documentation](https://unitvectory-labs.github.io/ServiceAuthCentral/) - Documentation for ServiceAuthCentral
+- [serviceauthcentralweb](https://github.com/UnitVectorY-Labs/serviceauthcentralweb) - Web based management interface for ServiceCloudAuth
+- [serviceauthcentral-gcp-tofu](https://github.com/UnitVectorY-Labs/serviceauthcentral-gcp-tofu) - OpenTofu module for deploying a fully working ServiceAuthCentral deployment in GCP
+
 ## Overview
 
 This application implements the OAuth 2.0 Client Credentials flow for the purpose of machine-to-machine authentication and authorization acting as a centralized authorization server. This means that for one client to vend an access token, in the form of a JWT, with the audience of another client, that authorization must be granted in this centralized server. This allows the servers verifying client requests to trust the client based on the JWT being valid from this authorization server.
