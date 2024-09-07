@@ -62,7 +62,7 @@ public class TestSecurityConfig {
             }
         });
 
-        http.csrf(s -> s.disable()).authorizeHttpRequests(authorize -> authorize.anyRequest().permitAll())
+        http.authorizeHttpRequests(authorize -> authorize.anyRequest().permitAll())
                 // Configure OAuth2 Resource Server
                 .oauth2ResourceServer(oauth2 -> oauth2.jwt(jwt -> jwt.decoder(jwtDecoder)));
         return http.build();
