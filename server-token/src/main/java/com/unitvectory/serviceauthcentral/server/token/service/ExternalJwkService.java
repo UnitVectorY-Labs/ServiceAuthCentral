@@ -62,6 +62,7 @@ public class ExternalJwkService {
 	public VerifyJwk getJwk(@NonNull String url, @NonNull String kid) {
 
 		long now = timeService.getCurrentTimeSeconds();
+		long expiration = now + externalCacheHours;
 
 		// First, try to get the key from the database cache
 		CachedJwk cachedJwk = this.jwkCacheRepository.getJwk(url, kid);
@@ -78,7 +79,7 @@ public class ExternalJwkService {
 			// Cache all of the keys in the database again
 			for (VerifyJwk jwk : jwks.getKeys()) {
 				this.jwkCacheRepository.cacheJwk(url,
-						JwkMapper.INSTANCE.verifyJwkToCachedJwk(url, jwk), now);
+						JwkMapper.INSTANCE.verifyJwkToCachedJwk(url, jwk), expiration);
 
 				// Look for the matching JWK based on KID
 				if (kid.equals(jwk.getKid())) {
@@ -88,7 +89,7 @@ public class ExternalJwkService {
 
 			// Match not found, so we will cache that
 			if (matchedJwk == null) {
-				this.jwkCacheRepository.cacheJwkAbsent(url, kid, externalCacheHours);
+				this.jwkCacheRepository.cacheJwkAbsent(url, kid, expiration);
 			}
 
 			return matchedJwk;
