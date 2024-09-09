@@ -29,7 +29,7 @@ public interface JwkCacheRepository {
 	 *
 	 * @param url the URL where the JWK was retrieved from.
 	 * @param jwk the JWK to cache.
-	 * @param ttl the time-to-live in seconds for the cached JWK.
+	 * @param ttl the Epoch expiration time in seconds for the cached JWK.
 	 */
 	void cacheJwk(String url, CachedJwk jwk, long ttl);
 
@@ -39,7 +39,7 @@ public interface JwkCacheRepository {
 	 *
 	 * @param url the URL associated with the JWK.
 	 * @param kid the Key ID that is absent.
-	 * @param ttl the time-to-live in seconds for this absence record.
+	 * @param ttl the Epoch expiration time in seconds for the absence of the JWK.
 	 */
 	void cacheJwkAbsent(String url, String kid, long ttl);
 

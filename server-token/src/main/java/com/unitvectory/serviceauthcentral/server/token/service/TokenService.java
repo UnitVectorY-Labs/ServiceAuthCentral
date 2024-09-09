@@ -241,6 +241,11 @@ public class TokenService {
 		VerifyJwk jwk = this.externalJwkService.getJwk(jwtMatchedBearer.getJwksUrl(),
 				assertionJwt.getKid());
 
+		// If the JWK is null, then the JWT is invalid as it could not be retrieved
+		if (jwk == null) {
+			throw new ForbiddenException("The JWK could not be retrieved. The JWKS or KID is likely invalid.");
+		}
+
 		// The parameters in the JWT that will be verified
 		VerifyParameters verifyParameters = VerifyParameters.builder().iss(jwtMatchedBearer.getIss())
 				.sub(jwtMatchedBearer.getSub()).aud(jwtMatchedBearer.getAud()).build();
