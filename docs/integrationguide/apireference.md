@@ -12,11 +12,50 @@ The following is an API reference for the ServiceAuthCentral token service and i
 > {: .important }
 > For the API reference on the manage server and how to manage clients and authorizations see the [Contributor Guide - API Reference]({{ site.baseurl }}{% link contributorguide/apireference.md %}) page.
 
-
 ## POST /v1/token
 
 The `POST /v1/token` endpoint on the token server is the OAuth 2.0 token endpoint using for requesting access tokens that take the form of a JWT. The endpoint is used by `Client Services` to request access tokens for `Resource Services`.  The two flows supported are client credentials and the preferred jwt bearer flow.
 
+
+### Client Credentials Flow
+
+Use this flow when you have a client secret (not preferred) to request an access token for your desired audience.
+
+```bash
+curl -X POST "https://token.example.com/v1/token" \
+-H "Content-Type: application/x-www-form-urlencoded" \
+--data-urlencode "grant_type=client_credentials" \
+--data-urlencode "client_id=your_client_id" \
+--data-urlencode "client_secret=your_client_secret" \
+--data-urlencode "audience=audience_to_access_client_id"
+```
+
+### JWT Bearer Token Flow
+
+Use this flow when you want to authenticate using a JWT from another service, such as a GCP service account, without a client secret. The audience parameter is still required.
+
+```bash
+curl -X POST "https://token.example.com/v1/token" \
+-H "Content-Type: application/x-www-form-urlencoded" \
+--data-urlencode "grant_type=urn:ietf:params:oauth:grant-type:jwt-bearer" \
+--data-urlencode "assertion=eyJhbGF...7EEaTA" \
+--data-urlencode "client_id=your_client_id" \
+--data-urlencode "audience=audience_to_access_client_id"
+```
+
+In both requests, the audience parameter is crucial as it specifies which service the token should grant access to. This parameter is checked against the authorization policies configured in ServiceAuthCentral to ensure the requesting client is authorized to access the specified service.
+
+### Response
+
+The response follows the standard OAuth 2.0 response format with the token being returned as a JWT.
+
+```json
+{
+  "access_token": "eyJhbGF...7EEaTA",
+  "token_type": "Bearer",
+  "expires_in": 3600
+}
+```
 
 ## GET /.well-known/jwks.json
 
