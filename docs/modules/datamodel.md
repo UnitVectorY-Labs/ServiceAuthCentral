@@ -28,5 +28,5 @@ There are multiple data model implementations that are available. Exactly one mo
 > {: .important }
 > Each module implementation will have additional properties that are required to be set for it to work correctly when it is enabled, typically through envirionment variables.
 
-- [Data Model - Firestore]({{ site.baseurl }}{% link modules/datamodelfirestore.md %}): Firestore implementation for the repository interfaces
-- [Data Model - Memory]({{ site.baseurl }}{% link modules/datamodelmemory.md %}): In-memory implementation for the repository interfaces used for testing and development
+- [Data Model - Firestore](../modules/datamodelfirestore.md): Firestore implementation for the repository interfaces
+- [Data Model - Memory](../modules/datamodelmemory.md): In-memory implementation for the repository interfaces used for testing and development

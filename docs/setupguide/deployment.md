@@ -11,9 +11,9 @@ Deploying ServiceAuthCentral is intended to be flexible having been built in a m
 
 ## Prerequisites
 
-ServiceAuthCentral has minimal external dependencies.  While it is possible for different [data model]({{ site.baseurl }}{% link modules/datamodel.md %}) implementations to be used, the default implementation uses [Google Firestore]({{ site.baseurl }}{% link modules/datamodelfirestore.md %}).
+ServiceAuthCentral has minimal external dependencies.  While it is possible for different [data model](../modules/datamodel.md) implementations to be used, the default implementation uses [Google Firestore](../modules/datamodelfirestore.md).
 
-The Firestore database can be deployed using the OpenTofu module [serviceauthcentral-firestore-gcp-tofu](https://github.com/UnitVectorY-Labs/serviceauthcentral-firestore-gcp-tofu) which will deploy the Firestore database itself, along with the necessary indexes and TTL configuration.  For multi-region deployments refer to the  [high availability]({{ site.baseurl }}{% link setupguide/highavailability.md %}) guide.
+The Firestore database can be deployed using the OpenTofu module [serviceauthcentral-firestore-gcp-tofu](https://github.com/UnitVectorY-Labs/serviceauthcentral-firestore-gcp-tofu) which will deploy the Firestore database itself, along with the necessary indexes and TTL configuration.  For multi-region deployments refer to the  [high availability](../setupguide/highavailability.md) guide.
 
 **Manual deployment of Firestore database with `gcloud`**
 
@@ -94,7 +94,7 @@ Alternatively the docker image can be deployed manually:
 docker pull ghcr.io/unitvectory-labs/serviceauthcentral-token:dev
 ```
 
-The token server is configured using envirionment variables as outlined on the [configuration]({{ site.baseurl }}{% link setupguide/configuration.md %}) guide.
+The token server is configured using envirionment variables as outlined on the [configuration](../setupguide/configuration.md) guide.
 
 ## Deploying ServiceAuthCentral Manage API
 
@@ -109,7 +109,7 @@ Alternatively the docker image can be deployed manually:
 docker pull ghcr.io/unitvectory-labs/serviceauthcentral-manage:dev
 ```
 
-The manage server is configured using envirionment variables as outlined on the [configuration]({{ site.baseurl }}{% link setupguide/configuration.md %}) guide.
+The manage server is configured using envirionment variables as outlined on the [configuration](../setupguide/configuration.md) guide.
 
 ## Deploying ServiceAuthCentral Web Portal
 
@@ -117,4 +117,4 @@ The web portal for ServiceAuthCentral is a static website, [serviceauthcentralwe
 
 The portal is a Vue 3 application that must be compiled with the appropriate `.env.production` configuration. The compiled static website can then be served.
 
-The web portal is configured using envirionment variables as outlined on the [configuration]({{ site.baseurl }}{% link setupguide/configuration.md %}) guide.
+The web portal is configured using envirionment variables as outlined on the [configuration](../setupguide/configuration.md) guide.

@@ -10,7 +10,7 @@ nav_order: 3
 The following is an API reference for the ServiceAuthCentral manage service and the user authentication used by serviceauthcentralweb for the administrative portal.  These APIs would not be used by microservices integrating with ServiceAuthCentral and represent the management plane of the system.
 
 > {: .important }
-> For the API reference on the token server and how vend and validate tokens, see the [Integration Guide - API Reference]({{ site.baseurl }}{% link integrationguide/apireference.md %}) page.
+> For the API reference on the token server and how vend and validate tokens, see the [Integration Guide - API Reference](../integrationguide/apireference.md) page.
 
 ## POST /v1/token
 

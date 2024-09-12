@@ -11,7 +11,7 @@ The design principal behind ServiceAuthCentral is to be modular therefore there 
 
 ## Token API Configuration
 
-The [token server]({{ site.baseurl }}{% link modules/tokenserver.md %}) requires the following environment variables to be set as a minimum viable deployment:
+The [token server](../modules/tokenserver.md) requires the following environment variables to be set as a minimum viable deployment:
 
 
 | Environment Variable   | Description                                                      | Example                            |
@@ -22,7 +22,7 @@ The [token server]({{ site.baseurl }}{% link modules/tokenserver.md %}) requires
 | SAC_CORS_ORIGINS       | The comma separated list of Admin URLs to enable CORS            | `https://admin.example.com`        |
 | SAC_USER_REDIRECTURI   | The comma separated list of redirector URLs for the admin portal | https://admin.example.com/callback |
 
-The [data model Firestore module]({{ site.baseurl }}{% link modules/datamodelfirestore.md %}) requires the following environment variables to be set:
+The [data model Firestore module](../modules/datamodelfirestore.md) requires the following environment variables to be set:
 
 | Environment Variable   | Description      | Example           |
 | ---------------------- | ---------------- | ----------------- |
@@ -30,7 +30,7 @@ The [data model Firestore module]({{ site.baseurl }}{% link modules/datamodelfir
 
 This assumes the default collection names are used.
 
-The [sign GCP module]({{ site.baseurl }}{% link modules/signgcp.md %}) requires the following environment variables to be set:
+The [sign GCP module](../modules/signgcp.md) requires the following environment variables to be set:
 
 | Environment Variable   | Description       | Example                       |
 | ---------------------- | ----------------- | ----------------------------- |
@@ -42,14 +42,14 @@ This assumes the keyring and key are in the global location.
 
 The admin console requires configing ann external OAuth provider to authenticate users.
 
-The [user GitHub module]({{ site.baseurl }}{% link modules/usergithub.md %}) requires the following environment variables to be set:
+The [user GitHub module](../modules/usergithub.md) requires the following environment variables to be set:
 
 | Environment Variable                  | Description                         | Example              |
 | ------------------------------------- | ----------------------------------- | -------------------- |
 | SAC_USER_PROVIDER_GITHUB_CLIENTID     | The clientId provided by GitHub     | github-client-id     |
 | SAC_USER_PROVIDER_GITHUB_CLIENTSECRET | The clientSecret provided by GitHub | github-client-secret |
 
-The [user Google module]({{ site.baseurl }}{% link modules/usergoogle.md %}) requires the following environment variables to be set:
+The [user Google module](../modules/usergoogle.md) requires the following environment variables to be set:
 
 | Environment Variable                  | Description                                                                                            | Example                   |
 | ------------------------------------- | ------------------------------------------------------------------------------------------------------ | ------------------------- |
@@ -59,7 +59,7 @@ The [user Google module]({{ site.baseurl }}{% link modules/usergoogle.md %}) req
 
 ## Manage API Configuration
 
-The [manage server]({{ site.baseurl }}{% link modules/manageserver.md %}) requires the following environment variables to be set as a minimum viable deployment:
+The [manage server](../modules/manageserver.md) requires the following environment variables to be set as a minimum viable deployment:
 
 | Environment Variable   | Description                                            | Example                     |
 | ---------------------- | ------------------------------------------------------ | --------------------------- |
@@ -67,7 +67,7 @@ The [manage server]({{ site.baseurl }}{% link modules/manageserver.md %}) requir
 | SAC_ISSUER             | The issuer URL used to identify the server             | `https://token.example.com` |
 | SAC_CORS_ORIGINS       | The comma separated list of Admin URLs to enable CORES | `https://admin.example.com` |
 
-The [data model Firestore module]({{ site.baseurl }}{% link modules/datamodelfirestore.md %}) requires the following environment variables to be set:
+The [data model Firestore module](../modules/datamodelfirestore.md) requires the following environment variables to be set:
 
 | Environment Variable   | Description      | Example           |
 | ---------------------- | ---------------- | ----------------- |

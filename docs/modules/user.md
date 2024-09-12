@@ -19,6 +19,6 @@ The following interfaces are implemented to provide data persistence.
 
 There are multiple user implementations that are available. Multiple user implementations can be enabled at runtime.
 
-- [User - GitHub]({{ site.baseurl }}{% link modules/usergithub.md %}): Login with a GitHub Account
-- [User - Google]({{ site.baseurl }}{% link modules/usergoogle.md %}): Login with a Google Account
+- [User - GitHub](../modules/usergithub.md): Login with a GitHub Account
+- [User - Google](../modules/usergoogle.md): Login with a Google Account
 
