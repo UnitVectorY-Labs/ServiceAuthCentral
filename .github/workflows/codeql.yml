@@ -14,8 +14,14 @@ name: "CodeQL"
 on:
   push:
     branches: [ "main" ]
+    paths-ignore:
+      - 'docs/**'
+      - 'mkdocs.yml'
   pull_request:
     branches: [ "main" ]
+    paths-ignore:
+      - 'docs/**'
+      - 'mkdocs.yml'
   schedule:
     - cron: '33 23 * * 3'
 
