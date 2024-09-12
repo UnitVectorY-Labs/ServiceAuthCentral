@@ -1,10 +1,3 @@
----
-layout: default
-title: Client Libraries
-parent: Integration Guide
-nav_order: 2
----
-
 # Client Libraries
 
 ServiceAuthCentral provides an implementation that is compatible with the OAuth 2.0 protocol.  Therefore existing code libraries may be compatible with the ServiceAuthCentral token service.  This is especially true for resource servers that are validating JWTs with the JWKS endpoint where standard JWT libraries can be easily used.

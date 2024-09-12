@@ -1,10 +1,3 @@
----
-layout: default
-title: User - Google
-parent: Modules
-nav_order: 11
----
-
 # User - Google
 
 The user Google module provides the implementation for the administrative console to authenticate users using Google OAuth 2.0.

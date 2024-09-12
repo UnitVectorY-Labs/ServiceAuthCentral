@@ -1,10 +1,3 @@
----
-layout: default
-title: Getting Started
-parent: Integration Guide
-nav_order: 1
----
-
 # Getting Started
 
 Once the ServiceAuthCentral token service is deployed, you can start integrating your services with it.  This guide will walk through the steps to integrate a `Client Service` which to request an access token from the `Token Server` to access a `Resource Service` which will then validate the token.

@@ -1,10 +1,3 @@
----
-layout: default
-title: Sign - GCP
-parent: Modules
-nav_order: 7
----
-
 # Sign - GCP
 
 The sign gcp module provides a [GCP KMS](https://cloud.google.com/security/products/security-key-management) implementation of the sign interface so that the underlying implementation can be swapped out as a runtime dependency.

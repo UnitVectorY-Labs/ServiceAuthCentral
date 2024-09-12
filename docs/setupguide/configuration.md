@@ -1,10 +1,3 @@
----
-layout: default
-title: Configuration
-parent: Setup Guide
-nav_order: 2
----
-
 # Configuration
 
 The design principal behind ServiceAuthCentral is to be modular therefore there is some complexity to the configuration.  The guide here will walk through the minimal configuration needed to configure ServiceAuthCentral for running on GCP.
@@ -12,7 +5,6 @@ The design principal behind ServiceAuthCentral is to be modular therefore there 
 ## Token API Configuration
 
 The [token server](../modules/tokenserver.md) requires the following environment variables to be set as a minimum viable deployment:
-
 
 | Environment Variable   | Description                                                      | Example                            |
 | ---------------------- | ---------------------------------------------------------------- | ---------------------------------- |
@@ -22,7 +14,7 @@ The [token server](../modules/tokenserver.md) requires the following environment
 | SAC_CORS_ORIGINS       | The comma separated list of Admin URLs to enable CORS            | `https://admin.example.com`        |
 | SAC_USER_REDIRECTURI   | The comma separated list of redirector URLs for the admin portal | https://admin.example.com/callback |
 
-The [data model Firestore module](../modules/datamodelfirestore.md) requires the following environment variables to be set:
+The [data model Firestore module](../modules/datamodel/firestore.md) requires the following environment variables to be set:
 
 | Environment Variable   | Description      | Example           |
 | ---------------------- | ---------------- | ----------------- |
@@ -30,7 +22,7 @@ The [data model Firestore module](../modules/datamodelfirestore.md) requires the
 
 This assumes the default collection names are used.
 
-The [sign GCP module](../modules/signgcp.md) requires the following environment variables to be set:
+The [sign GCP module](../modules/sign/gcp.md) requires the following environment variables to be set:
 
 | Environment Variable   | Description       | Example                       |
 | ---------------------- | ----------------- | ----------------------------- |
@@ -42,14 +34,14 @@ This assumes the keyring and key are in the global location.
 
 The admin console requires configing ann external OAuth provider to authenticate users.
 
-The [user GitHub module](../modules/usergithub.md) requires the following environment variables to be set:
+The [user GitHub module](../modules/user/github.md) requires the following environment variables to be set:
 
 | Environment Variable                  | Description                         | Example              |
 | ------------------------------------- | ----------------------------------- | -------------------- |
 | SAC_USER_PROVIDER_GITHUB_CLIENTID     | The clientId provided by GitHub     | github-client-id     |
 | SAC_USER_PROVIDER_GITHUB_CLIENTSECRET | The clientSecret provided by GitHub | github-client-secret |
 
-The [user Google module](../modules/usergoogle.md) requires the following environment variables to be set:
+The [user Google module](../modules/user/google.md) requires the following environment variables to be set:
 
 | Environment Variable                  | Description                                                                                            | Example                   |
 | ------------------------------------- | ------------------------------------------------------------------------------------------------------ | ------------------------- |
@@ -67,7 +59,7 @@ The [manage server](../modules/manageserver.md) requires the following environme
 | SAC_ISSUER             | The issuer URL used to identify the server             | `https://token.example.com` |
 | SAC_CORS_ORIGINS       | The comma separated list of Admin URLs to enable CORES | `https://admin.example.com` |
 
-The [data model Firestore module](../modules/datamodelfirestore.md) requires the following environment variables to be set:
+The [data model Firestore module](../modules/datamodel/firestore.md) requires the following environment variables to be set:
 
 | Environment Variable   | Description      | Example           |
 | ---------------------- | ---------------- | ----------------- |

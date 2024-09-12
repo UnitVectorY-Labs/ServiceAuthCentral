@@ -1,10 +1,3 @@
----
-layout: default
-title: Token Server
-parent: Modules
-nav_order: 1
----
-
 # Token Server
 
 The token server provides the data plane for ServiceAuthCentral in the form of the token endpoint used to vend the JWT access tokens.
@@ -47,7 +40,7 @@ flowchart LR
 
 Both the manage and token service are compiled from the same repository git repository and Dockerfile. The command to build the token server requires the correct build-arg to be passed in to generate the docker container for the token server components.
 
-```
+```bash
 docker build -f Dockerfile --build-arg MAVEN_PROFILE=server-token -t serviceauthcentral/server-token .
 ```
 
@@ -55,12 +48,12 @@ docker build -f Dockerfile --build-arg MAVEN_PROFILE=server-token -t serviceauth
 
 The Docker image for the token server is configured using environment variables.
 
-> {: .important }
-> These properties are required to be identical between the manage and token server deployment.
+!!! note
+    These properties are required to be identical between the manage and token server deployment.
 
 | Property                                | Required | Description                                                                                                                                                                                                             |
 | --------------------------------------- | -------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| spring.profiles.active                  | Yes      | A corresponding profile must be selected for each of [Data Model](../modules/datamodel.md) and [Sign](../modules/sign.md). These are set as a comma separated list. |
+| spring.profiles.active                  | Yes      | A corresponding profile must be selected for each of [Data Model](../modules/datamodel/index.md) and [Sign](../modules/sign/index.md). These are set as a comma separated list. |
 | sac.user.redirecturi                    | Yes      | The redirect URI for serviceauthcentralweb; multiple values can be specified separated by commas                                                                                                                        |
 | sac.issuer                              | Yes      | The JWT issuer url. Typically the domain name of the token server.                                                                                                                                                      |
 | sac.cors.origins                        | Yes      | CORS origins for web based logins. This is the domain name ServiceAuthCentral Web is deployed to.                                                                                                                       |

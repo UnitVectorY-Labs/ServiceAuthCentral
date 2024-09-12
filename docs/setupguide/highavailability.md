@@ -1,10 +1,3 @@
----
-layout: default
-title: High Availability
-parent: Setup Guide
-nav_order: 3
----
-
 # High Availability
 
 The nature of being an OAuth 2.0 server that microservices depend on for authentication and authorization means that ServiceAuthCentral needs to be highly available. While for some deployments a single region may be sufficient, for others a multi-region deployment may be necessary.

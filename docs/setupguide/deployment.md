@@ -1,17 +1,10 @@
----
-layout: default
-title: Deployment
-parent: Setup Guide
-nav_order: 1
----
-
 # Deployment
 
 Deploying ServiceAuthCentral is intended to be flexible having been built in a modular way. The following are the steps to deploy ServiceAuthCentral in the context of a GCP envirionment:
 
 ## Prerequisites
 
-ServiceAuthCentral has minimal external dependencies.  While it is possible for different [data model](../modules/datamodel.md) implementations to be used, the default implementation uses [Google Firestore](../modules/datamodelfirestore.md).
+ServiceAuthCentral has minimal external dependencies.  While it is possible for different [data model](../modules/datamodel/index.md) implementations to be used, the default implementation uses [Google Firestore](../modules/datamodel/firestore.md).
 
 The Firestore database can be deployed using the OpenTofu module [serviceauthcentral-firestore-gcp-tofu](https://github.com/UnitVectorY-Labs/serviceauthcentral-firestore-gcp-tofu) which will deploy the Firestore database itself, along with the necessary indexes and TTL configuration.  For multi-region deployments refer to the  [high availability](../setupguide/highavailability.md) guide.
 
@@ -87,8 +80,8 @@ The main data plane for ServiceAuthCentral is the Token API.  This API is respon
 
 Alternatively the docker image can be deployed manually:
 
-> {: .warning }
-> The below version deploys the 'dev' tag which is the latest development version. At this time there is no stable release.  See the latest releases on the [GitHub releases page](https://github.com/UnitVectorY-Labs/ServiceAuthCentral/pkgs/container/serviceauthcentral-token) for the latest version.
+!!! warning
+    The below version deploys the 'dev' tag which is the latest development version. At this time there is no stable release.  See the latest releases on the [GitHub releases page](https://github.com/UnitVectorY-Labs/ServiceAuthCentral/pkgs/container/serviceauthcentral-token) for the latest version.
 
 ```bash
 docker pull ghcr.io/unitvectory-labs/serviceauthcentral-token:dev
@@ -102,8 +95,8 @@ The control plane for ServiceAuthCentral is the Manage API.  This API is respons
 
 Alternatively the docker image can be deployed manually:
 
-> {: .warning }
-> The below version deploys the 'dev' tag which is the latest development version. At this time there is no stable release.  See the latest releases on the [GitHub releases page](https://github.com/UnitVectorY-Labs/ServiceAuthCentral/pkgs/container/serviceauthcentral-manage) for the latest version.
+!!! warning
+    The below version deploys the 'dev' tag which is the latest development version. At this time there is no stable release.  See the latest releases on the [GitHub releases page](https://github.com/UnitVectorY-Labs/ServiceAuthCentral/pkgs/container/serviceauthcentral-manage) for the latest version.
 
 ```bash
 docker pull ghcr.io/unitvectory-labs/serviceauthcentral-manage:dev

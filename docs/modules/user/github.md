@@ -1,10 +1,3 @@
----
-layout: default
-title: User - GitHub
-parent: Modules
-nav_order: 10
----
-
 # User - GitHub
 
 The user GitHub module provides the implementation for the administrative console to authenticate users using GitHub OAuth 2.0.

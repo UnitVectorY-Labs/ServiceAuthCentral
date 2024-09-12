@@ -1,21 +1,13 @@
----
-layout: default
-title: API Reference
-parent: Contributor Guide
-nav_order: 3
----
-
 # API Reference
 
 The following is an API reference for the ServiceAuthCentral manage service and the user authentication used by serviceauthcentralweb for the administrative portal.  These APIs would not be used by microservices integrating with ServiceAuthCentral and represent the management plane of the system.
 
-> {: .important }
-> For the API reference on the token server and how vend and validate tokens, see the [Integration Guide - API Reference](../integrationguide/apireference.md) page.
+!!! note
+    For the API reference on the token server and how vend and validate tokens, see the [Integration Guide - API Reference](../integrationguide/apireference.md) page.
 
 ## POST /v1/token
 
 The `POST /v1/token` endpoint on the token API is primarily used for the client credentials and jwt bearer grant types as ServiceAuthCentral is primarily used for server-to-server authentication. However, to support the PKCE flow for the serviceauthcentralweb application, the token API also supports the authorization code grant type.  This flow is initiated by the serviceauthcentralweb application and then proceeds to the 3rd party application to authenticate the user completing a double OAuth 2.0 authorization process.
-
 
 ## GET /login/authorize
 

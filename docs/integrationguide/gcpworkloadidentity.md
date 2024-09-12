@@ -1,10 +1,3 @@
----
-layout: default
-title: GCP Workload Identity
-parent: Integration Guide
-nav_order: 4
----
-
 # GCP Workload Identity
 
 One of the benefits of using Google Cloud Platform (GCP) is the ability to use [Workload Identity Federation](https://cloud.google.com/iam/docs/workload-identity-federation) to securely access Google Cloud services with external credentials through an OIDC-compliant token service.  This allows you to use the ServiceAuthCentral token service to request access tokens for Google Cloud services using a Google Service Account.

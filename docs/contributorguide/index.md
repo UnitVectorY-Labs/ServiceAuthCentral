@@ -1,3 +1,3 @@
-# Architecture
+# Contributor Guide
 
 TODO: Document everything

@@ -1,7 +1,14 @@
 site_name: ServiceAuthCentral
 site_url: https://serviceauthcentral.unitvectorylabs.com/
+repo_url: https://github.com/UnitVectorY-Labs/ServiceAuthCentral
+edit_uri: edit/main/docs/
 theme:
   name: material
+  highlightjs: true
+  logo: assets/logo_transparent.png
+  language: en
+  icon:
+    repo: fontawesome/brands/github
   palette:
     scheme: slate
     primary: deep-purple
@@ -13,7 +20,27 @@ theme:
     text: "Roboto"
     code: "Fira Code"
   features:
+    - content.action.edit
+    - navigation.tabs
+    - navigation.tabs.sticky
+    - navigation.indexes
+    - navigation.sections
     - content.code.copy
+    - navigation.sections
+  icon:
+    admonition:
+      note: octicons/tag-16
+      abstract: octicons/checklist-16
+      info: octicons/info-16
+      tip: octicons/squirrel-16
+      success: octicons/check-16
+      question: octicons/question-16
+      warning: octicons/alert-16
+      failure: octicons/x-circle-16
+      danger: octicons/zap-16
+      bug: octicons/bug-16
+      example: octicons/beaker-16
+      quote: octicons/quote-16
 plugins:
   - search
   - mermaid2:
@@ -21,8 +48,50 @@ plugins:
       arguments:
         theme: 'dark'
 markdown_extensions:
+  - admonition
+  - pymdownx.details
   - pymdownx.superfences:
       custom_fences:
         - name: mermaid
           class: mermaid
           format: !!python/name:pymdownx.superfences.fence_code_format
+
+nav:
+  - Home: index.md
+  - Setup Guide:
+    - setupguide/index.md
+    - Configuration: setupguide/configuration.md
+    - Deployment: setupguide/deployment.md
+    - High Availability: setupguide/highavailability.md
+  - Integration Guide:
+    - integrationguide/index.md
+    - Getting Started: integrationguide/gettingstarted.md
+    - API Reference: integrationguide/apireference.md
+    - Client Libraries: integrationguide/clientlibraries.md
+    - GCP Workload Identity: integrationguide/gcpworkloadidentity.md
+  - Contributor Guide:
+    - contributorguide/index.md
+    - API Reference: contributorguide/apireference.md
+    - Architecture: contributorguide/architecture.md
+    - Modules: contributorguide/modules.md
+  - Modules:
+    - modules/index.md
+    - Token Server: modules/tokenserver.md
+    - Manage Server: modules/manageserver.md
+    - Data Model:
+      - modules/datamodel/index.md
+      - Firestore: modules/datamodel/firestore.md
+      - In-memory: modules/datamodel/memory.md
+    - Sign:
+      - modules/sign/index.md
+      - GCP: modules/sign/gcp.md
+      - Local: modules/sign/local.md
+    - User:
+      - modules/user/index.md
+      - GitHub: modules/user/github.md
+      - Google: modules/user/google.md
+    - Verify:
+      - modules/verify/index.md
+      - Auth0: modules/verify/auth0.md
+    - Common: modules/common.md
+    - Utility: modules/util.md

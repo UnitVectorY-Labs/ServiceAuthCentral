@@ -1,10 +1,3 @@
----
-layout: default
-title: Data Model
-parent: Modules
-nav_order: 3
----
-
 # Data Model
 
 The data model module provides the interfaces for accessing the repositories and data so that the underlying implementation can be swapped out as a runtime dependency.
@@ -25,8 +18,8 @@ A flexible deployment is supported by allowing different underlying database tec
 
 There are multiple data model implementations that are available. Exactly one module must be enabled at runtime.
 
-> {: .important }
-> Each module implementation will have additional properties that are required to be set for it to work correctly when it is enabled, typically through envirionment variables.
+!!! note
+    Each module implementation will have additional properties that are required to be set for it to work correctly when it is enabled, typically through envirionment variables.
 
-- [Data Model - Firestore](../modules/datamodelfirestore.md): Firestore implementation for the repository interfaces
-- [Data Model - Memory](../modules/datamodelmemory.md): In-memory implementation for the repository interfaces used for testing and development
+- [Data Model - Firestore](./firestore.md): Firestore implementation for the repository interfaces
+- [Data Model - Memory](./memory.md): In-memory implementation for the repository interfaces used for testing and development

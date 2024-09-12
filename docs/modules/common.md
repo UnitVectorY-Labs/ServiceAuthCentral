@@ -1,10 +1,3 @@
----
-layout: default
-title: Common
-parent: Modules
-nav_order: 14
----
-
 # Common
 
 The common module provides implementations for various simple services that are used by other modules and do not need multiple implementations based on the deployment.

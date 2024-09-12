@@ -1,10 +1,3 @@
----
-layout: default
-title: Verify
-parent: Modules
-nav_order: 12
----
-
 # Verify
 
 The verify module provides the interfaces for verifying / validating the JWTs so that the underlying implementation can be swapped out as a runtime dependency.
@@ -20,4 +13,4 @@ The following interfaces are implemented to provide JWT and JWKS validation.
 
 There is currently only one implementation for verify, but this is left as an integration point for future implementations. As such it is enabled by default.
 
-- [Verify - Auth0](../modules/verifyauth0.md): A verify implementation that utilizes Auth0's Java library (this doesn't actually interact with Auth0)
+- [Verify - Auth0](./auth0.md): A verify implementation that utilizes Auth0's Java library (this doesn't actually interact with Auth0)

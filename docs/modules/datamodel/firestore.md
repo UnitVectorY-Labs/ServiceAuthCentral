@@ -1,10 +1,3 @@
----
-layout: default
-title: Data Model - Firestore
-parent: Modules
-nav_order: 4
----
-
 # Data Model - Firestore
 
 The data model firestore module provides a GCP [Firestore](https://cloud.google.com/firestore) implementation of the the data model interfaces so that the underlying implementation can be swapped out as a runtime dependency.
