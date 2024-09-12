@@ -1,0 +1,16 @@
+site_name: ServiceAuthCentral
+site_url: https://serviceauthcentral.unitvectorylabs.com/
+theme:
+  name: material
+  palette:
+    scheme: slate
+    primary: deep-purple
+    accent: cyan
+    toggle:
+      icon: material/weather-night
+      name: Switch to light mode
+  font:
+    text: "Roboto"
+    code: "Fira Code"
+features:
+  - content.code.copy
