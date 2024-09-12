@@ -3,7 +3,9 @@ name: Build and Push Development Docker Images
 on:
   push:
     branches: [ "main" ]
-
+    paths-ignore:
+      - 'docs/**'
+      - 'mkdocs.yml'
 jobs:
   build-and-push:
     runs-on: ubuntu-latest
