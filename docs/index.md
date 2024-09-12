@@ -16,3 +16,4 @@ Here's what makes it stand out:
 - **Opinionated Centralized Authorization:** Provides centralized capability for manage authorizations for microservices accessing eachother simplifying the process of authorization.
 - **Elimination of Shared Secrets:** Advocates for the `urn:ietf:params:oauth:grant-type:jwt-bearer` flow to reduce reliance on shared secrets. Utilizing cloud based solutions such as GCP service accounts can eliminate the need for shared secrets.
 - **Modular Cloud-Native Backend:** Utilizes a module backend to support cloud native technologies for data persistence and utilizes cloud services such as KMS for JWT signing eliminating direct access to power secrets.
+
