@@ -60,20 +60,20 @@ nav:
   - Home: index.md
   - Setup Guide:
     - setupguide/index.md
-    - Configuration: setupguide/configuration.md
     - Deployment: setupguide/deployment.md
+    - Configuration: setupguide/configuration.md
     - High Availability: setupguide/highavailability.md
   - Integration Guide:
     - integrationguide/index.md
     - Getting Started: integrationguide/gettingstarted.md
-    - API Reference: integrationguide/apireference.md
     - Client Libraries: integrationguide/clientlibraries.md
     - GCP Workload Identity: integrationguide/gcpworkloadidentity.md
+    - API Reference: integrationguide/apireference.md
   - Contributor Guide:
     - contributorguide/index.md
-    - API Reference: contributorguide/apireference.md
     - Architecture: contributorguide/architecture.md
     - Modules: contributorguide/modules.md
+    - API Reference: contributorguide/apireference.md
   - Modules:
     - modules/index.md
     - Token Server: modules/tokenserver.md

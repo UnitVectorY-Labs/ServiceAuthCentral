@@ -4,13 +4,3 @@
 
 !!! note
     To get up and running read the [deployment](../setupguide/deployment.md) and [configuration](../setupguide/configuration.md) guides.
-
-## OpenTofu / Terraform Modules
-
-For reference the following OpenTofu modules are available for deploying ServiceAuthCentral to GCP:
-
-- [serviceauthcentral-gcp-tofu](https://github.com/UnitVectorY-Labs/serviceauthcentral-gcp-tofu): OpenTofu module for deploying a fully working ServiceAuthCentral deployment
-- [serviceauthcentral-token-gcp-tofu](https://github.com/UnitVectorY-Labs/serviceauthcentral-token-gcp-tofu): OpenTofu module for deploying ServiceAuthCentral token API
-- [serviceauthcentral-manage-gcp-tofu](https://github.com/UnitVectorY-Labs/serviceauthcentral-manage-gcp-tofu): OpenTofu module for deploying ServiceAuthCentral manage API
-- [serviceauthcentral-firestore-gcp-tofu](https://github.com/UnitVectorY-Labs/serviceauthcentral-firestore-gcp-tofu): OpenTofu module for deploying ServiceAuthCentral Firestore Database
-- [serviceauthcentral-kms-gcp-tofu](https://github.com/UnitVectorY-Labs/serviceauthcentral-kms-gcp-tofu): OpenTofu module for deploying ServiceAuthCentral KMS Keys
