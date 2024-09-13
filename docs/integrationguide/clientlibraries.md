@@ -12,6 +12,10 @@ The client library [serviceauthcentral-client-java](https://github.com/UnitVecto
 
 The preferred method for requesting tokens from the ServiceAuthCentral token service is to use the JWT bearer token flow.  This flow utilizes GCP's service accounts to allow a workload running on GCP to use the JWT to authenticate to ServiceAuthCentral.  This flow is preferred as it does not require a client secret to be stored in the client service.
 
+!!! warning
+    The [serviceauthcentral-client-java](https://github.com/UnitVectorY-Labs/serviceauthcentral-client-java) is still under active development and a version is not available on Maven Central yet.
+
+
 When using `serviceauthcentral-client-java` the use of GCP with `GCPJwtCredentialsProvider` requires the optional dependency `google-auth-library-oauth2-http` to be included in the project.  This dependency is used to authenticate to GCP to request the JWT components to authenticate to ServiceAuthCentral.
 
 ```xml
