@@ -32,7 +32,7 @@ The [sign GCP module](../modules/sign/gcp.md) requires the following environment
 
 This assumes the keyring and key are in the global location.
 
-The admin console requires configing ann external OAuth provider to authenticate users.
+The admin console requires configing an external OAuth provider to authenticate users.
 
 The [user GitHub module](../modules/user/github.md) requires the following environment variables to be set:
 

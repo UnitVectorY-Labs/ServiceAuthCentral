@@ -1,6 +1,6 @@
 # Architecture
 
-The architecture of ServiceAuthCentral takes an opinionated appraoch to eliminate secrets managed by both ServiceAuthCentral and other applications.  The goal of facilitating server-to-server authentication is to provide a secure and scalable solution that can be deployed in a variety of environments.  The architecture is designed to be modular and extendable to meet the needs of a variety of use cases.
+The architecture of ServiceAuthCentral takes an opinionated approach to eliminate secrets managed by both ServiceAuthCentral and other applications.  The goal of facilitating server-to-server authentication is to provide a secure and scalable solution that can be deployed in a variety of environments.  The architecture is designed to be modular and extendable to meet the needs of a variety of use cases.
 
 ## Key Components
 

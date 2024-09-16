@@ -95,7 +95,7 @@ Granting access to GCP services to this principal directly is generally speaking
 
 ## Impersonating a Service Account
 
-To impersinate a GCP Service account some additional setup is required.  A service account must be created and then the `roles/iam.workloadIdentityUser` / "Workload Identity User" role must be granted to the same principal referenced before of `principal://iam.googleapis.com/projects/{PROJECT_NUMBER}/locations/global/workloadIdentityPools/{POOL_NAME}/subject/{SAC_CLIENT_ID}` which will allow the principal to impersonate the service account.
+To impersonate a GCP Service account some additional setup is required.  A service account must be created and then the `roles/iam.workloadIdentityUser` / "Workload Identity User" role must be granted to the same principal referenced before of `principal://iam.googleapis.com/projects/{PROJECT_NUMBER}/locations/global/workloadIdentityPools/{POOL_NAME}/subject/{SAC_CLIENT_ID}` which will allow the principal to impersonate the service account.
 
 The service account must also be granted the necessary roles to access the GCP services that are needed.
 
