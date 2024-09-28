@@ -20,7 +20,8 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
-import com.unitvectory.serviceauthcentral.common.service.time.TimeService;
+
+import com.unitvectory.consistgen.epoch.EpochTimeProvider;
 import com.unitvectory.serviceauthcentral.datamodel.memory.mapper.ClientScopeMapper;
 import com.unitvectory.serviceauthcentral.datamodel.memory.mapper.MemoryClientSummaryMapper;
 import com.unitvectory.serviceauthcentral.datamodel.memory.model.MemoryClient;
@@ -35,6 +36,7 @@ import com.unitvectory.serviceauthcentral.datamodel.model.ClientSummaryEdge;
 import com.unitvectory.serviceauthcentral.datamodel.model.ClientType;
 import com.unitvectory.serviceauthcentral.datamodel.model.PageInfo;
 import com.unitvectory.serviceauthcentral.datamodel.repository.ClientRepository;
+import com.unitvectory.serviceauthcentral.datamodel.time.TimeUtil;
 import com.unitvectory.serviceauthcentral.util.exception.BadRequestException;
 import com.unitvectory.serviceauthcentral.util.exception.NotFoundException;
 
@@ -48,13 +50,13 @@ import lombok.Synchronized;
  */
 public class MemoryClientRepository implements ClientRepository {
 
-	private TimeService timeService;
+	private EpochTimeProvider epochTimeProvider;
 
 	private Map<String, MemoryClient> memory;
 
-	public MemoryClientRepository(TimeService timeService) {
+	public MemoryClientRepository(EpochTimeProvider epochTimeProvider) {
 		this.memory = new TreeMap<>();
-		this.timeService = timeService;
+		this.epochTimeProvider = epochTimeProvider;
 	}
 
 	public void reset() {
@@ -103,8 +105,7 @@ public class MemoryClientRepository implements ClientRepository {
 		List<MemoryClient> clientsList = new ArrayList<>(memory.values());
 		for (int i = startIndex; i < endIndex; i++) {
 			MemoryClient client = clientsList.get(i);
-			ClientSummary summary =
-					MemoryClientSummaryMapper.INSTANCE.memoryClientToMemoryClientSummary(client);
+			ClientSummary summary = MemoryClientSummaryMapper.INSTANCE.memoryClientToMemoryClientSummary(client);
 			String cursor = Base64.getEncoder()
 					.encodeToString(String.valueOf(i).getBytes(StandardCharsets.UTF_8));
 			edges.add(ClientSummaryEdge.builder().cursor(cursor).node(summary).build());
@@ -114,9 +115,8 @@ public class MemoryClientRepository implements ClientRepository {
 		String startCursor = !edges.isEmpty() ? edges.get(0).getCursor() : null;
 		String endCursor = !edges.isEmpty() ? edges.get(edges.size() - 1).getCursor() : null;
 
-		PageInfo pageInfo =
-				PageInfo.builder().hasNextPage(hasNextPage).hasPreviousPage(hasPreviousPage)
-						.startCursor(startCursor).endCursor(endCursor).build();
+		PageInfo pageInfo = PageInfo.builder().hasNextPage(hasNextPage).hasPreviousPage(hasPreviousPage)
+				.startCursor(startCursor).endCursor(endCursor).build();
 
 		return ClientSummaryConnection.builder().edges(edges).pageInfo(pageInfo).build();
 	}
@@ -132,6 +132,8 @@ public class MemoryClientRepository implements ClientRepository {
 			@NonNull String salt, @NonNull ClientType clientType,
 			@NonNull List<ClientScope> availableScopes) {
 
+		String now = TimeUtil.getCurrentTimestamp(this.epochTimeProvider.epochTimeSeconds());
+
 		List<ClientScope> availableScopesList = new ArrayList<>();
 		for (ClientScope scope : availableScopes) {
 			availableScopesList
@@ -140,7 +142,7 @@ public class MemoryClientRepository implements ClientRepository {
 
 		MemoryClient record = this.memory.get(clientId);
 		if (record == null) {
-			record = MemoryClient.builder().clientCreated(this.timeService.getCurrentTimestamp())
+			record = MemoryClient.builder().clientCreated(now)
 					.clientId(clientId).description(description).salt(salt)
 					.availableScopes(Collections.unmodifiableList(availableScopesList)).build();
 			this.memory.put(clientId, record);
@@ -157,8 +159,7 @@ public class MemoryClientRepository implements ClientRepository {
 		}
 
 		// What we are trying to add
-		MemoryClientScope scope =
-				ClientScopeMapper.INSTANCE.clientScopeToMemoryClientScope(availableScope);
+		MemoryClientScope scope = ClientScopeMapper.INSTANCE.clientScopeToMemoryClientScope(availableScope);
 
 		// Make a copy of the array that can be edited
 		List<ClientScope> list = record.getAvailableScopes();
@@ -255,52 +256,64 @@ public class MemoryClientRepository implements ClientRepository {
 	@Override
 	@Synchronized
 	public void saveClientSecret1(@NonNull String clientId, @NonNull String hashedSecret) {
+
+		String now = TimeUtil.getCurrentTimestamp(this.epochTimeProvider.epochTimeSeconds());
+
 		MemoryClient record = this.memory.get(clientId);
 		if (record == null) {
 			throw new NotFoundException("client not found");
 		}
 
 		record = record.toBuilder().clientSecret1(hashedSecret)
-				.clientSecret1Updated(this.timeService.getCurrentTimestamp()).build();
+				.clientSecret1Updated(now).build();
 		this.memory.put(clientId, record);
 	}
 
 	@Override
 	@Synchronized
 	public void saveClientSecret2(@NonNull String clientId, @NonNull String hashedSecret) {
+
+		String now = TimeUtil.getCurrentTimestamp(this.epochTimeProvider.epochTimeSeconds());
+
 		MemoryClient record = this.memory.get(clientId);
 		if (record == null) {
 			throw new NotFoundException("client not found");
 		}
 
 		record = record.toBuilder().clientSecret2(hashedSecret)
-				.clientSecret2Updated(this.timeService.getCurrentTimestamp()).build();
+				.clientSecret2Updated(now).build();
 		this.memory.put(clientId, record);
 	}
 
 	@Override
 	@Synchronized
 	public void clearClientSecret1(@NonNull String clientId) {
+
+		String now = TimeUtil.getCurrentTimestamp(this.epochTimeProvider.epochTimeSeconds());
+
 		MemoryClient record = this.memory.get(clientId);
 		if (record == null) {
 			throw new NotFoundException("client not found");
 		}
 
 		record = record.toBuilder().clientSecret1(null)
-				.clientSecret1Updated(this.timeService.getCurrentTimestamp()).build();
+				.clientSecret1Updated(now).build();
 		this.memory.put(clientId, record);
 	}
 
 	@Override
 	@Synchronized
 	public void clearClientSecret2(@NonNull String clientId) {
+
+		String now = TimeUtil.getCurrentTimestamp(this.epochTimeProvider.epochTimeSeconds());
+
 		MemoryClient record = this.memory.get(clientId);
 		if (record == null) {
 			throw new NotFoundException("client not found");
 		}
 
 		record = record.toBuilder().clientSecret2(null)
-				.clientSecret2Updated(this.timeService.getCurrentTimestamp()).build();
+				.clientSecret2Updated(now).build();
 		this.memory.put(clientId, record);
 	}
 }

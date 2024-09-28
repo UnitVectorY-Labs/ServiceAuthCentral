@@ -24,7 +24,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.unitvectory.serviceauthcentral.common.service.entropy.EntropyService;
+import com.unitvectory.consistgen.string.StringProvider;
 import com.unitvectory.serviceauthcentral.server.token.service.LoginService;
 
 import jakarta.servlet.http.Cookie;
@@ -42,7 +42,7 @@ public class AuthorizeController {
 	private LoginService loginService;
 
 	@Autowired
-	private EntropyService entropyService;
+	private StringProvider stringProvider;
 
 	@GetMapping("/login/authorize")
 	public void authorize(@RequestParam("response_type") String responseType,
@@ -52,7 +52,7 @@ public class AuthorizeController {
 			@RequestParam("code_challenge_method") String codeChallengeMethod,
 			@RequestParam("state") String state, HttpServletResponse response) throws IOException {
 
-		String sessionId = this.entropyService.randomAlphaNumeric(25);
+		String sessionId = this.stringProvider.generate(25);
 
 		String redirect = this.loginService.authorize(sessionId, responseType, clientId,
 				redirectUri, codeChallenge, codeChallengeMethod, state);

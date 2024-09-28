@@ -39,8 +39,8 @@ import com.google.cloud.firestore.Query;
 import com.google.cloud.firestore.QueryDocumentSnapshot;
 import com.google.cloud.firestore.QuerySnapshot;
 import com.google.cloud.firestore.WriteResult;
-import com.unitvectory.serviceauthcentral.common.service.time.StaticTimeService;
-import com.unitvectory.serviceauthcentral.common.service.time.TimeService;
+import com.unitvectory.consistgen.epoch.EpochTimeProvider;
+import com.unitvectory.consistgen.epoch.StaticEpochTimeProvider;
 import com.unitvectory.serviceauthcentral.datamodel.firestore.model.AuthorizationRecord;
 import com.unitvectory.serviceauthcentral.datamodel.model.Authorization;
 import com.unitvectory.serviceauthcentral.util.exception.InternalServerErrorException;
@@ -54,7 +54,7 @@ public class FirestoreAuthorizationRepositoryTest {
 
 	private static final String COLLECTION_AUTHORIZATIONS = "authorizations";
 
-	private final TimeService timeService = new StaticTimeService(0);
+	private final EpochTimeProvider epochTimeProvider = StaticEpochTimeProvider.getInstance();
 
 	private Firestore mockFirestore() throws InterruptedException, ExecutionException {
 		Firestore firestore = mock(Firestore.class);
@@ -85,7 +85,7 @@ public class FirestoreAuthorizationRepositoryTest {
 		when(document.toObject(AuthorizationRecord.class)).thenReturn(new AuthorizationRecord());
 
 		FirestoreAuthorizationRepository repository = new FirestoreAuthorizationRepository(
-				firestore, COLLECTION_AUTHORIZATIONS, timeService);
+				firestore, COLLECTION_AUTHORIZATIONS, epochTimeProvider);
 		Authorization authorization = repository.getAuthorization("some-id");
 
 		assertNotNull(authorization);
@@ -101,7 +101,7 @@ public class FirestoreAuthorizationRepositoryTest {
 		when(document.exists()).thenReturn(false);
 
 		FirestoreAuthorizationRepository repository = new FirestoreAuthorizationRepository(
-				firestore, COLLECTION_AUTHORIZATIONS, timeService);
+				firestore, COLLECTION_AUTHORIZATIONS, epochTimeProvider);
 		Authorization authorization = repository.getAuthorization("some-id");
 
 		assertNull(authorization);
@@ -115,7 +115,7 @@ public class FirestoreAuthorizationRepositoryTest {
 				.thenThrow(new InterruptedException());
 
 		FirestoreAuthorizationRepository repository = new FirestoreAuthorizationRepository(
-				firestore, COLLECTION_AUTHORIZATIONS, timeService);
+				firestore, COLLECTION_AUTHORIZATIONS, epochTimeProvider);
 
 		assertThrows(InternalServerErrorException.class,
 				() -> repository.getAuthorization("some-id"));
@@ -134,7 +134,7 @@ public class FirestoreAuthorizationRepositoryTest {
 				.thenReturn(new AuthorizationRecord());
 
 		FirestoreAuthorizationRepository repository = new FirestoreAuthorizationRepository(
-				firestore, COLLECTION_AUTHORIZATIONS, timeService);
+				firestore, COLLECTION_AUTHORIZATIONS, epochTimeProvider);
 		Authorization authorization = repository.getAuthorization("subject", "audience");
 
 		assertNotNull(authorization);
@@ -150,7 +150,7 @@ public class FirestoreAuthorizationRepositoryTest {
 		when(querySnapshot.getDocuments()).thenReturn(Arrays.asList());
 
 		FirestoreAuthorizationRepository repository = new FirestoreAuthorizationRepository(
-				firestore, COLLECTION_AUTHORIZATIONS, timeService);
+				firestore, COLLECTION_AUTHORIZATIONS, epochTimeProvider);
 		Authorization authorization = repository.getAuthorization("subject", "audience");
 
 		assertNull(authorization);
@@ -164,7 +164,7 @@ public class FirestoreAuthorizationRepositoryTest {
 				.get()).thenThrow(new InterruptedException());
 
 		FirestoreAuthorizationRepository repository = new FirestoreAuthorizationRepository(
-				firestore, COLLECTION_AUTHORIZATIONS, timeService);
+				firestore, COLLECTION_AUTHORIZATIONS, epochTimeProvider);
 
 		assertThrows(InternalServerErrorException.class,
 				() -> repository.getAuthorization("subject", "audience"));
@@ -183,7 +183,7 @@ public class FirestoreAuthorizationRepositoryTest {
 		when(documentRef.set(any(AuthorizationRecord.class))).thenReturn(future);
 
 		FirestoreAuthorizationRepository repository = new FirestoreAuthorizationRepository(
-				firestore, COLLECTION_AUTHORIZATIONS, timeService);
+				firestore, COLLECTION_AUTHORIZATIONS, epochTimeProvider);
 		repository.authorize("subject", "audience", new ArrayList<String>());
 
 		ArgumentCaptor<AuthorizationRecord> argument =
@@ -203,7 +203,7 @@ public class FirestoreAuthorizationRepositoryTest {
 		when(documentRef.delete()).thenReturn(future);
 
 		FirestoreAuthorizationRepository repository = new FirestoreAuthorizationRepository(
-				firestore, COLLECTION_AUTHORIZATIONS, timeService);
+				firestore, COLLECTION_AUTHORIZATIONS, epochTimeProvider);
 		repository.deauthorize("subject", "audience");
 
 		verify(documentRef).delete();

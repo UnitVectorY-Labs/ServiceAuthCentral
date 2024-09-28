@@ -29,7 +29,7 @@ import com.google.cloud.firestore.Firestore;
 import com.google.cloud.firestore.Query;
 import com.google.cloud.firestore.QueryDocumentSnapshot;
 import com.google.cloud.firestore.QuerySnapshot;
-import com.unitvectory.serviceauthcentral.common.service.time.TimeService;
+import com.unitvectory.consistgen.epoch.EpochTimeProvider;
 import com.unitvectory.serviceauthcentral.datamodel.firestore.mapper.ClientScopeMapper;
 import com.unitvectory.serviceauthcentral.datamodel.firestore.model.ClientJwtBearerRecord;
 import com.unitvectory.serviceauthcentral.datamodel.firestore.model.ClientRecord;
@@ -44,6 +44,7 @@ import com.unitvectory.serviceauthcentral.datamodel.model.ClientSummaryEdge;
 import com.unitvectory.serviceauthcentral.datamodel.model.ClientType;
 import com.unitvectory.serviceauthcentral.datamodel.model.PageInfo;
 import com.unitvectory.serviceauthcentral.datamodel.repository.ClientRepository;
+import com.unitvectory.serviceauthcentral.datamodel.time.TimeUtil;
 import com.unitvectory.serviceauthcentral.util.HashingUtil;
 import com.unitvectory.serviceauthcentral.util.exception.BadRequestException;
 import com.unitvectory.serviceauthcentral.util.exception.ConflictException;
@@ -70,22 +71,20 @@ public class FirestoreClientRepository implements ClientRepository {
 
 	private String collectionClients;
 
-	private TimeService timeService;
+	private EpochTimeProvider epochTimeProvider;
 
 	@Override
 	public ClientSummaryConnection getClients(Integer first, String after, Integer last,
 			String before) {
 		try {
-			Query query =
-					firestore.collection(this.collectionClients).select("clientId", "description");
+			Query query = firestore.collection(this.collectionClients).select("clientId", "description");
 			boolean hasPreviousPage = false, hasNextPage = false;
 
 			// Forward pagination logic
 			if (first != null) {
 				query = query.orderBy("clientId");
 				if (after != null && !after.isEmpty()) {
-					String afterDecoded =
-							new String(Base64.getDecoder().decode(after), StandardCharsets.UTF_8);
+					String afterDecoded = new String(Base64.getDecoder().decode(after), StandardCharsets.UTF_8);
 					query = query.startAfter(afterDecoded);
 					hasPreviousPage = checkForPreviousPage(afterDecoded);
 				}
@@ -96,8 +95,7 @@ public class FirestoreClientRepository implements ClientRepository {
 			if (last != null) {
 				query = query.orderBy("clientId", Query.Direction.DESCENDING);
 				if (before != null && !before.isEmpty()) {
-					String beforeDecoded =
-							new String(Base64.getDecoder().decode(before), StandardCharsets.UTF_8);
+					String beforeDecoded = new String(Base64.getDecoder().decode(before), StandardCharsets.UTF_8);
 					query = query.startAfter(beforeDecoded); // Corrected method
 					hasNextPage = checkForNextPage(beforeDecoded);
 				}
@@ -178,8 +176,7 @@ public class FirestoreClientRepository implements ClientRepository {
 		String documentId = HashingUtil.sha256(clientId);
 
 		try {
-			DocumentSnapshot document =
-					firestore.collection(this.collectionClients).document(documentId).get().get();
+			DocumentSnapshot document = firestore.collection(this.collectionClients).document(documentId).get().get();
 			if (document.exists()) {
 				ClientRecord record = document.toObject(ClientRecord.class);
 				return record;
@@ -212,26 +209,25 @@ public class FirestoreClientRepository implements ClientRepository {
 		try {
 			// Reference to the document in the 'clients' collection with the specified
 			// clientId
-			DocumentReference document =
-					firestore.collection(this.collectionClients).document(documentId);
+			DocumentReference document = firestore.collection(this.collectionClients).document(documentId);
 
 			// Start a Firestore transaction
 
 			firestore.runTransaction(transaction -> {
 				// Attempt to retrieve the existing document
 				DocumentSnapshot snapshot = transaction.get(document).get();
+				String now = TimeUtil.getCurrentTimestamp(this.epochTimeProvider.epochTimeSeconds());
 
 				// If the document does not exist, create the new ClientRecord
 				if (!snapshot.exists()) {
 					@Nonnull
-					ClientRecord record =
-							ClientRecord.builder().documentId(documentId)
-									.clientCreated(this.timeService.getCurrentTimestamp())
-									.clientId(clientId).description(description).salt(salt)
-									.clientType(clientType)
-									.availableScopes(ClientScopeMapper.INSTANCE
-											.clientScopeToClientScopeRecord(availableScopes))
-									.build();
+					ClientRecord record = ClientRecord.builder().documentId(documentId)
+							.clientCreated(now)
+							.clientId(clientId).description(description).salt(salt)
+							.clientType(clientType)
+							.availableScopes(ClientScopeMapper.INSTANCE
+									.clientScopeToClientScopeRecord(availableScopes))
+							.build();
 
 					// Perform the transactional write to create the new record
 					transaction.set(document, record);
@@ -254,8 +250,7 @@ public class FirestoreClientRepository implements ClientRepository {
 		String documentId = HashingUtil.sha256(clientId);
 
 		try {
-			DocumentReference docRef =
-					firestore.collection(this.collectionClients).document(documentId);
+			DocumentReference docRef = firestore.collection(this.collectionClients).document(documentId);
 			firestore.runTransaction(transaction -> {
 				DocumentSnapshot snapshot = transaction.get(docRef).get();
 
@@ -294,8 +289,7 @@ public class FirestoreClientRepository implements ClientRepository {
 		String documentId = HashingUtil.sha256(clientId);
 
 		try {
-			DocumentReference docRef =
-					firestore.collection(this.collectionClients).document(documentId);
+			DocumentReference docRef = firestore.collection(this.collectionClients).document(documentId);
 			firestore.runTransaction(transaction -> {
 				DocumentSnapshot snapshot = transaction.get(docRef).get();
 
@@ -340,8 +334,7 @@ public class FirestoreClientRepository implements ClientRepository {
 		String documentId = HashingUtil.sha256(clientId);
 
 		try {
-			DocumentReference docRef =
-					firestore.collection(this.collectionClients).document(documentId);
+			DocumentReference docRef = firestore.collection(this.collectionClients).document(documentId);
 			firestore.runTransaction(transaction -> {
 				DocumentSnapshot snapshot = transaction.get(docRef).get();
 
@@ -387,11 +380,13 @@ public class FirestoreClientRepository implements ClientRepository {
 	@Override
 	public void saveClientSecret1(@NonNull String clientId, @NonNull String hashedSecret) {
 
+		String now = TimeUtil.getCurrentTimestamp(this.epochTimeProvider.epochTimeSeconds());
+
 		String documentId = HashingUtil.sha256(clientId);
 
 		Map<String, Object> updates = new HashMap<>();
 		updates.put(CLIENTSECRET1, hashedSecret);
-		updates.put("clientSecret1Updated", this.timeService.getCurrentTimestamp());
+		updates.put("clientSecret1Updated", now);
 
 		try {
 			firestore.collection(this.collectionClients).document(documentId).update(updates).get();
@@ -403,11 +398,13 @@ public class FirestoreClientRepository implements ClientRepository {
 	@Override
 	public void saveClientSecret2(@NonNull String clientId, @NonNull String hashedSecret) {
 
+		String now = TimeUtil.getCurrentTimestamp(this.epochTimeProvider.epochTimeSeconds());
+
 		String documentId = HashingUtil.sha256(clientId);
 
 		Map<String, Object> updates = new HashMap<>();
 		updates.put(CLIENTSECRET2, hashedSecret);
-		updates.put("clientSecret2Updated", this.timeService.getCurrentTimestamp());
+		updates.put("clientSecret2Updated", now);
 
 		try {
 			firestore.collection(this.collectionClients).document(documentId).update(updates).get();
@@ -419,11 +416,13 @@ public class FirestoreClientRepository implements ClientRepository {
 	@Override
 	public void clearClientSecret1(@NonNull String clientId) {
 
+		String now = TimeUtil.getCurrentTimestamp(this.epochTimeProvider.epochTimeSeconds());
+
 		String documentId = HashingUtil.sha256(clientId);
 
 		Map<String, Object> updates = new HashMap<>();
 		updates.put(CLIENTSECRET1, null);
-		updates.put("clientSecret1Updated", this.timeService.getCurrentTimestamp());
+		updates.put("clientSecret1Updated", now);
 
 		try {
 			firestore.collection(this.collectionClients).document(documentId).update(updates).get();
@@ -435,11 +434,13 @@ public class FirestoreClientRepository implements ClientRepository {
 	@Override
 	public void clearClientSecret2(@NonNull String clientId) {
 
+		String now = TimeUtil.getCurrentTimestamp(this.epochTimeProvider.epochTimeSeconds());
+
 		String documentId = HashingUtil.sha256(clientId);
 
 		Map<String, Object> updates = new HashMap<>();
 		updates.put(CLIENTSECRET2, null);
-		updates.put("clientSecret2Updated", this.timeService.getCurrentTimestamp());
+		updates.put("clientSecret2Updated", now);
 
 		try {
 			firestore.collection(this.collectionClients).document(documentId).update(updates).get();

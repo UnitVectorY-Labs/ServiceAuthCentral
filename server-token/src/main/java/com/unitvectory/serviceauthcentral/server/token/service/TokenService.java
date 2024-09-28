@@ -20,8 +20,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import com.unitvectory.serviceauthcentral.common.service.entropy.EntropyService;
-import com.unitvectory.serviceauthcentral.common.service.time.TimeService;
+import com.unitvectory.consistgen.epoch.EpochTimeProvider;
+import com.unitvectory.consistgen.uuid.UuidGenerator;
 import com.unitvectory.serviceauthcentral.datamodel.model.Authorization;
 import com.unitvectory.serviceauthcentral.datamodel.model.Client;
 import com.unitvectory.serviceauthcentral.datamodel.model.ClientJwtBearer;
@@ -67,10 +67,10 @@ public class TokenService {
 	private SignService signService;
 
 	@Autowired
-	private TimeService timeService;
+	private EpochTimeProvider epochTimeProvider;
 
 	@Autowired
-	private EntropyService entropyService;
+	private UuidGenerator uuidGenerator;
 
 	@Autowired
 	private ExternalJwkService externalJwkService;
@@ -94,7 +94,7 @@ public class TokenService {
 
 	private TokenResponse authorizationCode(TokenRequest request) throws Exception {
 
-		long now = this.timeService.getCurrentTimeSeconds();
+		long now = this.epochTimeProvider.epochTimeSeconds();
 
 		if (request.getClient_secret() != null) {
 			throw new BadRequestException("The request has unexpected parameter 'client_secret'.");
@@ -385,7 +385,7 @@ public class TokenService {
 	private TokenResponse buildToken(Client subjectRecord, Client audienceRecord,
 			Authorization authorizationRecord, Set<String> scopes, String description) {
 
-		long now = this.timeService.getCurrentTimeSeconds();
+		long now = this.epochTimeProvider.epochTimeSeconds();
 
 		// Get the active key
 		String kid = this.signService.getActiveKid(now);
@@ -400,8 +400,8 @@ public class TokenService {
 		// Generate the unsigned JWT
 		JwtBuilder builder = JwtBuilder.builder();
 		builder.withIssuer(this.issuer);
-		builder.withTiming(timeService.getCurrentTimeSeconds(), validSeconds);
-		builder.withJwtId(entropyService.generateUuid());
+		builder.withTiming(now, validSeconds);
+		builder.withJwtId(this.uuidGenerator.generateUuid());
 		builder.withKeyId(kid);
 		builder.withDescription(description);
 

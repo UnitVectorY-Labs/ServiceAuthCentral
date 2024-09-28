@@ -18,9 +18,8 @@
 
     <dependencies>
         <dependency>
-            <groupId>com.unitvectory.serviceauthcentral</groupId>
-            <artifactId>common</artifactId>
-            <version>${project.version}</version>
+            <groupId>com.unitvectory</groupId>
+            <artifactId>consistgen</artifactId>
         </dependency>
         <dependency>
             <groupId>com.unitvectory.serviceauthcentral</groupId>

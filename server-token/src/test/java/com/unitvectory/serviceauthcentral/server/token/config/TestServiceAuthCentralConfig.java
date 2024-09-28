@@ -17,10 +17,12 @@ import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Profile;
 
-import com.unitvectory.serviceauthcentral.common.service.entropy.EntropyService;
-import com.unitvectory.serviceauthcentral.common.service.entropy.StaticEntropyService;
-import com.unitvectory.serviceauthcentral.common.service.time.StaticTimeService;
-import com.unitvectory.serviceauthcentral.common.service.time.TimeService;
+import com.unitvectory.consistgen.epoch.EpochTimeProvider;
+import com.unitvectory.consistgen.epoch.StaticEpochTimeProvider;
+import com.unitvectory.consistgen.string.StaticStringProvider;
+import com.unitvectory.consistgen.string.StringProvider;
+import com.unitvectory.consistgen.uuid.StaticUuidGenerator;
+import com.unitvectory.consistgen.uuid.UuidGenerator;
 import com.unitvectory.serviceauthcentral.datamodel.memory.repository.MemoryAuthorizationRepository;
 import com.unitvectory.serviceauthcentral.datamodel.memory.repository.MemoryClientRepository;
 import com.unitvectory.serviceauthcentral.datamodel.memory.repository.MemoryJwkCacheRepository;
@@ -45,23 +47,28 @@ import com.unitvectory.serviceauthcentral.verify.service.JwtVerifier;
 public class TestServiceAuthCentralConfig {
 
 	@Bean
-	public TimeService timeService() {
-		return new StaticTimeService();
+	public EpochTimeProvider epochTimeProvider() {
+		return StaticEpochTimeProvider.builder().epochTimeSeconds(1701388800l).build();
 	}
 
 	@Bean
-	public EntropyService entropyService() {
-		return new StaticEntropyService();
+	public UuidGenerator uuidGenerator() {
+		return StaticUuidGenerator.builder().uuid("00000000-0000-0000-0000-000000000000").build();
 	}
 
 	@Bean
-	public AuthorizationRepository authorizationRepository() {
-		return new MemoryAuthorizationRepository(this.timeService());
+	public StringProvider stringProvider() {
+		return StaticStringProvider.getInstance();
 	}
 
 	@Bean
-	public ClientRepository clientRepository() {
-		return new MemoryClientRepository(this.timeService());
+	public AuthorizationRepository authorizationRepository(EpochTimeProvider epochTimeProvider) {
+		return new MemoryAuthorizationRepository(epochTimeProvider);
+	}
+
+	@Bean
+	public ClientRepository clientRepository(EpochTimeProvider epochTimeProvider) {
+		return new MemoryClientRepository(epochTimeProvider);
 	}
 
 	@Bean

@@ -20,8 +20,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import com.unitvectory.serviceauthcentral.common.service.entropy.EntropyService;
-import com.unitvectory.serviceauthcentral.common.service.time.TimeService;
+import com.unitvectory.consistgen.epoch.EpochTimeProvider;
+import com.unitvectory.consistgen.string.StringProvider;
 import com.unitvectory.serviceauthcentral.datamodel.model.Client;
 import com.unitvectory.serviceauthcentral.datamodel.model.ClientScope;
 import com.unitvectory.serviceauthcentral.datamodel.model.ClientType;
@@ -52,10 +52,10 @@ public class LoginService {
 	private List<String> primaryRedirectUris;
 
 	@Autowired
-	private TimeService timeService;
+	private EpochTimeProvider epochTimeProvider;
 
 	@Autowired
-	private EntropyService entropyService;
+	private StringProvider stringProvider;
 
 	@Autowired
 	private LoginCodeRepository loginCodeRepository;
@@ -113,9 +113,9 @@ public class LoginService {
 
 		// Next phase is generating the dynamic information that is needed
 
-		String secondaryState = this.entropyService.randomAlphaNumeric(25);
+		String secondaryState = this.stringProvider.generate(25);
 
-		long ttl = this.timeService.getCurrentTimeSeconds() + AUTH_CODE_VALID_SECONDS;
+		long ttl = this.epochTimeProvider.epochTimeSeconds() + AUTH_CODE_VALID_SECONDS;
 
 		// Now we can save the state into the database
 
@@ -169,7 +169,7 @@ public class LoginService {
 		if (userClient == null) {
 			// Create the client does not exist, create it
 
-			String salt = this.entropyService.randomAlphaNumeric(32);
+			String salt = this.stringProvider.generate(32);
 			this.clientRepository.putClient(userClientId,
 					loginUserService.getServiceDisplayName() + " User: " + userContext.getUserName(), salt,
 					ClientType.USER,
@@ -178,8 +178,8 @@ public class LoginService {
 
 		// Now we can generate the data needed to redirect the user
 
-		String authCode = this.entropyService.randomAlphaNumeric(25);
-		long ttl = this.timeService.getCurrentTimeSeconds() + 60;
+		String authCode = this.stringProvider.generate(25);
+		long ttl = this.epochTimeProvider.epochTimeSeconds() + 60;
 
 		// Save the authorization code to the database
 

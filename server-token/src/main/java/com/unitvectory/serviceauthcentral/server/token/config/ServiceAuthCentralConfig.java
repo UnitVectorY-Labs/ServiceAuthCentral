@@ -17,10 +17,12 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 
-import com.unitvectory.serviceauthcentral.common.service.entropy.EntropyService;
-import com.unitvectory.serviceauthcentral.common.service.entropy.SystemEntropyService;
-import com.unitvectory.serviceauthcentral.common.service.time.SystemTimeService;
-import com.unitvectory.serviceauthcentral.common.service.time.TimeService;
+import com.unitvectory.consistgen.epoch.EpochTimeProvider;
+import com.unitvectory.consistgen.epoch.SystemEpochTimeProvider;
+import com.unitvectory.consistgen.string.RandomStringProvider;
+import com.unitvectory.consistgen.string.StringProvider;
+import com.unitvectory.consistgen.uuid.RandomUuidGenerator;
+import com.unitvectory.consistgen.uuid.UuidGenerator;
 
 /**
  * The configuration
@@ -32,12 +34,17 @@ import com.unitvectory.serviceauthcentral.common.service.time.TimeService;
 public class ServiceAuthCentralConfig {
 
 	@Bean
-	public TimeService timeService() {
-		return new SystemTimeService();
+	public EpochTimeProvider epochTimeProvider() {
+		return SystemEpochTimeProvider.getInstance();
 	}
 
 	@Bean
-	public EntropyService entropyService() {
-		return new SystemEntropyService();
+	public UuidGenerator uuidGenerator() {
+		return RandomUuidGenerator.getInstance();
+	}
+
+	@Bean
+	public StringProvider stringProvider() {
+		return RandomStringProvider.getInstance();
 	}
 }

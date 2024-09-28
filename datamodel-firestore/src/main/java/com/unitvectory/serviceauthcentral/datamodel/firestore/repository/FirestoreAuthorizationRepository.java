@@ -23,10 +23,11 @@ import com.google.cloud.firestore.DocumentSnapshot;
 import com.google.cloud.firestore.Firestore;
 import com.google.cloud.firestore.QueryDocumentSnapshot;
 import com.google.cloud.firestore.QuerySnapshot;
-import com.unitvectory.serviceauthcentral.common.service.time.TimeService;
+import com.unitvectory.consistgen.epoch.EpochTimeProvider;
 import com.unitvectory.serviceauthcentral.datamodel.firestore.model.AuthorizationRecord;
 import com.unitvectory.serviceauthcentral.datamodel.model.Authorization;
 import com.unitvectory.serviceauthcentral.datamodel.repository.AuthorizationRepository;
+import com.unitvectory.serviceauthcentral.datamodel.time.TimeUtil;
 import com.unitvectory.serviceauthcentral.util.HashingUtil;
 import com.unitvectory.serviceauthcentral.util.exception.BadRequestException;
 import com.unitvectory.serviceauthcentral.util.exception.InternalServerErrorException;
@@ -51,13 +52,12 @@ public class FirestoreAuthorizationRepository implements AuthorizationRepository
 
 	private String collectionAuthorizations;
 
-	private TimeService timeService;
+	private EpochTimeProvider epochTimeProvider;
 
 	@Override
 	public Authorization getAuthorization(@NonNull String id) {
 		try {
-			DocumentSnapshot document =
-					firestore.collection(this.collectionAuthorizations).document(id).get().get();
+			DocumentSnapshot document = firestore.collection(this.collectionAuthorizations).document(id).get().get();
 			if (document.exists()) {
 				return document.toObject(AuthorizationRecord.class);
 			} else {
@@ -138,20 +138,19 @@ public class FirestoreAuthorizationRepository implements AuthorizationRepository
 	@Override
 	public void authorize(@NonNull String subject, @NonNull String audience,
 			@NonNull List<String> authorizedScopes) {
+		String now = TimeUtil.getCurrentTimestamp(this.epochTimeProvider.epochTimeSeconds());
 		AuthorizationRecord record = AuthorizationRecord.builder()
-				.authorizationCreated(this.timeService.getCurrentTimestamp()).subject(subject)
+				.authorizationCreated(now).subject(subject)
 				.audience(audience).authorizedScopes(authorizedScopes).build();
 		String documentId = getDocumentId(subject, audience);
-		DocumentReference docRef =
-				this.firestore.collection(this.collectionAuthorizations).document(documentId);
+		DocumentReference docRef = this.firestore.collection(this.collectionAuthorizations).document(documentId);
 		docRef.set(record);
 	}
 
 	@Override
 	public void deauthorize(@NonNull String subject, @NonNull String audience) {
 		String documentId = getDocumentId(subject, audience);
-		DocumentReference docRef =
-				this.firestore.collection(this.collectionAuthorizations).document(documentId);
+		DocumentReference docRef = this.firestore.collection(this.collectionAuthorizations).document(documentId);
 		docRef.delete();
 	}
 
@@ -161,8 +160,7 @@ public class FirestoreAuthorizationRepository implements AuthorizationRepository
 		String documentId = getDocumentId(subject, audience);
 
 		try {
-			DocumentReference docRef =
-					firestore.collection(this.collectionAuthorizations).document(documentId);
+			DocumentReference docRef = firestore.collection(this.collectionAuthorizations).document(documentId);
 			firestore.runTransaction(transaction -> {
 				DocumentSnapshot snapshot = transaction.get(docRef).get();
 
@@ -197,8 +195,7 @@ public class FirestoreAuthorizationRepository implements AuthorizationRepository
 		String documentId = getDocumentId(subject, audience);
 
 		try {
-			DocumentReference docRef =
-					firestore.collection(this.collectionAuthorizations).document(documentId);
+			DocumentReference docRef = firestore.collection(this.collectionAuthorizations).document(documentId);
 			firestore.runTransaction(transaction -> {
 				DocumentSnapshot snapshot = transaction.get(docRef).get();
 
