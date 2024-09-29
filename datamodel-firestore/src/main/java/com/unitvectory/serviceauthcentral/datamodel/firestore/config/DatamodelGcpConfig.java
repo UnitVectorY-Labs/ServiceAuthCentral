@@ -20,7 +20,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 
 import com.google.cloud.firestore.Firestore;
-import com.unitvectory.serviceauthcentral.common.service.time.TimeService;
+import com.unitvectory.consistgen.epoch.EpochTimeProvider;
 import com.unitvectory.serviceauthcentral.datamodel.firestore.repository.FirestoreAuthorizationRepository;
 import com.unitvectory.serviceauthcentral.datamodel.firestore.repository.FirestoreClientRepository;
 import com.unitvectory.serviceauthcentral.datamodel.firestore.repository.FirestoreJwkCacheRepository;
@@ -45,7 +45,7 @@ public class DatamodelGcpConfig {
 	private Firestore firestore;
 
 	@Autowired
-	private TimeService timeService;
+	private EpochTimeProvider epochTimeProvider;
 
 	@Value("${sac.datamodel.firestore.collection.authorizations:authorizations}")
 	private String collectionAuthorizations;
@@ -65,13 +65,13 @@ public class DatamodelGcpConfig {
 	@Bean
 	public AuthorizationRepository authorizationRepository() {
 		return new FirestoreAuthorizationRepository(this.firestore, this.collectionAuthorizations,
-				this.timeService);
+				this.epochTimeProvider);
 	}
 
 	@Bean
 	public ClientRepository clientRepository() {
 		return new FirestoreClientRepository(this.firestore, this.collectionClients,
-				this.timeService);
+				this.epochTimeProvider);
 	}
 
 	@Bean

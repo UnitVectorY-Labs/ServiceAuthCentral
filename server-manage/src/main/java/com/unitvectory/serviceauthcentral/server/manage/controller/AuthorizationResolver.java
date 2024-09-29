@@ -23,13 +23,14 @@ import org.springframework.graphql.data.method.annotation.SchemaMapping;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.security.oauth2.jwt.Jwt;
 import org.springframework.stereotype.Controller;
-import com.unitvectory.serviceauthcentral.common.InputPatterns;
+
 import com.unitvectory.serviceauthcentral.server.manage.dto.AuthorizationType;
 import com.unitvectory.serviceauthcentral.server.manage.dto.ClientType;
 import com.unitvectory.serviceauthcentral.server.manage.dto.RequestJwt;
 import com.unitvectory.serviceauthcentral.server.manage.dto.ResponseType;
 import com.unitvectory.serviceauthcentral.server.manage.mapper.RequestJwtMapper;
 import com.unitvectory.serviceauthcentral.server.manage.service.AuthorizationService;
+import com.unitvectory.serviceauthcentral.util.InputPatterns;
 import com.unitvectory.serviceauthcentral.util.exception.BadRequestException;
 
 /**

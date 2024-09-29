@@ -17,7 +17,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
-import com.unitvectory.serviceauthcentral.common.service.time.TimeService;
+
+import com.unitvectory.consistgen.epoch.EpochTimeProvider;
 import com.unitvectory.serviceauthcentral.datamodel.memory.repository.MemoryAuthorizationRepository;
 import com.unitvectory.serviceauthcentral.datamodel.memory.repository.MemoryClientRepository;
 import com.unitvectory.serviceauthcentral.datamodel.memory.repository.MemoryJwkCacheRepository;
@@ -34,16 +35,16 @@ import com.unitvectory.serviceauthcentral.datamodel.repository.LoginStateReposit
 public class MemoryConfig {
 
     @Autowired
-    private TimeService timeService;
+	private EpochTimeProvider epochTimeProvider;
 
     @Bean
     public AuthorizationRepository authorizationRepository() {
-        return new MemoryAuthorizationRepository(timeService);
+        return new MemoryAuthorizationRepository(this.epochTimeProvider);
     }
 
     @Bean
     public ClientRepository clientRepository() {
-        return new MemoryClientRepository(timeService);
+        return new MemoryClientRepository(this.epochTimeProvider);
     }
 
     @Bean

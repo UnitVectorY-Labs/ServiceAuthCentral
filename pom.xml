@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>com.unitvectory</groupId>
     <artifactId>serviceauthcentral</artifactId>
@@ -16,12 +18,11 @@
 
     <modules>
         <module>util</module>
-        <module>common</module>
         <module>datamodel</module>
         <module>datamodel-memory</module>
     </modules>
     <profiles>
-    <profile>
+        <profile>
             <id>server-token</id>
             <modules>
                 <module>datamodel-firestore</module>
@@ -53,6 +54,7 @@
         <mapstruct.version>1.5.5.Final</mapstruct.version>
         <lombok-mapstruct-binding.version>0.2.0</lombok-mapstruct-binding.version>
         <spring-cloud-gcp-dependencies.version>5.6.1</spring-cloud-gcp-dependencies.version>
+        <consistgen.version>0.0.6</consistgen.version>
         <fileparamunit.version>0.0.5</fileparamunit.version>
     </properties>
 
@@ -64,6 +66,11 @@
                 <version>${spring-cloud-gcp-dependencies.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>com.unitvectory</groupId>
+                <artifactId>consistgen</artifactId>
+                <version>${consistgen.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.unitvectory</groupId>
@@ -130,17 +137,17 @@
                 </executions>
             </plugin>
             <plugin>
-	            <groupId>org.apache.maven.plugins</groupId>
-	            <artifactId>maven-javadoc-plugin</artifactId>
-	            <executions>
-	                <execution>
-	                    <id>attach-javadocs</id>
-	                    <goals>
-	                        <goal>jar</goal>
-	                    </goals>
-	                </execution>
-	            </executions>
-	        </plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>attach-javadocs</id>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
         </plugins>
     </build>
 </project>

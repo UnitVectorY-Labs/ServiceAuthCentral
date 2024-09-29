@@ -27,7 +27,7 @@ public interface SignService {
 	/**
 	 * Retrieves the Key ID (KID) of the active key to be used for signing at the given time.
 	 *
-	 * @param now The current time in milliseconds.
+	 * @param now The current time in seconds.
 	 * @return the active kid.
 	 */
 	String getActiveKid(long now);

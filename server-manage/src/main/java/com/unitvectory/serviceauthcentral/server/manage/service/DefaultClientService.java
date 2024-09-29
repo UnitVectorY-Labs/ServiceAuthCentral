@@ -26,7 +26,8 @@ import java.util.stream.StreamSupport;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.unitvectory.serviceauthcentral.common.service.entropy.EntropyService;
+import com.unitvectory.consistgen.string.StringProvider;
+import com.unitvectory.consistgen.uuid.UuidGenerator;
 import com.unitvectory.serviceauthcentral.datamodel.model.Authorization;
 import com.unitvectory.serviceauthcentral.datamodel.model.Client;
 import com.unitvectory.serviceauthcentral.datamodel.model.ClientJwtBearer;
@@ -64,7 +65,10 @@ public class DefaultClientService implements ClientService {
 	private AuthorizationRepository authorizationRepository;
 
 	@Autowired
-	private EntropyService entropyService;
+	private UuidGenerator uuidGenerator;
+
+	@Autowired
+	private StringProvider stringProvider;
 
 	@Autowired
 	private ManagementCapabilitiesService managementCapabilitiesService;
@@ -97,8 +101,7 @@ public class DefaultClientService implements ClientService {
 		}
 
 		// Call the repository method
-		ClientSummaryConnection clientSummaryPage =
-				this.clientRepository.getClients(first, after, last, before);
+		ClientSummaryConnection clientSummaryPage = this.clientRepository.getClients(first, after, last, before);
 		return clientSummaryPage;
 	}
 
@@ -129,7 +132,7 @@ public class DefaultClientService implements ClientService {
 			}
 		}
 
-		String salt = this.entropyService.randomAlphaNumeric(LENGTH);
+		String salt = this.stringProvider.generate(LENGTH);
 		this.clientRepository.putClient(clientId, description, salt,
 				com.unitvectory.serviceauthcentral.datamodel.model.ClientType.APPLICATION, availableScopesList);
 		ClientType client = ClientType.builder().clientId(clientId).description(description)
@@ -146,8 +149,8 @@ public class DefaultClientService implements ClientService {
 			return ResponseType.builder().success(false).build();
 		}
 
-		ClientManagementCapabilitiesType managementCapabilities =
-				this.managementCapabilitiesService.getClientManagementCapabilities(
+		ClientManagementCapabilitiesType managementCapabilities = this.managementCapabilitiesService
+				.getClientManagementCapabilities(
 						ClientMapper.INSTANCE.clientToClientType(client), jwt);
 		if (!managementCapabilities.isCanAddAvailableScope()) {
 			throw new BadRequestException("The client cannot have an authorized scope added");
@@ -171,24 +174,22 @@ public class DefaultClientService implements ClientService {
 			throw new NotFoundException("clientId not found");
 		}
 
-		ClientManagementCapabilitiesType managementCapabilities =
-				this.managementCapabilitiesService.getClientManagementCapabilities(
+		ClientManagementCapabilitiesType managementCapabilities = this.managementCapabilitiesService
+				.getClientManagementCapabilities(
 						ClientMapper.INSTANCE.clientToClientType(client), jwt);
 		if (!managementCapabilities.isCanDeleteClient()) {
 			throw new BadRequestException("The client cannot be deleted");
 		}
 
 		// Delete all of the authorization records where the clientId is the audience
-		Iterator<Authorization> aud =
-				this.authorizationRepository.getAuthorizationByAudience(clientId);
+		Iterator<Authorization> aud = this.authorizationRepository.getAuthorizationByAudience(clientId);
 		while (aud.hasNext()) {
 			Authorization auth = aud.next();
 			this.authorizationRepository.deleteAuthorization(auth.getDocumentId());
 		}
 
 		// Delete all of the authorization records where the clientId is the subject
-		Iterator<Authorization> sub =
-				this.authorizationRepository.getAuthorizationBySubject(clientId);
+		Iterator<Authorization> sub = this.authorizationRepository.getAuthorizationBySubject(clientId);
 		while (sub.hasNext()) {
 			Authorization auth = sub.next();
 			this.authorizationRepository.deleteAuthorization(auth.getDocumentId());
@@ -203,15 +204,15 @@ public class DefaultClientService implements ClientService {
 
 	@Override
 	public ClientSecretType generateClientSecret1(String clientId, RequestJwt jwt) {
-		String secret = this.entropyService.randomAlphaNumeric(LENGTH);
+		String secret = this.stringProvider.generate(LENGTH);
 
 		Client client = this.clientRepository.getClient(clientId);
 		if (client == null) {
 			throw new NotFoundException("clientId not found");
 		}
 
-		ClientManagementCapabilitiesType managementCapabilities =
-				this.managementCapabilitiesService.getClientManagementCapabilities(
+		ClientManagementCapabilitiesType managementCapabilities = this.managementCapabilitiesService
+				.getClientManagementCapabilities(
 						ClientMapper.INSTANCE.clientToClientType(client), jwt);
 		if (!managementCapabilities.isCanAddClientSecret()) {
 			throw new BadRequestException("The client cannot have a client secret added");
@@ -230,15 +231,15 @@ public class DefaultClientService implements ClientService {
 
 	@Override
 	public ClientSecretType generateClientSecret2(String clientId, RequestJwt jwt) {
-		String secret = this.entropyService.randomAlphaNumeric(LENGTH);
+		String secret = this.stringProvider.generate(LENGTH);
 
 		Client client = this.clientRepository.getClient(clientId);
 		if (client == null) {
 			throw new NotFoundException("clientId not found");
 		}
 
-		ClientManagementCapabilitiesType managementCapabilities =
-				this.managementCapabilitiesService.getClientManagementCapabilities(
+		ClientManagementCapabilitiesType managementCapabilities = this.managementCapabilitiesService
+				.getClientManagementCapabilities(
 						ClientMapper.INSTANCE.clientToClientType(client), jwt);
 		if (!managementCapabilities.isCanAddClientSecret()) {
 			throw new BadRequestException("The client cannot have a client secret added");
@@ -263,8 +264,8 @@ public class DefaultClientService implements ClientService {
 			throw new NotFoundException("clientId not found");
 		}
 
-		ClientManagementCapabilitiesType managementCapabilities =
-				this.managementCapabilitiesService.getClientManagementCapabilities(
+		ClientManagementCapabilitiesType managementCapabilities = this.managementCapabilitiesService
+				.getClientManagementCapabilities(
 						ClientMapper.INSTANCE.clientToClientType(client), jwt);
 		if (!managementCapabilities.isCanDeleteClientSecret()) {
 			throw new BadRequestException("The client cannot have a client secret deleted");
@@ -286,8 +287,8 @@ public class DefaultClientService implements ClientService {
 			throw new NotFoundException("clientId not found");
 		}
 
-		ClientManagementCapabilitiesType managementCapabilities =
-				this.managementCapabilitiesService.getClientManagementCapabilities(
+		ClientManagementCapabilitiesType managementCapabilities = this.managementCapabilitiesService
+				.getClientManagementCapabilities(
 						ClientMapper.INSTANCE.clientToClientType(client), jwt);
 		if (!managementCapabilities.isCanDeleteClientSecret()) {
 			throw new BadRequestException("The client cannot have a client secret deleted");
@@ -339,8 +340,8 @@ public class DefaultClientService implements ClientService {
 			return ResponseType.builder().success(false).build();
 		}
 
-		ClientManagementCapabilitiesType managementCapabilities =
-				this.managementCapabilitiesService.getClientManagementCapabilities(
+		ClientManagementCapabilitiesType managementCapabilities = this.managementCapabilitiesService
+				.getClientManagementCapabilities(
 						ClientMapper.INSTANCE.clientToClientType(client), jwt);
 		if (!managementCapabilities.isCanAddClientAuthorization()) {
 			throw new BadRequestException("The client cannot have a client authorization added");
@@ -353,7 +354,7 @@ public class DefaultClientService implements ClientService {
 			}
 		}
 
-		String id = this.entropyService.generateUuid();
+		String id = this.uuidGenerator.generateUuid();
 		this.clientRepository.addAuthorizedJwt(clientId, id, jwksUrl, iss, sub, aud);
 		return ResponseType.builder().success(true).build();
 	}
@@ -365,8 +366,8 @@ public class DefaultClientService implements ClientService {
 			return ResponseType.builder().success(false).build();
 		}
 
-		ClientManagementCapabilitiesType managementCapabilities =
-				this.managementCapabilitiesService.getClientManagementCapabilities(
+		ClientManagementCapabilitiesType managementCapabilities = this.managementCapabilitiesService
+				.getClientManagementCapabilities(
 						ClientMapper.INSTANCE.clientToClientType(client), jwt);
 		if (!managementCapabilities.isCanDeleteClientAuthorization()) {
 			throw new BadRequestException("The client cannot have a client authorization deleted");

@@ -93,5 +93,4 @@ nav:
     - Verify:
       - modules/verify/index.md
       - Auth0: modules/verify/auth0.md
-    - Common: modules/common.md
     - Utility: modules/util.md

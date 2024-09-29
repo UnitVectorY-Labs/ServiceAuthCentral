@@ -11,27 +11,28 @@
  * or implied. See the License for the specific language governing permissions and limitations under
  * the License.
  */
-package com.unitvectory.serviceauthcentral.common.service.entropy;
+package com.unitvectory.serviceauthcentral.datamodel.time;
+
+import java.time.Instant;
+import java.time.ZoneOffset;
+import java.time.format.DateTimeFormatter;
 
 /**
- * Service interface for generating random information.
+ * Utility class for time operations.
  * 
  * @author Jared Hatfield (UnitVectorY Labs)
  */
-public interface EntropyService {
+public class TimeUtil {
 
-	/**
-	 * Generates a random UUID v4 string.
-	 * 
-	 * @return the uuid
-	 */
-	String generateUuid();
-
-	/**
-	 * Generates a random alpha numeric string of the specified length
-	 * 
-	 * @param length length of string
-	 * @return random string
-	 */
-	String randomAlphaNumeric(int length);
+    /**
+     * Gets the current timestamp.
+     * 
+     * @return the timestamp
+     *
+     * @return the timestamp
+     */
+    public static String getCurrentTimestamp(long currentTimeSeconds) {
+        return DateTimeFormatter.ISO_INSTANT
+                .format(Instant.ofEpochSecond(currentTimeSeconds).atZone(ZoneOffset.UTC));
+    }
 }

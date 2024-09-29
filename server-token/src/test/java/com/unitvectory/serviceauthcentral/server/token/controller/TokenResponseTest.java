@@ -36,7 +36,7 @@ import org.springframework.util.MultiValueMap;
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.unitvectory.serviceauthcentral.common.service.time.TimeService;
+import com.unitvectory.consistgen.epoch.EpochTimeProvider;
 import com.unitvectory.serviceauthcentral.datamodel.memory.repository.MemoryAuthorizationRepository;
 import com.unitvectory.serviceauthcentral.datamodel.memory.repository.MemoryClientRepository;
 import com.unitvectory.serviceauthcentral.datamodel.model.Client;
@@ -55,7 +55,7 @@ import com.unitvectory.serviceauthcentral.sign.service.SignService;
  */
 @SpringBootTest
 @AutoConfigureMockMvc
-@ActiveProfiles({"test", "sign-local"})
+@ActiveProfiles({ "test", "sign-local" })
 @TestPropertySource(locations = "classpath:test-application.properties")
 @Import(TestServiceAuthCentralConfig.class)
 public class TokenResponseTest {
@@ -82,7 +82,7 @@ public class TokenResponseTest {
 	private SignService signService;
 
 	@Autowired
-	private TimeService timeService;
+	private EpochTimeProvider epochTimeProvider;
 
 	@BeforeEach
 	public void setUp() {
@@ -146,7 +146,7 @@ public class TokenResponseTest {
 		JwtBuilder jwtBuilder = JwtBuilder.builder().withKeyId(kid).withIssuer(issuer)
 				.withSubject("source").withAudience("foo");
 
-		String kid = this.signService.getActiveKid(this.timeService.getCurrentTimeSeconds());
+		String kid = this.signService.getActiveKid(this.epochTimeProvider.epochTimeSeconds());
 		String assertionToken = this.signService.sign(kid, jwtBuilder.buildUnsignedToken());
 
 		MultiValueMap<String, String> params = new LinkedMultiValueMap<>();

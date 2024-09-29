@@ -17,7 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
-import com.unitvectory.serviceauthcentral.common.service.time.TimeService;
+import com.unitvectory.consistgen.epoch.EpochTimeProvider;
 import com.unitvectory.serviceauthcentral.datamodel.model.CachedJwk;
 import com.unitvectory.serviceauthcentral.datamodel.repository.JwkCacheRepository;
 import com.unitvectory.serviceauthcentral.server.token.mapper.JwkMapper;
@@ -48,7 +48,7 @@ public class ExternalJwkService {
 	private JwkCacheRepository jwkCacheRepository;
 
 	@Autowired
-	private TimeService timeService;
+	private EpochTimeProvider epochTimeProvider;
 
 	/**
 	 * Gets the JWK used to verify a JWT
@@ -61,7 +61,7 @@ public class ExternalJwkService {
 	 */
 	public VerifyJwk getJwk(@NonNull String url, @NonNull String kid) {
 
-		long now = timeService.getCurrentTimeSeconds();
+		long now = this.epochTimeProvider.epochTimeSeconds();
 		long expiration = now + externalCacheHours;
 
 		// First, try to get the key from the database cache

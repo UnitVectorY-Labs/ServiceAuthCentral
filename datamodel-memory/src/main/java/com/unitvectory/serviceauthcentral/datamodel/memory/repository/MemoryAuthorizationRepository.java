@@ -16,10 +16,12 @@ package com.unitvectory.serviceauthcentral.datamodel.memory.repository;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import com.unitvectory.serviceauthcentral.common.service.time.TimeService;
+
+import com.unitvectory.consistgen.epoch.EpochTimeProvider;
 import com.unitvectory.serviceauthcentral.datamodel.memory.model.MemoryAuthorization;
 import com.unitvectory.serviceauthcentral.datamodel.model.Authorization;
 import com.unitvectory.serviceauthcentral.datamodel.repository.AuthorizationRepository;
+import com.unitvectory.serviceauthcentral.datamodel.time.TimeUtil;
 import com.unitvectory.serviceauthcentral.util.exception.InternalServerErrorException;
 import lombok.NonNull;
 
@@ -32,11 +34,11 @@ public class MemoryAuthorizationRepository implements AuthorizationRepository {
 
 	private List<MemoryAuthorization> authorizations;
 
-	private TimeService timeService;
+	private EpochTimeProvider epochTimeProvider;
 
-	public MemoryAuthorizationRepository(TimeService timeService) {
+	public MemoryAuthorizationRepository(EpochTimeProvider epochTimeProvider) {
 		this.authorizations = new ArrayList<>();
-		this.timeService = timeService;
+		this.epochTimeProvider = epochTimeProvider;
 	}
 
 	public void reset() {
@@ -101,6 +103,8 @@ public class MemoryAuthorizationRepository implements AuthorizationRepository {
 	public void authorize(@NonNull String subject, @NonNull String audience,
 			@NonNull List<String> authorizedScopes) {
 
+		String now = TimeUtil.getCurrentTimestamp(this.epochTimeProvider.epochTimeSeconds());
+
 		for (MemoryAuthorization auth : this.authorizations) {
 			if (auth.matches(subject, audience)) {
 				// Already exists
@@ -109,7 +113,7 @@ public class MemoryAuthorizationRepository implements AuthorizationRepository {
 		}
 
 		this.authorizations.add(MemoryAuthorization.builder()
-				.authorizationCreated(this.timeService.getCurrentTimestamp()).subject(subject)
+				.authorizationCreated(now).subject(subject)
 				.audience(audience).authorizedScopes(new ArrayList<>(authorizedScopes)).build());
 	}
 

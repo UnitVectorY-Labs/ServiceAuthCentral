@@ -15,5 +15,4 @@ ServiceAuthCentral is built as a modular application using Java and Maven with S
 - [User - Google](user/google.md)
 - [Verify - Index](verify/index.md)
 - [Verify - Auth0](verify/auth0.md)
-- [Common](common.md)
 - [Utility](util.md)

@@ -15,7 +15,8 @@ package com.unitvectory.serviceauthcentral.server.token.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
-import com.unitvectory.serviceauthcentral.common.InputPatterns;
+import com.unitvectory.serviceauthcentral.util.InputPatterns;
+
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
 import lombok.AllArgsConstructor;
