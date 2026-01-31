@@ -21,5 +21,6 @@ There are multiple data model implementations that are available. Exactly one mo
 !!! note
     Each module implementation will have additional properties that are required to be set for it to work correctly when it is enabled, typically through envirionment variables.
 
+- [Data Model - DynamoDB](./dynamodb.md): DynamoDB implementation for the repository interfaces
 - [Data Model - Firestore](./firestore.md): Firestore implementation for the repository interfaces
 - [Data Model - Memory](./memory.md): In-memory implementation for the repository interfaces used for testing and development

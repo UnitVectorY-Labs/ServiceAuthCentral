@@ -20,6 +20,7 @@
         <module>util</module>
         <module>datamodel</module>
         <module>datamodel-memory</module>
+        <module>datamodel-dynamodb</module>
     </modules>
     <profiles>
         <profile>
@@ -54,6 +55,7 @@
         <mapstruct.version>1.5.5.Final</mapstruct.version>
         <lombok-mapstruct-binding.version>0.2.0</lombok-mapstruct-binding.version>
         <spring-cloud-gcp-dependencies.version>7.4.3</spring-cloud-gcp-dependencies.version>
+        <aws-sdk.version>2.31.62</aws-sdk.version>
         <consistgen.version>0.0.9</consistgen.version>
         <fileparamunit.version>0.1.2</fileparamunit.version>
     </properties>
@@ -71,6 +73,13 @@
                 <groupId>com.google.cloud</groupId>
                 <artifactId>spring-cloud-gcp-dependencies</artifactId>
                 <version>${spring-cloud-gcp-dependencies.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <dependency>
+                <groupId>software.amazon.awssdk</groupId>
+                <artifactId>bom</artifactId>
+                <version>${aws-sdk.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
