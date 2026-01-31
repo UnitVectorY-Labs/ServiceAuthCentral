@@ -19,7 +19,7 @@ A flexible deployment is supported by allowing different underlying database tec
 There are multiple data model implementations that are available. Exactly one module must be enabled at runtime.
 
 !!! note
-    Each module implementation will have additional properties that are required to be set for it to work correctly when it is enabled, typically through envirionment variables.
+    Each module implementation will have additional properties that are required to be set for it to work correctly when it is enabled, typically through environment variables.
 
 - [Data Model - DynamoDB](./dynamodb.md): DynamoDB implementation for the repository interfaces
 - [Data Model - Firestore](./firestore.md): Firestore implementation for the repository interfaces

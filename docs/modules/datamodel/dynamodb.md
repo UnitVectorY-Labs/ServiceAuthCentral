@@ -117,3 +117,8 @@ This module uses the AWS SDK default credentials provider chain. This means it w
 6. EC2 instance profile credentials
 
 For production deployments, it is recommended to use IAM roles for service accounts (IRSA) when running in EKS, or instance profiles when running on EC2.
+
+## Performance Considerations
+
+- **Backward pagination**: The client listing functionality with backward pagination (`last` parameter) requires scanning all records. For large datasets, forward pagination (`first` parameter) is recommended for better performance.
+- **TTL expiration**: DynamoDB TTL can be enabled on the `sac-keys`, `sac-loginCodes`, and `sac-loginStates` tables to automatically delete expired records.
