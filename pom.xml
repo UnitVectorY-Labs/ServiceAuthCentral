@@ -20,6 +20,7 @@
         <module>util</module>
         <module>datamodel</module>
         <module>datamodel-memory</module>
+        <module>datamodel-postgres</module>
     </modules>
     <profiles>
         <profile>

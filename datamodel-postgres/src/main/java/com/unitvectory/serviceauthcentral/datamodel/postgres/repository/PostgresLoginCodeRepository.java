@@ -1,0 +1,73 @@
+/*
+ * Copyright 2024 the original author or authors.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not use this file except
+ * in compliance with the License. You may obtain a copy of the License at
+ *
+ * https://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software distributed under the License
+ * is distributed on an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express
+ * or implied. See the License for the specific language governing permissions and limitations under
+ * the License.
+ */
+package com.unitvectory.serviceauthcentral.datamodel.postgres.repository;
+
+import java.util.Optional;
+
+import org.springframework.transaction.annotation.Transactional;
+
+import com.unitvectory.serviceauthcentral.datamodel.model.LoginCode;
+import com.unitvectory.serviceauthcentral.datamodel.postgres.entity.LoginCodeEntity;
+import com.unitvectory.serviceauthcentral.datamodel.repository.LoginCodeRepository;
+import com.unitvectory.serviceauthcentral.util.HashingUtil;
+
+import lombok.AllArgsConstructor;
+import lombok.NonNull;
+
+/**
+ * The PostgreSQL Login Code Repository
+ * 
+ * @author Jared Hatfield (UnitVectorY Labs)
+ */
+@AllArgsConstructor
+public class PostgresLoginCodeRepository implements LoginCodeRepository {
+
+    private final LoginCodeJpaRepository loginCodeJpaRepository;
+
+    @Override
+    @Transactional
+    public void saveCode(@NonNull String code, @NonNull String clientId,
+            @NonNull String redirectUri, @NonNull String codeChallenge,
+            @NonNull String userClientId, long ttl) {
+
+        // Hashing the code, we are not storing the code in the database directly as it
+        // is sensitive data that we want to keep away from even admins
+        String documentId = HashingUtil.sha256(code);
+
+        LoginCodeEntity entity = LoginCodeEntity.builder()
+                .documentId(documentId)
+                .clientId(clientId)
+                .redirectUri(redirectUri)
+                .codeChallenge(codeChallenge)
+                .userClientId(userClientId)
+                .ttl(ttl)
+                .build();
+
+        loginCodeJpaRepository.save(entity);
+    }
+
+    @Override
+    public LoginCode getCode(@NonNull String code) {
+        String documentId = HashingUtil.sha256(code);
+        Optional<LoginCodeEntity> entity = loginCodeJpaRepository.findById(documentId);
+        return entity.orElse(null);
+    }
+
+    @Override
+    @Transactional
+    public void deleteCode(@NonNull String code) {
+        String documentId = HashingUtil.sha256(code);
+        loginCodeJpaRepository.deleteById(documentId);
+    }
+}
