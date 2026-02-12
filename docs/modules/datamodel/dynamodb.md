@@ -99,6 +99,7 @@ The following configuration attributes:
 | Property                                     | Required                          | Description                 |
 | -------------------------------------------- | --------------------------------- | --------------------------- |
 | aws.region                                   | No (default: 'us-east-1')         | AWS Region                  |
+| aws.dynamodb.endpoint                        | No                                | Custom DynamoDB endpoint URL (for local testing) |
 | sac.datamodel.dynamodb.table.authorizations  | No (default: 'sac-authorizations')| DynamoDB table name         |
 | sac.datamodel.dynamodb.table.clients         | No (default: 'sac-clients')       | DynamoDB table name         |
 | sac.datamodel.dynamodb.table.keys            | No (default: 'sac-keys')          | DynamoDB table name         |
@@ -118,7 +119,71 @@ This module uses the AWS SDK default credentials provider chain. This means it w
 
 For production deployments, it is recommended to use IAM roles for service accounts (IRSA) when running in EKS, or instance profiles when running on EC2.
 
+When `aws.dynamodb.endpoint` is set, the module uses static dummy credentials for local DynamoDB testing.
+
 ## Performance Considerations
 
 - **Backward pagination**: The client listing functionality with backward pagination (`last` parameter) requires scanning all records. For large datasets, forward pagination (`first` parameter) is recommended for better performance.
 - **TTL expiration**: DynamoDB TTL can be enabled on the `sac-keys`, `sac-loginCodes`, and `sac-loginStates` tables to automatically delete expired records.
+
+## Local Development with DynamoDB Local
+
+For local development and testing, you can use [DynamoDB Local](https://docs.aws.amazon.com/amazondynamodb/latest/developerguide/DynamoDBLocal.html):
+
+```bash
+# Start DynamoDB Local with Docker
+docker run -d -p 8000:8000 amazon/dynamodb-local:latest
+
+# Create required tables
+aws dynamodb create-table \
+    --table-name sac-clients \
+    --attribute-definitions AttributeName=pk,AttributeType=S \
+    --key-schema AttributeName=pk,KeyType=HASH \
+    --billing-mode PAY_PER_REQUEST \
+    --endpoint-url http://localhost:8000
+
+aws dynamodb create-table \
+    --table-name sac-authorizations \
+    --attribute-definitions \
+        AttributeName=pk,AttributeType=S \
+        AttributeName=subject,AttributeType=S \
+        AttributeName=audience,AttributeType=S \
+    --key-schema AttributeName=pk,KeyType=HASH \
+    --global-secondary-indexes \
+        "[{\"IndexName\":\"subject-index\",\"KeySchema\":[{\"AttributeName\":\"subject\",\"KeyType\":\"HASH\"}],\"Projection\":{\"ProjectionType\":\"ALL\"}},{\"IndexName\":\"audience-index\",\"KeySchema\":[{\"AttributeName\":\"audience\",\"KeyType\":\"HASH\"}],\"Projection\":{\"ProjectionType\":\"ALL\"}}]" \
+    --billing-mode PAY_PER_REQUEST \
+    --endpoint-url http://localhost:8000
+
+aws dynamodb create-table \
+    --table-name sac-keys \
+    --attribute-definitions \
+        AttributeName=pk,AttributeType=S \
+        AttributeName=url,AttributeType=S \
+    --key-schema AttributeName=pk,KeyType=HASH \
+    --global-secondary-indexes \
+        "[{\"IndexName\":\"url-index\",\"KeySchema\":[{\"AttributeName\":\"url\",\"KeyType\":\"HASH\"}],\"Projection\":{\"ProjectionType\":\"ALL\"}}]" \
+    --billing-mode PAY_PER_REQUEST \
+    --endpoint-url http://localhost:8000
+
+aws dynamodb create-table \
+    --table-name sac-loginCodes \
+    --attribute-definitions AttributeName=pk,AttributeType=S \
+    --key-schema AttributeName=pk,KeyType=HASH \
+    --billing-mode PAY_PER_REQUEST \
+    --endpoint-url http://localhost:8000
+
+aws dynamodb create-table \
+    --table-name sac-loginStates \
+    --attribute-definitions AttributeName=pk,AttributeType=S \
+    --key-schema AttributeName=pk,KeyType=HASH \
+    --billing-mode PAY_PER_REQUEST \
+    --endpoint-url http://localhost:8000
+```
+
+Then configure the application:
+
+```yaml
+spring.profiles.active: datamodel-dynamodb
+aws.dynamodb.endpoint: http://localhost:8000
+aws.region: us-east-1
+```
