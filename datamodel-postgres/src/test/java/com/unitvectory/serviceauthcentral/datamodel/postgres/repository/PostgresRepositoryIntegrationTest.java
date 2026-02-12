@@ -50,10 +50,8 @@ public class PostgresRepositoryIntegrationTest {
     @Autowired
     private AuthorizationRepository authorizationRepository;
 
-    @BeforeEach
-    void setUp() {
-        // Clean up test data if needed
-    }
+    // Note: @Transactional annotation on the test class ensures that all database
+    // operations are rolled back after each test, providing automatic cleanup.
 
     @Test
     void testClientCrud() {
