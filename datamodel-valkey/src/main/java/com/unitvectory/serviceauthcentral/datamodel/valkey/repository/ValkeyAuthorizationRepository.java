@@ -13,6 +13,8 @@
  */
 package com.unitvectory.serviceauthcentral.datamodel.valkey.repository;
 
+import static com.unitvectory.serviceauthcentral.datamodel.valkey.repository.ValkeyHashUtil.*;
+
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -267,16 +269,4 @@ public class ValkeyAuthorizationRepository implements AuthorizationRepository {
 				.subject(subject).audience(audience).authorizedScopes(authorizedScopes).build();
 	}
 
-	private String getStr(Map<Object, Object> entries, String field) {
-		Object val = entries.get(field);
-		if (val == null) {
-			return null;
-		}
-		String str = val.toString();
-		return str.isEmpty() ? null : str;
-	}
-
-	private String nullSafe(String value) {
-		return value != null ? value : "";
-	}
 }

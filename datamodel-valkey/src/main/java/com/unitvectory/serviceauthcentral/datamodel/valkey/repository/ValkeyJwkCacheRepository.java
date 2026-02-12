@@ -13,6 +13,8 @@
  */
 package com.unitvectory.serviceauthcentral.datamodel.valkey.repository;
 
+import static com.unitvectory.serviceauthcentral.datamodel.valkey.repository.ValkeyHashUtil.*;
+
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -134,34 +136,4 @@ public class ValkeyJwkCacheRepository implements JwkCacheRepository {
 				.build();
 	}
 
-	private String getStr(Map<Object, Object> entries, String field) {
-		Object val = entries.get(field);
-		if (val == null) {
-			return null;
-		}
-		String str = val.toString();
-		return str.isEmpty() ? null : str;
-	}
-
-	private String getStrOrDefault(Map<Object, Object> entries, String field,
-			String defaultValue) {
-		Object val = entries.get(field);
-		if (val == null) {
-			return defaultValue;
-		}
-		String str = val.toString();
-		return str.isEmpty() ? defaultValue : str;
-	}
-
-	private long getLong(Map<Object, Object> entries, String field) {
-		Object val = entries.get(field);
-		if (val == null) {
-			return 0;
-		}
-		return Long.parseLong(val.toString());
-	}
-
-	private String nullSafe(String value) {
-		return value != null ? value : "";
-	}
 }

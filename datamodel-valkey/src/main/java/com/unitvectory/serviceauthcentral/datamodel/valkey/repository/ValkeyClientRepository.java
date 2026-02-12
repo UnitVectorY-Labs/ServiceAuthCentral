@@ -13,6 +13,8 @@
  */
 package com.unitvectory.serviceauthcentral.datamodel.valkey.repository;
 
+import static com.unitvectory.serviceauthcentral.datamodel.valkey.repository.ValkeyHashUtil.*;
+
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Base64;
@@ -459,16 +461,4 @@ public class ValkeyClientRepository implements ClientRepository {
 				.jwtBearer(Collections.unmodifiableList(jwtBearers)).locked(locked).build();
 	}
 
-	private String getStr(Map<Object, Object> entries, String field) {
-		Object val = entries.get(field);
-		if (val == null) {
-			return null;
-		}
-		String str = val.toString();
-		return str.isEmpty() ? null : str;
-	}
-
-	private String nullSafe(String value) {
-		return value != null ? value : "";
-	}
 }
