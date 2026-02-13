@@ -22,5 +22,6 @@ There are multiple data model implementations that are available. Exactly one mo
     Each module implementation will have additional properties that are required to be set for it to work correctly when it is enabled, typically through envirionment variables.
 
 - [Data Model - Firestore](./firestore.md): Firestore implementation for the repository interfaces
+- [Data Model - Valkey](./valkey.md): Valkey implementation for the repository interfaces
 - [Data Model - Memory](./memory.md): In-memory implementation for the repository interfaces used for testing and development
 - [Data Model - Postgres](./postgres.md): PostgreSQL implementation for the repository interfaces
