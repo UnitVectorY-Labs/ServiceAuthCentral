@@ -81,6 +81,7 @@ nav:
     - Data Model:
       - modules/datamodel/index.md
       - Firestore: modules/datamodel/firestore.md
+      - Valkey: modules/datamodel/valkey.md
       - In-memory: modules/datamodel/memory.md
     - Sign:
       - modules/sign/index.md
