@@ -68,7 +68,7 @@
                 <artifactId>maven-surefire-plugin</artifactId>
                 <configuration>
                     <additionalClasspathElements>
-                        <additionalClasspathElement>{project.build.directory}/generated-sources/annotations</additionalClasspathElement>
+                        <additionalClasspathElement>${project.build.directory}/generated-sources/annotations</additionalClasspathElement>
                     </additionalClasspathElements>
                 </configuration>
             </plugin>

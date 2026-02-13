@@ -27,7 +27,7 @@ The `datamodel-valkey` profile is enabled to utilize Valkey.
 
 ## Configuration
 
-The following configuration attributes:
+The following configuration attributes are available:
 
 | Property            | Required | Description               |
 | ------------------- | -------- | ------------------------- |
