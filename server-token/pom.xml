@@ -45,6 +45,12 @@
         </dependency>
         <dependency>
             <groupId>com.unitvectory.serviceauthcentral</groupId>
+            <artifactId>datamodel-postgres</artifactId>
+            <version>${project.version}</version>
+            <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.unitvectory.serviceauthcentral</groupId>
             <artifactId>sign</artifactId>
             <version>${project.version}</version>
         </dependency>
