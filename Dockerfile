@@ -1,5 +1,5 @@
 # Stage 1: Build the application
-FROM maven:3.9-amazoncorretto-17 AS build
+FROM maven:3-amazoncorretto-25 AS build
 
 # Define arguments for Maven profile and JAR file name
 # Can pass value of "server-manage" to compile the manage server
